@@ -9,14 +9,24 @@ workflows:
       cocoapods: default
       vars:
         IOS_DIR: "iosApp"
-        SCHEME: "iosApp"   # change ici si ton scheme a un autre nom
+        SCHEME: "iosApp"   # ⚠️ change si ton scheme réel est différent
         DERIVED: "$CM_BUILD_DIR/build/DerivedData"
         DEST: "platform=iOS Simulator,name=iPhone 15"
     scripts:
-      - name: "Debug - list iOS files"
+      - name: "Debug - list iOS tree"
         script: |
           set -e
           ls -la "$CM_BUILD_DIR/$IOS_DIR"
+
+      - name: "Prebuild Kotlin/Native framework for simulator"
+        script: |
+          set -e
+          cd "$CM_BUILD_DIR"
+          chmod +x ./gradlew || true
+          # Build le framework K/N pour l’arch simulateur (arm64 sur Mac M2)
+          ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
+          echo "List built frameworks:"
+          ls -R composeApp/build
 
       - name: "Debug - list schemes from xcodeproj"
         script: |
