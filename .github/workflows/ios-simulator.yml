@@ -1,0 +1,81 @@
+name: iOS Simulator build (Appetize)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master, main ]
+
+jobs:
+  build-ios-sim:
+    runs-on: macos-latest
+
+    env:
+      IOS_PROJECT_DIR: iosApp
+      IOS_SCHEME: iosApp
+      DERIVED_DATA: ${{ github.workspace }}/build/DerivedData
+      SIM_DEST: platform=iOS Simulator,name=iPhone 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17 (for KMM Gradle tasks triggered by CocoaPods)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Ensure gradlew is executable
+        run: chmod +x ./gradlew
+
+      - name: Install CocoaPods (if Podfile exists)
+        run: |
+          if [ -f "${IOS_PROJECT_DIR}/Podfile" ]; then
+            cd "${IOS_PROJECT_DIR}"
+            pod install --repo-update
+          fi
+
+      - name: Build for iOS Simulator (auto-detect workspace/project)
+        run: |
+          set -e
+          cd "${IOS_PROJECT_DIR}"
+          if ls *.xcworkspace 1>/dev/null 2>&1; then
+            WSP=$(ls *.xcworkspace | head -n1)
+            xcodebuild \
+              -workspace "$WSP" \
+              -scheme "${IOS_SCHEME}" \
+              -configuration Debug \
+              -sdk iphonesimulator \
+              -destination "${SIM_DEST}" \
+              -derivedDataPath "${DERIVED_DATA}" \
+              clean build
+          else
+            PRJ=$(ls *.xcodeproj | head -n1)
+            xcodebuild \
+              -project "$PRJ" \
+              -scheme "${IOS_SCHEME}" \
+              -configuration Debug \
+              -sdk iphonesimulator \
+              -destination "${SIM_DEST}" \
+              -derivedDataPath "${DERIVED_DATA}" \
+              clean build
+          fi
+
+      - name: Package .app into Appetize ZIP
+        run: |
+          set -e
+          APP_DIR="${DERIVED_DATA}/Build/Products/Debug-iphonesimulator"
+          APP_PATH=$(find "$APP_DIR" -maxdepth 1 -type d -name "*.app" | head -n1)
+          echo "Found app: $APP_PATH"
+          test -d "$APP_PATH"
+          mkdir -p "${{ github.workspace }}/artifacts"
+          # Le zip doit contenir le .app à la racine
+          cd "$APP_DIR"
+          zip -r "${{ github.workspace }}/artifacts/iosApp-simulator.zip" "$(basename "$APP_PATH")"
+
+      - name: Upload artifact (Appetize ZIP)
+        uses: actions/upload-artifact@v4
+        with:
+          name: iosApp-simulator
+          path: artifacts/iosApp-simulator.zip
+          if-no-files-found: error
