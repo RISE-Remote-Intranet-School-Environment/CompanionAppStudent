@@ -9,39 +9,34 @@ workflows:
       cocoapods: default
       vars:
         IOS_DIR: "iosApp"
-        SCHEME: "iosApp"   # change si ton scheme a un autre nom
+        SCHEME: "iosApp"    # si besoin, change le nom exact du scheme ici
         DERIVED: "$CM_BUILD_DIR/build/DerivedData"
         DEST: "platform=iOS Simulator,name=iPhone 15"
     scripts:
-      - name: Prepare
+      - name: Debug: lister fichiers iOS
+        script: |
+          set -e
+          ls -la "$CM_BUILD_DIR/$IOS_DIR"
+
+      - name: Debug: lister schemes du .xcodeproj
         script: |
           set -e
           cd "$CM_BUILD_DIR/$IOS_DIR"
-          if [ -f Podfile ]; then pod install --repo-update; fi
-      - name: Build (workspace or project)
+          xcodebuild -list -project iosApp.xcodeproj
+
+      - name: Build simulateur via le .xcodeproj (PAS le workspace)
         script: |
           set -e
           cd "$CM_BUILD_DIR/$IOS_DIR"
-          if compgen -G "*.xcworkspace" > /dev/null; then
-            WSP=$(ls *.xcworkspace | head -n1)
-            xcodebuild -workspace "$WSP" \
-                       -scheme "$SCHEME" \
-                       -configuration Debug \
-                       -sdk iphonesimulator \
-                       -destination "$DEST" \
-                       -derivedDataPath "$DERIVED" \
-                       clean build
-          else
-            PRJ=$(ls *.xcodeproj | head -n1)
-            xcodebuild -project "$PRJ" \
-                       -scheme "$SCHEME" \
-                       -configuration Debug \
-                       -sdk iphonesimulator \
-                       -destination "$DEST" \
-                       -derivedDataPath "$DERIVED" \
-                       clean build
-          fi
-      - name: Zip .app for Appetize
+          xcodebuild -project iosApp.xcodeproj \
+                     -scheme "$SCHEME" \
+                     -configuration Debug \
+                     -sdk iphonesimulator \
+                     -destination "$DEST" \
+                     -derivedDataPath "$DERIVED" \
+                     clean build
+
+      - name: Zipper le .app pour Appetize
         script: |
           set -e
           APP_DIR="$DERIVED/Build/Products/Debug-iphonesimulator"
@@ -50,5 +45,6 @@ workflows:
           mkdir -p "$CM_BUILD_DIR/artifacts"
           cd "$APP_DIR"
           zip -r "$CM_BUILD_DIR/artifacts/iosApp-simulator.zip" "$(basename "$APP_PATH")"
+
     artifacts:
       - artifacts/*.zip
