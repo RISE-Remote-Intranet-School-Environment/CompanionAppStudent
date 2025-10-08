@@ -1,46 +1,140 @@
 workflows:
-  ios-workflow:
-    name: Build iOS .ipa for Compose Multiplatform
+  ios-simulator:
+    name: iOS Simulator build (no signing, for Appetize)
     max_build_duration: 60
     instance_type: mac_mini_m2
-
     environment:
-      vars:
-        XCODE_WORKSPACE: "iosApp.xcworkspace"
-        XCODE_SCHEME: "iosApp"
       xcode: latest
-      cocoapods: default
       java: 17
-      kotlin: latest
-
+      cocoapods: default
+      vars:
+        IOS_PROJECT_DIR: "iosApp"
+        IOS_SCHEME: "iosApp"                      # change si ton scheme a un autre nom
+        DERIVED_DATA: "$CM_BUILD_DIR/build/xcodebuild"
+        SIM_DEST: "platform=iOS Simulator,name=iPhone 15"
     scripts:
-      - name: Set up environment
+      - name: Prepare
         script: |
-          echo "Setting up environment..."
-          cd $CM_BUILD_DIR
-          ls
+          set -e
+          cd "$CM_BUILD_DIR"
+          chmod +x ./gradlew || true
+          if [ -f "$IOS_PROJECT_DIR/Podfile" ]; then
+            cd "$IOS_PROJECT_DIR"
+            pod install --repo-update
+            cd -
+          fi
+      - name: Build (auto-detect workspace/project)
+        script: |
+          set -e
+          cd "$IOS_PROJECT_DIR"
+          if ls *.xcworkspace 1>/dev/null 2>&1; then
+            WSP=$(ls *.xcworkspace | head -n1)
+            xcodebuild -workspace "$WSP" \
+                       -scheme "$IOS_SCHEME" \
+                       -configuration Debug \
+                       -sdk iphonesimulator \
+                       -destination "$SIM_DEST" \
+                       -derivedDataPath "$DERIVED_DATA" \
+                       clean build
+          else
+            PRJ=$(ls *.xcodeproj | head -n1)
+            xcodebuild -project "$PRJ" \
+                       -scheme "$IOS_SCHEME" \
+                       -configuration Debug \
+                       -sdk iphonesimulator \
+                       -destination "$SIM_DEST" \
+                       -derivedDataPath "$DERIVED_DATA" \
+                       clean build
+          fi
+      - name: Zip .app for Appetize
+        script: |
+          set -e
+          APP_DIR="$DERIVED_DATA/Build/Products/Debug-iphonesimulator"
+          APP_PATH=$(find "$APP_DIR" -maxdepth 1 -type d -name "*.app" | head -n1)
+          echo "Found app: $APP_PATH"
+          mkdir -p "$CM_BUILD_DIR/artifacts"
+          cd "$APP_DIR"
+          zip -r "$CM_BUILD_DIR/artifacts/iosApp-simulator.zip" "$(basename "$APP_PATH")"
+    artifacts:
+      - artifacts/*.zip
+    publishing:
+      email:
+        recipients:
+          - $CM_EMAIL
 
-      - name: Build iOS app
+  # -------- OPTIONAL: produce a signed .ipa (requires Apple certs/profiles set in Codemagic) --------
+  ios-ipa:
+    name: iOS Device .ipa (requires signing)
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      xcode: latest
+      java: 17
+      cocoapods: default
+      vars:
+        IOS_PROJECT_DIR: "iosApp"
+        IOS_SCHEME: "iosApp"                      # adapte si besoin
+        ARCHIVE_PATH: "$CM_BUILD_DIR/build/iosApp.xcarchive"
+        EXPORT_DIR: "$CM_BUILD_DIR/build/ipa"
+        EXPORT_PLIST: "$CM_BUILD_DIR/iosApp/ExportOptions.plist"  # fournis ce fichier si tu exportes
+    scripts:
+      - name: Prepare
         script: |
-          cd $CM_BUILD_DIR/iosApp
-          pod install --repo-update
-          xcodebuild -workspace "$XCODE_WORKSPACE" \
-                     -scheme "$XCODE_SCHEME" \
-                     -sdk iphoneos \
-                     -configuration Debug \
-                     -archivePath $CM_BUILD_DIR/build/iosApp.xcarchive \
-                     archive
-
-      - name: Export IPA
+          set -e
+          cd "$CM_BUILD_DIR"
+          chmod +x ./gradlew || true
+          if [ -f "$IOS_PROJECT_DIR/Podfile" ]; then
+            cd "$IOS_PROJECT_DIR"
+            pod install --repo-update
+            cd -
+          fi
+      - name: Archive (auto-detect workspace/project)
         script: |
+          set -e
+          cd "$IOS_PROJECT_DIR"
+          if ls *.xcworkspace 1>/dev/null 2>&1; then
+            WSP=$(ls *.xcworkspace | head -n1)
+            xcodebuild -workspace "$WSP" \
+                       -scheme "$IOS_SCHEME" \
+                       -configuration Release \
+                       -sdk iphoneos \
+                       -archivePath "$ARCHIVE_PATH" \
+                       clean archive
+          else
+            PRJ=$(ls *.xcodeproj | head -n1)
+            xcodebuild -project "$PRJ" \
+                       -scheme "$IOS_SCHEME" \
+                       -configuration Release \
+                       -sdk iphoneos \
+                       -archivePath "$ARCHIVE_PATH" \
+                       clean archive
+          fi
+      - name: Export .ipa
+        script: |
+          set -e
+          mkdir -p "$EXPORT_DIR"
+          if [ ! -f "$EXPORT_PLIST" ]; then
+            echo "ExportOptions.plist missing. Creating ad-hoc default."
+            cat > "$EXPORT_PLIST" <<'PLIST'
+            <?xml version="1.0" encoding="UTF-8"?>
+            <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+            <plist version="1.0">
+            <dict>
+              <key>method</key><string>ad-hoc</string>
+              <key>compileBitcode</key><false/>
+              <key>signingStyle</key><string>automatic</string>
+              <key>stripSwiftSymbols</key><true/>
+              <key>destination</key><string>export</string>
+            </dict>
+            </plist>
+            PLIST
+          fi
           xcodebuild -exportArchive \
-                     -archivePath $CM_BUILD_DIR/build/iosApp.xcarchive \
-                     -exportOptionsPlist $CM_BUILD_DIR/iosApp/ExportOptions.plist \
-                     -exportPath $CM_BUILD_DIR/build/ipa
-
+                     -archivePath "$ARCHIVE_PATH" \
+                     -exportOptionsPlist "$EXPORT_PLIST" \
+                     -exportPath "$EXPORT_DIR"
     artifacts:
       - build/ipa/*.ipa
-
     publishing:
       email:
         recipients:
