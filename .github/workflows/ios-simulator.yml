@@ -8,68 +8,86 @@ on:
 jobs:
   build-ios-sim:
     runs-on: macos-latest
-
     env:
-      IOS_PROJECT_DIR: iosApp
-      IOS_SCHEME: iosApp
-      DERIVED_DATA: ${{ github.workspace }}/build/DerivedData
-      SIM_DEST: platform=iOS Simulator,name=iPhone 15
+      IOS_DIR: iosApp
+      DERIVED: ${{ github.workspace }}/build/DerivedData
+      DEST: platform=iOS Simulator,name=iPhone 15
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Java 17 (for KMM Gradle tasks triggered by CocoaPods)
+      - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
 
       - name: Ensure gradlew is executable
-        run: chmod +x ./gradlew
+        run: chmod +x ./gradlew || true
 
       - name: Install CocoaPods (if Podfile exists)
         run: |
-          if [ -f "${IOS_PROJECT_DIR}/Podfile" ]; then
-            cd "${IOS_PROJECT_DIR}"
+          if [ -f "${IOS_DIR}/Podfile" ]; then
+            sudo gem install cocoapods --no-document || true
+            cd "${IOS_DIR}"
             pod install --repo-update
           fi
 
-      - name: Build for iOS Simulator (auto-detect workspace/project)
+      - name: Detect workspace/project and SCHEME
         run: |
           set -e
-          cd "${IOS_PROJECT_DIR}"
+          cd "${IOS_DIR}"
           if ls *.xcworkspace 1>/dev/null 2>&1; then
-            WSP=$(ls *.xcworkspace | head -n1)
-            xcodebuild \
-              -workspace "$WSP" \
-              -scheme "${IOS_SCHEME}" \
-              -configuration Debug \
-              -sdk iphonesimulator \
-              -destination "${SIM_DEST}" \
-              -derivedDataPath "${DERIVED_DATA}" \
-              clean build
+            SRC=$(ls *.xcworkspace | head -n1)
+            TYPE="workspace"
           else
-            PRJ=$(ls *.xcodeproj | head -n1)
-            xcodebuild \
-              -project "$PRJ" \
-              -scheme "${IOS_SCHEME}" \
-              -configuration Debug \
-              -sdk iphonesimulator \
-              -destination "${SIM_DEST}" \
-              -derivedDataPath "${DERIVED_DATA}" \
-              clean build
+            SRC=$(ls *.xcodeproj | head -n1)
+            TYPE="project"
+          fi
+          echo "SRC=$SRC TYPE=$TYPE"
+          # Liste des schemes en JSON (Xcode 13+)
+          SCHEME=$(xcodebuild -list -json -$TYPE "$SRC" | python3 - <<'PY'
+import sys,json
+d=json.load(sys.stdin)
+p=d.get("workspace", d.get("project", {}))
+schemes=p.get("schemes") or []
+print(schemes[0] if schemes else "iosApp")
+PY
+)
+          echo "Detected SCHEME=$SCHEME"
+          echo "SCHEME=$SCHEME" >> $GITHUB_ENV
+
+      - name: Build for iOS Simulator
+        run: |
+          set -e
+          cd "${IOS_DIR}"
+          if [[ "$SRC" == *.xcworkspace ]]; then
+            xcodebuild -workspace "$SRC" \
+                       -scheme "$SCHEME" \
+                       -configuration Debug \
+                       -sdk iphonesimulator \
+                       -destination "${DEST}" \
+                       -derivedDataPath "${DERIVED}" \
+                       clean build
+          else
+            xcodebuild -project "$SRC" \
+                       -scheme "$SCHEME" \
+                       -configuration Debug \
+                       -sdk iphonesimulator \
+                       -destination "${DEST}" \
+                       -derivedDataPath "${DERIVED}" \
+                       clean build
           fi
 
       - name: Package .app into Appetize ZIP
         run: |
           set -e
-          APP_DIR="${DERIVED_DATA}/Build/Products/Debug-iphonesimulator"
+          APP_DIR="${DERIVED}/Build/Products/Debug-iphonesimulator"
           APP_PATH=$(find "$APP_DIR" -maxdepth 1 -type d -name "*.app" | head -n1)
           echo "Found app: $APP_PATH"
           test -d "$APP_PATH"
           mkdir -p "${{ github.workspace }}/artifacts"
-          # Le zip doit contenir le .app à la racine
           cd "$APP_DIR"
           zip -r "${{ github.workspace }}/artifacts/iosApp-simulator.zip" "$(basename "$APP_PATH")"
 
