@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  # DB MySQL 
+  db:
+    image: mysql:8.0
+    container_name: ecam_mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: ecam_app
+      MYSQL_USER: ecam
+      MYSQL_PASSWORD: ecam123
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3306:3306"
+    command: ["--default-authentication-plugin=mysql_native_password"]
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - ecam_net
+
+  # Interface Web 
+  adminer:
+    image: adminer:latest
+    container_name: ecam_adminer
+    restart: always
+    ports:
+      - "8083:8080" # je mets cela car j'ai mon projet NoSQL qui tourne 8080
+    depends_on:
+      - db
+    networks:
+      - ecam_net
+
+
+
+# Réseau commun 
+networks:
+  ecam_net:
+    driver: bridge
+
+#  Volume MySQL 
+volumes:
+  dbdata:
