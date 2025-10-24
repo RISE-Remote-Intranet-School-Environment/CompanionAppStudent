@@ -1,5 +1,6 @@
 package be.ecam.companion
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -31,6 +32,12 @@ import org.koin.core.module.Module
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.key.Key.Companion.R
+import companion.composeapp.generated.resources.compose_multiplatform
+import org.jetbrains.compose.resources.painterResource
+import companion.composeapp.generated.resources.nicolas
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -83,17 +90,21 @@ fun App(extraModules: List<Module> = emptyList()) {
                                                 .background(MaterialTheme.colorScheme.primary),
                                             contentAlignment = Alignment.Center
                                         ) {
-                                            Text(
-                                                text = "AB", // initiales ou remplacer par Image
-                                                color = MaterialTheme.colorScheme.onPrimary
+                                            Image(
+                                                painter = painterResource(Res.drawable.nicolas),
+                                                contentDescription = "Profile Picture",
+                                                modifier = Modifier
+                                                    .size(56.dp)
+                                                    .clip(CircleShape)
                                             )
+
                                         }
                                         Text("  Nicoals Schell")
                                     }
                                 }
                                         Spacer(Modifier.width(12.dp))
                                 Column (modifier = Modifier.verticalScroll(scroll)){
-
+                                    //verticalArrangement = Arrangement.Top
                                     Text("Drawer content here") }
                                 Column {
                                     Divider()
