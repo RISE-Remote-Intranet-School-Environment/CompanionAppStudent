@@ -28,6 +28,9 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.module.Module
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,13 +56,59 @@ fun App(extraModules: List<Module> = emptyList()) {
                 var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
                 val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
                 val scope = rememberCoroutineScope()
+                val scroll = rememberScrollState()
 
                 ModalNavigationDrawer(
                     drawerState = drawerState,
                     gesturesEnabled = selectedScreen != BottomItem.CALENDAR,
                     drawerContent = {
                         ModalDrawerSheet(modifier = Modifier.width(280.dp)) {
-                            Text("Drawer content here")
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .padding(vertical = 12.dp, horizontal = 16.dp),
+                                verticalArrangement = Arrangement.SpaceBetween
+                            ){
+                                Column {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(bottom = 8.dp)
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(56.dp)
+                                                .clip(CircleShape)
+                                                .background(MaterialTheme.colorScheme.primary),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = "AB", // initiales ou remplacer par Image
+                                                color = MaterialTheme.colorScheme.onPrimary
+                                            )
+                                        }
+                                        Text("  Nicoals Schell")
+                                    }
+                                }
+                                        Spacer(Modifier.width(12.dp))
+                                Column (modifier = Modifier.verticalScroll(scroll)){
+
+                                    Text("Drawer content here") }
+                                Column {
+                                    Divider()
+                                    TextButton(
+                                        onClick = {
+                                            scope.launch { drawerState.close()}
+                                            isLoggedIn=false;
+                                        },
+                                    ){
+                                        Text("Logout")
+                                    }
+                                }
+                            }
+
+
                         }
                     }
                 ) {
