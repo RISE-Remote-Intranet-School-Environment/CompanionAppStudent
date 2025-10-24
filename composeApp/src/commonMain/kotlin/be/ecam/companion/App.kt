@@ -17,6 +17,7 @@ import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.di.appModule
 import be.ecam.companion.ui.CalendarScreen
 import be.ecam.companion.ui.SettingsScreen
+import be.ecam.companion.ui.LoginScreen
 import be.ecam.companion.viewmodel.HomeViewModel
 import companion.composeapp.generated.resources.Res
 import companion.composeapp.generated.resources.calendar
@@ -34,88 +35,105 @@ fun App(extraModules: List<Module> = emptyList()) {
     KoinApplication(application = { modules(appModule + extraModules) }) {
         val vm = koinInject<HomeViewModel>()
         MaterialTheme {
-            var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
-            val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-            val scope = rememberCoroutineScope()
-            ModalNavigationDrawer(
-                drawerState = drawerState,
-                gesturesEnabled = selectedScreen != BottomItem.CALENDAR,
-                drawerContent = {
-                    ModalDrawerSheet(modifier = Modifier.width(280.dp)) {
-                        Text("Drawer content here")
-                    }
-                }
-            ) {
-                Scaffold(
-                    topBar = {
-                        TopAppBar(
-                            title = { Text(selectedScreen.getLabel()) },
-                            navigationIcon = {
-                                if (selectedScreen != BottomItem.CALENDAR) {
-                                    IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                                        Icon(Icons.Filled.Menu, contentDescription = "Open drawer")
-                                    }
-                                }
-                            }
-                        )
-                    },
-                    bottomBar = {
-                        NavigationBar {
-                            BottomItem.entries.forEach { item ->
-                                NavigationBarItem(
-                                    selected = selectedScreen == item,
-                                    onClick = { selectedScreen = item },
-                                    icon = {
-                                        Icon(
-                                            item.getIconRes(),
-                                            contentDescription = item.getLabel()
-                                        )
-                                    },
-                                    label = { Text(item.getLabel()) },
-                                    alwaysShowLabel = true
-                                )
-                            }
+            // ✅ Ajout d’un état pour gérer la connexion
+            var isLoggedIn by remember { mutableStateOf(false) }
+
+            if (!isLoggedIn) {
+                // --- Écran de connexion ---
+                LoginScreen(
+                    onLogin = { email, password ->
+                        // Ici tu pourras plus tard ajouter ta logique d’authentification réelle
+                        if (email.isNotBlank() && password.isNotBlank()) {
+                            isLoggedIn = true
                         }
                     }
-                ) { paddingValues ->
-                    // Main content area
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(paddingValues)
-                            .padding(16.dp)
-                            .verticalScroll(rememberScrollState()),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        when (selectedScreen) {
-                            BottomItem.HOME -> {
-                                LaunchedEffect(Unit) { vm.load() }
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Text(
-                                        text = selectedScreen.getLabel(),
-                                        style = MaterialTheme.typography.titleLarge
-                                    )
-                                    Spacer(Modifier.height(12.dp))
-                                    if (vm.lastErrorMessage.isNotEmpty()) {
-                                        Text(vm.lastErrorMessage, color = MaterialTheme.colorScheme.error)
-                                        Spacer(Modifier.height(8.dp))
+                )
+            } else {
+                // --- Interface principale ---
+                var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
+                val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+                val scope = rememberCoroutineScope()
+
+                ModalNavigationDrawer(
+                    drawerState = drawerState,
+                    gesturesEnabled = selectedScreen != BottomItem.CALENDAR,
+                    drawerContent = {
+                        ModalDrawerSheet(modifier = Modifier.width(280.dp)) {
+                            Text("Drawer content here")
+                        }
+                    }
+                ) {
+                    Scaffold(
+                        topBar = {
+                            TopAppBar(
+                                title = { Text(selectedScreen.getLabel()) },
+                                navigationIcon = {
+                                    if (selectedScreen != BottomItem.CALENDAR) {
+                                        IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                                            Icon(Icons.Filled.Menu, contentDescription = "Open drawer")
+                                        }
                                     }
-                                    Text(vm.helloMessage)
+                                }
+                            )
+                        },
+                        bottomBar = {
+                            NavigationBar {
+                                BottomItem.entries.forEach { item ->
+                                    NavigationBarItem(
+                                        selected = selectedScreen == item,
+                                        onClick = { selectedScreen = item },
+                                        icon = {
+                                            Icon(
+                                                item.getIconRes(),
+                                                contentDescription = item.getLabel()
+                                            )
+                                        },
+                                        label = { Text(item.getLabel()) },
+                                        alwaysShowLabel = true
+                                    )
                                 }
                             }
+                        }
+                    ) { paddingValues ->
+                        // Contenu principal
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(paddingValues)
+                                .padding(16.dp)
+                                .verticalScroll(rememberScrollState()),
+                            verticalArrangement = Arrangement.Top,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            when (selectedScreen) {
+                                BottomItem.HOME -> {
+                                    LaunchedEffect(Unit) { vm.load() }
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                        Text(
+                                            text = selectedScreen.getLabel(),
+                                            style = MaterialTheme.typography.titleLarge
+                                        )
+                                        Spacer(Modifier.height(12.dp))
+                                        if (vm.lastErrorMessage.isNotEmpty()) {
+                                            Text(vm.lastErrorMessage, color = MaterialTheme.colorScheme.error)
+                                            Spacer(Modifier.height(8.dp))
+                                        }
+                                        Text(vm.helloMessage)
+                                    }
+                                }
 
-                            BottomItem.CALENDAR -> {
-                                LaunchedEffect(Unit) { vm.load() }
-                                CalendarScreen(
-                                    modifier = Modifier.fillMaxSize(),
-                                    scheduledByDate = vm.scheduledByDate
-                                )
-                            }
+                                BottomItem.CALENDAR -> {
+                                    LaunchedEffect(Unit) { vm.load() }
+                                    CalendarScreen(
+                                        modifier = Modifier.fillMaxSize(),
+                                        scheduledByDate = vm.scheduledByDate
+                                    )
+                                }
 
-                            BottomItem.SETTINGS -> {
-                                val settingsRepo = koinInject<SettingsRepository>()
-                                SettingsScreen(repo = settingsRepo, onSaved = { scope.launch {vm.load()} })
+                                BottomItem.SETTINGS -> {
+                                    val settingsRepo = koinInject<SettingsRepository>()
+                                    SettingsScreen(repo = settingsRepo, onSaved = { scope.launch { vm.load() } })
+                                }
                             }
                         }
                     }
