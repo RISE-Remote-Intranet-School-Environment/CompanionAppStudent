@@ -21,3 +21,5 @@ bin/
 # brouillon à ne pas ajouter
 notes.ipynb
 .vscode/
+server/data/
+server/instructions.md
