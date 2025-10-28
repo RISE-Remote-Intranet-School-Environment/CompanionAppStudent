@@ -1,7 +1,3 @@
-// ici il s'agit du build.gradle.kts du module 'server'
-// on ajoute les dépendances pour la DB SQLite avec Exposed
-
-
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)

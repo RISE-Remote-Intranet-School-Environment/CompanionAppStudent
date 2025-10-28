@@ -125,6 +125,11 @@ fun Application.module() {
 
             // -------------------------------------------------
 
+            // Auth routes (register/login)
+            authRoutes()
+        
+            
+
             get("/schedule") {
                 // Generate example items for multiple dates until end of 2025
                 val schedule = mutableMapOf<String, List<ScheduleItem>>()
@@ -166,5 +171,5 @@ suspend fun RoutingContext.respondFavIcon() {
     }
 
      
-} // elle manquait la fermeture
+} 
 

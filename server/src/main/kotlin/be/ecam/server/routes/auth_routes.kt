@@ -1,16 +1,19 @@
 package be.ecam.server.routes
 
-import be.ecam.server.models.*
+// === ROUTES for authentication (register/login) of Admin users ===
+import be.ecam.server.models.* // import DTOs
 import be.ecam.server.services.AuthService
-import io.ktor.http.*
-import io.ktor.server.application.*
+import io.ktor.http.* // for HttpStatusCode
+import io.ktor.server.application.* // for ApplicationCall
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.authRoutes() {
+    // instantiate the AuthService
     val auth = AuthService()
 
+    // Register route
     post("/auth/register") {
         val body = runCatching { call.receive<RegisterRequest>() }.getOrElse {
             call.respond(HttpStatusCode.BadRequest, "JSON invalide"); return@post
@@ -23,6 +26,7 @@ fun Route.authRoutes() {
         }
     }
 
+    // Login route
     post("/auth/login") {
         val body = runCatching { call.receive<LoginRequest>() }.getOrElse {
             call.respond(HttpStatusCode.BadRequest, "JSON invalide"); return@post

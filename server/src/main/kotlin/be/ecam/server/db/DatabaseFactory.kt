@@ -27,6 +27,8 @@ object DatabaseFactory {
             user = user ?: "",
             password = password ?: ""
         )
+        // debug
+        println("Exposed SQL logging enabled")
 
         
         TransactionManager.manager.defaultIsolationLevel = Connection.TRANSACTION_SERIALIZABLE
@@ -40,4 +42,5 @@ object DatabaseFactory {
         }
         println("Schema up-to-date")
     }
+
 }
