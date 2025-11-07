@@ -248,6 +248,12 @@ Seeded admin with ID: 1
 Admins count: 1
 ```
 
+![1762518697965](image/instructions/1762518697965.png)
+
+---
+ 
+---
+![1762518816238](image/instructions/1762518816238.png)
 ---
 
 ## Étape 5 - Authentification (register / login)
@@ -421,8 +427,13 @@ Résultat attendu :
 
 ---
 
-## Étape 6 - Nettoyage des routes “debug” (optionnel)
+## Étape 6 - NVérifications rapides (register / login)
 
+### 6.1 Lancer le serveur
+
+```powershell
+.\gradlew :server:run
+```
 **Objectif :** éviter d’insérer par erreur des comptes en clair.
 
 - Garde les routes debug dans Application.kt pendant que tu développes.

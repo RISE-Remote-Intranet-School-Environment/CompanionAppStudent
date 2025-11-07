@@ -1,5 +1,6 @@
 package be.ecam.companion
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -17,6 +18,7 @@ import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.di.appModule
 import be.ecam.companion.ui.CalendarScreen
 import be.ecam.companion.ui.SettingsScreen
+import be.ecam.companion.ui.LoginScreen
 import be.ecam.companion.viewmodel.HomeViewModel
 import companion.composeapp.generated.resources.Res
 import companion.composeapp.generated.resources.calendar
@@ -27,6 +29,15 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.module.Module
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.key.Key.Companion.R
+import companion.composeapp.generated.resources.compose_multiplatform
+import org.jetbrains.compose.resources.painterResource
+import companion.composeapp.generated.resources.nicolas
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,88 +45,155 @@ fun App(extraModules: List<Module> = emptyList()) {
     KoinApplication(application = { modules(appModule + extraModules) }) {
         val vm = koinInject<HomeViewModel>()
         MaterialTheme {
-            var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
-            val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-            val scope = rememberCoroutineScope()
-            ModalNavigationDrawer(
-                drawerState = drawerState,
-                gesturesEnabled = selectedScreen != BottomItem.CALENDAR,
-                drawerContent = {
-                    ModalDrawerSheet(modifier = Modifier.width(280.dp)) {
-                        Text("Drawer content here")
-                    }
-                }
-            ) {
-                Scaffold(
-                    topBar = {
-                        TopAppBar(
-                            title = { Text(selectedScreen.getLabel()) },
-                            navigationIcon = {
-                                if (selectedScreen != BottomItem.CALENDAR) {
-                                    IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                                        Icon(Icons.Filled.Menu, contentDescription = "Open drawer")
-                                    }
-                                }
-                            }
-                        )
-                    },
-                    bottomBar = {
-                        NavigationBar {
-                            BottomItem.entries.forEach { item ->
-                                NavigationBarItem(
-                                    selected = selectedScreen == item,
-                                    onClick = { selectedScreen = item },
-                                    icon = {
-                                        Icon(
-                                            item.getIconRes(),
-                                            contentDescription = item.getLabel()
-                                        )
-                                    },
-                                    label = { Text(item.getLabel()) },
-                                    alwaysShowLabel = true
-                                )
-                            }
+            // ✅ Ajout d’un état pour gérer la connexion
+            var isLoggedIn by remember { mutableStateOf(false) }
+
+            if (!isLoggedIn) {
+                // --- Écran de connexion ---
+                LoginScreen(
+                    onLogin = { email, password ->
+                        // Ici tu pourras plus tard ajouter ta logique d’authentification réelle
+                        if (email.isNotBlank() && password.isNotBlank()) {
+                            isLoggedIn = true
                         }
                     }
-                ) { paddingValues ->
-                    // Main content area
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(paddingValues)
-                            .padding(16.dp)
-                            .verticalScroll(rememberScrollState()),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        when (selectedScreen) {
-                            BottomItem.HOME -> {
-                                LaunchedEffect(Unit) { vm.load() }
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Text(
-                                        text = selectedScreen.getLabel(),
-                                        style = MaterialTheme.typography.titleLarge
-                                    )
-                                    Spacer(Modifier.height(12.dp))
-                                    if (vm.lastErrorMessage.isNotEmpty()) {
-                                        Text(vm.lastErrorMessage, color = MaterialTheme.colorScheme.error)
-                                        Spacer(Modifier.height(8.dp))
+                )
+            } else {
+                // --- Interface principale ---
+                var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
+                val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+                val scope = rememberCoroutineScope()
+                val scroll = rememberScrollState()
+
+                ModalNavigationDrawer(
+                    drawerState = drawerState,
+                    gesturesEnabled = selectedScreen != BottomItem.CALENDAR,
+                    drawerContent = {
+                        ModalDrawerSheet(modifier = Modifier.width(280.dp)) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .padding(vertical = 12.dp, horizontal = 16.dp),
+                                verticalArrangement = Arrangement.SpaceBetween
+                            ){
+                                Column {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(bottom = 8.dp)
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(56.dp)
+                                                .clip(CircleShape)
+                                                .background(MaterialTheme.colorScheme.primary),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Image(
+                                                painter = painterResource(Res.drawable.nicolas),
+                                                contentDescription = "Profile Picture",
+                                                modifier = Modifier
+                                                    .size(56.dp)
+                                                    .clip(CircleShape)
+                                            )
+
+                                        }
+                                        Text("  Nicoals Schell")
                                     }
-                                    Text(vm.helloMessage)
+                                }
+                                        Spacer(Modifier.width(12.dp))
+                                Column (modifier = Modifier.verticalScroll(scroll)){
+                                    //verticalArrangement = Arrangement.Top
+                                    Text("Drawer content here") }
+                                Column {
+                                    Divider()
+                                    TextButton(
+                                        onClick = {
+                                            scope.launch { drawerState.close()}
+                                            isLoggedIn=false;
+                                        },
+                                    ){
+                                        Text("Logout")
+                                    }
                                 }
                             }
 
-                            BottomItem.CALENDAR -> {
-                                LaunchedEffect(Unit) { vm.load() }
-                                CalendarScreen(
-                                    modifier = Modifier.fillMaxSize(),
-                                    scheduledByDate = vm.scheduledByDate
-                                )
-                            }
 
-                            BottomItem.SETTINGS -> {
-                                val settingsRepo = koinInject<SettingsRepository>()
-                                SettingsScreen(repo = settingsRepo, onSaved = { scope.launch {vm.load()} })
+                        }
+                    }
+                ) {
+                    Scaffold(
+                        topBar = {
+                            TopAppBar(
+                                title = { Text(selectedScreen.getLabel()) },
+                                navigationIcon = {
+                                    if (selectedScreen != BottomItem.CALENDAR) {
+                                        IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                                            Icon(Icons.Filled.Menu, contentDescription = "Open drawer")
+                                        }
+                                    }
+                                }
+                            )
+                        },
+                        bottomBar = {
+                            NavigationBar {
+                                BottomItem.entries.forEach { item ->
+                                    NavigationBarItem(
+                                        selected = selectedScreen == item,
+                                        onClick = { selectedScreen = item },
+                                        icon = {
+                                            Icon(
+                                                item.getIconRes(),
+                                                contentDescription = item.getLabel()
+                                            )
+                                        },
+                                        label = { Text(item.getLabel()) },
+                                        alwaysShowLabel = true
+                                    )
+                                }
+                            }
+                        }
+                    ) { paddingValues ->
+                        // Contenu principal
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(paddingValues)
+                                .padding(16.dp)
+                                .verticalScroll(rememberScrollState()),
+                            verticalArrangement = Arrangement.Top,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            when (selectedScreen) {
+                                BottomItem.HOME -> {
+                                    LaunchedEffect(Unit) { vm.load() }
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                        Text(
+                                            text = selectedScreen.getLabel(),
+                                            style = MaterialTheme.typography.titleLarge
+                                        )
+                                        Spacer(Modifier.height(12.dp))
+                                        if (vm.lastErrorMessage.isNotEmpty()) {
+                                            Text(vm.lastErrorMessage, color = MaterialTheme.colorScheme.error)
+                                            Spacer(Modifier.height(8.dp))
+                                        }
+                                        Text(vm.helloMessage)
+                                    }
+                                }
+
+                                BottomItem.CALENDAR -> {
+                                    LaunchedEffect(Unit) { vm.load() }
+                                    CalendarScreen(
+                                        modifier = Modifier.fillMaxSize(),
+                                        scheduledByDate = vm.scheduledByDate
+                                    )
+                                }
+
+                                BottomItem.SETTINGS -> {
+                                    val settingsRepo = koinInject<SettingsRepository>()
+                                    SettingsScreen(repo = settingsRepo, onSaved = { scope.launch { vm.load() } })
+                                }
                             }
                         }
                     }
