@@ -24,6 +24,7 @@ import companion.composeapp.generated.resources.Res
 import companion.composeapp.generated.resources.calendar
 import companion.composeapp.generated.resources.home
 import companion.composeapp.generated.resources.settings
+import be.ecam.companion.ui.CoursesScreen
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.KoinApplication
@@ -61,6 +62,7 @@ fun App(extraModules: List<Module> = emptyList()) {
             } else {
                 // --- Interface principale ---
                 var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
+                var currentDrawerScreen by remember { mutableStateOf<String?>(null) }
                 val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
                 val scope = rememberCoroutineScope()
                 val scroll = rememberScrollState()
@@ -99,13 +101,34 @@ fun App(extraModules: List<Module> = emptyList()) {
                                             )
 
                                         }
-                                        Text("  Nicoals Schell")
+                                        Text("  Nicolas Schell")
                                     }
                                 }
                                         Spacer(Modifier.width(12.dp))
                                 Column (modifier = Modifier.verticalScroll(scroll)){
                                     //verticalArrangement = Arrangement.Top
-                                    Text("Drawer content here") }
+                                    TextButton(
+                                        onClick = {
+                                            currentDrawerScreen = null
+                                            scope.launch { drawerState.close() }
+                                        },
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                    {
+                                        Text("Accueil", modifier = Modifier.padding(8.dp))
+                                    }
+
+                                    TextButton(
+                                        onClick = {
+                                            currentDrawerScreen = "courses"
+                                            scope.launch { drawerState.close() }
+                                        },
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Text("Cours", modifier = Modifier.padding(8.dp))
+                                    }
+                                }
+
                                 Column {
                                     Divider()
                                     TextButton(
@@ -165,34 +188,38 @@ fun App(extraModules: List<Module> = emptyList()) {
                             verticalArrangement = Arrangement.Top,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            when (selectedScreen) {
-                                BottomItem.HOME -> {
-                                    LaunchedEffect(Unit) { vm.load() }
-                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                        Text(
-                                            text = selectedScreen.getLabel(),
-                                            style = MaterialTheme.typography.titleLarge
-                                        )
-                                        Spacer(Modifier.height(12.dp))
-                                        if (vm.lastErrorMessage.isNotEmpty()) {
-                                            Text(vm.lastErrorMessage, color = MaterialTheme.colorScheme.error)
-                                            Spacer(Modifier.height(8.dp))
+                            if (currentDrawerScreen == "courses") {
+                                CoursesScreen()
+                            } else {
+                                when (selectedScreen) {
+                                    BottomItem.HOME -> {
+                                        LaunchedEffect(Unit) { vm.load() }
+                                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                            Text(
+                                                text = selectedScreen.getLabel(),
+                                                style = MaterialTheme.typography.titleLarge
+                                            )
+                                            Spacer(Modifier.height(12.dp))
+                                            if (vm.lastErrorMessage.isNotEmpty()) {
+                                                Text(vm.lastErrorMessage, color = MaterialTheme.colorScheme.error)
+                                                Spacer(Modifier.height(8.dp))
+                                            }
+                                            Text(vm.helloMessage)
                                         }
-                                        Text(vm.helloMessage)
                                     }
-                                }
 
-                                BottomItem.CALENDAR -> {
-                                    LaunchedEffect(Unit) { vm.load() }
-                                    CalendarScreen(
-                                        modifier = Modifier.fillMaxSize(),
-                                        scheduledByDate = vm.scheduledByDate
-                                    )
-                                }
+                                    BottomItem.CALENDAR -> {
+                                        LaunchedEffect(Unit) { vm.load() }
+                                        CalendarScreen(
+                                            modifier = Modifier.fillMaxSize(),
+                                            scheduledByDate = vm.scheduledByDate
+                                        )
+                                    }
 
-                                BottomItem.SETTINGS -> {
-                                    val settingsRepo = koinInject<SettingsRepository>()
-                                    SettingsScreen(repo = settingsRepo, onSaved = { scope.launch { vm.load() } })
+                                    BottomItem.SETTINGS -> {
+                                        val settingsRepo = koinInject<SettingsRepository>()
+                                        SettingsScreen(repo = settingsRepo, onSaved = { scope.launch { vm.load() } })
+                                    }
                                 }
                             }
                         }
