@@ -72,6 +72,8 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.java)
+            // SLF4J binding so logs don't fall back to NOP
+            implementation(libs.logback)
         }
         iosMain.dependencies {
             // Ktor iOS engine (Darwin)
