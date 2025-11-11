@@ -9,52 +9,49 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.type
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.border
-import be.ecam.companion.viewmodel.LoginViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import be.ecam.companion.viewmodel.LoginViewModel
 
 @Composable
-fun LoginScreen(
-    onLoginSuccess: () -> Unit,
+fun RegisterScreen(
+    onRegisterSuccess: () -> Unit,
     viewModel: LoginViewModel = remember { LoginViewModel() }
 ) {
+    var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
     val passwordFocusRequester = remember { FocusRequester() }
     val buttonFocusRequester = remember { FocusRequester() }
 
-    // Afficher message d’erreur ou succès
+    // Afficher message de succès
     LaunchedEffect(viewModel.loginSuccess) {
         if (viewModel.loginSuccess) {
-            onLoginSuccess()
+            onRegisterSuccess()
         }
     }
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            LoginCard(
+            RegisterCard(
+                username = username,
+                onUsernameChange = { username = it },
                 email = email,
                 onEmailChange = { email = it },
                 password = password,
                 onPasswordChange = { password = it },
-                onLoginClick = {
-                    if (email.isNotBlank() && password.isNotBlank()) {
-                        viewModel.login(
-                            emailOrUsername = email,
+                onRegisterClick = {
+                    if (username.isNotBlank() && email.isNotBlank() && password.isNotBlank()) {
+                        viewModel.register(
+                            username = username,
+                            email = email,
                             password = password
                         )
-                        
                     }
                 },
-                onMicrosoftLoginClick = { /* TODO: lancer OAuth Microsoft */ },
                 passwordFocusRequester = passwordFocusRequester,
                 buttonFocusRequester = buttonFocusRequester
             )
@@ -75,13 +72,14 @@ fun LoginScreen(
 }
 
 @Composable
-fun LoginCard(
+fun RegisterCard(
+    username: String,
+    onUsernameChange: (String) -> Unit,
     email: String,
     onEmailChange: (String) -> Unit,
     password: String,
     onPasswordChange: (String) -> Unit,
-    onLoginClick: () -> Unit,
-    onMicrosoftLoginClick: () -> Unit,
+    onRegisterClick: () -> Unit,
     passwordFocusRequester: FocusRequester,
     buttonFocusRequester: FocusRequester
 ) {
@@ -99,32 +97,33 @@ fun LoginCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                "Connexion",
+                "Inscription",
                 style = MaterialTheme.typography.headlineLarge,
                 color = MaterialTheme.colorScheme.primary
             )
 
             Spacer(Modifier.height(24.dp))
 
-            // Champ email
             OutlinedTextField(
-                value = email,
-                onValueChange = onEmailChange,
-                label = { Text("Email ou nom d’utilisateur") },
+                value = username,
+                onValueChange = onUsernameChange,
+                label = { Text("Nom d’utilisateur") },
                 singleLine = true,
-                modifier = Modifier
-                    .width(400.dp)
-                    .onKeyEvent { keyEvent ->
-                        if (keyEvent.type == KeyEventType.KeyDown && keyEvent.key == Key.Enter) {
-                            onLoginClick()
-                            true
-                        } else false
-                    }
+                modifier = Modifier.width(400.dp)
             )
 
             Spacer(Modifier.height(12.dp))
 
-            // Champ mot de passe
+            OutlinedTextField(
+                value = email,
+                onValueChange = onEmailChange,
+                label = { Text("Email") },
+                singleLine = true,
+                modifier = Modifier.width(400.dp)
+            )
+
+            Spacer(Modifier.height(12.dp))
+
             OutlinedTextField(
                 value = password,
                 onValueChange = onPasswordChange,
@@ -134,19 +133,12 @@ fun LoginCard(
                 modifier = Modifier
                     .width(400.dp)
                     .focusRequester(passwordFocusRequester)
-                    .onKeyEvent { keyEvent ->
-                        if (keyEvent.type == KeyEventType.KeyDown && keyEvent.key == Key.Enter) {
-                            onLoginClick()
-                            true
-                        } else false
-                    }
             )
 
             Spacer(Modifier.height(24.dp))
 
-            // Bouton de connexion
             Button(
-                onClick = onLoginClick,
+                onClick = onRegisterClick,
                 modifier = Modifier
                     .width(400.dp)
                     .height(50.dp)
@@ -154,21 +146,7 @@ fun LoginCard(
                 shape = RoundedCornerShape(12.dp),
                 elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
             ) {
-                Text("Se connecter")
-            }
-
-            Spacer(Modifier.height(16.dp))
-
-            // Bouton Microsoft
-            Button(
-                onClick = onMicrosoftLoginClick,
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2F2F2F)),
-                modifier = Modifier
-                    .width(400.dp)
-                    .height(50.dp),
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Text("Se connecter avec Microsoft", color = Color.White)
+                Text("S'inscrire")
             }
         }
     }
