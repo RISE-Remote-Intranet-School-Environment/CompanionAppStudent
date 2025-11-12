@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CoursesScreens() {
+fun CoursesScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
