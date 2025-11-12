@@ -26,6 +26,7 @@ import companion.composeapp.generated.resources.Res
 import companion.composeapp.generated.resources.calendar
 import companion.composeapp.generated.resources.home
 import companion.composeapp.generated.resources.settings
+import be.ecam.companion.ui.CoursesScreen
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.KoinApplication
@@ -63,6 +64,7 @@ fun App(extraModules: List<Module> = emptyList()) {
             } else {
                 // --- Interface principale ---
                 var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
+                var currentDrawerScreen by remember { mutableStateOf<String?>(null) }
                 var showCoursesPage by remember { mutableStateOf(false) }
                 var coursesTitleSuffix by remember { mutableStateOf<String?>(null) }
                 var coursesResetCounter by remember { mutableStateOf(0) }
@@ -104,7 +106,7 @@ fun App(extraModules: List<Module> = emptyList()) {
                                             )
 
                                         }
-                                        Text("  Nicoals Schell")
+                                        Text("  Nicolas Schell")
                                     }
                                     Button(
                                         onClick = {
@@ -123,7 +125,28 @@ fun App(extraModules: List<Module> = emptyList()) {
                                         Spacer(Modifier.width(12.dp))
                                 Column (modifier = Modifier.verticalScroll(scroll)){
                                     //verticalArrangement = Arrangement.Top
-                                    Text("Drawer content here") }
+                                    TextButton(
+                                        onClick = {
+                                            currentDrawerScreen = null
+                                            scope.launch { drawerState.close() }
+                                        },
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                    {
+                                        Text("Accueil", modifier = Modifier.padding(8.dp))
+                                    }
+
+                                    TextButton(
+                                        onClick = {
+                                            currentDrawerScreen = "courses"
+                                            scope.launch { drawerState.close() }
+                                        },
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Text("Cours", modifier = Modifier.padding(8.dp))
+                                    }
+                                }
+
                                 Column {
                                     HorizontalDivider()
                                     TextButton(
@@ -186,6 +209,19 @@ fun App(extraModules: List<Module> = emptyList()) {
                             }
                         }
                     ) { paddingValues ->
+                        // Contenu principal
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(paddingValues)
+                                .padding(16.dp)
+                                .verticalScroll(rememberScrollState()),
+                            verticalArrangement = Arrangement.Top,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            if (currentDrawerScreen == "courses") {
+                                CoursesScreen()
+                            } else {
                         val baseModifier = Modifier
                             .fillMaxSize()
                             .padding(paddingValues)
