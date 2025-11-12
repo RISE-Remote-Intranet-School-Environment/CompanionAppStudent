@@ -26,7 +26,7 @@ import companion.composeapp.generated.resources.Res
 import companion.composeapp.generated.resources.calendar
 import companion.composeapp.generated.resources.home
 import companion.composeapp.generated.resources.settings
-import be.ecam.companion.ui.CoursesScreen
+import be.ecam.companion.ui.CoursesScreens
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.KoinApplication
@@ -36,6 +36,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.key.Key.Companion.R
+import be.ecam.companion.ui.CoursesScreens
 import companion.composeapp.generated.resources.compose_multiplatform
 import org.jetbrains.compose.resources.painterResource
 import companion.composeapp.generated.resources.nicolas
@@ -82,7 +83,7 @@ fun App(extraModules: List<Module> = emptyList()) {
                                     .fillMaxHeight()
                                     .padding(vertical = 12.dp, horizontal = 16.dp),
                                 verticalArrangement = Arrangement.SpaceBetween
-                            ){
+                            ) {
                                 Column {
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically,
@@ -122,8 +123,8 @@ fun App(extraModules: List<Module> = emptyList()) {
                                         Text("Formations")
                                     }
                                 }
-                                        Spacer(Modifier.width(12.dp))
-                                Column (modifier = Modifier.verticalScroll(scroll)){
+                                Spacer(Modifier.width(12.dp))
+                                Column(modifier = Modifier.verticalScroll(scroll)) {
                                     //verticalArrangement = Arrangement.Top
                                     TextButton(
                                         onClick = {
@@ -151,10 +152,10 @@ fun App(extraModules: List<Module> = emptyList()) {
                                     HorizontalDivider()
                                     TextButton(
                                         onClick = {
-                                            scope.launch { drawerState.close()}
-                                            isLoggedIn=false;
+                                            scope.launch { drawerState.close() }
+                                            isLoggedIn = false;
                                         },
-                                    ){
+                                    ) {
                                         Text("Logout")
                                     }
                                 }
@@ -169,7 +170,8 @@ fun App(extraModules: List<Module> = emptyList()) {
                             TopAppBar(
                                 title = {
                                     if (showCoursesPage) {
-                                        val dynamicTitle = coursesTitleSuffix?.let { "Formations - $it" } ?: "Formations"
+                                        val dynamicTitle =
+                                            coursesTitleSuffix?.let { "Formations - $it" } ?: "Formations"
                                         Text(dynamicTitle)
                                     } else {
                                         Text(selectedScreen.getLabel())
@@ -220,54 +222,61 @@ fun App(extraModules: List<Module> = emptyList()) {
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             if (currentDrawerScreen == "courses") {
-                                CoursesScreen()
+                                CoursesScreens()
                             } else {
-                        val baseModifier = Modifier
-                            .fillMaxSize()
-                            .padding(paddingValues)
-                            .padding(16.dp)
+                                val baseModifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(paddingValues)
+                                    .padding(16.dp)
 
-                        if (showCoursesPage) {
-                            CoursesScreen(
-                                modifier = baseModifier,
-                                resetTrigger = coursesResetCounter,
-                                onContextChange = { coursesTitleSuffix = it }
-                            )
-                        } else {
-                            // Contenu principal
-                            Column(
-                                modifier = baseModifier.verticalScroll(rememberScrollState()),
-                                verticalArrangement = Arrangement.Top,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                when (selectedScreen) {
-                                    BottomItem.HOME -> {
-                                        LaunchedEffect(Unit) { vm.load() }
-                                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                            Text(
-                                                text = selectedScreen.getLabel(),
-                                                style = MaterialTheme.typography.titleLarge
-                                            )
-                                            Spacer(Modifier.height(12.dp))
-                                            if (vm.lastErrorMessage.isNotEmpty()) {
-                                                Text(vm.lastErrorMessage, color = MaterialTheme.colorScheme.error)
-                                                Spacer(Modifier.height(8.dp))
+                                if (showCoursesPage) {
+                                    CoursesScreen(
+                                        modifier = baseModifier,
+                                        resetTrigger = coursesResetCounter,
+                                        onContextChange = { coursesTitleSuffix = it }
+                                    )
+                                } else {
+                                    // Contenu principal
+                                    Column(
+                                        modifier = baseModifier.verticalScroll(rememberScrollState()),
+                                        verticalArrangement = Arrangement.Top,
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        when (selectedScreen) {
+                                            BottomItem.HOME -> {
+                                                LaunchedEffect(Unit) { vm.load() }
+                                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                                    Text(
+                                                        text = selectedScreen.getLabel(),
+                                                        style = MaterialTheme.typography.titleLarge
+                                                    )
+                                                    Spacer(Modifier.height(12.dp))
+                                                    if (vm.lastErrorMessage.isNotEmpty()) {
+                                                        Text(
+                                                            vm.lastErrorMessage,
+                                                            color = MaterialTheme.colorScheme.error
+                                                        )
+                                                        Spacer(Modifier.height(8.dp))
+                                                    }
+                                                    Text(vm.helloMessage)
+                                                }
                                             }
-                                            Text(vm.helloMessage)
+
+                                            BottomItem.CALENDAR -> {
+                                                LaunchedEffect(Unit) { vm.load() }
+                                                CalendarScreen(
+                                                    modifier = Modifier.fillMaxSize(),
+                                                    scheduledByDate = vm.scheduledByDate
+                                                )
+                                            }
+
+                                            BottomItem.SETTINGS -> {
+                                                val settingsRepo = koinInject<SettingsRepository>()
+                                                SettingsScreen(
+                                                    repo = settingsRepo,
+                                                    onSaved = { scope.launch { vm.load() } })
+                                            }
                                         }
-                                    }
-
-                                    BottomItem.CALENDAR -> {
-                                        LaunchedEffect(Unit) { vm.load() }
-                                        CalendarScreen(
-                                            modifier = Modifier.fillMaxSize(),
-                                            scheduledByDate = vm.scheduledByDate
-                                        )
-                                    }
-
-                                    BottomItem.SETTINGS -> {
-                                        val settingsRepo = koinInject<SettingsRepository>()
-                                        SettingsScreen(repo = settingsRepo, onSaved = { scope.launch { vm.load() } })
                                     }
                                 }
                             }
