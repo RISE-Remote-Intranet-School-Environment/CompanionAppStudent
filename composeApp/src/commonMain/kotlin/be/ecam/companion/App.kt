@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.di.appModule
 import be.ecam.companion.ui.CalendarScreen
+import be.ecam.companion.ui.CoursesScreen
 import be.ecam.companion.ui.SettingsScreen
 import be.ecam.companion.ui.LoginScreen
 import be.ecam.companion.viewmodel.HomeViewModel
@@ -63,13 +65,16 @@ fun App(extraModules: List<Module> = emptyList()) {
                 // --- Interface principale ---
                 var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
                 var currentDrawerScreen by remember { mutableStateOf<String?>(null) }
+                var showCoursesPage by remember { mutableStateOf(false) }
+                var coursesTitleSuffix by remember { mutableStateOf<String?>(null) }
+                var coursesResetCounter by remember { mutableStateOf(0) }
                 val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
                 val scope = rememberCoroutineScope()
                 val scroll = rememberScrollState()
 
                 ModalNavigationDrawer(
                     drawerState = drawerState,
-                    gesturesEnabled = selectedScreen != BottomItem.CALENDAR,
+                    gesturesEnabled = selectedScreen != BottomItem.CALENDAR && !showCoursesPage,
                     drawerContent = {
                         ModalDrawerSheet(modifier = Modifier.width(280.dp)) {
                             Column(
@@ -103,6 +108,19 @@ fun App(extraModules: List<Module> = emptyList()) {
                                         }
                                         Text("  Nicolas Schell")
                                     }
+                                    Button(
+                                        onClick = {
+                                            showCoursesPage = true
+                                            coursesTitleSuffix = null
+                                            coursesResetCounter++
+                                            scope.launch { drawerState.close() }
+                                        },
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(top = 16.dp)
+                                    ) {
+                                        Text("Formations")
+                                    }
                                 }
                                         Spacer(Modifier.width(12.dp))
                                 Column (modifier = Modifier.verticalScroll(scroll)){
@@ -130,7 +148,7 @@ fun App(extraModules: List<Module> = emptyList()) {
                                 }
 
                                 Column {
-                                    Divider()
+                                    HorizontalDivider()
                                     TextButton(
                                         onClick = {
                                             scope.launch { drawerState.close()}
@@ -149,9 +167,18 @@ fun App(extraModules: List<Module> = emptyList()) {
                     Scaffold(
                         topBar = {
                             TopAppBar(
-                                title = { Text(selectedScreen.getLabel()) },
+                                title = {
+                                    if (showCoursesPage) {
+                                        val dynamicTitle = coursesTitleSuffix?.let { "Formations - $it" } ?: "Formations"
+                                        Text(dynamicTitle)
+                                    } else {
+                                        Text(selectedScreen.getLabel())
+                                    }
+                                },
                                 navigationIcon = {
-                                    if (selectedScreen != BottomItem.CALENDAR) {
+                                    if (!showCoursesPage && selectedScreen == BottomItem.CALENDAR) {
+                                        Spacer(Modifier)
+                                    } else {
                                         IconButton(onClick = { scope.launch { drawerState.open() } }) {
                                             Icon(Icons.Filled.Menu, contentDescription = "Open drawer")
                                         }
@@ -164,7 +191,11 @@ fun App(extraModules: List<Module> = emptyList()) {
                                 BottomItem.entries.forEach { item ->
                                     NavigationBarItem(
                                         selected = selectedScreen == item,
-                                        onClick = { selectedScreen = item },
+                                        onClick = {
+                                            showCoursesPage = false
+                                            coursesTitleSuffix = null
+                                            selectedScreen = item
+                                        },
                                         icon = {
                                             Icon(
                                                 item.getIconRes(),
@@ -191,6 +222,24 @@ fun App(extraModules: List<Module> = emptyList()) {
                             if (currentDrawerScreen == "courses") {
                                 CoursesScreen()
                             } else {
+                        val baseModifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                            .padding(16.dp)
+
+                        if (showCoursesPage) {
+                            CoursesScreen(
+                                modifier = baseModifier,
+                                resetTrigger = coursesResetCounter,
+                                onContextChange = { coursesTitleSuffix = it }
+                            )
+                        } else {
+                            // Contenu principal
+                            Column(
+                                modifier = baseModifier.verticalScroll(rememberScrollState()),
+                                verticalArrangement = Arrangement.Top,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
                                 when (selectedScreen) {
                                     BottomItem.HOME -> {
                                         LaunchedEffect(Unit) { vm.load() }
