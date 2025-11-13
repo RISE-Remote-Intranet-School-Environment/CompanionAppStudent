@@ -63,8 +63,7 @@ import kotlin.math.roundToInt
 fun CoursesScreen(
     modifier: Modifier = Modifier,
     resetTrigger: Int = 0,
-    onContextChange: (String?) -> Unit = {},
-    onCourseSelected: (String) -> Unit = {} // 👈 ajoute ceci
+    onContextChange: (String?) -> Unit = {}
 ) {
     val database by produceState<FormationDatabase?>(initialValue = null) {
         value = EcamFormationsRepository.load()
@@ -179,11 +178,7 @@ fun CoursesScreen(
                         inlineChips = true,
                         onBlockSelected = { block -> selectBlock(state.program, block) }
                     )
-                    BlockDetails(
-                        program = state.program,
-                        block = state.block,
-                        onCourseSelected = { code -> onCourseSelected(code) }
-                    )
+                    BlockDetails(state.program, state.block)
                 }
             }
         }
@@ -443,26 +438,29 @@ private fun BlockCard(
 }
 
 @Composable
-private fun BlockDetails(
-    program: ProgramCardData,
-    block: FormationBlock,
-    onCourseSelected: (String) -> Unit // 🔹 nouveau paramètre
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .requiredWidthIn(max = 860.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+private fun BlockDetails(program: ProgramCardData, block: FormationBlock) {
+    val uriHandler = LocalUriHandler.current
+
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
     ) {
-        Column(modifier = Modifier.padding(12.dp)) {
-            TableHeader()
-            Spacer(Modifier.height(8.dp))
-            block.courses.forEachIndexed { index, course ->
-                CourseRow(
-                    course = course,
-                    striped = index % 2 == 0,
-                    onCourseSelected = onCourseSelected // 🔹 on envoie le code du cours
-                )
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .requiredWidthIn(max = 860.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        ) {
+            Column(modifier = Modifier.padding(12.dp)) {
+                TableHeader()
+                Spacer(Modifier.height(8.dp))
+                block.courses.forEachIndexed { index, course ->
+                    CourseRow(
+                        course = course,
+                        striped = index % 2 == 0,
+                        onOpenDetails = { url -> uriHandler.openUri(url) }
+                    )
+                }
             }
         }
     }
@@ -510,36 +508,69 @@ private fun TableHeader() {
 private fun CourseRow(
     course: FormationCourse,
     striped: Boolean,
-    onCourseSelected: (String) -> Unit
+    onOpenDetails: (String) -> Unit
 ) {
     val backgroundColor = if (striped) {
         MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
     } else {
         MaterialTheme.colorScheme.surface
     }
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(backgroundColor, RoundedCornerShape(8.dp))
-            .padding(horizontal = 8.dp, vertical = 10.dp)
-            .clickable { onCourseSelected(course.code) }, // 🔹 clic sur toute la ligne
+            .padding(horizontal = 8.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            Text(course.title, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
-            Text(course.code, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(
+                text = course.title,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = course.code,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
-
         Box(
             modifier = Modifier.width(creditColumnWidth),
             contentAlignment = Alignment.Center
         ) {
-            Text(course.credits.formatCredits(), style = MaterialTheme.typography.bodyMedium)
+            Text(
+                text = course.credits.formatCredits(),
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center
+            )
+        }
+        Box(
+            modifier = Modifier.width(periodColumnWidth),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = course.periods.filter { it.isNotBlank() }.joinToString(" - "),
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center
+            )
+        }
+        Box(
+            modifier = Modifier.width(actionColumnWidth),
+            contentAlignment = Alignment.Center
+        ) {
+            course.detailsUrl?.let { url ->
+                OutlinedButton(
+                    onClick = { onOpenDetails(url) },
+                    modifier = Modifier.defaultMinSize(minWidth = actionButtonMinWidth)
+                ) {
+                    Text("Fiche")
+                }
+            }
         }
     }
     Spacer(Modifier.height(6.dp))
 }
+
 private data class ProgramCardData(
     val formation: Formation,
     val description: String,

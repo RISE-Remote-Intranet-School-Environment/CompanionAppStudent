@@ -69,7 +69,6 @@ fun App(extraModules: List<Module> = emptyList()) {
                 val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
                 val scope = rememberCoroutineScope()
                 val scroll = rememberScrollState()
-                var selectedCourseCode by remember { mutableStateOf<String?>(null) }
 
                 ModalNavigationDrawer(
                     drawerState = drawerState,
@@ -193,21 +192,11 @@ fun App(extraModules: List<Module> = emptyList()) {
                             .padding(16.dp)
 
                         if (showCoursesPage) {
-                            if (selectedCourseCode == null) {
-                                // 👉 Liste des cours
-                                CoursesScreen(
-                                    modifier = baseModifier,
-                                    resetTrigger = coursesResetCounter,
-                                    onContextChange = { coursesTitleSuffix = it },
-                                    onCourseSelected = { code -> selectedCourseCode = code } // 👈 ouvre la fiche
-                                )
-                            } else {
-                                // 👉 Fiche PAE
-                                CoursesFicheScreen(
-                                    courseCode = selectedCourseCode!!,
-                                    onBack = { selectedCourseCode = null } // 👈 retour
-                                )
-                            }
+                            CoursesScreen(
+                                modifier = baseModifier,
+                                resetTrigger = coursesResetCounter,
+                                onContextChange = { coursesTitleSuffix = it }
+                            )
                         } else {
                             // Contenu principal
                             Column(
