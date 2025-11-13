@@ -64,7 +64,7 @@ fun CoursesScreen(
     modifier: Modifier = Modifier,
     resetTrigger: Int = 0,
     onContextChange: (String?) -> Unit = {},
-    onCourseSelected: (String) -> Unit = {} // 👈 ajoute ceci
+    onCourseSelected: (CourseRef) -> Unit = {} // 👈 now accepts CourseRef
 ) {
     val database by produceState<FormationDatabase?>(initialValue = null) {
         value = EcamFormationsRepository.load()
@@ -182,7 +182,7 @@ fun CoursesScreen(
                     BlockDetails(
                         program = state.program,
                         block = state.block,
-                        onCourseSelected = { code -> onCourseSelected(code) }
+                        onCourseSelected = { courseRef -> onCourseSelected(courseRef) }
                     )
                 }
             }
@@ -446,7 +446,7 @@ private fun BlockCard(
 private fun BlockDetails(
     program: ProgramCardData,
     block: FormationBlock,
-    onCourseSelected: (String) -> Unit // 🔹 nouveau paramètre
+    onCourseSelected: (CourseRef) -> Unit // 🔹 now CourseRef
 ) {
     Card(
         modifier = Modifier
@@ -461,7 +461,7 @@ private fun BlockDetails(
                 CourseRow(
                     course = course,
                     striped = index % 2 == 0,
-                    onCourseSelected = onCourseSelected // 🔹 on envoie le code du cours
+                    onCourseSelected = onCourseSelected // 🔹 now passes CourseRef
                 )
             }
         }
@@ -510,7 +510,7 @@ private fun TableHeader() {
 private fun CourseRow(
     course: FormationCourse,
     striped: Boolean,
-    onCourseSelected: (String) -> Unit
+    onCourseSelected: (CourseRef) -> Unit
 ) {
     val backgroundColor = if (striped) {
         MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
@@ -523,7 +523,7 @@ private fun CourseRow(
             .fillMaxWidth()
             .background(backgroundColor, RoundedCornerShape(8.dp))
             .padding(horizontal = 8.dp, vertical = 10.dp)
-            .clickable { onCourseSelected(course.code) }, // 🔹 clic sur toute la ligne
+            .clickable { onCourseSelected(CourseRef(course.code, course.detailsUrl)) }, // 🔹 envoie CourseRef
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
@@ -625,6 +625,3 @@ private fun BlockChip(
         Text(block.name, style = MaterialTheme.typography.labelLarge)
     }
 }
-
-
-

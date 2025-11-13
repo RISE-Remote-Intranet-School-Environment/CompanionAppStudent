@@ -38,6 +38,8 @@ import androidx.compose.ui.input.key.Key.Companion.R
 import companion.composeapp.generated.resources.compose_multiplatform
 import org.jetbrains.compose.resources.painterResource
 import companion.composeapp.generated.resources.nicolas
+import be.ecam.companion.ui.CoursesFicheScreen
+import be.ecam.companion.ui.CourseRef
 
 
 
@@ -69,7 +71,8 @@ fun App(extraModules: List<Module> = emptyList()) {
                 val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
                 val scope = rememberCoroutineScope()
                 val scroll = rememberScrollState()
-                var selectedCourseCode by remember { mutableStateOf<String?>(null) }
+                // Remplacer par CourseRef pour transporter code + detailsUrl
+                var selectedCourseRef by remember { mutableStateOf<be.ecam.companion.ui.CourseRef?>(null) }
 
                 ModalNavigationDrawer(
                     drawerState = drawerState,
@@ -193,22 +196,27 @@ fun App(extraModules: List<Module> = emptyList()) {
                             .padding(16.dp)
 
                         if (showCoursesPage) {
-                            if (selectedCourseCode == null) {
-                                // 👉 Liste des cours
+                            // 👇 Nouvel état pour la fiche du cours sélectionné
+                            var selectedCourseRef by remember { mutableStateOf<CourseRef?>(null) }
+
+                            if (selectedCourseRef == null) {
                                 CoursesScreen(
                                     modifier = baseModifier,
                                     resetTrigger = coursesResetCounter,
                                     onContextChange = { coursesTitleSuffix = it },
-                                    onCourseSelected = { code -> selectedCourseCode = code } // 👈 ouvre la fiche
+                                    onCourseSelected = { courseRef ->
+                                        selectedCourseRef = courseRef
+                                    }
                                 )
                             } else {
-                                // 👉 Fiche PAE
                                 CoursesFicheScreen(
-                                    courseCode = selectedCourseCode!!,
-                                    onBack = { selectedCourseCode = null } // 👈 retour
+                                    courseRef = selectedCourseRef!!,
+                                    onBack = { selectedCourseRef = null }
                                 )
                             }
-                        } else {
+                        }
+
+                     else {
                             // Contenu principal
                             Column(
                                 modifier = baseModifier.verticalScroll(rememberScrollState()),

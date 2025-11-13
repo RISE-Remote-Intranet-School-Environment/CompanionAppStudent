@@ -1,26 +1,18 @@
 package be.ecam.companion.ui
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.background
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.serialization.Serializable
-import androidx.compose.runtime.*
-import kotlinx.serialization.json.JsonNamingStrategy
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.resource
+import companion.composeapp.generated.resources.Res
 
 
 // --- Structures de données simples (tu les remplaceras plus tard par ton JSON) ---
@@ -62,33 +54,32 @@ data class CourseDetail(
     val evaluated_activities: List<EvaluatedActivity> = emptyList(),
     val sections: Map<String, String> = emptyMap()
 )
-@OptIn(
-    org.jetbrains.compose.resources.ExperimentalResourceApi::class,
-    kotlinx.serialization.ExperimentalSerializationApi::class
-)
+
+// Petit DTO pour transmettre un identifiant de cours depuis `CoursesScreen`.
+data class CourseRef(val code: String, val detailsUrl: String?)
+
 @Composable
-fun LoadCourses(): List<CourseDetail> {
-    var courses by remember { mutableStateOf<List<CourseDetail>>(emptyList()) }
-
-    LaunchedEffect(Unit) {
-        // 1️⃣ Lecture du fichier JSON depuis les ressources
-        val jsonText = resource("files/ecam_courses_details_2025.json")
-            .readBytes()
-            .decodeToString()
-
-        // 2️⃣ Configuration du parseur JSON
-        val json = Json {
-            ignoreUnknownKeys = true  // ignore les champs inconnus
-            isLenient = true          // tolère les petits écarts de format
-            prettyPrint = false
-            namingStrategy = JsonNamingStrategy.SnakeCase // 🔥 convertit snake_case <-> camelCase
+fun loadCourses(): List<CourseDetail> {
+    // Chargement asynchrone via produceState car Res.readBytes est suspendante
+    val state = produceState<List<CourseDetail>>(initialValue = emptyList()) {
+        try {
+            val bytes = Res.readBytes("files/ecam_courses_details_2025.json")
+            if (bytes.isNotEmpty()) {
+                val text = bytes.decodeToString()
+                val json = Json { ignoreUnknownKeys = true; isLenient = true }
+                val parsed = json.decodeFromString<List<CourseDetail>>(text)
+                println("[CoursesLoader] loaded ${parsed.size} course fiches")
+                value = parsed
+            } else {
+                value = emptyList()
+            }
+        } catch (t: Throwable) {
+            // En cas d'erreur, on retourne liste vide
+            println("[CoursesLoader] error loading courses: ${t.message}")
+            value = emptyList()
         }
-
-        // 3️⃣ Décodage vers ta liste de cours
-        courses = json.decodeFromString<List<CourseDetail>>(jsonText)
     }
-
-    return courses
+    return state.value
 }
 
 @Composable
@@ -161,24 +152,87 @@ fun CourseDetailScreen(course: CourseDetail) {
     }
 }
 @Composable
-fun CoursesFicheScreen(courseCode: String, onBack: () -> Unit) {
+fun CoursesFicheScreen(courseRef: CourseRef, onBack: () -> Unit) {
     val allCourses = rememberCoursesDetails()
-    val course = allCourses.find { it.code.equals(courseCode, ignoreCase = true) }
+    val query = courseRef.code.trim()
+
+    fun normalizeKey(s: String): String {
+        return s.replace(Regex("[^A-Za-z0-9]"), "").lowercase()
+    }
+
+    // Prépare une liste de valeurs candidates provenant du CourseRef
+    val candidates = mutableListOf<String>().apply {
+        add(query)
+        courseRef.detailsUrl?.let { url ->
+            // extraire le dernier segment du path (ex: https://.../1bach10 -> 1bach10)
+            val last = url.trimEnd('/').substringAfterLast('/')
+            if (last.isNotBlank()) add(last)
+        }
+    }
+
+    val normalizedCandidates = candidates.map { normalizeKey(it) }.toSet()
+
+    val course = allCourses.find { cd ->
+        val nCode = normalizeKey(cd.code)
+        val nTitle = normalizeKey(cd.title)
+        // test direct contre tous les candidats
+        if (normalizedCandidates.contains(nCode) || normalizedCandidates.contains(nTitle)) return@find true
+        // tolerances
+        if (normalizedCandidates.any { cand -> nCode.contains(cand) || nTitle.contains(cand) }) return@find true
+        false
+    }
 
     if (course == null) {
         Column(Modifier.fillMaxSize().padding(16.dp)) {
             OutlinedButton(onClick = onBack) { Text("← Retour") }
             Spacer(Modifier.height(8.dp))
-            Text("Fiche introuvable pour le cours $courseCode")
+
+            if (allCourses.isEmpty()) {
+                // Chargement en cours
+                Spacer(Modifier.height(12.dp))
+                Text("Chargement des fiches...", style = MaterialTheme.typography.bodyMedium)
+                Spacer(Modifier.height(8.dp))
+                CircularProgressIndicator()
+            } else {
+                Spacer(Modifier.height(12.dp))
+                Text("Fiche introuvable pour le cours: \"${courseRef.code}\"", style = MaterialTheme.typography.bodyLarge)
+                Spacer(Modifier.height(12.dp))
+                Text("Fiches chargées: ${allCourses.size}", style = MaterialTheme.typography.bodyMedium)
+                Spacer(Modifier.height(8.dp))
+
+                // Affiche un échantillon de codes (premiers 30) pour debug
+                val sample = allCourses.take(30).map { it.code }.joinToString(", ")
+                Text("Exemples de codes: ", style = MaterialTheme.typography.titleSmall)
+                Text(sample, style = MaterialTheme.typography.bodySmall, maxLines = 4)
+
+                Spacer(Modifier.height(12.dp))
+                Text("Query normalisée candidates: ${normalizedCandidates.joinToString(", ")}", style = MaterialTheme.typography.bodySmall)
+
+                // Montrer correspondances proches (codes dont le préfixe correspond)
+                val close = allCourses.filter { c ->
+                    val nk = normalizeKey(c.code)
+                    normalizedCandidates.any { cand -> nk.startsWith(cand) || nk.contains(cand) }
+                }.take(20).map { it.code }
+                if (close.isNotEmpty()) {
+                    Spacer(Modifier.height(8.dp))
+                    Text("Correspondances proches:", style = MaterialTheme.typography.titleSmall)
+                    Text(close.joinToString(", "), style = MaterialTheme.typography.bodySmall, maxLines = 4)
+                }
+            }
         }
     } else {
-        Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp)) {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
             OutlinedButton(onClick = onBack) { Text("← Retour") }
             Spacer(Modifier.height(16.dp))
-            CourseDetailScreen(course = course)
+            CourseDetailScreen(course = course) // déjà scrollable à l’intérieur
         }
     }
 }
+
 @Composable
 fun SectionTitle(title: String) {
     Text(
@@ -230,4 +284,11 @@ fun EvaluationCard(eval: EvaluatedActivity) {
             }
         }
     }
+}
+
+@Composable
+fun rememberCoursesDetails(): List<CourseDetail> {
+    // Wrapper simple autour de `loadCourses()` pour rendre l'appel plus lisible
+    // et centraliser le nom utilisé par le reste du code.
+    return loadCourses()
 }
