@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    gradle2nix.url = "github:tadfisher/gradle2nix";
+    gradle2nix.url = "github:tadfisher/gradle2nix/v2";
   };
 
   outputs =
