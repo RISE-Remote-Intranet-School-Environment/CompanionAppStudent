@@ -1,11 +1,13 @@
 package be.ecam.companion
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
@@ -14,32 +16,24 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.di.appModule
 import be.ecam.companion.ui.CalendarScreen
 import be.ecam.companion.ui.CoursesScreen
-import be.ecam.companion.ui.SettingsScreen
 import be.ecam.companion.ui.LoginScreen
-import be.ecam.companion.ui.ProfessorsScreen // ✅ AJOUTÉ
+import be.ecam.companion.ui.RegisterScreen
+import be.ecam.companion.ui.SettingsScreen
+import be.ecam.companion.ui.ProfessorsScreen
 import be.ecam.companion.viewmodel.HomeViewModel
 import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.calendar
-import companion.composeapp.generated.resources.home
-import companion.composeapp.generated.resources.settings
+import companion.composeapp.generated.resources.nicolas
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.module.Module
-import androidx.compose.foundation.background
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.input.key.Key.Companion.R
-import companion.composeapp.generated.resources.compose_multiplatform
-import org.jetbrains.compose.resources.painterResource
-import companion.composeapp.generated.resources.nicolas
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,28 +42,36 @@ fun App(extraModules: List<Module> = emptyList()) {
         val vm = koinInject<HomeViewModel>()
         MaterialTheme {
             var isLoggedIn by remember { mutableStateOf(false) }
+            var showRegister by remember { mutableStateOf(false) }
 
             if (!isLoggedIn) {
-                LoginScreen(
-                    onLogin = { email, password ->
-                        if (email.isNotBlank() && password.isNotBlank()) {
-                            isLoggedIn = true
-                        }
-                    }
-                )
+                if (showRegister) {
+                    RegisterScreen(
+                        onRegisterSuccess = { isLoggedIn = true },
+                        onNavigateToLogin = { showRegister = false }
+                    )
+                } else {
+                    LoginScreen(
+                        onLoginSuccess = { isLoggedIn = true },
+                        onNavigateToRegister = { showRegister = true }
+                    )
+                }
             } else {
                 var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
                 var showCoursesPage by remember { mutableStateOf(false) }
-                var showProfessorsPage by remember { mutableStateOf(false) } // ✅ AJOUTÉ
+                var showProfessorsPage by remember { mutableStateOf(false) }
                 var coursesTitleSuffix by remember { mutableStateOf<String?>(null) }
                 var coursesResetCounter by remember { mutableStateOf(0) }
                 val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
                 val scope = rememberCoroutineScope()
                 val scroll = rememberScrollState()
+                var selectedCourseRef by remember { mutableStateOf<be.ecam.companion.ui.CourseRef?>(null) }
 
                 ModalNavigationDrawer(
                     drawerState = drawerState,
-                    gesturesEnabled = selectedScreen != BottomItem.CALENDAR && !showCoursesPage && !showProfessorsPage, // ✅ MODIFIÉ
+                    gesturesEnabled = selectedScreen != BottomItem.CALENDAR &&
+                            !showCoursesPage &&
+                            !showProfessorsPage,
                     drawerContent = {
                         ModalDrawerSheet(modifier = Modifier.width(280.dp)) {
                             Column(
@@ -77,8 +79,9 @@ fun App(extraModules: List<Module> = emptyList()) {
                                     .fillMaxHeight()
                                     .padding(vertical = 12.dp, horizontal = 16.dp),
                                 verticalArrangement = Arrangement.SpaceBetween
-                            ){
+                            ) {
                                 Column {
+                                    // --- Profile ---
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically,
                                         modifier = Modifier
@@ -99,16 +102,16 @@ fun App(extraModules: List<Module> = emptyList()) {
                                                     .size(56.dp)
                                                     .clip(CircleShape)
                                             )
-
                                         }
-                                        Text("  Nicoals Schell")
+                                        Spacer(Modifier.width(8.dp))
+                                        Text("Nicolas Schell")
                                     }
 
-                                    // --- Bouton Formations ---
+                                    // --- Formations ---
                                     Button(
                                         onClick = {
                                             showCoursesPage = true
-                                            showProfessorsPage = false // ✅ AJOUTÉ
+                                            showProfessorsPage = false
                                             coursesTitleSuffix = null
                                             coursesResetCounter++
                                             scope.launch { drawerState.close() }
@@ -120,7 +123,7 @@ fun App(extraModules: List<Module> = emptyList()) {
                                         Text("Formations")
                                     }
 
-                                    // --- ✅ Nouveau bouton Professeurs ---
+                                    // --- Professeurs ---
                                     Button(
                                         onClick = {
                                             showProfessorsPage = true
@@ -135,19 +138,18 @@ fun App(extraModules: List<Module> = emptyList()) {
                                     }
                                 }
 
-                                Spacer(Modifier.width(12.dp))
-                                Column (modifier = Modifier.verticalScroll(scroll)){
-                                    Text("Drawer content here") }
+                                Column(modifier = Modifier.verticalScroll(scroll)) {
+                                    Text("Drawer content here")
+                                }
+
                                 Column {
-                                    HorizontalDivider()
+                                    Divider()
                                     TextButton(
                                         onClick = {
-                                            scope.launch { drawerState.close()}
-                                            isLoggedIn=false;
-                                        },
-                                    ){
-                                        Text("Logout")
-                                    }
+                                            scope.launch { drawerState.close() }
+                                            isLoggedIn = false
+                                        }
+                                    ) { Text("Logout") }
                                 }
                             }
                         }
@@ -158,16 +160,19 @@ fun App(extraModules: List<Module> = emptyList()) {
                             TopAppBar(
                                 title = {
                                     when {
-                                        showCoursesPage -> {
-                                            val dynamicTitle = coursesTitleSuffix?.let { "Formations - $it" } ?: "Formations"
-                                            Text(dynamicTitle)
-                                        }
-                                        showProfessorsPage -> Text("Professeurs") // ✅ AJOUTÉ
+                                        showCoursesPage ->
+                                            Text(coursesTitleSuffix?.let { "Formations - $it" } ?: "Formations")
+
+                                        showProfessorsPage -> Text("Professeurs")
+
                                         else -> Text(selectedScreen.getLabel())
                                     }
                                 },
                                 navigationIcon = {
-                                    if (!showCoursesPage && !showProfessorsPage && selectedScreen == BottomItem.CALENDAR) { // ✅ MODIFIÉ
+                                    if (!showCoursesPage &&
+                                        !showProfessorsPage &&
+                                        selectedScreen == BottomItem.CALENDAR
+                                    ) {
                                         Spacer(Modifier)
                                     } else {
                                         IconButton(onClick = { scope.launch { drawerState.open() } }) {
@@ -184,15 +189,12 @@ fun App(extraModules: List<Module> = emptyList()) {
                                         selected = selectedScreen == item,
                                         onClick = {
                                             showCoursesPage = false
-                                            showProfessorsPage = false // ✅ AJOUTÉ
+                                            showProfessorsPage = false
                                             coursesTitleSuffix = null
                                             selectedScreen = item
                                         },
                                         icon = {
-                                            Icon(
-                                                item.getIconRes(),
-                                                contentDescription = item.getLabel()
-                                            )
+                                            Icon(item.getIconRes(), contentDescription = item.getLabel())
                                         },
                                         label = { Text(item.getLabel()) },
                                         alwaysShowLabel = true
@@ -201,10 +203,8 @@ fun App(extraModules: List<Module> = emptyList()) {
                             }
                         }
                     ) { paddingValues ->
-                        val baseModifier = Modifier
-                            .fillMaxSize()
-                            .padding(paddingValues)
-                            .padding(16.dp)
+                        val baseModifier =
+                            Modifier.fillMaxSize().padding(paddingValues).padding(16.dp)
 
                         when {
                             showCoursesPage -> {
@@ -215,12 +215,11 @@ fun App(extraModules: List<Module> = emptyList()) {
                                 )
                             }
 
-                            showProfessorsPage -> { // ✅ AJOUTÉ
+                            showProfessorsPage -> {
                                 ProfessorsScreen(modifier = baseModifier)
                             }
 
                             else -> {
-                                // Contenu principal
                                 Column(
                                     modifier = baseModifier.verticalScroll(rememberScrollState()),
                                     verticalArrangement = Arrangement.Top,
@@ -253,7 +252,10 @@ fun App(extraModules: List<Module> = emptyList()) {
 
                                         BottomItem.SETTINGS -> {
                                             val settingsRepo = koinInject<SettingsRepository>()
-                                            SettingsScreen(repo = settingsRepo, onSaved = { scope.launch { vm.load() } })
+                                            SettingsScreen(
+                                                repo = settingsRepo,
+                                                onSaved = { scope.launch { vm.load() } }
+                                            )
                                         }
                                     }
                                 }
@@ -267,18 +269,26 @@ fun App(extraModules: List<Module> = emptyList()) {
 }
 
 private enum class BottomItem {
-    HOME, CALENDAR, SETTINGS;
+    HOME,
+    CALENDAR,
+    SETTINGS;
 
     @Composable
-    fun getLabel() = when (this) {
-        HOME -> stringResource(Res.string.home)
-        CALENDAR -> stringResource(Res.string.calendar)
-        SETTINGS -> stringResource(Res.string.settings)
-    }
+    fun getLabel() =
+        when (this) {
+            HOME -> "Accueil"
+            CALENDAR -> "Calendrier"
+            SETTINGS -> "Paramètres"
+        }
 
-    fun getIconRes() = when (this) {
-        HOME -> Icons.Filled.Home
-        CALENDAR -> Icons.Filled.CalendarMonth
-        SETTINGS -> Icons.Filled.Settings
+    fun getIconRes() =
+        when (this) {
+            HOME -> Icons.Filled.Home
+            CALENDAR -> Icons.Filled.CalendarMonth
+            SETTINGS -> Icons.Filled.Settings
+        }
+
+    companion object {
+        val entries = values()
     }
 }

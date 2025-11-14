@@ -63,7 +63,8 @@ import kotlin.math.roundToInt
 fun CoursesScreen(
     modifier: Modifier = Modifier,
     resetTrigger: Int = 0,
-    onContextChange: (String?) -> Unit = {}
+    onContextChange: (String?) -> Unit = {},
+    onCourseSelected: (CourseRef) -> Unit = {} // 👈 now accepts CourseRef
 ) {
     val database by produceState<FormationDatabase?>(initialValue = null) {
         value = EcamFormationsRepository.load()
@@ -178,7 +179,11 @@ fun CoursesScreen(
                         inlineChips = true,
                         onBlockSelected = { block -> selectBlock(state.program, block) }
                     )
-                    BlockDetails(state.program, state.block)
+                    BlockDetails(
+                        program = state.program,
+                        block = state.block,
+                        onCourseSelected = { courseRef -> onCourseSelected(courseRef) }
+                    )
                 }
             }
         }
@@ -438,29 +443,26 @@ private fun BlockCard(
 }
 
 @Composable
-private fun BlockDetails(program: ProgramCardData, block: FormationBlock) {
-    val uriHandler = LocalUriHandler.current
-
-    Box(
-        modifier = Modifier.fillMaxWidth(),
-        contentAlignment = Alignment.Center
+private fun BlockDetails(
+    program: ProgramCardData,
+    block: FormationBlock,
+    onCourseSelected: (CourseRef) -> Unit // 🔹 now CourseRef
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .requiredWidthIn(max = 860.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .requiredWidthIn(max = 860.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-        ) {
-            Column(modifier = Modifier.padding(12.dp)) {
-                TableHeader()
-                Spacer(Modifier.height(8.dp))
-                block.courses.forEachIndexed { index, course ->
-                    CourseRow(
-                        course = course,
-                        striped = index % 2 == 0,
-                        onOpenDetails = { url -> uriHandler.openUri(url) }
-                    )
-                }
+        Column(modifier = Modifier.padding(12.dp)) {
+            TableHeader()
+            Spacer(Modifier.height(8.dp))
+            block.courses.forEachIndexed { index, course ->
+                CourseRow(
+                    course = course,
+                    striped = index % 2 == 0,
+                    onCourseSelected = onCourseSelected // 🔹 now passes CourseRef
+                )
             }
         }
     }
@@ -508,69 +510,36 @@ private fun TableHeader() {
 private fun CourseRow(
     course: FormationCourse,
     striped: Boolean,
-    onOpenDetails: (String) -> Unit
+    onCourseSelected: (CourseRef) -> Unit
 ) {
     val backgroundColor = if (striped) {
         MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
     } else {
         MaterialTheme.colorScheme.surface
     }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(backgroundColor, RoundedCornerShape(8.dp))
-            .padding(horizontal = 8.dp, vertical = 10.dp),
+            .padding(horizontal = 8.dp, vertical = 10.dp)
+            .clickable { onCourseSelected(CourseRef(course.code, course.detailsUrl)) }, // 🔹 envoie CourseRef
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = course.title,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.SemiBold
-            )
-            Text(
-                text = course.code,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Text(course.title, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
+            Text(course.code, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
+
         Box(
             modifier = Modifier.width(creditColumnWidth),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = course.credits.formatCredits(),
-                style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center
-            )
-        }
-        Box(
-            modifier = Modifier.width(periodColumnWidth),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = course.periods.filter { it.isNotBlank() }.joinToString(" - "),
-                style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center
-            )
-        }
-        Box(
-            modifier = Modifier.width(actionColumnWidth),
-            contentAlignment = Alignment.Center
-        ) {
-            course.detailsUrl?.let { url ->
-                OutlinedButton(
-                    onClick = { onOpenDetails(url) },
-                    modifier = Modifier.defaultMinSize(minWidth = actionButtonMinWidth)
-                ) {
-                    Text("Fiche")
-                }
-            }
+            Text(course.credits.formatCredits(), style = MaterialTheme.typography.bodyMedium)
         }
     }
     Spacer(Modifier.height(6.dp))
 }
-
 private data class ProgramCardData(
     val formation: Formation,
     val description: String,
@@ -656,6 +625,3 @@ private fun BlockChip(
         Text(block.name, style = MaterialTheme.typography.labelLarge)
     }
 }
-
-
-
