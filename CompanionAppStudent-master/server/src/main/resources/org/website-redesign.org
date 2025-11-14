@@ -1,5 +1,0 @@
-* Website Redesign
-** Milestones
-- [ ] Wireframes
-- [ ] Prototype
-- [ ] Launch

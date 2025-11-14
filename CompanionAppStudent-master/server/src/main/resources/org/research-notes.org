@@ -1,4 +1,0 @@
-* Research Notes
-- Compose Multiplatform
-- Org-mode parsing
-- Ktor server
