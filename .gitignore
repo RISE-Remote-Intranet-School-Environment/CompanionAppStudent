@@ -17,13 +17,10 @@ captures
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 bin/
-<<<<<<< HEAD
+android_emulator.sh
 
-# brouillon à ne pas ajouter
 notes.ipynb
 .vscode/
-server/data/
 
-=======
+
 android_emulator.sh
->>>>>>> d90c5d3a84ca892cc9a1e83538326c288b396e0c
