@@ -108,7 +108,7 @@ fun App(extraModules: List<Module> = emptyList()) {
                                             )
 
                                         }
-                                        Text("  Nicoals Schell")
+                                        Text("  Nicolas Schell")
                                     }
                                     Button(
                                         onClick = {
