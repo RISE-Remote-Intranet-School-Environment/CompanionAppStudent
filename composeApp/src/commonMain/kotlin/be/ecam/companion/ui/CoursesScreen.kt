@@ -5,16 +5,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredWidthIn
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -47,6 +47,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import be.ecam.companion.data.EcamFormationsRepository
 import be.ecam.companion.data.Formation
@@ -64,7 +65,7 @@ fun CoursesScreen(
     modifier: Modifier = Modifier,
     resetTrigger: Int = 0,
     onContextChange: (String?) -> Unit = {},
-    onCourseSelected: (CourseRef) -> Unit = {} // 👈 now accepts CourseRef
+    onCourseSelected: ((CourseRef) -> Unit)? = null
 ) {
     val database by produceState<FormationDatabase?>(initialValue = null) {
         value = EcamFormationsRepository.load()
@@ -72,6 +73,7 @@ fun CoursesScreen(
     val programs = remember(database) { database?.formations?.toProgramCards().orEmpty() }
     var uiState by remember { mutableStateOf<CoursesState>(CoursesState.ProgramList) }
     val scrollState = rememberScrollState()
+    var selectedCourseRef by remember { mutableStateOf<CourseRef?>(null) }
     val blockSelection = remember { mutableStateMapOf<String, String>() }
     var lastSelectedBlockName by remember { mutableStateOf<String?>(null) }
     val selectBlock: (ProgramCardData, FormationBlock) -> Unit = { program, block ->
@@ -106,14 +108,26 @@ fun CoursesScreen(
         is CoursesState.BlockDetail -> ""
     }
 
-    LaunchedEffect(uiState) {
-        when (val state = uiState) {
-            CoursesState.ProgramList -> onContextChange(null)
-            is CoursesState.ProgramDetail -> onContextChange(state.program.title)
-            is CoursesState.BlockDetail -> onContextChange(state.program.title)
+    val handlesDetailsInPlace = onCourseSelected == null
+    val tableCourseSelection: (CourseRef) -> Unit = onCourseSelected ?: { courseRef ->
+        selectedCourseRef = courseRef
+    }
+    val showingCourseDetails = handlesDetailsInPlace && selectedCourseRef != null
+
+    LaunchedEffect(uiState, selectedCourseRef, onCourseSelected) {
+        if (showingCourseDetails) {
+            val codeLabel = selectedCourseRef?.code?.takeIf { it.isNotBlank() } ?: "Fiche"
+            onContextChange("Fiche - $codeLabel")
+        } else {
+            when (val state = uiState) {
+                CoursesState.ProgramList -> onContextChange(null)
+                is CoursesState.ProgramDetail -> onContextChange(state.program.title)
+                is CoursesState.BlockDetail -> onContextChange(state.program.title)
+            }
         }
     }
     LaunchedEffect(resetTrigger) {
+        selectedCourseRef = null
         uiState = CoursesState.ProgramList
         if (scrollState.value != 0) {
             scrollState.scrollTo(0)
@@ -121,69 +135,77 @@ fun CoursesScreen(
     }
 
     Surface(modifier = modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = headerTitle,
-                style = MaterialTheme.typography.displayLarge,
-                textAlign = TextAlign.Center
+        if (showingCourseDetails) {
+            CoursesFicheScreen(
+                modifier = Modifier.fillMaxSize(),
+                courseRef = selectedCourseRef!!,
+                onBack = { selectedCourseRef = null }
             )
-            if (uiState !is CoursesState.ProgramList && headerSubtitle.isNotBlank()) {
-                Spacer(Modifier.height(4.dp))
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Text(
-                    text = headerSubtitle,
-                    style = MaterialTheme.typography.titleMedium,
+                    text = headerTitle,
+                    style = MaterialTheme.typography.displayLarge,
                     textAlign = TextAlign.Center
                 )
-            }
-            Spacer(Modifier.height(12.dp))
-            if (selectedProgram != null) {
-                FormationSelector(
-                    programs = programs,
-                    selectedProgram = selectedProgram,
-                    onProgramSelected = selectProgram
-                )
-                Spacer(Modifier.height(16.dp))
-            }
-            when (val state = uiState) {
-                CoursesState.ProgramList -> {
-                    IntroText(database)
-                    Spacer(Modifier.height(24.dp))
-                    if (database == null || programs.isEmpty()) {
-                        CircularProgressIndicator()
-                    } else {
-                        ProgramGrid(
-                            programs = programs,
-                            onProgramSelected = selectProgram
+                if (uiState !is CoursesState.ProgramList && headerSubtitle.isNotBlank()) {
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        text = headerSubtitle,
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Center
+                    )
+                }
+                Spacer(Modifier.height(12.dp))
+                if (selectedProgram != null) {
+                    FormationSelector(
+                        programs = programs,
+                        selectedProgram = selectedProgram,
+                        onProgramSelected = selectProgram
+                    )
+                    Spacer(Modifier.height(16.dp))
+                }
+                when (val state = uiState) {
+                    CoursesState.ProgramList -> {
+                        IntroText(database)
+                        Spacer(Modifier.height(24.dp))
+                        if (database == null || programs.isEmpty()) {
+                            CircularProgressIndicator()
+                        } else {
+                            ProgramGrid(
+                                programs = programs,
+                                onProgramSelected = selectProgram
+                            )
+                        }
+                    }
+
+                    is CoursesState.ProgramDetail -> {
+                        ProgramBlocks(
+                            program = state.program,
+                            onBlockSelected = { block -> selectBlock(state.program, block) }
                         )
                     }
-                }
 
-                is CoursesState.ProgramDetail -> {
-                    ProgramBlocks(
-                        program = state.program,
-                        onBlockSelected = { block -> selectBlock(state.program, block) }
-                    )
-                }
-
-                is CoursesState.BlockDetail -> {
-                    ProgramBlocks(
-                        program = state.program,
-                        selectedBlock = state.block,
-                        showIntro = false,
-                        inlineChips = true,
-                        onBlockSelected = { block -> selectBlock(state.program, block) }
-                    )
-                    BlockDetails(
-                        program = state.program,
-                        block = state.block,
-                        onCourseSelected = { courseRef -> onCourseSelected(courseRef) }
-                    )
+                    is CoursesState.BlockDetail -> {
+                        ProgramBlocks(
+                            program = state.program,
+                            selectedBlock = state.block,
+                            showIntro = false,
+                            inlineChips = true,
+                            onBlockSelected = { block -> selectBlock(state.program, block) }
+                        )
+                        BlockDetails(
+                            program = state.program,
+                            block = state.block,
+                            onCourseSelected = tableCourseSelection
+                        )
+                    }
                 }
             }
         }
@@ -446,30 +468,53 @@ private fun BlockCard(
 private fun BlockDetails(
     program: ProgramCardData,
     block: FormationBlock,
-    onCourseSelected: (CourseRef) -> Unit // 🔹 now CourseRef
+    onCourseSelected: (CourseRef) -> Unit
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .requiredWidthIn(max = 860.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-    ) {
-        Column(modifier = Modifier.padding(12.dp)) {
-            TableHeader()
-            Spacer(Modifier.height(8.dp))
-            block.courses.forEachIndexed { index, course ->
-                CourseRow(
-                    course = course,
-                    striped = index % 2 == 0,
-                    onCourseSelected = onCourseSelected // 🔹 now passes CourseRef
-                )
+    BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+        val creditWidth = remember(maxWidth) {
+            when {
+                maxWidth < 400.dp -> 48.dp
+                maxWidth < 560.dp -> 56.dp
+                else -> baseCreditColumnWidth
+            }
+        }
+        val periodWidth = remember(maxWidth) {
+            when {
+                maxWidth < 400.dp -> 88.dp
+                maxWidth < 560.dp -> 108.dp
+                else -> basePeriodColumnWidth
+            }
+        }
+        val tableWidth = remember(maxWidth) { maxWidth.coerceAtMost(800.dp) } // maxwidth table
+
+        Card(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .width(tableWidth),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        ) {
+            Column(modifier = Modifier.padding(12.dp)) {
+                TableHeader(creditWidth, periodWidth)
+                Spacer(Modifier.height(8.dp))
+                block.courses.forEachIndexed { index, course ->
+                    CourseRow(
+                        course = course,
+                        striped = index % 2 == 0,
+                        creditWidth = creditWidth,
+                        periodWidth = periodWidth,
+                        onCourseSelected = onCourseSelected
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-private fun TableHeader() {
+private fun TableHeader(
+    creditWidth: Dp,
+    periodWidth: Dp
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -482,7 +527,7 @@ private fun TableHeader() {
             modifier = Modifier.weight(1f)
         )
         Box(
-            modifier = Modifier.width(creditColumnWidth),
+            modifier = Modifier.width(creditWidth),
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -492,7 +537,7 @@ private fun TableHeader() {
             )
         }
         Box(
-            modifier = Modifier.width(periodColumnWidth),
+            modifier = Modifier.width(periodWidth),
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -501,15 +546,15 @@ private fun TableHeader() {
                 textAlign = TextAlign.Center
             )
         }
-        Spacer(Modifier.width(actionColumnWidth))
     }
 }
-
 
 @Composable
 private fun CourseRow(
     course: FormationCourse,
     striped: Boolean,
+    creditWidth: Dp,
+    periodWidth: Dp,
     onCourseSelected: (CourseRef) -> Unit
 ) {
     val backgroundColor = if (striped) {
@@ -523,19 +568,48 @@ private fun CourseRow(
             .fillMaxWidth()
             .background(backgroundColor, RoundedCornerShape(8.dp))
             .padding(horizontal = 8.dp, vertical = 10.dp)
-            .clickable { onCourseSelected(CourseRef(course.code, course.detailsUrl)) }, // 🔹 envoie CourseRef
+            .clickable { onCourseSelected(CourseRef(course.code, course.detailsUrl)) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            Text(course.title, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
-            Text(course.code, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(
+                text = course.title,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = course.code,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
 
         Box(
-            modifier = Modifier.width(creditColumnWidth),
+            modifier = Modifier.width(creditWidth),
             contentAlignment = Alignment.Center
         ) {
-            Text(course.credits.formatCredits(), style = MaterialTheme.typography.bodyMedium)
+            Text(
+                text = course.credits.formatCredits(),
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center
+            )
+        }
+
+        val periodsLabel = course.periods
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+            .ifEmpty { listOf("-") }
+            .joinToString(" - ")
+
+        Box(
+            modifier = Modifier.width(periodWidth),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = periodsLabel,
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center
+            )
         }
     }
     Spacer(Modifier.height(6.dp))
@@ -566,10 +640,8 @@ private val formationOrder = listOf(
     "business_analyst"
 )
 
-private val creditColumnWidth = 70.dp
-private val periodColumnWidth = 120.dp
-private val actionColumnWidth = 110.dp
-private val actionButtonMinWidth = 88.dp
+private val baseCreditColumnWidth = 70.dp
+private val basePeriodColumnWidth = 120.dp
 
 private val formationDescriptions = mapOf(
     "automatisation" to "Robotique, capteurs intelligents et pilotage de chaines de production.",
@@ -625,3 +697,9 @@ private fun BlockChip(
         Text(block.name, style = MaterialTheme.typography.labelLarge)
     }
 }
+
+
+
+
+
+

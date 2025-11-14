@@ -152,7 +152,11 @@ fun CourseDetailScreen(course: CourseDetail) {
     }
 }
 @Composable
-fun CoursesFicheScreen(courseRef: CourseRef, onBack: () -> Unit) {
+fun CoursesFicheScreen(
+    courseRef: CourseRef,
+    onBack: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val allCourses = rememberCoursesDetails()
     val query = courseRef.code.trim()
 
@@ -183,7 +187,11 @@ fun CoursesFicheScreen(courseRef: CourseRef, onBack: () -> Unit) {
     }
 
     if (course == null) {
-        Column(Modifier.fillMaxSize().padding(16.dp)) {
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
             OutlinedButton(onClick = onBack) { Text("← Retour") }
             Spacer(Modifier.height(8.dp))
 
@@ -222,7 +230,7 @@ fun CoursesFicheScreen(courseRef: CourseRef, onBack: () -> Unit) {
         }
     } else {
         Column(
-            Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
