@@ -23,6 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
+    onNavigateToRegister: () -> Unit, // ← nouveau paramètre
     viewModel: LoginViewModel = remember { LoginViewModel() }
 ) {
     var email by remember { mutableStateOf("") }
@@ -31,7 +32,6 @@ fun LoginScreen(
     val passwordFocusRequester = remember { FocusRequester() }
     val buttonFocusRequester = remember { FocusRequester() }
 
-    // Afficher message d’erreur ou succès
     LaunchedEffect(viewModel.loginSuccess) {
         if (viewModel.loginSuccess) {
             onLoginSuccess()
@@ -47,17 +47,20 @@ fun LoginScreen(
                 onPasswordChange = { password = it },
                 onLoginClick = {
                     if (email.isNotBlank() && password.isNotBlank()) {
-                        viewModel.login(
-                            emailOrUsername = email,
-                            password = password
-                        )
-                        
+                        viewModel.login(emailOrUsername = email, password = password)
                     }
                 },
-                onMicrosoftLoginClick = { /* TODO: lancer OAuth Microsoft */ },
+                onMicrosoftLoginClick = { /* OAuth Microsoft */ },
                 passwordFocusRequester = passwordFocusRequester,
                 buttonFocusRequester = buttonFocusRequester
             )
+
+            Spacer(Modifier.height(16.dp))
+
+            // Bouton pour aller à l'inscription
+            TextButton(onClick = onNavigateToRegister) {
+                Text("Pas encore de compte ? Inscrivez-vous")
+            }
 
             Spacer(Modifier.height(16.dp))
 
@@ -158,6 +161,8 @@ fun LoginCard(
             }
 
             Spacer(Modifier.height(16.dp))
+
+            
 
             // Bouton Microsoft
             Button(
