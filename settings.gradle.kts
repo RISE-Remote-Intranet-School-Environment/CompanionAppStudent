@@ -16,6 +16,8 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
+    // This is the modern, idiomatic way to enforce a centralized repository configuration.
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google {
             mavenContent {
@@ -25,6 +27,11 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        // Explicitly reject any attempts to use the defunct JCenter repository.
+        // Some older plugins might try to add it transitively.
+        jcenter {
+            content {-never()}
+        }
     }
 }
 
