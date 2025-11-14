@@ -51,7 +51,7 @@
             enable = mkEnableOption "Companion App Backend";
             port = mkOption {
               type = types.int;
-              default = 8080;
+              default = 8081;
             };
             user = mkOption {
               type = types.str;
