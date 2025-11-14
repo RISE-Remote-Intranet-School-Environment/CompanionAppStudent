@@ -18,6 +18,7 @@ import be.ecam.companion.viewmodel.LoginViewModel
 @Composable
 fun RegisterScreen(
     onRegisterSuccess: () -> Unit,
+    onNavigateToLogin: () -> Unit, // ← nouveau paramètre
     viewModel: LoginViewModel = remember { LoginViewModel() }
 ) {
     var username by remember { mutableStateOf("") }
@@ -27,7 +28,6 @@ fun RegisterScreen(
     val passwordFocusRequester = remember { FocusRequester() }
     val buttonFocusRequester = remember { FocusRequester() }
 
-    // Afficher message de succès
     LaunchedEffect(viewModel.loginSuccess) {
         if (viewModel.loginSuccess) {
             onRegisterSuccess()
@@ -45,16 +45,19 @@ fun RegisterScreen(
                 onPasswordChange = { password = it },
                 onRegisterClick = {
                     if (username.isNotBlank() && email.isNotBlank() && password.isNotBlank()) {
-                        viewModel.register(
-                            username = username,
-                            email = email,
-                            password = password
-                        )
+                        viewModel.register(username, email, password)
                     }
                 },
                 passwordFocusRequester = passwordFocusRequester,
                 buttonFocusRequester = buttonFocusRequester
             )
+
+            Spacer(Modifier.height(16.dp))
+
+            // Bouton pour aller à la connexion
+            TextButton(onClick = onNavigateToLogin) {
+                Text("Vous avez déjà un compte ? Connectez-vous")
+            }
 
             Spacer(Modifier.height(16.dp))
 
@@ -70,6 +73,7 @@ fun RegisterScreen(
         }
     }
 }
+
 
 @Composable
 fun RegisterCard(
