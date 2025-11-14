@@ -18,7 +18,7 @@ captures
 **/xcshareddata/WorkspaceSettings.xcsettings
 bin/
 
-# brouillon à ne pas ajouter
 notes.ipynb
 .vscode/
 
+android_emulator.sh

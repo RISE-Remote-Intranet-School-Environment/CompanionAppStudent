@@ -300,7 +300,7 @@ data class AuthResponse<T>(
 
 2) Service d’authentification
 
-Créer server/src/main/kotlin/be/ecam/server/services/authService.kt :
+Créer server/src/main/kotlin/be/ecam/server//services/authService.kt :
 
 ```kotlin
 package be.ecam.server.services
@@ -460,3 +460,16 @@ if (environment.config.propertyOrNull("app.devMode")?.getString() == "true") {
 - Ajouter un plugin Ktor Authentication avec jwt { ... }
 
 On traitera JWT juste après (clé secrète, issuer/audience, durée, middleware, test).
+
+---
+
+## vendredi 14/11/25
+- En premier j'ai récupérer les commit depuis master dossier `composeApp\src\commonMain\composeResources\files`
+
+- En suite comme *Objectif :* je dois terminier:
+- le `CRUD` côté Admin
+- Ajouter les models des files ainsi les jsons.
+- Date : `avant : le 21/11/25`
+
+---
+
