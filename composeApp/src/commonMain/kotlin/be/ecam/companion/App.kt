@@ -2,12 +2,14 @@ package be.ecam.companion
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
@@ -24,15 +26,12 @@ import be.ecam.companion.ui.CoursesScreen
 import be.ecam.companion.ui.LoginScreen
 import be.ecam.companion.ui.RegisterScreen
 import be.ecam.companion.ui.SettingsScreen
+import be.ecam.companion.ui.UserDashboardScreen
 import be.ecam.companion.viewmodel.HomeViewModel
 import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.calendar
-import companion.composeapp.generated.resources.home
 import companion.composeapp.generated.resources.nicolas
-import companion.composeapp.generated.resources.settings
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.module.Module
@@ -43,32 +42,22 @@ fun App(extraModules: List<Module> = emptyList()) {
     KoinApplication(application = { modules(appModule + extraModules) }) {
         val vm = koinInject<HomeViewModel>()
         MaterialTheme {
-            // ✅ Ajout d’un état pour gérer la connexion
             var isLoggedIn by remember { mutableStateOf(false) }
-            var showRegister by remember { mutableStateOf(false) } // ← nouvel état
+            var showRegister by remember { mutableStateOf(false) }
 
             if (!isLoggedIn) {
                 if (showRegister) {
-                    // --- Écran d'inscription ---
                     RegisterScreen(
-                        onRegisterSuccess = { isLoggedIn = true }
+                            onRegisterSuccess = { isLoggedIn = true },
+                            onNavigateToLogin = { showRegister = false }
                     )
-                    Spacer(Modifier.height(16.dp))
-                    TextButton(onClick = { showRegister = false }) {
-                        Text("Vous avez déjà un compte ? Connectez-vous")
-                    }
                 } else {
-                    // --- Écran de connexion ---
                     LoginScreen(
-                        onLoginSuccess = { isLoggedIn = true }
+                            onLoginSuccess = { isLoggedIn = true },
+                            onNavigateToRegister = { showRegister = true }
                     )
-                    Spacer(Modifier.height(16.dp))
-                    TextButton(onClick = { showRegister = true }) {
-                        Text("Pas encore de compte ? Inscrivez-vous")
-                    }
                 }
-            }  else {
-                // --- Interface principale ---
+            } else {
                 var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
                 var showCoursesPage by remember { mutableStateOf(false) }
                 var coursesTitleSuffix by remember { mutableStateOf<String?>(null) }
@@ -94,11 +83,19 @@ fun App(extraModules: List<Module> = emptyList()) {
                                         verticalArrangement = Arrangement.SpaceBetween
                                 ) {
                                     Column {
+                                        // --- Photo de profil cliquable vers Dashboard ---
                                         Row(
                                                 verticalAlignment = Alignment.CenterVertically,
                                                 modifier =
                                                         Modifier.fillMaxWidth()
                                                                 .padding(bottom = 8.dp)
+                                                                .clickable {
+                                                                    selectedScreen =
+                                                                            BottomItem.DASHBOARD
+                                                                    scope.launch {
+                                                                        drawerState.close()
+                                                                    }
+                                                                }
                                         ) {
                                             Box(
                                                     modifier =
@@ -122,8 +119,10 @@ fun App(extraModules: List<Module> = emptyList()) {
                                                                         .clip(CircleShape)
                                                 )
                                             }
-                                            Text("  Nicoals Schell")
+                                            Spacer(Modifier.width(8.dp))
+                                            Text("Nicolas Schell")
                                         }
+
                                         Button(
                                                 onClick = {
                                                     showCoursesPage = true
@@ -135,13 +134,14 @@ fun App(extraModules: List<Module> = emptyList()) {
                                                         Modifier.fillMaxWidth().padding(top = 16.dp)
                                         ) { Text("Formations") }
                                     }
+
                                     Spacer(Modifier.width(12.dp))
                                     Column(modifier = Modifier.verticalScroll(scroll)) {
-                                        // verticalArrangement = Arrangement.Top
                                         Text("Drawer content here")
                                     }
+
                                     Column {
-                                        HorizontalDivider()
+                                        Divider()
                                         TextButton(
                                                 onClick = {
                                                     scope.launch { drawerState.close() }
@@ -191,22 +191,25 @@ fun App(extraModules: List<Module> = emptyList()) {
                             bottomBar = {
                                 NavigationBar {
                                     BottomItem.entries.forEach { item ->
-                                        NavigationBarItem(
-                                                selected = selectedScreen == item,
-                                                onClick = {
-                                                    showCoursesPage = false
-                                                    coursesTitleSuffix = null
-                                                    selectedScreen = item
-                                                },
-                                                icon = {
-                                                    Icon(
-                                                            item.getIconRes(),
-                                                            contentDescription = item.getLabel()
-                                                    )
-                                                },
-                                                label = { Text(item.getLabel()) },
-                                                alwaysShowLabel = true
-                                        )
+                                        if (item != BottomItem.DASHBOARD
+                                        ) { // on n'affiche pas l'item dashboard dans la bottom bar
+                                            NavigationBarItem(
+                                                    selected = selectedScreen == item,
+                                                    onClick = {
+                                                        showCoursesPage = false
+                                                        coursesTitleSuffix = null
+                                                        selectedScreen = item
+                                                    },
+                                                    icon = {
+                                                        Icon(
+                                                                item.getIconRes(),
+                                                                contentDescription = item.getLabel()
+                                                        )
+                                                    },
+                                                    label = { Text(item.getLabel()) },
+                                                    alwaysShowLabel = true
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -221,9 +224,7 @@ fun App(extraModules: List<Module> = emptyList()) {
                                     onContextChange = { coursesTitleSuffix = it }
                             )
                         } else {
-                            // Contenu principal
                             Column(
-                                    modifier = baseModifier.verticalScroll(rememberScrollState()),
                                     verticalArrangement = Arrangement.Top,
                                     horizontalAlignment = Alignment.CenterHorizontally
                             ) {
@@ -260,6 +261,12 @@ fun App(extraModules: List<Module> = emptyList()) {
                                                 onSaved = { scope.launch { vm.load() } }
                                         )
                                     }
+                                    BottomItem.DASHBOARD -> {
+                                        UserDashboardScreen(
+                                                isAdmin = false,
+                                                modifier = Modifier.padding(paddingValues)
+                                        ) // mock pour le moment
+                                    }
                                 }
                             }
                         }
@@ -273,14 +280,16 @@ fun App(extraModules: List<Module> = emptyList()) {
 private enum class BottomItem {
     HOME,
     CALENDAR,
-    SETTINGS;
+    SETTINGS,
+    DASHBOARD; // nouvel item dashboard
 
     @Composable
     fun getLabel() =
             when (this) {
-                HOME -> stringResource(Res.string.home)
-                CALENDAR -> stringResource(Res.string.calendar)
-                SETTINGS -> stringResource(Res.string.settings)
+                HOME -> "Accueil"
+                CALENDAR -> "Calendrier"
+                SETTINGS -> "Paramètres"
+                DASHBOARD -> "Dashboard"
             }
 
     fun getIconRes() =
@@ -288,5 +297,10 @@ private enum class BottomItem {
                 HOME -> Icons.Filled.Home
                 CALENDAR -> Icons.Filled.CalendarMonth
                 SETTINGS -> Icons.Filled.Settings
+                DASHBOARD -> Icons.Filled.Dashboard
             }
+
+    companion object {
+        val entries = values()
+    }
 }
