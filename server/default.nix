@@ -11,11 +11,11 @@ pkgs.stdenv.mkDerivation (finalAttrs: {
   installPhase = ''
     # The buildGradlePackage hook places the final JAR in a predictable location.
     mkdir -p $out/bin
-    ln -s ${buildGradlePackage}/share/java/*.jar $out/bin/server.jar
-    cat > $out/bin/server <<EOF
+    ln -s ${buildGradlePackage}/share/java/*.jar $out/bin/companion-backend.jar
+    cat > $out/bin/companion-backend <<EOF
     #!/bin/sh
-    exec ${pkgs.jre}/bin/java -jar $out/bin/server.jar
+    exec ${pkgs.jre}/bin/java -jar $out/bin/companion-backend.jar
     EOF
-    chmod +x $out/bin/server
+    chmod +x $out/bin/companion-backend
   '';
 })

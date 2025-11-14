@@ -17,21 +17,29 @@
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
 
-      # Define the package using gradle2nix's builder
+      # Package direct avec buildGradlePackage
       companion-backend-pkg = gradle2nix.builders.${system}.buildGradlePackage {
         pname = "companion-backend";
-        version = "0.1.0"; # Set a version for your package
+        version = "0.1.0";
         src = ./.;
         lockFile = ./gradle.lock;
-        gradleBuildTasks = [ ":server:shadowJar" ];
-        # The installPhase is now handled by gradle2nix's setup hook
+        gradleBuildFlags = [ ":server:shadowJar" ];
+
+        # Ajoutez cette phase pour installer le JAR
+        installPhase = ''
+          mkdir -p $out/share/java
+          cp server/build/libs/*.jar $out/share/java/
+        '';
       };
     in
     {
+      # The final, runnable package that includes the wrapper script.
+      # This is what `nix build .#` and `nix run .#` will target.
       packages.${system}.default = pkgs.callPackage ./server/default.nix {
         buildGradlePackage = companion-backend-pkg;
       };
 
+      # Module NixOS ajusté pour lancer manuellement le JAR
       nixosModules.default =
         { config, lib, ... }:
         with lib;
@@ -51,7 +59,7 @@
             systemd.services.companion-backend = {
               wantedBy = [ "multi-user.target" ];
               serviceConfig = {
-                ExecStart = "${self.packages.${system}.default}/bin/server";
+                ExecStart = "${pkgs.jre}/bin/java -jar ${companion-backend-pkg}/share/java/server-*.jar";
                 WorkingDirectory = "/var/lib/companion-backend";
                 User = "companion-backend";
                 Group = "companion-backend";
