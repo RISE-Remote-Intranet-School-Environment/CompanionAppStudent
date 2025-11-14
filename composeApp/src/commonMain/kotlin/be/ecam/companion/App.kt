@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
@@ -58,6 +59,7 @@ import be.ecam.companion.ui.LoginScreen
 import be.ecam.companion.ui.RegisterScreen
 import be.ecam.companion.ui.SettingsScreen
 import be.ecam.companion.ui.ProfessorsScreen
+import be.ecam.companion.ui.UserDashboardScreen
 import be.ecam.companion.viewmodel.HomeViewModel
 import companion.composeapp.generated.resources.Res
 import companion.composeapp.generated.resources.nicolas
@@ -96,7 +98,8 @@ fun App(extraModules: List<Module> = emptyList()) {
                 var coursesResetCounter by remember { mutableStateOf(0) }
                 val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
                 val scope = rememberCoroutineScope()
-                val scroll = rememberScrollState()
+                val drawerScroll = rememberScrollState()
+                val contentScroll = rememberScrollState()
 
                 ModalNavigationDrawer(
                         drawerState = drawerState,
@@ -177,12 +180,12 @@ fun App(extraModules: List<Module> = emptyList()) {
                                     }
 
                                     Spacer(Modifier.width(12.dp))
-                                    Column(modifier = Modifier.verticalScroll(scroll)) {
+                                        Column(modifier = Modifier.verticalScroll(drawerScroll)) {
                                         Text("Drawer content here")
                                     }
 
                                     Column {
-                                        Divider()
+                                        HorizontalDivider()
                                         TextButton(
                                                 onClick = {
                                                     scope.launch { drawerState.close() }
@@ -212,22 +215,15 @@ fun App(extraModules: List<Module> = emptyList()) {
                                             }
                                         },
                                         navigationIcon = {
-                                            if (!showCoursesPage &&
-                                                            !showProfessorsPage &&
-                                                            selectedScreen == BottomItem.CALENDAR
+                                            IconButton(
+                                                    onClick = {
+                                                        scope.launch { drawerState.open() }
+                                                    }
                                             ) {
-                                                Spacer(Modifier)
-                                            } else {
-                                                IconButton(
-                                                        onClick = {
-                                                            scope.launch { drawerState.open() }
-                                                        }
-                                                ) {
-                                                    Icon(
-                                                            Icons.Filled.Menu,
-                                                            contentDescription = "Open drawer"
-                                                    )
-                                                }
+                                                Icon(
+                                                        Icons.Filled.Menu,
+                                                        contentDescription = "Open drawer"
+                                                )
                                             }
                                         }
                                 )
@@ -271,52 +267,53 @@ fun App(extraModules: List<Module> = emptyList()) {
                                 )
                             }
                             showProfessorsPage -> {
-                                ProfessorsScreen(modifier = baseModifier)
+                                ProfessorsScreen(baseModifier)
                             }
                             else -> {
-                                Column(
-                                        verticalArrangement = Arrangement.Top,
-                                        horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    when (selectedScreen) {
-                                        BottomItem.HOME -> {
-                                            LaunchedEffect(Unit) { vm.load() }
-                                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                                Text(
-                                                        text = selectedScreen.getLabel(),
-                                                        style = MaterialTheme.typography.titleLarge
-                                                )
-                                                Spacer(Modifier.height(12.dp))
-                                                if (vm.lastErrorMessage.isNotEmpty()) {
-                                                    Text(
-                                                            vm.lastErrorMessage,
-                                                            color = MaterialTheme.colorScheme.error
-                                                    )
-                                                    Spacer(Modifier.height(8.dp))
-                                                }
-                                                Text(vm.helloMessage)
-                                            }
-                                        }
-                                        BottomItem.CALENDAR -> {
-                                            LaunchedEffect(Unit) { vm.load() }
-                                            CalendarScreen(
-                                                    modifier = Modifier.fillMaxSize(),
-                                                    scheduledByDate = vm.scheduledByDate
+                                when (selectedScreen) {
+                                    BottomItem.HOME -> {
+                                        LaunchedEffect(Unit) { vm.load() }
+                                        Column(
+                                                modifier = baseModifier.verticalScroll(contentScroll),
+                                                verticalArrangement = Arrangement.Top,
+                                                horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            Text(
+                                                    text = selectedScreen.getLabel(),
+                                                    style = MaterialTheme.typography.titleLarge
                                             )
+                                            Spacer(Modifier.height(12.dp))
+                                            if (vm.lastErrorMessage.isNotEmpty()) {
+                                                Text(
+                                                        vm.lastErrorMessage,
+                                                        color = MaterialTheme.colorScheme.error
+                                                )
+                                                Spacer(Modifier.height(8.dp))
+                                            }
+                                            Text(vm.helloMessage)
                                         }
-                                        BottomItem.SETTINGS -> {
-                                            val settingsRepo = koinInject<SettingsRepository>()
+                                    }
+                                    BottomItem.CALENDAR -> {
+                                        LaunchedEffect(Unit) { vm.load() }
+                                        CalendarScreen(
+                                                modifier = baseModifier,
+                                                scheduledByDate = vm.scheduledByDate
+                                        )
+                                    }
+                                    BottomItem.SETTINGS -> {
+                                        val settingsRepo = koinInject<SettingsRepository>()
+                                        Box(modifier = baseModifier) {
                                             SettingsScreen(
                                                     repo = settingsRepo,
                                                     onSaved = { scope.launch { vm.load() } }
                                             )
                                         }
-                                        BottomItem.DASHBOARD -> {
-                                            UserDashboardScreen(
-                                                    isAdmin = false,
-                                                    modifier = Modifier.padding(paddingValues)
-                                            ) // mock pour le moment
-                                        }
+                                    }
+                                    BottomItem.DASHBOARD -> {
+                                        UserDashboardScreen(
+                                                isAdmin = false,
+                                                modifier = baseModifier
+                                        ) // mock pour le moment
                                     }
                                 }
                             }
