@@ -53,27 +53,37 @@
               type = types.int;
               default = 8080;
             };
+            user = mkOption {
+              type = types.str;
+              default = "companion-backend";
+            };
+            group = mkOption {
+              type = types.str;
+              default = "companion-backend";
+            };
           };
 
           config = mkIf cfg.enable {
             systemd.services.companion-backend = {
               wantedBy = [ "multi-user.target" ];
               serviceConfig = {
-                ExecStart = "${pkgs.jre}/bin/java -jar ${companion-backend-pkg}/share/java/server-*.jar";
-                WorkingDirectory = "/var/lib/companion-backend";
-                User = "companion-backend";
-                Group = "companion-backend";
+                ExecStart = "${companion-backend-pkg}/bin/server";
+                WorkingDirectory = "/var/lib/${cfg.user}";
+                User = cfg.user;
+                Group = cfg.group;
               };
               environment = {
                 PORT = toString cfg.port;
               };
             };
 
-            users.users.companion-backend = {
+            users.users.${cfg.user} = {
               isSystemUser = true;
-              group = "companion-backend";
+              group = cfg.group;
+              home = "/var/lib/${cfg.user}";
+              createHome = true;
             };
-            users.groups.companion-backend = { };
+            users.groups.${cfg.group} = { };
           };
         };
     };
