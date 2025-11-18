@@ -1,4 +1,4 @@
-package be.ecam.companion.ui
+package be.ecam.companion.ui.screens
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
