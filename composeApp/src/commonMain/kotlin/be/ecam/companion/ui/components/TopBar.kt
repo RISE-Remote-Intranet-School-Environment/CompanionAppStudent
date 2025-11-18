@@ -13,26 +13,26 @@ import androidx.compose.foundation.layout.Spacer
 fun TopBar(
     selectedScreen: BottomItem,
     showCoursesPage: Boolean,
+    showProfessorsPage: Boolean,
     coursesTitleSuffix: String?,
     onMenuClick: () -> Unit
 ) {
     TopAppBar(
         title = {
-            if (showCoursesPage) {
-                val dynamicTitle = coursesTitleSuffix?.let { "Formations - $it" } ?: "Formations"
-                Text(dynamicTitle)
-            } else {
-                Text(selectedScreen.getLabel())
+            when {
+                showCoursesPage ->
+                    Text(coursesTitleSuffix?.let { "Formations - $it" } ?: "Formations")
+
+                showProfessorsPage ->
+                    Text("Professeurs")
+
+                else ->
+                    Text(selectedScreen.getLabel())
             }
         },
         navigationIcon = {
-            // Pas d’icône dans le calendrier
-            if (!showCoursesPage && selectedScreen == BottomItem.CALENDAR) {
-                Spacer(Modifier)
-            } else {
-                IconButton(onClick = onMenuClick) {
-                    Icon(Icons.Filled.Menu, contentDescription = "Open drawer")
-                }
+            IconButton(onClick = onMenuClick) {
+                Icon(Icons.Filled.Menu, contentDescription = "Open drawer")
             }
         }
     )

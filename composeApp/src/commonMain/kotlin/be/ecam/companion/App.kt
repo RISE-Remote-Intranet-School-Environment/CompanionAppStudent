@@ -15,7 +15,15 @@ import be.ecam.companion.di.appModule
 
 import be.ecam.companion.ui.components.*
 
-import be.ecam.companion.ui.screens.*
+import be.ecam.companion.ui.screens.CalendarScreen
+import be.ecam.companion.ui.screens.CoursesScreen
+import be.ecam.companion.ui.screens.HomeScreen
+import be.ecam.companion.ui.screens.LoginScreen
+import be.ecam.companion.ui.screens.RegisterScreen
+import be.ecam.companion.ui.screens.SettingsScreen
+import be.ecam.companion.ui.screens.UserDashboardScreen
+import be.ecam.companion.ui.screens.ProfessorsScreen
+
 
 import be.ecam.companion.viewmodel.HomeViewModel
 
@@ -104,7 +112,7 @@ fun App(extraModules: List<Module> = emptyList()) {
                     },
                     bottomBar = {
                         BottomBar(
-                            selectedScreen = selectedScreen,
+                            selected = selectedScreen,
                             onSelect = { item ->
                                 showCoursesPage = false
                                 showProfessorsPage = false

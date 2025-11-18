@@ -4,106 +4,112 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import companion.composeapp.generated.resources.Res
 import companion.composeapp.generated.resources.nicolas
-import be.ecam.companion.ui.components.BottomItem
 
 @Composable
 fun AppDrawer(
-    drawerState: DrawerState,
-    scope: CoroutineScope,
-    onNavigateToDashboard: () -> Unit,
-    onNavigateToCourses: () -> Unit,
+    onSelectDashboard: () -> Unit,
+    onSelectCourses: () -> Unit,
+    onSelectProfessors: () -> Unit,
     onLogout: () -> Unit
 ) {
-    val scroll = rememberScrollState()
+    val scrollState = rememberScrollState()
 
-    ModalDrawerSheet(modifier = Modifier.width(280.dp)) {
+    ModalDrawerSheet(
+        modifier = Modifier.width(280.dp)
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxHeight()
-                .padding(vertical = 12.dp, horizontal = 16.dp),
+                .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-
-            // --- Top section ---
             Column {
+                DrawerProfileSection(onSelectDashboard)
+                Spacer(Modifier.height(8.dp))
 
-                // --- Profile clickable area ---
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 8.dp)
-                        .clickable {
-                            onNavigateToDashboard()
-                            scope.launch { drawerState.close() }
-                        }
-                ) {
-
-                    Box(
-                        modifier = Modifier
-                            .size(56.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.primary),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Image(
-                            painter = painterResource(Res.drawable.nicolas),
-                            contentDescription = "Profile Picture",
-                            modifier = Modifier
-                                .size(56.dp)
-                                .clip(CircleShape)
-                        )
-                    }
-
-                    Spacer(Modifier.width(8.dp))
-                    Text("Nicolas Schell")
-                }
-
-                // --- Formations button ---
                 Button(
-                    onClick = {
-                        onNavigateToCourses()
-                        scope.launch { drawerState.close() }
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp)
+                    onClick = onSelectCourses,
+                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
                 ) {
                     Text("Formations")
                 }
+
+                Button(
+                    onClick = onSelectProfessors,
+                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                ) {
+                    Text("Professeurs")
+                }
+
+                Spacer(Modifier.height(16.dp))
+                DrawerExtraScrollableSection(scrollState)
             }
 
-            Spacer(Modifier.height(12.dp))
+            DrawerLogoutSection(onLogout)
+        }
+    }
+}
 
-            // --- Middle scrollable content ---
-            Column(modifier = Modifier.verticalScroll(scroll)) {
-                Text("Drawer content here")
-            }
+@Composable
+private fun DrawerProfileSection(onSelectDashboard: () -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onSelectDashboard() }
+            .padding(bottom = 8.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(56.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.primary),
+            contentAlignment = Alignment.Center
+        ) {
+            Image(
+                painter = painterResource(Res.drawable.nicolas),
+                contentDescription = "Profile Picture",
+                modifier = Modifier.size(56.dp).clip(CircleShape)
+            )
+        }
+        Spacer(Modifier.width(8.dp))
+        Text("Nicolas Schell")
+    }
+}
 
-            // --- Bottom section ---
-            Column {
-                HorizontalDivider()
-                TextButton(
-                    onClick = {
-                        scope.launch { drawerState.close() }
-                        onLogout()
-                    }
-                ) { Text("Logout") }
-            }
+@Composable
+private fun DrawerExtraScrollableSection(scrollState: androidx.compose.foundation.ScrollState) {
+    Column(
+        modifier = Modifier
+            .verticalScroll(scrollState)
+            .padding(top = 12.dp)
+    ) {
+        Text("Drawer content here")
+        Spacer(Modifier.height(400.dp)) // Exemple, à remplacer par un vrai contenu
+    }
+}
+
+@Composable
+private fun DrawerLogoutSection(onLogout: () -> Unit) {
+    Column {
+        HorizontalDivider()
+        TextButton(
+            onClick = onLogout,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Logout")
         }
     }
 }
