@@ -21,6 +21,7 @@ android_emulator.sh
 
 notes.ipynb
 .vscode/
+.instructions.md
 
 
 android_emulator.sh

@@ -1,39 +1,72 @@
 package be.ecam.server.routes
 
-// === ROUTES for authentication (register/login) of Admin users ===
-import be.ecam.server.models.* // import DTOs
+import be.ecam.server.models.AuthResponse
+import be.ecam.server.models.AuthUserDTO
+import be.ecam.server.models.LoginRequest
+import be.ecam.server.models.RegisterRequest
 import be.ecam.server.services.AuthService
-import io.ktor.http.* // for HttpStatusCode
-import io.ktor.server.application.* // for ApplicationCall
+import io.ktor.http.*
+import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.authRoutes() {
-    // instantiate the AuthService
-    val auth = AuthService()
 
-    // Register route
+    // POST /api/auth/register
     post("/auth/register") {
+        // Parse JSON
         val body = runCatching { call.receive<RegisterRequest>() }.getOrElse {
-            call.respond(HttpStatusCode.BadRequest, "JSON invalide"); return@post
+            call.respond(HttpStatusCode.BadRequest, "JSON invalide")
+            return@post
         }
+
         try {
-            val a = auth.register(body.username.trim(), body.email.trim(), body.password)
-            call.respond(HttpStatusCode.Created, AuthResponse(AuthUserDTO(a.id.value, a.username, a.email), "Compte créé"))
+            val user: AuthUserDTO = AuthService.register(
+                RegisterRequest(
+                    username = body.username.trim(),
+                    email = body.email.trim(),
+                    password = body.password
+                )
+            )
+            call.respond(
+                HttpStatusCode.Created,
+                AuthResponse(
+                    user = user,
+                    message = "Compte créé"
+                )
+            )
         } catch (e: IllegalArgumentException) {
             call.respond(HttpStatusCode.Conflict, e.message ?: "Conflit")
         }
     }
 
-    // Login route
+    // POST /api/auth/login
     post("/auth/login") {
         val body = runCatching { call.receive<LoginRequest>() }.getOrElse {
-            call.respond(HttpStatusCode.BadRequest, "JSON invalide"); return@post
+            call.respond(HttpStatusCode.BadRequest, "JSON invalide")
+            return@post
         }
-        val a = auth.login(body.emailOrUsername.trim(), body.password)
-        if (a == null) call.respond(HttpStatusCode.Unauthorized, "Identifiants invalides")
-        else call.respond(AuthResponse(AuthUserDTO(a.id.value, a.username, a.email), "Connexion OK"))
+
+        try {
+            val user: AuthUserDTO = AuthService.login(
+                LoginRequest(
+                    emailOrUsername = body.emailOrUsername.trim(),
+                    password = body.password
+                )
+            )
+            call.respond(
+                AuthResponse(
+                    user = user,
+                    message = "Connexion OK"
+                )
+            )
+        } catch (e: IllegalArgumentException) {
+            // mdp incorrect
+            call.respond(HttpStatusCode.Unauthorized, e.message ?: "Identifiants invalides")
+        } catch (e: IllegalStateException) {
+            // Utilisateur introuvable
+            call.respond(HttpStatusCode.Unauthorized, e.message ?: "Identifiants invalides")
+        }
     }
 }
-

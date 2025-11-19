@@ -1,3 +1,5 @@
+// models/authDTOS.kt : for auth related DTOs
+
 package be.ecam.server.models
 
 import kotlinx.serialization.Serializable
@@ -6,6 +8,7 @@ import kotlinx.serialization.Serializable
 // === DATA TRANSFER OBJECT (DTO) ===
 
 // here we define the data structures used for communication in auth routes
+// /api/auth.register
 @Serializable 
 data class RegisterRequest(
     val username: String, 
@@ -13,6 +16,7 @@ data class RegisterRequest(
     val password: String)
 
 // DTO for login request
+// /api/auth.login
 @Serializable 
 data class LoginRequest(
     val emailOrUsername: String,
