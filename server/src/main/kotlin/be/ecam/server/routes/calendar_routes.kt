@@ -46,7 +46,7 @@ fun Route.calendarRoutes() {
     // GET /api/calendar/debug/seed-one
     get("/calendar/debug/seed-one") {
         transaction {
-            // on prend un cours existant pour relier l'event (ex: "1bach10")
+            // on prend un cours existant 
             val course = Course.find { CourseTable.code eq "1bach10" }.firstOrNull()
 
             CalendarEvent.new {
@@ -58,7 +58,7 @@ fun Route.calendarRoutes() {
                 room = "1F04"
                 sessionNumber = 2
                 groupCode = "2BA-s3"
-                ownerType = "TEACHER"   // plus tard: STUDENT possible
+                ownerType = "TEACHER"   
                 ownerRef = "DLH"
                 this.course = course
             }

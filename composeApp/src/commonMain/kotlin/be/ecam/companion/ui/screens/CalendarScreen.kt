@@ -1,4 +1,4 @@
-package be.ecam.companion.ui
+package be.ecam.companion.ui.screens
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
@@ -19,8 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.*
 import kotlinx.datetime.LocalDate
@@ -49,8 +52,16 @@ fun CalendarScreen(
     var anchorDate by remember { mutableStateOf(initialAnchorDate ?: today) }
     var mode by remember { mutableStateOf(initialMode ?: CalendarMode.Month) }
     var slideDirection by remember { mutableStateOf(0) } // -1 for left (next), +1 for right (prev)
+    val localEventsByDate = rememberCalendarEventsByDate()
+    val eventsByDate = remember(localEventsByDate, scheduledByDate) {
+        mergeCalendarEvents(localEventsByDate, scheduledByDate)
+    }
 
-    Column(modifier = modifier.padding(8.dp)) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+    ) {
         // Header with month/year and navigation
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -197,14 +208,14 @@ fun CalendarScreen(
                     CalendarMode.Month -> MonthGrid(
                         anchorDate = aDate,
                         today = today,
-                        scheduledByDate = scheduledByDate,
+                        eventsByDate = eventsByDate,
                         onDateClick = { date -> dialogDate = date }
                     )
 
                     CalendarMode.Week -> WeekRow(
                         anchorDate = aDate,
                         today = today,
-                        scheduledByDate = scheduledByDate,
+                        eventsByDate = eventsByDate,
                         onDateClick = { date -> dialogDate = date }
                     )
                 }
@@ -212,7 +223,7 @@ fun CalendarScreen(
         }
         Spacer(Modifier.height(12.dp))
         if (dialogDate != null) {
-            val items = scheduledByDate[dialogDate] ?: emptyList()
+            val items = eventsByDate[dialogDate] ?: emptyList()
             Column(modifier = Modifier.fillMaxWidth()) {
                 val header = "${dialogDate!!.year}-${dialogDate!!.month.number.toString().padStart(2, '0')}-${dialogDate!!.day.toString().padStart(2, '0')}"
                 Text(text = "Items on $header", style = MaterialTheme.typography.titleSmall)
@@ -220,13 +231,68 @@ fun CalendarScreen(
                 if (items.isEmpty()) {
                     Text("No items", color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
                 } else {
-                    for (t in items) {
-                        Text("• $t")
+                    for (event in items) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 2.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(10.dp)
+                                    .background(
+                                        color = event.category.color,
+                                        shape = CircleShape
+                                    )
+                            )
+                            Spacer(Modifier.width(8.dp))
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = event.title,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    fontWeight = FontWeight.Medium
+                                )
+                                if (event.description.isNotBlank() && event.description != event.title) {
+                                    Text(
+                                        text = event.description,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                                        maxLines = 2,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
     }
+}
+
+private fun mergeCalendarEvents(
+    localEvents: Map<LocalDate, List<CalendarEvent>>,
+    remoteEvents: Map<LocalDate, List<String>>
+): Map<LocalDate, List<CalendarEvent>> {
+    if (remoteEvents.isEmpty()) return localEvents
+    val merged = localEvents.mapValues { entry -> entry.value.toMutableList() }.toMutableMap()
+    remoteEvents.forEach { (date, titles) ->
+        if (titles.isEmpty()) return@forEach
+        val additions = titles.mapIndexed { index, title ->
+            CalendarEvent(
+                id = "remote_${date}_$index",
+                title = title,
+                description = title,
+                category = CalendarEventCategory.Remote,
+                date = date,
+                years = emptyList()
+            )
+        }
+        val list = merged.getOrPut(date) { mutableListOf<CalendarEvent>() }
+        list += additions
+    }
+    return merged.mapValues { it.value.toList() }
 }
 
 enum class CalendarMode {
@@ -247,20 +313,22 @@ enum class CalendarMode {
 private fun WeekRow(
     anchorDate: LocalDate,
     today: LocalDate,
-    scheduledByDate: Map<LocalDate, List<String>>,
+    eventsByDate: Map<LocalDate, List<CalendarEvent>>,
     onDateClick: (LocalDate) -> Unit
 ) {
     val start = anchorDate.startOfWeek()
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
         for (i in 0 until 7) {
             val d = start.plus(i, DateTimeUnit.DAY)
-            val has = scheduledByDate.containsKey(d)
-            Box(modifier = Modifier.weight(1f)) {
+            val events = eventsByDate[d].orEmpty()
+            Box(
+                modifier = Modifier.weight(1f)
+            ) {
                 DayCell(
                     date = d,
                     isToday = d == today,
                     isOtherMonth = false,
-                    hasItems = has,
+                    events = events,
                     onClick = { onDateClick(d) }
                 )
             }
@@ -272,7 +340,7 @@ private fun WeekRow(
 private fun MonthGrid(
     anchorDate: LocalDate,
     today: LocalDate,
-    scheduledByDate: Map<LocalDate, List<String>>,
+    eventsByDate: Map<LocalDate, List<CalendarEvent>>,
     onDateClick: (LocalDate) -> Unit
 ) {
     val firstOfMonth = LocalDate(anchorDate.year, anchorDate.month, 1)
@@ -287,13 +355,15 @@ private fun MonthGrid(
                     val idx = row * 7 + col
                     val date = start.plus(idx, DateTimeUnit.DAY)
                     val isOther = date.month != anchorDate.month
-                    Box(modifier = Modifier.weight(1f)) {
-                        val has = scheduledByDate.containsKey(date)
+                    Box(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        val events = eventsByDate[date].orEmpty()
                         DayCell(
                             date = date,
                             isToday = date == today,
                             isOtherMonth = isOther,
-                            hasItems = has,
+                            events = events,
                             onClick = { onDateClick(date) }
                         )
                     }
@@ -309,7 +379,7 @@ private fun DayCell(
     date: LocalDate,
     isToday: Boolean,
     isOtherMonth: Boolean,
-    hasItems: Boolean = false,
+    events: List<CalendarEvent> = emptyList(),
     onClick: (() -> Unit)? = null
 ) {
     val backgroundColor =
@@ -320,21 +390,49 @@ private fun DayCell(
     }
     Column(
         modifier = Modifier
+            .fillMaxWidth()
             .padding(2.dp)
+            .clip(RoundedCornerShape(6.dp))
             .background(backgroundColor)
             .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier)
-            .padding(vertical = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(horizontal = 8.dp, vertical = 8.dp),
+        horizontalAlignment = Alignment.Start
     ) {
         Text(text = date.day.toString(), color = textColor)
-        if (hasItems) {
+        if (events.isNotEmpty()) {
             Spacer(Modifier.height(4.dp))
-            Box(
-                modifier = Modifier
-                    .size(6.dp)
-                    .background(color = MaterialTheme.colorScheme.primary, shape = CircleShape)
-            )
+            events.take(3).forEach { event ->
+                CalendarEventBadge(event)
+                Spacer(Modifier.height(2.dp))
+            }
+            if (events.size > 3) {
+                Text(
+                    text = "+${events.size - 3} more",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
+    }
+}
+
+@Composable
+private fun CalendarEventBadge(event: CalendarEvent) {
+    val baseColor = event.category.color
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(4.dp))
+            .background(baseColor.copy(alpha = 0.2f))
+    ) {
+        Text(
+            text = event.title,
+            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+            style = MaterialTheme.typography.labelSmall,
+            color = baseColor,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
 

@@ -1,10 +1,6 @@
-// models/adminDTOS.kt : for admin related DTOs with CRUD operations
-
 package be.ecam.server.models
 import kotlinx.serialization.Serializable
 
-// === DATA TRANSFER OBJECT (DTO) ===
-// here we define the data structures used for admin management routes
 
 // DTO for admin information (/apoi/admins/...)
 @Serializable 

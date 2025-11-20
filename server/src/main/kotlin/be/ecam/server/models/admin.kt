@@ -1,5 +1,3 @@
-// models/admin.kt : for model exposed + table admin
-
 package be.ecam.server.models
 
 import org.jetbrains.exposed.dao.IntEntity
@@ -15,7 +13,6 @@ object AdminTable : IntIdTable("admins") {
 }
 
 // === ENTITY (ORM) ===
-// this class represents a row in the AdminTable (admin.new { ... }, Admin.find { ... })
 class Admin(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<Admin>(AdminTable)
     var username by AdminTable.username

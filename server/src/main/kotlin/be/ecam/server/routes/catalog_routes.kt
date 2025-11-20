@@ -32,7 +32,7 @@ fun Route.catalogRoutes() {
             CatalogService.seedFormationsFromJson()
             call.respondText("Formations + cours importés depuis ecam_formations_2025.json")
         } catch (e: Throwable) {
-            e.printStackTrace() // log complet côté serveur
+            e.printStackTrace() 
             call.respond(
                 HttpStatusCode.InternalServerError,
                 "Erreur dans seedFormationsFromJson: ${e.message}"
