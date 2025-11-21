@@ -1,0 +1,4159 @@
+{
+  "year": "2025",
+  "generated_at": "2025-11-08T18:49:54.942729+00:00",
+  "source": "https://www.ecam.be/formations/",
+  "formations": [
+    {
+      "id": "automatisation",
+      "name": "Automatisation",
+      "source_url": "https://plus.ecam.be/public/cursus/2025/MAU",
+      "blocks": [
+        {
+          "name": "Bloc 1",
+          "courses": [
+            {
+              "code": "1bach10",
+              "title": "Chimie",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bach10"
+            },
+            {
+              "code": "1baci10",
+              "title": "Circuits électriques",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baci10"
+            },
+            {
+              "code": "1baem10",
+              "title": "Electricité et outils mathématiques",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baem10"
+            },
+            {
+              "code": "1baic10",
+              "title": "Informatique et communication",
+              "credits": 4,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+            },
+            {
+              "code": "1bamc10",
+              "title": "Sciences du mouvement - cinématique",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamc10"
+            },
+            {
+              "code": "1bamd10",
+              "title": "Sciences du mouvement - dynamique",
+              "credits": 7,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamd10"
+            },
+            {
+              "code": "1bame10",
+              "title": "Méthodologie scientifique",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bame10"
+            },
+            {
+              "code": "1bamm10",
+              "title": "Sciences des matériaux",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamm10"
+            },
+            {
+              "code": "1baph10",
+              "title": "Physique et fluides",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baph10"
+            },
+            {
+              "code": "1bapi10",
+              "title": "Projet intégrateur",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bapi10"
+            },
+            {
+              "code": "1bapm10",
+              "title": "Pont vers le supérieur: mathématiques",
+              "credits": 6,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bapm10"
+            },
+            {
+              "code": "1bast10",
+              "title": "Stabilité",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bast10"
+            },
+            {
+              "code": "1bate10",
+              "title": "Technologie",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 2",
+          "courses": [
+            {
+              "code": "2bach20",
+              "title": "Chimie du vivant et environnement",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bach20"
+            },
+            {
+              "code": "2badt20",
+              "title": "Dessin technique",
+              "credits": 2,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2badt20"
+            },
+            {
+              "code": "2bael20",
+              "title": "Electricité",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bael20"
+            },
+            {
+              "code": "2baeo20",
+              "title": "Electronique",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baeo20"
+            },
+            {
+              "code": "2bain20",
+              "title": "Informatique",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bain20"
+            },
+            {
+              "code": "2bala20",
+              "title": "Langues",
+              "credits": 3,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bala20"
+            },
+            {
+              "code": "2bamf20",
+              "title": "Mécanique des fluides et transfert de chaleur",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bamf20"
+            },
+            {
+              "code": "2baom20",
+              "title": "Outils mathématiques",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baom20"
+            },
+            {
+              "code": "2baph20",
+              "title": "Ondes. optique et physique moderne",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baph20"
+            },
+            {
+              "code": "2barm20",
+              "title": "Stabilité, déformation et résistance des structures",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2barm20"
+            },
+            {
+              "code": "2bath20",
+              "title": "Thermodynamique",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bath20"
+            },
+            {
+              "code": "2batm20",
+              "title": "Mesures",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2batm20"
+            },
+            {
+              "code": "2bmpm20",
+              "title": "Projet EM",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bmpm20"
+            },
+            {
+              "code": "2bmto20",
+              "title": "Technologie EM",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bmto20"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 3",
+          "courses": [
+            {
+              "code": "3base30",
+              "title": "Comptabilité et entrepreneuriat",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3base30"
+            },
+            {
+              "code": "3basg30",
+              "title": "Stage",
+              "credits": 10,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3basg30"
+            },
+            {
+              "code": "3bmcp30",
+              "title": "Projet machine industrielle",
+              "credits": 7,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcp30"
+            },
+            {
+              "code": "3bmcv30",
+              "title": "HVAC",
+              "credits": 8,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcv30"
+            },
+            {
+              "code": "3bmea30",
+              "title": "Electrotechnique",
+              "credits": 7,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmea30"
+            },
+            {
+              "code": "3bmel30",
+              "title": "Electronique et applications",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmel30"
+            },
+            {
+              "code": "3bmet30",
+              "title": "Réseaux, appareillages et schématiques électriques",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmet30"
+            },
+            {
+              "code": "3bmis30",
+              "title": "Instrumentation",
+              "credits": 3,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmis30"
+            },
+            {
+              "code": "3bmra30",
+              "title": "Signals, systems and tools",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmra30"
+            },
+            {
+              "code": "3bmrg30",
+              "title": "Régulation",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmrg30"
+            },
+            {
+              "code": "3bmsi30",
+              "title": "Système d’information",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmsi30"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 4",
+          "courses": [
+            {
+              "code": "4auat40",
+              "title": "Applied automation",
+              "credits": 6,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4auat40"
+            },
+            {
+              "code": "4auds40",
+              "title": "Dynamics of mechanical and thermal systems",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4auds40"
+            },
+            {
+              "code": "4auet40",
+              "title": "Electrical Drives",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4auet40"
+            },
+            {
+              "code": "4aumd40",
+              "title": "Modelling and Simulation of dynamical systems",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4aumd40"
+            },
+            {
+              "code": "4aure40",
+              "title": "Digital control",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4aure40"
+            },
+            {
+              "code": "4aurg40",
+              "title": "Advanced control 1",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4aurg40"
+            },
+            {
+              "code": "4aurl40",
+              "title": "Advanced control 2",
+              "credits": 6,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4aurl40"
+            },
+            {
+              "code": "4auta40",
+              "title": "Power cycles",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4auta40"
+            },
+            {
+              "code": "4emau40",
+              "title": "Practical process control",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emau40"
+            },
+            {
+              "code": "4emen40",
+              "title": "Sustainable energy",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emen40"
+            },
+            {
+              "code": "4emeo40",
+              "title": "Electronique numérique",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emeo40"
+            },
+            {
+              "code": "4emio40",
+              "title": "Installations opératrices",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emio40"
+            },
+            {
+              "code": "4emra40",
+              "title": "Electrical installations",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emra40"
+            },
+            {
+              "code": "4mage40",
+              "title": "Gestion",
+              "credits": 6,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4mage40"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 5",
+          "courses": [
+            {
+              "code": "5auin50",
+              "title": "Industrie 4.0",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5auin50"
+            },
+            {
+              "code": "5aumd50",
+              "title": "System identification Project",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5aumd50"
+            },
+            {
+              "code": "5autf50",
+              "title": "Travail de fin d'études",
+              "credits": 20,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5autf50"
+            },
+            {
+              "code": "5emaa50",
+              "title": "Projet d'architectures d'automatisation",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5emaa50"
+            },
+            {
+              "code": "5emai50",
+              "title": "Projet de dimensionnement des entrainements électriques",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5emai50"
+            },
+            {
+              "code": "5emdi50",
+              "title": "Projet de dimensionnement des installations électriques",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5emdi50"
+            },
+            {
+              "code": "5magf50",
+              "title": "Gestion et stratégie financière",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5magf50"
+            },
+            {
+              "code": "5magi50",
+              "title": "Economie",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5magi50"
+            },
+            {
+              "code": "5mala50",
+              "title": "Langues",
+              "credits": 2,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5mala50"
+            },
+            {
+              "code": "5masg50",
+              "title": "Insertion professionnelle",
+              "credits": 10,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5masg50"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "construction",
+      "name": "Construction",
+      "source_url": "https://plus.ecam.be/public/cursus/2025/MCO",
+      "blocks": [
+        {
+          "name": "Bloc 1",
+          "courses": [
+            {
+              "code": "1bach10",
+              "title": "Chimie",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bach10"
+            },
+            {
+              "code": "1baci10",
+              "title": "Circuits électriques",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baci10"
+            },
+            {
+              "code": "1baem10",
+              "title": "Electricité et outils mathématiques",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baem10"
+            },
+            {
+              "code": "1baic10",
+              "title": "Informatique et communication",
+              "credits": 4,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+            },
+            {
+              "code": "1bamc10",
+              "title": "Sciences du mouvement - cinématique",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamc10"
+            },
+            {
+              "code": "1bamd10",
+              "title": "Sciences du mouvement - dynamique",
+              "credits": 7,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamd10"
+            },
+            {
+              "code": "1bame10",
+              "title": "Méthodologie scientifique",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bame10"
+            },
+            {
+              "code": "1bamm10",
+              "title": "Sciences des matériaux",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamm10"
+            },
+            {
+              "code": "1baph10",
+              "title": "Physique et fluides",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baph10"
+            },
+            {
+              "code": "1bapi10",
+              "title": "Projet intégrateur",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bapi10"
+            },
+            {
+              "code": "1bapm10",
+              "title": "Pont vers le supérieur: mathématiques",
+              "credits": 6,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bapm10"
+            },
+            {
+              "code": "1bast10",
+              "title": "Stabilité",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bast10"
+            },
+            {
+              "code": "1bate10",
+              "title": "Technologie",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 2",
+          "courses": [
+            {
+              "code": "2bach20",
+              "title": "Chimie du vivant et environnement",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bach20"
+            },
+            {
+              "code": "2badt20",
+              "title": "Dessin technique",
+              "credits": 2,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2badt20"
+            },
+            {
+              "code": "2bael20",
+              "title": "Electricité",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bael20"
+            },
+            {
+              "code": "2baeo20",
+              "title": "Electronique",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baeo20"
+            },
+            {
+              "code": "2bain20",
+              "title": "Informatique",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bain20"
+            },
+            {
+              "code": "2bala20",
+              "title": "Langues",
+              "credits": 3,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bala20"
+            },
+            {
+              "code": "2bamf20",
+              "title": "Mécanique des fluides et transfert de chaleur",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bamf20"
+            },
+            {
+              "code": "2baom20",
+              "title": "Outils mathématiques",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baom20"
+            },
+            {
+              "code": "2baph20",
+              "title": "Ondes. optique et physique moderne",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baph20"
+            },
+            {
+              "code": "2barm20",
+              "title": "Stabilité, déformation et résistance des structures",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2barm20"
+            },
+            {
+              "code": "2bath20",
+              "title": "Thermodynamique",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bath20"
+            },
+            {
+              "code": "2batm20",
+              "title": "Mesures",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2batm20"
+            },
+            {
+              "code": "2bcpc20",
+              "title": "Projet construction",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bcpc20"
+            },
+            {
+              "code": "2bctc20",
+              "title": "Technologie des matériaux",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bctc20"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 3",
+          "courses": [
+            {
+              "code": "3base30",
+              "title": "Comptabilité et entrepreneuriat",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3base30"
+            },
+            {
+              "code": "3basg30",
+              "title": "Stage",
+              "credits": 10,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3basg30"
+            },
+            {
+              "code": "3bcba30",
+              "title": "Béton armé",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bcba30"
+            },
+            {
+              "code": "3bcbe30",
+              "title": "Bureau d'études",
+              "credits": 7,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bcbe30"
+            },
+            {
+              "code": "3bcbo30",
+              "title": "Construction bois",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bcbo30"
+            },
+            {
+              "code": "3bccm30",
+              "title": "Constructions métalliques",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bccm30"
+            },
+            {
+              "code": "3bcfo30",
+              "title": "Fondations superficielles",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bcfo30"
+            },
+            {
+              "code": "3bcgc30",
+              "title": "Gestion et technique de chantier",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bcgc30"
+            },
+            {
+              "code": "3bcgo30",
+              "title": "Projet de physique et gros-oeuvre du bâtiment",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bcgo30"
+            },
+            {
+              "code": "3bcms30",
+              "title": "Mécanique des sols",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bcms30"
+            },
+            {
+              "code": "3bcod30",
+              "title": "Eléments de structures",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bcod30"
+            },
+            {
+              "code": "3bctp30",
+              "title": "Topographie",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bctp30"
+            },
+            {
+              "code": "3bmsi30",
+              "title": "Système d’information",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmsi30"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 4",
+          "courses": [
+            {
+              "code": "4cobe40",
+              "title": "Bureau d'études- bâtiments",
+              "credits": 4,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4cobe40"
+            },
+            {
+              "code": "4cobp40",
+              "title": "Béton précontraint",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4cobp40"
+            },
+            {
+              "code": "4cocs40",
+              "title": "Complément de structure",
+              "credits": 7,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4cocs40"
+            },
+            {
+              "code": "4coct40",
+              "title": "Conception et assemblages de charpentes",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4coct40"
+            },
+            {
+              "code": "4cogc40",
+              "title": "Génie civil",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4cogc40"
+            },
+            {
+              "code": "4cogo40",
+              "title": "Géotechnique",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4cogo40"
+            },
+            {
+              "code": "4cohy40",
+              "title": "Hydraulique",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4cohy40"
+            },
+            {
+              "code": "4cons40",
+              "title": "Modélisation numérique des structures",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4cons40"
+            },
+            {
+              "code": "4copf40",
+              "title": "Préfabrication béton",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4copf40"
+            },
+            {
+              "code": "4coph40",
+              "title": "Physique du bâtiment et techniques spéciales",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4coph40"
+            },
+            {
+              "code": "4copr40",
+              "title": "Projet - défi structure",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4copr40"
+            },
+            {
+              "code": "4cops40",
+              "title": "Procédés d'exécution sols",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4cops40"
+            },
+            {
+              "code": "4mage40",
+              "title": "Gestion",
+              "credits": 6,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4mage40"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 5",
+          "courses": [
+            {
+              "code": "5cogc50",
+              "title": "Projet de génie civil",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5cogc50"
+            },
+            {
+              "code": "5coin50",
+              "title": "Innovation",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5coin50"
+            },
+            {
+              "code": "5come50",
+              "title": "Modélisation et essais",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5come50"
+            },
+            {
+              "code": "5copc50",
+              "title": "Gestion de projets de construction",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5copc50"
+            },
+            {
+              "code": "5corn50",
+              "title": "Projet de rénovation des bâtiments",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5corn50"
+            },
+            {
+              "code": "5cotf50",
+              "title": "Travail de fin d'études",
+              "credits": 20,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5cotf50"
+            },
+            {
+              "code": "5magf50",
+              "title": "Gestion et stratégie financière",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5magf50"
+            },
+            {
+              "code": "5magi50",
+              "title": "Economie",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5magi50"
+            },
+            {
+              "code": "5mala50",
+              "title": "Langues",
+              "credits": 2,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5mala50"
+            },
+            {
+              "code": "5masg50",
+              "title": "Insertion professionnelle",
+              "credits": 10,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5masg50"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "electromecanique",
+      "name": "Electromecanique",
+      "source_url": "https://plus.ecam.be/public/cursus/2025/MEM",
+      "blocks": [
+        {
+          "name": "Bloc 1",
+          "courses": [
+            {
+              "code": "1bach10",
+              "title": "Chimie",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bach10"
+            },
+            {
+              "code": "1baci10",
+              "title": "Circuits électriques",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baci10"
+            },
+            {
+              "code": "1baem10",
+              "title": "Electricité et outils mathématiques",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baem10"
+            },
+            {
+              "code": "1baic10",
+              "title": "Informatique et communication",
+              "credits": 4,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+            },
+            {
+              "code": "1bamc10",
+              "title": "Sciences du mouvement - cinématique",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamc10"
+            },
+            {
+              "code": "1bamd10",
+              "title": "Sciences du mouvement - dynamique",
+              "credits": 7,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamd10"
+            },
+            {
+              "code": "1bame10",
+              "title": "Méthodologie scientifique",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bame10"
+            },
+            {
+              "code": "1bamm10",
+              "title": "Sciences des matériaux",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamm10"
+            },
+            {
+              "code": "1baph10",
+              "title": "Physique et fluides",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baph10"
+            },
+            {
+              "code": "1bapi10",
+              "title": "Projet intégrateur",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bapi10"
+            },
+            {
+              "code": "1bapm10",
+              "title": "Pont vers le supérieur: mathématiques",
+              "credits": 6,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bapm10"
+            },
+            {
+              "code": "1bast10",
+              "title": "Stabilité",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bast10"
+            },
+            {
+              "code": "1bate10",
+              "title": "Technologie",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 2",
+          "courses": [
+            {
+              "code": "2bach20",
+              "title": "Chimie du vivant et environnement",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bach20"
+            },
+            {
+              "code": "2badt20",
+              "title": "Dessin technique",
+              "credits": 2,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2badt20"
+            },
+            {
+              "code": "2bael20",
+              "title": "Electricité",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bael20"
+            },
+            {
+              "code": "2baeo20",
+              "title": "Electronique",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baeo20"
+            },
+            {
+              "code": "2bain20",
+              "title": "Informatique",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bain20"
+            },
+            {
+              "code": "2bala20",
+              "title": "Langues",
+              "credits": 3,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bala20"
+            },
+            {
+              "code": "2bamf20",
+              "title": "Mécanique des fluides et transfert de chaleur",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bamf20"
+            },
+            {
+              "code": "2baom20",
+              "title": "Outils mathématiques",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baom20"
+            },
+            {
+              "code": "2baph20",
+              "title": "Ondes. optique et physique moderne",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baph20"
+            },
+            {
+              "code": "2barm20",
+              "title": "Stabilité, déformation et résistance des structures",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2barm20"
+            },
+            {
+              "code": "2bath20",
+              "title": "Thermodynamique",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bath20"
+            },
+            {
+              "code": "2batm20",
+              "title": "Mesures",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2batm20"
+            },
+            {
+              "code": "2bmpm20",
+              "title": "Projet EM",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bmpm20"
+            },
+            {
+              "code": "2bmto20",
+              "title": "Technologie EM",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bmto20"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 3",
+          "courses": [
+            {
+              "code": "3base30",
+              "title": "Comptabilité et entrepreneuriat",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3base30"
+            },
+            {
+              "code": "3basg30",
+              "title": "Stage",
+              "credits": 10,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3basg30"
+            },
+            {
+              "code": "3bmcp30",
+              "title": "Projet machine industrielle",
+              "credits": 7,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcp30"
+            },
+            {
+              "code": "3bmcv30",
+              "title": "HVAC",
+              "credits": 8,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcv30"
+            },
+            {
+              "code": "3bmea30",
+              "title": "Electrotechnique",
+              "credits": 7,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmea30"
+            },
+            {
+              "code": "3bmel30",
+              "title": "Electronique et applications",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmel30"
+            },
+            {
+              "code": "3bmet30",
+              "title": "Réseaux, appareillages et schématiques électriques",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmet30"
+            },
+            {
+              "code": "3bmis30",
+              "title": "Instrumentation",
+              "credits": 3,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmis30"
+            },
+            {
+              "code": "3bmra30",
+              "title": "Signals, systems and tools",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmra30"
+            },
+            {
+              "code": "3bmrg30",
+              "title": "Régulation",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmrg30"
+            },
+            {
+              "code": "3bmsi30",
+              "title": "Système d’information",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmsi30"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 4",
+          "courses": [
+            {
+              "code": "4emat40",
+              "title": "Sequential automation",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emat40"
+            },
+            {
+              "code": "4emau40",
+              "title": "Practical process control",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emau40"
+            },
+            {
+              "code": "4emcm40",
+              "title": "Elements de structure et de mécanique",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emcm40"
+            },
+            {
+              "code": "4emcp40",
+              "title": "Méthodes CNC",
+              "credits": 2,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emcp40"
+            },
+            {
+              "code": "4emen40",
+              "title": "Sustainable energy",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emen40"
+            },
+            {
+              "code": "4emeo40",
+              "title": "Electronique numérique",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emeo40"
+            },
+            {
+              "code": "4emet40",
+              "title": "Electrical drives",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emet40"
+            },
+            {
+              "code": "4emfe40",
+              "title": "Finite element method",
+              "credits": 2,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emfe40"
+            },
+            {
+              "code": "4emio40",
+              "title": "Installations opératrices",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emio40"
+            },
+            {
+              "code": "4emma40",
+              "title": "Metallic materials and welding",
+              "credits": 6,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emma40"
+            },
+            {
+              "code": "4emmm40",
+              "title": "Power cycles",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emmm40"
+            },
+            {
+              "code": "4emmn40",
+              "title": "Advanced maintenance technologies",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emmn40"
+            },
+            {
+              "code": "4emmt40",
+              "title": "Matériaux et technologie de mise en oeuvre",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emmt40"
+            },
+            {
+              "code": "4emra40",
+              "title": "Electrical installations",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4emra40"
+            },
+            {
+              "code": "4mage40",
+              "title": "Gestion",
+              "credits": 6,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4mage40"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 5",
+          "courses": [
+            {
+              "code": "5emaa50",
+              "title": "Projet d'architectures d'automatisation",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5emaa50"
+            },
+            {
+              "code": "5emai50",
+              "title": "Projet de dimensionnement des entrainements électriques",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5emai50"
+            },
+            {
+              "code": "5emcm50",
+              "title": "Bureau d'étude mécanique",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5emcm50"
+            },
+            {
+              "code": "5emdi50",
+              "title": "Projet de dimensionnement des installations électriques",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5emdi50"
+            },
+            {
+              "code": "5emin50",
+              "title": "Projet industrie 4.0",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5emin50"
+            },
+            {
+              "code": "5emtf50",
+              "title": "Travail de fin d'études",
+              "credits": 20,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5emtf50"
+            },
+            {
+              "code": "5magf50",
+              "title": "Gestion et stratégie financière",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5magf50"
+            },
+            {
+              "code": "5magi50",
+              "title": "Economie",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5magi50"
+            },
+            {
+              "code": "5mala50",
+              "title": "Langues",
+              "credits": 2,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5mala50"
+            },
+            {
+              "code": "5masg50",
+              "title": "Insertion professionnelle",
+              "credits": 10,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5masg50"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "electronique",
+      "name": "Electronique",
+      "source_url": "https://plus.ecam.be/public/cursus/2025/MEO",
+      "blocks": [
+        {
+          "name": "Bloc 1",
+          "courses": [
+            {
+              "code": "1bach10",
+              "title": "Chimie",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bach10"
+            },
+            {
+              "code": "1baci10",
+              "title": "Circuits électriques",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baci10"
+            },
+            {
+              "code": "1baem10",
+              "title": "Electricité et outils mathématiques",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baem10"
+            },
+            {
+              "code": "1baic10",
+              "title": "Informatique et communication",
+              "credits": 4,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+            },
+            {
+              "code": "1bamc10",
+              "title": "Sciences du mouvement - cinématique",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamc10"
+            },
+            {
+              "code": "1bamd10",
+              "title": "Sciences du mouvement - dynamique",
+              "credits": 7,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamd10"
+            },
+            {
+              "code": "1bame10",
+              "title": "Méthodologie scientifique",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bame10"
+            },
+            {
+              "code": "1bamm10",
+              "title": "Sciences des matériaux",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamm10"
+            },
+            {
+              "code": "1baph10",
+              "title": "Physique et fluides",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baph10"
+            },
+            {
+              "code": "1bapi10",
+              "title": "Projet intégrateur",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bapi10"
+            },
+            {
+              "code": "1bapm10",
+              "title": "Pont vers le supérieur: mathématiques",
+              "credits": 6,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bapm10"
+            },
+            {
+              "code": "1bast10",
+              "title": "Stabilité",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bast10"
+            },
+            {
+              "code": "1bate10",
+              "title": "Technologie",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 2",
+          "courses": [
+            {
+              "code": "2bach20",
+              "title": "Chimie du vivant et environnement",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bach20"
+            },
+            {
+              "code": "2badt20",
+              "title": "Dessin technique",
+              "credits": 2,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2badt20"
+            },
+            {
+              "code": "2bael20",
+              "title": "Electricité",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bael20"
+            },
+            {
+              "code": "2baeo20",
+              "title": "Electronique",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baeo20"
+            },
+            {
+              "code": "2bain20",
+              "title": "Informatique",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bain20"
+            },
+            {
+              "code": "2bala20",
+              "title": "Langues",
+              "credits": 3,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bala20"
+            },
+            {
+              "code": "2bamf20",
+              "title": "Mécanique des fluides et transfert de chaleur",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bamf20"
+            },
+            {
+              "code": "2baom20",
+              "title": "Outils mathématiques",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baom20"
+            },
+            {
+              "code": "2baph20",
+              "title": "Ondes. optique et physique moderne",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baph20"
+            },
+            {
+              "code": "2barm20",
+              "title": "Stabilité, déformation et résistance des structures",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2barm20"
+            },
+            {
+              "code": "2bath20",
+              "title": "Thermodynamique",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bath20"
+            },
+            {
+              "code": "2batm20",
+              "title": "Mesures",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2batm20"
+            },
+            {
+              "code": "2beea20",
+              "title": "Electronique appliquée",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2beea20"
+            },
+            {
+              "code": "2bepi20",
+              "title": "Projet informatique",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bepi20"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 3",
+          "courses": [
+            {
+              "code": "3base30",
+              "title": "Comptabilité et entrepreneuriat",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3base30"
+            },
+            {
+              "code": "3basg30",
+              "title": "Stage",
+              "credits": 10,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3basg30"
+            },
+            {
+              "code": "3beal30",
+              "title": "Electronic design",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3beal30"
+            },
+            {
+              "code": "3bect30",
+              "title": "Control Theory and applications",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bect30"
+            },
+            {
+              "code": "3beee30",
+              "title": "Embedded systems",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3beee30"
+            },
+            {
+              "code": "3been30",
+              "title": "Microcontroller and logic design",
+              "credits": 6,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3been30"
+            },
+            {
+              "code": "3befe30",
+              "title": "Fundamentals of electrical engineering",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3befe30"
+            },
+            {
+              "code": "3bepe30",
+              "title": "PCB design",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bepe30"
+            },
+            {
+              "code": "3bepi30",
+              "title": "Software engineering 2",
+              "credits": 3,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bepi30"
+            },
+            {
+              "code": "3bepo30",
+              "title": "Software engineering 1",
+              "credits": 7,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bepo30"
+            },
+            {
+              "code": "3bess30",
+              "title": "Signals, systems and telecommunications",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bess30"
+            },
+            {
+              "code": "3betw30",
+              "title": "Network and web technologies",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3betw30"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 4",
+          "courses": [
+            {
+              "code": "4eios40",
+              "title": "Operating Systems",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eios40"
+            },
+            {
+              "code": "4eoai40",
+              "title": "Artificial Intelligence",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eoai40"
+            },
+            {
+              "code": "4eodd40",
+              "title": "Architecture and software quality",
+              "credits": 2,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eodd40"
+            },
+            {
+              "code": "4eoee40",
+              "title": "Power Electronics",
+              "credits": 7,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eoee40"
+            },
+            {
+              "code": "4eoep40",
+              "title": "Advanced PCB design",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eoep40"
+            },
+            {
+              "code": "4eome40",
+              "title": "Microelectronics",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eome40"
+            },
+            {
+              "code": "4eope40",
+              "title": "Embedded Project",
+              "credits": 9,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eope40"
+            },
+            {
+              "code": "4eore40",
+              "title": "Computer Networks",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eore40"
+            },
+            {
+              "code": "4eosd40",
+              "title": "System on Chip",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eosd40"
+            },
+            {
+              "code": "4eosi40",
+              "title": "Hardware Testing Processes",
+              "credits": 2,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eosi40"
+            },
+            {
+              "code": "4eote40",
+              "title": "Telecommunications",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eote40"
+            },
+            {
+              "code": "4eoti40",
+              "title": "Computer vision",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eoti40"
+            },
+            {
+              "code": "4mage40",
+              "title": "Gestion",
+              "credits": 6,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4mage40"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 5",
+          "courses": [
+            {
+              "code": "5eobm50",
+              "title": "Biodiversity Monitoring Project",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5eobm50"
+            },
+            {
+              "code": "5eoee50",
+              "title": "Ethical Electronics & Informatics",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5eoee50"
+            },
+            {
+              "code": "5eoes50",
+              "title": "Embedded Security Project",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5eoes50"
+            },
+            {
+              "code": "5eohf50",
+              "title": "High Frequency Circuit Design",
+              "credits": 9,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5eohf50"
+            },
+            {
+              "code": "5eotf50",
+              "title": "Travail de fin d'études",
+              "credits": 20,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5eotf50"
+            },
+            {
+              "code": "5magf50",
+              "title": "Gestion et stratégie financière",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5magf50"
+            },
+            {
+              "code": "5magi50",
+              "title": "Economie",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5magi50"
+            },
+            {
+              "code": "5mala50",
+              "title": "Langues",
+              "credits": 2,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5mala50"
+            },
+            {
+              "code": "5masg50",
+              "title": "Insertion professionnelle",
+              "credits": 10,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5masg50"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "geometre",
+      "name": "Géomètre",
+      "source_url": "https://plus.ecam.be/public/cursus/2025/MGE",
+      "blocks": [
+        {
+          "name": "Bloc 1",
+          "courses": [
+            {
+              "code": "1bach10",
+              "title": "Chimie",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bach10"
+            },
+            {
+              "code": "1baci10",
+              "title": "Circuits électriques",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baci10"
+            },
+            {
+              "code": "1baem10",
+              "title": "Electricité et outils mathématiques",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baem10"
+            },
+            {
+              "code": "1baic10",
+              "title": "Informatique et communication",
+              "credits": 4,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+            },
+            {
+              "code": "1bamc10",
+              "title": "Sciences du mouvement - cinématique",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamc10"
+            },
+            {
+              "code": "1bamd10",
+              "title": "Sciences du mouvement - dynamique",
+              "credits": 7,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamd10"
+            },
+            {
+              "code": "1bame10",
+              "title": "Méthodologie scientifique",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bame10"
+            },
+            {
+              "code": "1bamm10",
+              "title": "Sciences des matériaux",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamm10"
+            },
+            {
+              "code": "1baph10",
+              "title": "Physique et fluides",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baph10"
+            },
+            {
+              "code": "1bapi10",
+              "title": "Projet intégrateur",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bapi10"
+            },
+            {
+              "code": "1bapm10",
+              "title": "Pont vers le supérieur: mathématiques",
+              "credits": 6,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bapm10"
+            },
+            {
+              "code": "1bast10",
+              "title": "Stabilité",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bast10"
+            },
+            {
+              "code": "1bate10",
+              "title": "Technologie",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 2",
+          "courses": [
+            {
+              "code": "2bach20",
+              "title": "Chimie du vivant et environnement",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bach20"
+            },
+            {
+              "code": "2badt20",
+              "title": "Dessin technique",
+              "credits": 2,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2badt20"
+            },
+            {
+              "code": "2bael20",
+              "title": "Electricité",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bael20"
+            },
+            {
+              "code": "2baeo20",
+              "title": "Electronique",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baeo20"
+            },
+            {
+              "code": "2bain20",
+              "title": "Informatique",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bain20"
+            },
+            {
+              "code": "2bala20",
+              "title": "Langues",
+              "credits": 3,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bala20"
+            },
+            {
+              "code": "2bamf20",
+              "title": "Mécanique des fluides et transfert de chaleur",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bamf20"
+            },
+            {
+              "code": "2baom20",
+              "title": "Outils mathématiques",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baom20"
+            },
+            {
+              "code": "2baph20",
+              "title": "Ondes. optique et physique moderne",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baph20"
+            },
+            {
+              "code": "2barm20",
+              "title": "Stabilité, déformation et résistance des structures",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2barm20"
+            },
+            {
+              "code": "2bath20",
+              "title": "Thermodynamique",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bath20"
+            },
+            {
+              "code": "2batm20",
+              "title": "Mesures",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2batm20"
+            },
+            {
+              "code": "2bcpc20",
+              "title": "Projet construction",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bcpc20"
+            },
+            {
+              "code": "2bctc20",
+              "title": "Technologie des matériaux",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bctc20"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 3",
+          "courses": [
+            {
+              "code": "3base30",
+              "title": "Comptabilité et entrepreneuriat",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3base30"
+            },
+            {
+              "code": "3basg30",
+              "title": "Stage",
+              "credits": 10,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3basg30"
+            },
+            {
+              "code": "3bcba30",
+              "title": "Béton armé",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bcba30"
+            },
+            {
+              "code": "3bcbe30",
+              "title": "Bureau d'études",
+              "credits": 7,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bcbe30"
+            },
+            {
+              "code": "3bcbo30",
+              "title": "Construction bois",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bcbo30"
+            },
+            {
+              "code": "3bccm30",
+              "title": "Constructions métalliques",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bccm30"
+            },
+            {
+              "code": "3bcfo30",
+              "title": "Fondations superficielles",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bcfo30"
+            },
+            {
+              "code": "3bcgc30",
+              "title": "Gestion et technique de chantier",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bcgc30"
+            },
+            {
+              "code": "3bcgo30",
+              "title": "Projet de physique et gros-oeuvre du bâtiment",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bcgo30"
+            },
+            {
+              "code": "3bcms30",
+              "title": "Mécanique des sols",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bcms30"
+            },
+            {
+              "code": "3bcod30",
+              "title": "Eléments de structures",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bcod30"
+            },
+            {
+              "code": "3bctp30",
+              "title": "Topographie",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bctp30"
+            },
+            {
+              "code": "3bmsi30",
+              "title": "Système d’information",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmsi30"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "informatique",
+      "name": "Informatique",
+      "source_url": "https://plus.ecam.be/public/cursus/2025/MIN",
+      "blocks": [
+        {
+          "name": "Bloc 1",
+          "courses": [
+            {
+              "code": "1bach10",
+              "title": "Chimie",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bach10"
+            },
+            {
+              "code": "1baci10",
+              "title": "Circuits électriques",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baci10"
+            },
+            {
+              "code": "1baem10",
+              "title": "Electricité et outils mathématiques",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baem10"
+            },
+            {
+              "code": "1baic10",
+              "title": "Informatique et communication",
+              "credits": 4,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+            },
+            {
+              "code": "1bamc10",
+              "title": "Sciences du mouvement - cinématique",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamc10"
+            },
+            {
+              "code": "1bamd10",
+              "title": "Sciences du mouvement - dynamique",
+              "credits": 7,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamd10"
+            },
+            {
+              "code": "1bame10",
+              "title": "Méthodologie scientifique",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bame10"
+            },
+            {
+              "code": "1bamm10",
+              "title": "Sciences des matériaux",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamm10"
+            },
+            {
+              "code": "1baph10",
+              "title": "Physique et fluides",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baph10"
+            },
+            {
+              "code": "1bapi10",
+              "title": "Projet intégrateur",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bapi10"
+            },
+            {
+              "code": "1bapm10",
+              "title": "Pont vers le supérieur: mathématiques",
+              "credits": 6,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bapm10"
+            },
+            {
+              "code": "1bast10",
+              "title": "Stabilité",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bast10"
+            },
+            {
+              "code": "1bate10",
+              "title": "Technologie",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 2",
+          "courses": [
+            {
+              "code": "2bach20",
+              "title": "Chimie du vivant et environnement",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bach20"
+            },
+            {
+              "code": "2badt20",
+              "title": "Dessin technique",
+              "credits": 2,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2badt20"
+            },
+            {
+              "code": "2bael20",
+              "title": "Electricité",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bael20"
+            },
+            {
+              "code": "2baeo20",
+              "title": "Electronique",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baeo20"
+            },
+            {
+              "code": "2bain20",
+              "title": "Informatique",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bain20"
+            },
+            {
+              "code": "2bala20",
+              "title": "Langues",
+              "credits": 3,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bala20"
+            },
+            {
+              "code": "2bamf20",
+              "title": "Mécanique des fluides et transfert de chaleur",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bamf20"
+            },
+            {
+              "code": "2baom20",
+              "title": "Outils mathématiques",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baom20"
+            },
+            {
+              "code": "2baph20",
+              "title": "Ondes. optique et physique moderne",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baph20"
+            },
+            {
+              "code": "2barm20",
+              "title": "Stabilité, déformation et résistance des structures",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2barm20"
+            },
+            {
+              "code": "2bath20",
+              "title": "Thermodynamique",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bath20"
+            },
+            {
+              "code": "2batm20",
+              "title": "Mesures",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2batm20"
+            },
+            {
+              "code": "2beea20",
+              "title": "Electronique appliquée",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2beea20"
+            },
+            {
+              "code": "2bepi20",
+              "title": "Projet informatique",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bepi20"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 3",
+          "courses": [
+            {
+              "code": "3base30",
+              "title": "Comptabilité et entrepreneuriat",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3base30"
+            },
+            {
+              "code": "3basg30",
+              "title": "Stage",
+              "credits": 10,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3basg30"
+            },
+            {
+              "code": "3beal30",
+              "title": "Electronic design",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3beal30"
+            },
+            {
+              "code": "3bect30",
+              "title": "Control Theory and applications",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bect30"
+            },
+            {
+              "code": "3beee30",
+              "title": "Embedded systems",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3beee30"
+            },
+            {
+              "code": "3been30",
+              "title": "Microcontroller and logic design",
+              "credits": 6,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3been30"
+            },
+            {
+              "code": "3befe30",
+              "title": "Fundamentals of electrical engineering",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3befe30"
+            },
+            {
+              "code": "3bepe30",
+              "title": "PCB design",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bepe30"
+            },
+            {
+              "code": "3bepi30",
+              "title": "Software engineering 2",
+              "credits": 3,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bepi30"
+            },
+            {
+              "code": "3bepo30",
+              "title": "Software engineering 1",
+              "credits": 7,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bepo30"
+            },
+            {
+              "code": "3bess30",
+              "title": "Signals, systems and telecommunications",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bess30"
+            },
+            {
+              "code": "3betw30",
+              "title": "Network and web technologies",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3betw30"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 4",
+          "courses": [
+            {
+              "code": "4eiai40",
+              "title": "Artificial Intelligence",
+              "credits": 6,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eiai40"
+            },
+            {
+              "code": "4eial40",
+              "title": "Architecture and software quality",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eial40"
+            },
+            {
+              "code": "4eiam40",
+              "title": "Mobile development",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eiam40"
+            },
+            {
+              "code": "4eiaw40",
+              "title": "Web Architecture",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eiaw40"
+            },
+            {
+              "code": "4eidb40",
+              "title": "Database management system",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eidb40"
+            },
+            {
+              "code": "4einm40",
+              "title": "Network management",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4einm40"
+            },
+            {
+              "code": "4eios40",
+              "title": "Operating Systems",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eios40"
+            },
+            {
+              "code": "4eisa40",
+              "title": "GPU computing",
+              "credits": 6,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eisa40"
+            },
+            {
+              "code": "4eisd40",
+              "title": "System on chip",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eisd40"
+            },
+            {
+              "code": "4eope40",
+              "title": "Embedded Project",
+              "credits": 9,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eope40"
+            },
+            {
+              "code": "4eore40",
+              "title": "Computer Networks",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eore40"
+            },
+            {
+              "code": "4eosi40",
+              "title": "Hardware Testing Processes",
+              "credits": 2,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eosi40"
+            },
+            {
+              "code": "4mage40",
+              "title": "Gestion",
+              "credits": 6,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4mage40"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 5",
+          "courses": [
+            {
+              "code": "5eiad50",
+              "title": "Distributed Systems Project",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5eiad50"
+            },
+            {
+              "code": "5eiai50",
+              "title": "Artificial Intelligence project",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5eiai50"
+            },
+            {
+              "code": "5eidc50",
+              "title": "Data center",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5eidc50"
+            },
+            {
+              "code": "5eilw50",
+              "title": "Software licences and GDPR",
+              "credits": 2,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5eilw50"
+            },
+            {
+              "code": "5eisd50",
+              "title": "Computer security",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5eisd50"
+            },
+            {
+              "code": "5eitf50",
+              "title": "Travail de fin d'études",
+              "credits": 20,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5eitf50"
+            },
+            {
+              "code": "5eoee50",
+              "title": "Ethical Electronics & Informatics",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5eoee50"
+            },
+            {
+              "code": "5magf50",
+              "title": "Gestion et stratégie financière",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5magf50"
+            },
+            {
+              "code": "5magi50",
+              "title": "Economie",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5magi50"
+            },
+            {
+              "code": "5mala50",
+              "title": "Langues",
+              "credits": 2,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5mala50"
+            },
+            {
+              "code": "5masg50",
+              "title": "Insertion professionnelle",
+              "credits": 10,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5masg50"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ingenierie_sante",
+      "name": "Ingénierie de la santé",
+      "source_url": "https://plus.ecam.be/public/cursus/2025/MIS",
+      "blocks": [
+        {
+          "name": "Bloc 1",
+          "courses": [
+            {
+              "code": "1bach10",
+              "title": "Chimie",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bach10"
+            },
+            {
+              "code": "1baci10",
+              "title": "Circuits électriques",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baci10"
+            },
+            {
+              "code": "1baem10",
+              "title": "Electricité et outils mathématiques",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baem10"
+            },
+            {
+              "code": "1baic10",
+              "title": "Informatique et communication",
+              "credits": 4,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+            },
+            {
+              "code": "1bamc10",
+              "title": "Sciences du mouvement - cinématique",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamc10"
+            },
+            {
+              "code": "1bamd10",
+              "title": "Sciences du mouvement - dynamique",
+              "credits": 7,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamd10"
+            },
+            {
+              "code": "1bame10",
+              "title": "Méthodologie scientifique",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bame10"
+            },
+            {
+              "code": "1bamm10",
+              "title": "Sciences des matériaux",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bamm10"
+            },
+            {
+              "code": "1baph10",
+              "title": "Physique et fluides",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1baph10"
+            },
+            {
+              "code": "1bapi10",
+              "title": "Projet intégrateur",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bapi10"
+            },
+            {
+              "code": "1bapm10",
+              "title": "Pont vers le supérieur: mathématiques",
+              "credits": 6,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bapm10"
+            },
+            {
+              "code": "1bast10",
+              "title": "Stabilité",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bast10"
+            },
+            {
+              "code": "1bate10",
+              "title": "Technologie",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 2",
+          "courses": [
+            {
+              "code": "2bach20",
+              "title": "Chimie du vivant et environnement",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bach20"
+            },
+            {
+              "code": "2badt20",
+              "title": "Dessin technique",
+              "credits": 2,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2badt20"
+            },
+            {
+              "code": "2bael20",
+              "title": "Electricité",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bael20"
+            },
+            {
+              "code": "2baeo20",
+              "title": "Electronique",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baeo20"
+            },
+            {
+              "code": "2bain20",
+              "title": "Informatique",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bain20"
+            },
+            {
+              "code": "2bala20",
+              "title": "Langues",
+              "credits": 3,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bala20"
+            },
+            {
+              "code": "2bamf20",
+              "title": "Mécanique des fluides et transfert de chaleur",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bamf20"
+            },
+            {
+              "code": "2baom20",
+              "title": "Outils mathématiques",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baom20"
+            },
+            {
+              "code": "2baph20",
+              "title": "Ondes. optique et physique moderne",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2baph20"
+            },
+            {
+              "code": "2barm20",
+              "title": "Stabilité, déformation et résistance des structures",
+              "credits": 6,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2barm20"
+            },
+            {
+              "code": "2bath20",
+              "title": "Thermodynamique",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bath20"
+            },
+            {
+              "code": "2batm20",
+              "title": "Mesures",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2batm20"
+            },
+            {
+              "code": "2bsis20",
+              "title": "Technologie ingénierie santé",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bsis20"
+            },
+            {
+              "code": "2bsps20",
+              "title": "Projet en ingénierie de la santé",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/2bsps20"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 3",
+          "courses": [
+            {
+              "code": "3base30",
+              "title": "Comptabilité et entrepreneuriat",
+              "credits": 5,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3base30"
+            },
+            {
+              "code": "3basg30",
+              "title": "Stage",
+              "credits": 10,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3basg30"
+            },
+            {
+              "code": "3bmel30",
+              "title": "Electronique et applications",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmel30"
+            },
+            {
+              "code": "3bmra30",
+              "title": "Signals, systems and tools",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmra30"
+            },
+            {
+              "code": "3bmsi30",
+              "title": "Système d’information",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bmsi30"
+            },
+            {
+              "code": "3bsae30",
+              "title": "Mécatronique",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bsae30"
+            },
+            {
+              "code": "3bsan30",
+              "title": "Anatomie et physiologie humaines",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bsan30"
+            },
+            {
+              "code": "3bsau30",
+              "title": "Control theory and applications",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bsau30"
+            },
+            {
+              "code": "3bsbc30",
+              "title": "Biomécanique",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bsbc30"
+            },
+            {
+              "code": "3bsbm30",
+              "title": "Biomatériaux",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bsbm30"
+            },
+            {
+              "code": "3bsei30",
+              "title": "Electronique numérique",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bsei30"
+            },
+            {
+              "code": "3bsmd30",
+              "title": "Conception des machines",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bsmd30"
+            },
+            {
+              "code": "3bsrs30",
+              "title": "Méthodes de recherche scientifique",
+              "credits": 3,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/3bsrs30"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 4",
+          "courses": [
+            {
+              "code": "4isad40",
+              "title": "Active medical devices",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4isad40"
+            },
+            {
+              "code": "4isgs40",
+              "title": "Gestion",
+              "credits": 4,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4isgs40"
+            },
+            {
+              "code": "4ishm40",
+              "title": "Human motion analysis",
+              "credits": 3,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4ishm40"
+            },
+            {
+              "code": "4ismd40",
+              "title": "Design of medical devices",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4ismd40"
+            },
+            {
+              "code": "4isme40",
+              "title": "Prototyping of medical devices : electronics and IT",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4isme40"
+            },
+            {
+              "code": "4ismi40",
+              "title": "Medical Imaging",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4ismi40"
+            },
+            {
+              "code": "4ismr40",
+              "title": "Medical robotics",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4ismr40"
+            },
+            {
+              "code": "4isnu40",
+              "title": "Prototyping of medical devices: mechanics",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4isnu40"
+            },
+            {
+              "code": "4ispm40",
+              "title": "Project medical devices 1",
+              "credits": 10,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4ispm40"
+            },
+            {
+              "code": "4isrm40",
+              "title": "Regulatory affairs for medical devices",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4isrm40"
+            },
+            {
+              "code": "4issg40",
+              "title": "Internship in health engineering 1",
+              "credits": 10,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4issg40"
+            }
+          ]
+        },
+        {
+          "name": "Bloc 5",
+          "courses": [
+            {
+              "code": "5isce50",
+              "title": "Clinical evaluation of medical devices",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5isce50"
+            },
+            {
+              "code": "5ishe50",
+              "title": "e-Health systems",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5ishe50"
+            },
+            {
+              "code": "5isod50",
+              "title": "Design of Orthopaedic Medical Devices : biomechanics, design and regulation",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5isod50"
+            },
+            {
+              "code": "5ispm50",
+              "title": "Project medical devices 2",
+              "credits": 7,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5ispm50"
+            },
+            {
+              "code": "5issg50",
+              "title": "Internship in health engineering 2",
+              "credits": 10,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5issg50"
+            },
+            {
+              "code": "5istf50",
+              "title": "Master thesis in health engineering",
+              "credits": 20,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5istf50"
+            },
+            {
+              "code": "5magf50",
+              "title": "Gestion et stratégie financière",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5magf50"
+            },
+            {
+              "code": "5magi50",
+              "title": "Economie",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5magi50"
+            },
+            {
+              "code": "5mala50",
+              "title": "Langues",
+              "credits": 2,
+              "periods": [
+                "Q1",
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5mala50"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ingenieur_industriel_commercial",
+      "name": "Ingénieur industriel et commercial",
+      "source_url": "https://plus.ecam.be/public/bloc/2025/5MIC",
+      "blocks": [
+        {
+          "name": "5MIC 2ème année de Master Sciences de l'Ingénieur Industriel - Orientation Informatique (2ème cycle)",
+          "courses": [
+            {
+              "code": "4eial40",
+              "title": "Architecture and software quality",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eial40"
+            },
+            {
+              "code": "4eiam40",
+              "title": "Mobile development",
+              "credits": 3,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eiam40"
+            },
+            {
+              "code": "4eiaw40",
+              "title": "Web Architecture",
+              "credits": 4,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eiaw40"
+            },
+            {
+              "code": "4eidb40",
+              "title": "Database management system",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eidb40"
+            },
+            {
+              "code": "4einm40",
+              "title": "Network management",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4einm40"
+            },
+            {
+              "code": "4eisa40",
+              "title": "GPU computing",
+              "credits": 6,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eisa40"
+            },
+            {
+              "code": "4eoai40",
+              "title": "Artificial Intelligence",
+              "credits": 5,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eoai40"
+            },
+            {
+              "code": "4eore40",
+              "title": "Computer Networks",
+              "credits": 5,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/4eore40"
+            },
+            {
+              "code": "5eisd50",
+              "title": "Computer security",
+              "credits": 4,
+              "periods": [
+                "Q1"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5eisd50"
+            },
+            {
+              "code": "5eitf50",
+              "title": "Travail de fin d'études",
+              "credits": 20,
+              "periods": [
+                "Q2"
+              ],
+              "details_url": "https://plus.ecam.be/public/fiche/2025/5eitf50"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "business_analyst",
+      "name": "Master Business Analyst",
+      "source_url": null,
+      "blocks": [
+        {
+          "name": "Bloc 4",
+          "courses": [
+            { "code": "21BA065", "title": "Mathematiques pour Business Analysts", "credits": 5, "periods": ["Q1"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" },
+            { "code": "21BA080", "title": "Nederlands voor Business Analyst 1", "credits": 4, "periods": ["Q1", "Q2"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" },
+            { "code": "21BA092", "title": "Projet en entreprise M1", "credits": 16, "periods": ["Q1", "Q2"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" },
+            { "code": "21BA095", "title": "Rapport de stage M1", "credits": 3, "periods": ["Q2"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" },
+            { "code": "21BA010", "title": "Strategie digitale", "credits": 5, "periods": ["Q2"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" },
+            { "code": "21BA020", "title": "Gestion de projets informatiques", "credits": 5, "periods": ["Q1"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" },
+            { "code": "21BA030", "title": "Ingenierie des exigences", "credits": 5, "periods": ["Q1"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" },
+            { "code": "21BA040", "title": "Architecture Web", "credits": 6, "periods": ["Q2"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" },
+            { "code": "21BA050", "title": "Structure de donnees", "credits": 5, "periods": ["Q1"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" },
+            { "code": "21BA060", "title": "Conception et developpement logiciel", "credits": 6, "periods": ["Q2"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" }
+          ]
+        },
+        {
+          "name": "Bloc 5",
+          "courses": [
+            { "code": "22BA055", "title": "Projet en entreprise M2", "credits": 14, "periods": ["Q1", "Q2"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" },
+            { "code": "22BA056", "title": "Rapport de stage M2", "credits": 2, "periods": ["Q1", "Q2"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" },
+            { "code": "22BA032", "title": "Intelligence artificielle", "credits": 8, "periods": ["Q1"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" },
+            { "code": "22BA040", "title": "Strategie et gouvernance TIC", "credits": 5, "periods": ["Q1"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" },
+            { "code": "22BA042", "title": "Memoire en Business Analyst", "credits": 17, "periods": ["Q1", "Q2"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" },
+            { "code": "22BA012", "title": "Reseau et securite", "credits": 3, "periods": ["Q1"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" },
+            { "code": "22BA020", "title": "Projet integrateur", "credits": 6, "periods": ["Q1"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" },
+            { "code": "22BA090", "title": "Neerlandais B2", "credits": 5, "periods": ["Q1"], "details_url": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam" }
+          ]
+        }
+      ],
+      "notes": "Programme detaille non publie sur plus.ecam.be. Consulter https://www.ecam.be/formations/business-analyst/ ou les PDFs lies pour le contenu complet."
+    }
+  ]
+}

@@ -16,10 +16,16 @@ import io.ktor.server.response.respondBytes
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.RoutingContext
 import io.ktor.server.routing.get
+// added imports for new routes
+import io.ktor.server.routing.post
+// added import for authroutes
+import be.ecam.server.routes.authRoutes
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import java.io.File
 import java.nio.file.Paths
+
+
 
 fun main(args: Array<String>) {
     // Start Ktor with configuration from application.conf (HTTP)
@@ -28,6 +34,17 @@ fun main(args: Array<String>) {
 
 fun Application.module() {
     install(ContentNegotiation) { json() }
+
+    // --- New: lire la config et connecter la DB au démarrage ---
+    val config = environment.config
+    val dbUrl = config.property("db.url").getString()
+    val dbUser = config.propertyOrNull("db.user")?.getString()
+    val dbPass = config.propertyOrNull("db.password")?.getString()
+    be.ecam.server.db.DatabaseFactory.connect(dbUrl, dbUser, dbPass)
+    be.ecam.server.db.DatabaseFactory.migrate()
+    // ---
+
+    
 
 
     // Serve static WASM app if present and expose simple API
@@ -85,6 +102,34 @@ fun Application.module() {
             get("/hello") {
                 call.respond(HelloResponse(message = "Hello from Ktor server"))
             }
+
+            // --- road debug db access ---
+            get("/debug/admins/count") {
+                val n = org.jetbrains.exposed.sql.transactions.transaction {
+                    be.ecam.server.models.Admin.all().count()
+                }
+                call.respondText("Admins count: $n")
+            }
+
+            post("/debug/admins/seed") {
+                val id = org.jetbrains.exposed.sql.transactions.transaction {
+                    val a = be.ecam.server.models.Admin.new {
+                        username = "admin"
+                        email = "admin@example.com"
+                        password = "1234" // just for debug
+                    }
+                    a.id.value
+                }
+                call.respondText("Seeded admin with ID: $id")
+            }
+
+            // -------------------------------------------------
+
+            // Auth routes (register/login)
+            authRoutes()
+        
+            
+
             get("/schedule") {
                 // Generate example items for multiple dates until end of 2025
                 val schedule = mutableMapOf<String, List<ScheduleItem>>()
@@ -124,4 +169,7 @@ suspend fun RoutingContext.respondFavIcon() {
     } else {
         call.respondBytes(bytes, contentType = ContentType.Image.PNG)
     }
-}
+
+     
+} 
+

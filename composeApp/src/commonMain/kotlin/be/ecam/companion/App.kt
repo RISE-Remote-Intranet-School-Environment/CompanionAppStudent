@@ -1,29 +1,34 @@
 package be.ecam.companion
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+
 import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.di.appModule
-import be.ecam.companion.ui.CalendarScreen
-import be.ecam.companion.ui.SettingsScreen
+
+import be.ecam.companion.ui.components.*
+
+import be.ecam.companion.ui.screens.CalendarScreen
+import be.ecam.companion.ui.screens.CoursesScreen
+import be.ecam.companion.ui.screens.HomeScreen
+import be.ecam.companion.ui.screens.LoginScreen
+import be.ecam.companion.ui.screens.RegisterScreen
+import be.ecam.companion.ui.screens.SettingsScreen
+import be.ecam.companion.ui.screens.UserDashboardScreen
+import be.ecam.companion.ui.screens.ProfessorsScreen
+
+
 import be.ecam.companion.viewmodel.HomeViewModel
-import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.calendar
-import companion.composeapp.generated.resources.home
-import companion.composeapp.generated.resources.settings
+
+
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.module.Module
@@ -31,113 +36,136 @@ import org.koin.core.module.Module
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(extraModules: List<Module> = emptyList()) {
+
     KoinApplication(application = { modules(appModule + extraModules) }) {
+
         val vm = koinInject<HomeViewModel>()
         MaterialTheme {
-            var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
-            val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+
+            var isLoggedIn by remember { mutableStateOf(false) }
+            var showRegister by remember { mutableStateOf(false) }
+
+            if (!isLoggedIn) {
+                if (showRegister) {
+                    RegisterScreen(
+                        onRegisterSuccess = { isLoggedIn = true },
+                        onNavigateToLogin = { showRegister = false }
+                    )
+                } else {
+                    LoginScreen(
+                        onLoginSuccess = { isLoggedIn = true },
+                        onNavigateToRegister = { showRegister = true }
+                    )
+                }
+                return@MaterialTheme
+            }
+
+            val drawerState = rememberDrawerState(DrawerValue.Closed)
             val scope = rememberCoroutineScope()
+
+            var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
+            var showCoursesPage by remember { mutableStateOf(false) }
+            var showProfessorsPage by remember { mutableStateOf(false) }
+            var coursesTitleSuffix by remember { mutableStateOf<String?>(null) }
+            var coursesResetCounter by remember { mutableStateOf(0) }
+
+            val scrollState = rememberScrollState()
+
             ModalNavigationDrawer(
                 drawerState = drawerState,
-                gesturesEnabled = selectedScreen != BottomItem.CALENDAR,
+                gesturesEnabled = selectedScreen != BottomItem.CALENDAR && !showCoursesPage && !showProfessorsPage,
                 drawerContent = {
-                    ModalDrawerSheet(modifier = Modifier.width(280.dp)) {
-                        Text("Drawer content here")
-                    }
+                    AppDrawer(
+                        onSelectDashboard = {
+                            selectedScreen = BottomItem.DASHBOARD
+                            scope.launch { drawerState.close() }
+                        },
+                        onSelectCourses = {
+                            showCoursesPage = true
+                            coursesTitleSuffix = null
+                            showProfessorsPage = false
+                            coursesResetCounter++
+                            scope.launch { drawerState.close() }
+                        },
+                        onSelectProfessors = {
+                            showProfessorsPage = true
+                            showCoursesPage = false
+                            scope.launch { drawerState.close() }
+                        },
+                        onLogout = {
+                            scope.launch { drawerState.close() }
+                            isLoggedIn = false
+                        }
+                    )
                 }
             ) {
+
                 Scaffold(
                     topBar = {
-                        TopAppBar(
-                            title = { Text(selectedScreen.getLabel()) },
-                            navigationIcon = {
-                                if (selectedScreen != BottomItem.CALENDAR) {
-                                    IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                                        Icon(Icons.Filled.Menu, contentDescription = "Open drawer")
-                                    }
-                                }
-                            }
+                        TopBar(
+                            selectedScreen = selectedScreen,
+                            showCoursesPage = showCoursesPage,
+                            showProfessorsPage = showProfessorsPage,
+                            coursesTitleSuffix = coursesTitleSuffix,
+                            onMenuClick = { scope.launch { drawerState.open() } }
                         )
                     },
                     bottomBar = {
-                        NavigationBar {
-                            BottomItem.entries.forEach { item ->
-                                NavigationBarItem(
-                                    selected = selectedScreen == item,
-                                    onClick = { selectedScreen = item },
-                                    icon = {
-                                        Icon(
-                                            item.getIconRes(),
-                                            contentDescription = item.getLabel()
-                                        )
-                                    },
-                                    label = { Text(item.getLabel()) },
-                                    alwaysShowLabel = true
-                                )
+                        BottomBar(
+                            selected = selectedScreen,
+                            onSelect = { item ->
+                                showCoursesPage = false
+                                showProfessorsPage = false
+                                coursesTitleSuffix = null
+                                selectedScreen = item
                             }
-                        }
+                        )
                     }
-                ) { paddingValues ->
-                    // Main content area
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(paddingValues)
-                            .padding(16.dp)
-                            .verticalScroll(rememberScrollState()),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        when (selectedScreen) {
+                ) { padding ->
+
+                    val baseModifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding)
+
+                    when {
+                        showCoursesPage -> CoursesScreen(
+                            modifier = baseModifier,
+                            resetTrigger = coursesResetCounter,
+                            onContextChange = { coursesTitleSuffix = it }
+                        )
+                        showProfessorsPage -> ProfessorsScreen(baseModifier)
+                        else -> when (selectedScreen) {
                             BottomItem.HOME -> {
                                 LaunchedEffect(Unit) { vm.load() }
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Text(
-                                        text = selectedScreen.getLabel(),
-                                        style = MaterialTheme.typography.titleLarge
-                                    )
-                                    Spacer(Modifier.height(12.dp))
-                                    if (vm.lastErrorMessage.isNotEmpty()) {
-                                        Text(vm.lastErrorMessage, color = MaterialTheme.colorScheme.error)
-                                        Spacer(Modifier.height(8.dp))
-                                    }
-                                    Text(vm.helloMessage)
-                                }
+                                HomeScreen(
+                                    modifier = baseModifier,
+                                    vm = vm
+                                )
                             }
-
                             BottomItem.CALENDAR -> {
                                 LaunchedEffect(Unit) { vm.load() }
                                 CalendarScreen(
-                                    modifier = Modifier.fillMaxSize(),
+                                    modifier = baseModifier,
                                     scheduledByDate = vm.scheduledByDate
                                 )
                             }
-
                             BottomItem.SETTINGS -> {
                                 val settingsRepo = koinInject<SettingsRepository>()
-                                SettingsScreen(repo = settingsRepo, onSaved = { scope.launch {vm.load()} })
+                                SettingsScreen(
+                                    repo = settingsRepo,
+                                    onSaved = { scope.launch { vm.load() } }
+                                )
+                            }
+                            BottomItem.DASHBOARD -> {
+                                UserDashboardScreen(
+                                    isAdmin = false,
+                                    modifier = baseModifier
+                                )
                             }
                         }
                     }
                 }
             }
         }
-    }
-}
-
-private enum class BottomItem {
-    HOME, CALENDAR, SETTINGS;
-
-    @Composable
-    fun getLabel() = when (this) {
-        HOME -> stringResource(Res.string.home)
-        CALENDAR -> stringResource(Res.string.calendar)
-        SETTINGS -> stringResource(Res.string.settings)
-    }
-
-    fun getIconRes() = when (this) {
-        HOME -> Icons.Filled.Home
-        CALENDAR -> Icons.Filled.CalendarMonth
-        SETTINGS -> Icons.Filled.Settings
     }
 }

@@ -1,0 +1,665 @@
+[
+  {
+    "id": "global_2025-09-15",
+    "type": "evenement",
+    "start": "2025-09-15",
+    "end": "2025-09-20",
+    "description": "rentrée ",
+    "annees_concernees": [
+      "1BA"
+    ],
+    "categorie": "rentree",
+    "title": "rentrée "
+  },
+  {
+    "id": "evt_2025-09-12_Ve",
+    "type": "evenement",
+    "date": "2025-09-12",
+    "description": "rentrée administrative des 1BA",
+    "annees_concernees": [
+      "1BA"
+    ],
+    "categorie": "rentree",
+    "title": "rentrée administrative des 1BA"
+  },
+  {
+    "id": "evt_2025-09-15_Lu",
+    "type": "evenement",
+    "date": "2025-09-15",
+    "description": "rentrée académique",
+    "annees_concernees": [
+      "1BA"
+    ],
+    "categorie": "rentree",
+    "title": "rentrée académique"
+  },
+  {
+    "id": "global_2025-10-27",
+    "type": "evenement",
+    "start": "2025-10-27",
+    "end": "2025-11-01",
+    "description": "Congés d'automne - cours suspendus",
+    "annees_concernees": [],
+    "categorie": "conges",
+    "title": "Congés d'automne - cours suspendus"
+  },
+  {
+    "id": "global_2025-11-03",
+    "type": "evenement",
+    "start": "2025-11-03",
+    "end": "2025-11-08",
+    "description": "Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales",
+    "annees_concernees": [],
+    "categorie": "examens",
+    "title": "Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales"
+  },
+  {
+    "id": "evt_2025-11-03_Lu",
+    "type": "evenement",
+    "date": "2025-11-03",
+    "description": "examens BLOC 1 ",
+    "annees_concernees": [],
+    "categorie": "examens",
+    "title": "examens BLOC 1"
+  },
+  {
+    "id": "evt_2025-11-04_Ma",
+    "type": "evenement",
+    "date": "2025-11-04",
+    "description": "examens BLOC 1 ",
+    "annees_concernees": [],
+    "categorie": "examens",
+    "title": "examens BLOC 1"
+  },
+  {
+    "id": "evt_2025-11-04_Ma",
+    "type": "evenement",
+    "date": "2025-11-04",
+    "description": "Ma 04 soir: presentation relations internationales",
+    "annees_concernees": [],
+    "categorie": "examens",
+    "title": "presentation relations internationales"
+  },
+  {
+    "id": "global_2025-11-10",
+    "type": "evenement",
+    "start": "2025-11-10",
+    "end": "2025-11-15",
+    "description": "Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale",
+    "annees_concernees": [],
+    "categorie": "autre",
+    "title": "Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale"
+  },
+  {
+    "id": "evt_2025-11-10_Lu",
+    "type": "evenement",
+    "date": "2025-11-10",
+    "description": "Lu 10 et Ma 11: conge ",
+    "annees_concernees": [],
+    "categorie": "autre",
+    "title": "Lu 10 et Ma 11: conge "
+  },
+  {
+    "id": "evt_2025-11-11_Ma",
+    "type": "evenement",
+    "date": "2025-11-11",
+    "description": "Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale",
+    "annees_concernees": [],
+    "categorie": "autre",
+    "title": "Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale"
+  },
+  {
+    "id": "evt_2025-11-13_Je",
+    "type": "evenement",
+    "date": "2025-11-13",
+    "description": "Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale",
+    "annees_concernees": [],
+    "categorie": "autre",
+    "title": "Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale"
+  },
+  {
+    "id": "global_2025-11-17",
+    "type": "evenement",
+    "start": "2025-11-17",
+    "end": "2025-11-22",
+    "description": "Stage 1MIS",
+    "annees_concernees": [],
+    "categorie": "stage",
+    "title": "Stage 1MIS"
+  },
+  {
+    "id": "global_2025-11-24",
+    "type": "evenement",
+    "start": "2025-11-24",
+    "end": "2025-11-29",
+    "description": "Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS",
+    "annees_concernees": [],
+    "categorie": "stage",
+    "title": "Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS"
+  },
+  {
+    "id": "evt_2025-11-28_Ve",
+    "type": "evenement",
+    "date": "2025-11-28",
+    "description": "Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS",
+    "annees_concernees": [],
+    "categorie": "stage",
+    "title": "Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS"
+  },
+  {
+    "id": "evt_2025-11-29_Sa",
+    "type": "evenement",
+    "date": "2025-11-29",
+    "description": "Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS",
+    "annees_concernees": [],
+    "categorie": "stage",
+    "title": "Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS"
+  },
+  {
+    "id": "global_2025-12-22",
+    "type": "evenement",
+    "start": "2025-12-22",
+    "end": "2025-12-27",
+    "description": "Vacances d'hiver- cours suspendus",
+    "annees_concernees": [],
+    "categorie": "conges",
+    "title": "Vacances d'hiver- cours suspendus"
+  },
+  {
+    "id": "global_2025-12-29",
+    "type": "evenement",
+    "start": "2025-12-29",
+    "end": "2026-01-03",
+    "description": "Vacances d'hiver- cours suspendus",
+    "annees_concernees": [],
+    "categorie": "conges",
+    "title": "Vacances d'hiver- cours suspendus"
+  },
+  {
+    "id": "global_2026-01-05",
+    "type": "evenement",
+    "start": "2026-01-05",
+    "end": "2026-01-10",
+    "description": "Horaire spécial - examens/cours - Stage 2MA",
+    "annees_concernees": [
+      "2MA"
+    ],
+    "categorie": "examens",
+    "title": "Horaire spécial - examens/cours - Stage 2MA"
+  },
+  {
+    "id": "global_2026-01-26",
+    "type": "evenement",
+    "start": "2026-01-26",
+    "end": "2026-01-31",
+    "description": "TFE + délibés et procla 5MA",
+    "annees_concernees": [
+      "5MA"
+    ],
+    "categorie": "tfe",
+    "title": "TFE + délibés et procla 5MA"
+  },
+  {
+    "id": "evt_2026-01-26_Lu",
+    "type": "evenement",
+    "date": "2026-01-26",
+    "description": "TFE + délibés et procla 5MA",
+    "annees_concernees": [
+      "5MA"
+    ],
+    "categorie": "tfe",
+    "title": "TFE + délibés et procla 5MA"
+  },
+  {
+    "id": "evt_2026-01-30_Ve",
+    "type": "evenement",
+    "date": "2026-01-30",
+    "description": "TFE + délibés et procla 5MA",
+    "annees_concernees": [
+      "5MA"
+    ],
+    "categorie": "tfe",
+    "title": "TFE + délibés et procla 5MA"
+  },
+  {
+    "id": "global_2026-02-02",
+    "type": "evenement",
+    "start": "2026-02-02",
+    "end": "2026-02-07",
+    "description": "début du 2e quadrimestre - Stage 2MA",
+    "annees_concernees": [
+      "2MA"
+    ],
+    "categorie": "stage",
+    "title": "début du 2e quadrimestre - Stage 2MA"
+  },
+  {
+    "id": "evt_2026-02-02_Lu",
+    "type": "evenement",
+    "date": "2026-02-02",
+    "description": "début du 2e quadrimestre - Stage 2MA",
+    "annees_concernees": [
+      "2MA"
+    ],
+    "categorie": "stage",
+    "title": "début du 2e quadrimestre - Stage 2MA"
+  },
+  {
+    "id": "global_2026-02-23",
+    "type": "evenement",
+    "start": "2026-02-23",
+    "end": "2026-02-28",
+    "description": "Vacances de détente - cours suspendus - TFE 2MA",
+    "annees_concernees": [
+      "2MA"
+    ],
+    "categorie": "conges",
+    "title": "Vacances de détente - cours suspendus - TFE 2MA"
+  },
+  {
+    "id": "global_2026-03-09",
+    "type": "evenement",
+    "start": "2026-03-09",
+    "end": "2026-03-14",
+    "description": "Me 11 et Je 12: Journées des entreprises - TFE 2MA",
+    "annees_concernees": [
+      "2MA"
+    ],
+    "categorie": "tfe",
+    "title": "Me 11 et Je 12: Journées des entreprises - TFE 2MA"
+  },
+  {
+    "id": "evt_2026-03-11_Me",
+    "type": "evenement",
+    "date": "2026-03-11",
+    "description": "Me 11 et Je 12: Journées des entreprises - TFE 2MA",
+    "annees_concernees": [
+      "2MA"
+    ],
+    "categorie": "tfe",
+    "title": "Me 11 et Je 12: Journées des entreprises - TFE 2MA"
+  },
+  {
+    "id": "evt_2026-03-12_Je",
+    "type": "evenement",
+    "date": "2026-03-12",
+    "description": "Me 11 et Je 12: Journées des entreprises - TFE 2MA",
+    "annees_concernees": [
+      "2MA"
+    ],
+    "categorie": "tfe",
+    "title": "Me 11 et Je 12: Journées des entreprises - TFE 2MA"
+  },
+  {
+    "id": "global_2026-03-23",
+    "type": "evenement",
+    "start": "2026-03-23",
+    "end": "2026-03-28",
+    "description": "JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA",
+    "annees_concernees": [
+      "2MA"
+    ],
+    "categorie": "tfe",
+    "title": "JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA"
+  },
+  {
+    "id": "evt_2026-03-28_Sa",
+    "type": "evenement",
+    "date": "2026-03-28",
+    "description": "JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA",
+    "annees_concernees": [
+      "2MA"
+    ],
+    "categorie": "tfe",
+    "title": "JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA"
+  },
+  {
+    "id": "global_2026-04-06",
+    "type": "evenement",
+    "start": "2026-04-06",
+    "end": "2026-04-11",
+    "description": "lundi de Pâques Stage 3BA - TFE 2MA",
+    "annees_concernees": [
+      "3BA",
+      "2MA"
+    ],
+    "categorie": "tfe",
+    "title": "lundi de Pâques Stage 3BA - TFE 2MA"
+  },
+  {
+    "id": "evt_2026-04-06_Lu",
+    "type": "evenement",
+    "date": "2026-04-06",
+    "description": "lundi de Pâques Stage 3BA - TFE 2MA",
+    "annees_concernees": [
+      "3BA",
+      "2MA"
+    ],
+    "categorie": "tfe",
+    "title": "lundi de Pâques Stage 3BA - TFE 2MA"
+  },
+  {
+    "id": "global_2026-04-20",
+    "type": "evenement",
+    "start": "2026-04-20",
+    "end": "2026-04-25",
+    "description": "Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "2MA"
+    ],
+    "categorie": "examens",
+    "title": "Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA"
+  },
+  {
+    "id": "evt_2026-04-20_Lu",
+    "type": "evenement",
+    "date": "2026-04-20",
+    "description": "Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "2MA"
+    ],
+    "categorie": "examens",
+    "title": "Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA"
+  },
+  {
+    "id": "evt_2026-04-21_Ma",
+    "type": "evenement",
+    "date": "2026-04-21",
+    "description": "Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "2MA"
+    ],
+    "categorie": "examens",
+    "title": "Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA"
+  },
+  {
+    "id": "global_2026-04-27",
+    "type": "evenement",
+    "start": "2026-04-27",
+    "end": "2026-05-02",
+    "description": "Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA",
+    "annees_concernees": [
+      "3BA",
+      "2MA"
+    ],
+    "categorie": "conges",
+    "title": "Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA"
+  },
+  {
+    "id": "global_2026-05-11",
+    "type": "evenement",
+    "start": "2026-05-11",
+    "end": "2026-05-16",
+    "description": "Ascension",
+    "annees_concernees": [
+      "3BA",
+      "2MA"
+    ],
+    "categorie": "conges",
+    "title": "Ascension"
+  },
+  {
+    "id": "evt_2026-05-14_Je",
+    "type": "evenement",
+    "date": "2026-05-14",
+    "description": "Ascension",
+    "annees_concernees": [
+      "3BA",
+      "2MA"
+    ],
+    "categorie": "conges",
+    "title": "Ascension"
+  },
+  {
+    "id": "evt_2026-05-15_Ve",
+    "type": "evenement",
+    "date": "2026-05-15",
+    "description": "Ascension",
+    "annees_concernees": [
+      "3BA",
+      "2MA"
+    ],
+    "categorie": "conges",
+    "title": "Ascension"
+  },
+  {
+    "id": "global_2026-05-18",
+    "type": "evenement",
+    "start": "2026-05-18",
+    "end": "2026-05-23",
+    "description": "Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "2MA"
+    ],
+    "categorie": "examens",
+    "title": "Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA"
+  },
+  {
+    "id": "global_2026-06-01",
+    "type": "evenement",
+    "start": "2026-06-01",
+    "end": "2026-06-06",
+    "description": "Examens ; Ma 02 date limite remise TFE",
+    "annees_concernees": [],
+    "categorie": "examens",
+    "title": "Examens ; Ma 02 date limite remise TFE"
+  },
+  {
+    "id": "evt_2026-06-02_Ma",
+    "type": "evenement",
+    "date": "2026-06-02",
+    "description": "Examens ; Ma 02 date limite remise TFE",
+    "annees_concernees": [],
+    "categorie": "examens",
+    "title": "Examens ; Ma 02 date limite remise TFE"
+  },
+  {
+    "id": "global_2026-06-22",
+    "type": "evenement",
+    "start": "2026-06-22",
+    "end": "2026-06-27",
+    "description": "délibés",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "5MA"
+    ],
+    "categorie": "examens",
+    "title": "délibés"
+  },
+  {
+    "id": "evt_2026-06-22_Lu",
+    "type": "evenement",
+    "date": "2026-06-22",
+    "description": "délibés",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "5MA"
+    ],
+    "categorie": "examens",
+    "title": "délibés"
+  },
+  {
+    "id": "evt_2026-06-23_Ma",
+    "type": "evenement",
+    "date": "2026-06-23",
+    "description": "délibés",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "5MA"
+    ],
+    "categorie": "examens",
+    "title": "délibés"
+  },
+  {
+    "id": "evt_2026-06-24_Me",
+    "type": "evenement",
+    "date": "2026-06-24",
+    "description": "délibés",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "5MA"
+    ],
+    "categorie": "examens",
+    "title": "délibés"
+  },
+  {
+    "id": "evt_2026-06-25_Je",
+    "type": "evenement",
+    "date": "2026-06-25",
+    "description": "délibés",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "5MA"
+    ],
+    "categorie": "examens",
+    "title": "délibés"
+  },
+  {
+    "id": "evt_2026-06-25_Je",
+    "type": "evenement",
+    "date": "2026-06-25",
+    "description": "délibés",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "5MA"
+    ],
+    "categorie": "examens",
+    "title": "délibés"
+  },
+  {
+    "id": "evt_2026-06-26_Ve",
+    "type": "evenement",
+    "date": "2026-06-26",
+    "description": "délibés",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "5MA"
+    ],
+    "categorie": "examens",
+    "title": "délibés"
+  },
+  {
+    "id": "global_2026-06-29",
+    "type": "evenement",
+    "start": "2026-06-29",
+    "end": "2026-07-04",
+    "description": "Vacances académiques",
+    "annees_concernees": [],
+    "categorie": "conges",
+    "title": "Vacances académiques"
+  },
+  {
+    "id": "global_2026-09-07",
+    "type": "evenement",
+    "start": "2026-09-07",
+    "end": "2026-09-12",
+    "description": "TFE",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "5MA",
+      "1BA"
+    ],
+    "categorie": "tfe",
+    "title": "TFE"
+  },
+  {
+    "id": "evt_2026-09-07_Lu",
+    "type": "evenement",
+    "date": "2026-09-07",
+    "description": "TFE",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "5MA",
+      "1BA"
+    ],
+    "categorie": "tfe",
+    "title": "TFE"
+  },
+  {
+    "id": "evt_2026-09-08_Ma",
+    "type": "evenement",
+    "date": "2026-09-08",
+    "description": "TFE",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "5MA",
+      "1BA"
+    ],
+    "categorie": "tfe",
+    "title": "TFE"
+  },
+  {
+    "id": "evt_2026-09-09_Me",
+    "type": "evenement",
+    "date": "2026-09-09",
+    "description": "TFE",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "5MA",
+      "1BA"
+    ],
+    "categorie": "tfe",
+    "title": "TFE"
+  },
+  {
+    "id": "evt_2026-09-09_Me",
+    "type": "evenement",
+    "date": "2026-09-09",
+    "description": "TFE",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "5MA",
+      "1BA"
+    ],
+    "categorie": "tfe",
+    "title": "TFE"
+  },
+  {
+    "id": "evt_2026-09-10_Je",
+    "type": "evenement",
+    "date": "2026-09-10",
+    "description": "TFE",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "5MA",
+      "1BA"
+    ],
+    "categorie": "tfe",
+    "title": "TFE"
+  },
+  {
+    "id": "evt_2026-09-11_Ve",
+    "type": "evenement",
+    "date": "2026-09-11",
+    "description": "TFE",
+    "annees_concernees": [
+      "1BA",
+      "3BA",
+      "5MA",
+      "1BA"
+    ],
+    "categorie": "tfe",
+    "title": "TFE"
+  }
+]
