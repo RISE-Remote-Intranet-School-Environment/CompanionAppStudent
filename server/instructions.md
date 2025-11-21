@@ -473,3 +473,134 @@ On traitera JWT juste après (clé secrète, issuer/audience, durée, middleware
 
 ---
 
+## Étape 8 – CRUD Admin (/api/admins)
+
+**Objectif :** exposer des routes REST pour gérer les administrateurs :
+- lister
+- récupérer par id
+- mettre à jour partiellement
+- supprimer
+
+### 8.1 Fichiers impliqués
+
+- `models/admin.kt`  
+  -  Table Exposed `AdminTable` + Entity `Admin`.
+
+- `models/adminDTOS.kt`  
+  -  `AdminDTO` (réponse API)  
+  - `UpdateAdminRequest` (corps JSON pour update partiel).
+
+- `services/admin_service.kt`  
+  -  `AdminService.getAllAdmins()`  
+  -  `AdminService.getAdminById(id)`  
+  -  `AdminService.updateAdmin(id, req)`  
+  -  `AdminService.deleteAdmin(id)`  
+
+- `routes/admin_routes.kt`  
+  -  Déclare les routes `/api/admins/...`.
+
+- `Application.kt`  
+  -  Dans `routing { route("/api") { adminRoutes() } }`.
+
+  ### 8.2 Routes Admin
+
+#### GET /api/admins
+
+Retourne la liste de tous les admins.
+
+**Exemple (PowerShell) :**
+
+```powershell
+Invoke-RestMethod -Uri "http://127.0.0.1:8082/api/admins" -Method GET
+```
+
+Reponse : 
+
+```json
+[
+  { "id": 1, "username": "yaya",  "email": "yaya@ex.com" },
+  { "id": 2, "username": "bruno", "email": "bruno@ex.com" }
+]
+
+```
+
+GET /api/admins/{id}
+
+Retourne un admin spécifique.
+
+```powershell
+Invoke-RestMethod -Uri "http://127.0.0.1:8082/api/admins/1" -Method GET
+
+```
+
+Reponse : 
+
+```json
+{ "id": 1, "username": "yaya", "email": "yaya@ex.com" }
+
+
+```
+
+PATCH /api/admins/{id}
+
+Met à jour partiellement un admin.
+On envoie un UpdateAdminRequest :
+
+```kotlin
+@Serializable
+data class UpdateAdminRequest(
+    val username: String? = null,
+    val email: String? = null,
+    val password: String? = null
+)
+```
+Seuls les champs non nuls sont modifiés.
+
+Exemple : changer uniquement le username
+
+```powershell
+$update = @{ username = "admin_renamed" } | ConvertTo-Json
+
+Invoke-RestMethod -Uri "http://127.0.0.1:8082/api/admins/1" `
+  -Method PATCH -ContentType "application/json" -Body $update
+```
+
+Réponse : 
+```json
+{ "id": 1, "username": "admin_renamed", "email": "yaya@ex.com" }
+```
+* json invalide on aura 400 Données invalides
+* Admin introuvable on aura 404 admin non trouvé
+
+---
+
+DELETE /api/admins/{id}
+
+Supprime un admin par id.
+
+```shell
+Invoke-RestMethod -Uri "http://127.0.0.1:8082/api/admins/3" -Method DELETE
+```
+* Si l’admin existe : 200 "Admin supprimé"
+
+* Si l’admin n’existe pas = 404 Admin introuvable
+
+* ID invalide = 400 ID invalide
+
+
+---
+
+##  Mettre à jour ta section “tâches restantes”
+
+À la fin de ton fichier tu peux maintenant mettre à jour :
+
+```md
+## État au 14/11/25
+
+- [x] CRUD côté Admin (routes + service + tests PowerShell)
+- [ ] Ajouter les models pour les files (documents / fichiers courses, etc.)
+- [ ] Définir les JSON de seed / exemples de données
+- [ ] (À venir) JWT + sécurisation des routes
+
+```
+

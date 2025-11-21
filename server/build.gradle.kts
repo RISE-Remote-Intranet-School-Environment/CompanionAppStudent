@@ -36,4 +36,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:0.61.0")
     implementation("org.xerial:sqlite-jdbc:3.50.3.0")
 
+    // Ktor Call Logging
+    implementation("io.ktor:ktor-server-call-logging:2.3.4")
+
 }

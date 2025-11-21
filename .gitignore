@@ -20,5 +20,6 @@ bin/
 
 notes.ipynb
 .vscode/
+.instructions.md
 
 android_emulator.sh
