@@ -20,10 +20,20 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 // added import for authroutes
 import be.ecam.server.routes.authRoutes
+// added import for adminroutes
+import be.ecam.server.routes.adminRoutes
+// added import for calendarroutes
+import be.ecam.server.routes.calendarRoutes
+// added import for catalogroutes
+import be.ecam.server.routes.catalogRoutes
+// add callloging import
+import io.ktor.server.plugins.calllogging.*
+import org.slf4j.event.Level
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import java.io.File
 import java.nio.file.Paths
+
 
 
 
@@ -33,15 +43,24 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
+    // install call logging
+    install(CallLogging){
+        level = Level.INFO
+        filter { call -> true }
+    }
+
     install(ContentNegotiation) { json() }
 
-    // --- New: lire la config et connecter la DB au démarrage ---
+    // read config and connection to db 
     val config = environment.config
     val dbUrl = config.property("db.url").getString()
-    val dbUser = config.propertyOrNull("db.user")?.getString()
-    val dbPass = config.propertyOrNull("db.password")?.getString()
-    be.ecam.server.db.DatabaseFactory.connect(dbUrl, dbUser, dbPass)
+    // we don't need now 
+    //val dbUser = config.propertyOrNull("db.user")?.getString()
+    //val dbPass = config.propertyOrNull("db.password")?.getString()
+    //be.ecam.server.db.DatabaseFactory.connect(dbUrl, dbUser, dbPass) //   if we won't to switch at Postgres with docker
+    be.ecam.server.db.DatabaseFactory.connect(dbUrl)
     be.ecam.server.db.DatabaseFactory.migrate()
+    
     // ---
 
     
@@ -104,29 +123,37 @@ fun Application.module() {
             }
 
             // --- road debug db access ---
-            get("/debug/admins/count") {
-                val n = org.jetbrains.exposed.sql.transactions.transaction {
-                    be.ecam.server.models.Admin.all().count()
-                }
-                call.respondText("Admins count: $n")
-            }
+            // we 
+            // get("/debug/admins/count") {
+            //     val n = org.jetbrains.exposed.sql.transactions.transaction {
+            //         be.ecam.server.models.Admin.all().count()
+            //     }
+            //     call.respondText("Admins count: $n")
+            // }
 
-            post("/debug/admins/seed") {
-                val id = org.jetbrains.exposed.sql.transactions.transaction {
-                    val a = be.ecam.server.models.Admin.new {
-                        username = "admin"
-                        email = "admin@example.com"
-                        password = "1234" // just for debug
-                    }
-                    a.id.value
-                }
-                call.respondText("Seeded admin with ID: $id")
-            }
+            
+            // post("/debug/admins/seed") {
+            //     val id = org.jetbrains.exposed.sql.transactions.transaction {
+            //         val a = be.ecam.server.models.Admin.new {
+            //             username = "admin"
+            //             email = "admin@example.com"
+            //             password = "1234" // just for debug
+            //         }
+            //         a.id.value
+            //     }
+            //     call.respondText("Seeded admin with ID: $id")
+            // }
 
             // -------------------------------------------------
 
             // Auth routes (register/login)
             authRoutes()
+            // admin management routes (CRUD)
+            adminRoutes()
+            // catalog routes (formations, blocks, courses)
+            catalogRoutes()
+            // calendar routes (events)
+            calendarRoutes()
         
             
 

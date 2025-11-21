@@ -44,10 +44,9 @@ data class AuthResponse(
 )
 
 class LoginViewModel : ViewModel() {
-private val client = HttpClient {
-        install(ContentNegotiation) {
-            json()
-        }
+    private val client = HttpClient {
+        expectSuccess = false // let us handle non-2xx instead of throwing
+        install(ContentNegotiation) { json() }
     }
 
     // États observables
@@ -61,38 +60,38 @@ private val client = HttpClient {
         private set
 
 
-    fun register(username: String, email: String, password: String, baseUrl: String = "http://localhost:8082") {
-    viewModelScope.launch {
-        isLoading = true
-        errorMessage = ""
-        loginSuccess = false
+    fun register(username: String, email: String, password: String, baseUrl: String = "http://localhost:28088") {
+        viewModelScope.launch {
+            isLoading = true
+            errorMessage = ""
+            loginSuccess = false
 
-        try {
-            val response = client.post("$baseUrl/api/auth/register") {
-                contentType(ContentType.Application.Json)
-                setBody(RegisterRequest(username, email, password))
-            }
+            try {
+                val response = client.post("$baseUrl/api/auth/register") {
+                    contentType(ContentType.Application.Json)
+                    setBody(RegisterRequest(username, email, password))
+                }
 
-            if (response.status == HttpStatusCode.OK) {
-                loginSuccess = true
-            } else {
-                val message = response.bodyAsText()
-                errorMessage = "Erreur (${response.status.value}): $message"
+                if (response.status.value in 200..299) {
+                    loginSuccess = true
+                } else {
+                    val message = response.bodyAsText()
+                    errorMessage = "Erreur (${response.status.value}): $message"
+                }
+            } catch (e: Exception) {
+                errorMessage = "Erreur d'inscription : ${e.message}"
+            } finally {
+                isLoading = false
             }
-        } catch (e: Exception) {
-            errorMessage = "Erreur d'inscription : ${e.message}"
-        } finally {
-            isLoading = false
         }
     }
-}
 
 
     /**
      * 🔐 Login via POST /api/auth/login
      */
     fun login(
-        baseUrl: String = "http://localhost:8082",
+        baseUrl: String = "http://localhost:28088",
         emailOrUsername: String,
         password: String
     ) {
@@ -107,7 +106,7 @@ private val client = HttpClient {
                     setBody(LoginRequest(emailOrUsername, password))
                 }
 
-                if (response.status == HttpStatusCode.OK) {
+                if (response.status.value in 200..299) {
                     loginSuccess = true
                 } else {
                     val message = response.bodyAsText()

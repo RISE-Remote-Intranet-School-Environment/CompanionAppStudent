@@ -5,7 +5,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.IntIdTable
 
-// === TABLE (schéma) ===
+// === TABLE (schematic) ===
 object AdminTable : IntIdTable("admins") {
     val username = varchar("username", 50).uniqueIndex()
     val email = varchar("email", 100).uniqueIndex()
