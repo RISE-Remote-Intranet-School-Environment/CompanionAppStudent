@@ -17,4 +17,16 @@ captures
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 bin/
-flake.nix
+
+=======
+
+# brouillon à ne pas ajouter
+notes.ipynb
+.vscode/
+server/data/
+
+CompanionAppStudent-master/
+
+# cache python
+scripts/__pycache__/
+>>>>>>> a153374afdf17f8dba4b6db5a1743c22fbfbe5d1
