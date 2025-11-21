@@ -5,10 +5,11 @@ import time
 from pathlib import Path
 from typing import Optional
 import requests
+import re
 from bs4 import BeautifulSoup
 
-INPUT_PATH = Path("composeApp/src/commonMain/composeResources/files/ecam_formations_2025.json")
-OUTPUT_PATH = Path("composeApp/src/commonMain/composeResources/files/ecam_courses_details_2025.json")
+INPUT_PATH = Path("/Users/nicolasschell/Documents/GitHub/CompanionAppStudent/composeApp/src/commonMain/composeResources/files/ecam_formations_2025.json")
+OUTPUT_PATH = Path("/Users/nicolasschell/Documents/GitHub/CompanionAppStudent/composeApp/src/commonMain/composeResources/files/ecam_courses_details_2025.json")
 BASE_URL = "https://plus.ecam.be"
 
 HEADERS = {
@@ -104,18 +105,33 @@ def parse_evaluation_table(table: BeautifulSoup) -> list[dict]:
 
 
 def parse_sections(soup: BeautifulSoup) -> dict:
-    """Capture les sections textuelles h5 -> paragraphes/lists."""
-    sections = {}
+    """Capture les sections textuelles h5 -> paragraphes/listes en préservant les puces."""
+
+    def clean_text(raw: str) -> str:
+        return " ".join(raw.split())
+
+    sections: dict[str, list[str]] = {}
     current = None
-    for tag in soup.find_all(["h5", "p", "ul", "ol", "li"]):
+    for tag in soup.find_all(["h5", "p", "ul", "ol"]):
         if tag.name == "h5":
             current = tag.get_text(strip=True)
-            sections[current] = ""
-        elif current:
-            text = tag.get_text(" ", strip=True)
+            sections[current] = []
+            continue
+
+        if not current:
+            continue
+
+        if tag.name in ("ul", "ol"):
+            for li in tag.find_all("li", recursive=False):
+                text = clean_text(li.get_text(" ", strip=True))
+                if text:
+                    sections[current].append(f"- {text}")
+        else:
+            text = clean_text(tag.get_text(" ", strip=True))
             if text:
-                sections[current] += text + "\n"
-    return {k: v.strip() for k, v in sections.items() if v.strip()}
+                sections[current].append(text)
+
+    return {k: "\n".join(v) for k, v in sections.items() if v}
 
 
 def parse_course_page(html: str, url: str) -> dict:
