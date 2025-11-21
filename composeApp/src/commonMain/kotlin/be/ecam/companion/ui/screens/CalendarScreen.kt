@@ -225,11 +225,11 @@ fun CalendarScreen(
         if (dialogDate != null) {
             val items = eventsByDate[dialogDate] ?: emptyList()
             Column(modifier = Modifier.fillMaxWidth()) {
-                val header = "${dialogDate!!.year}-${dialogDate!!.month.number.toString().padStart(2, '0')}-${dialogDate!!.day.toString().padStart(2, '0')}"
-                Text(text = "Items on $header", style = MaterialTheme.typography.titleSmall)
+                val header = dialogDate!!.toEuropeanString()
+                Text(text = "Events on $header", style = MaterialTheme.typography.titleSmall)
                 Spacer(Modifier.height(6.dp))
                 if (items.isEmpty()) {
-                    Text("No items", color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+                    Text("No events", color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
                 } else {
                     for (event in items) {
                         Row(
@@ -440,6 +440,13 @@ private fun LocalDate.startOfWeek(): LocalDate {
     // Assume Monday as first day
     val dayIndex = (this.dayOfWeek.isoDayNumber - 1) // 0..6
     return this.minus(dayIndex, DateTimeUnit.DAY)
+}
+
+private fun LocalDate.toEuropeanString(): String {
+    // dd/MM/yyyy formatting for Belgian/European style
+    val day = this.dayOfMonth.toString().padStart(2, '0')
+    val month = this.month.number.toString().padStart(2, '0')
+    return "$day/$month/${this.year}"
 }
 
 
