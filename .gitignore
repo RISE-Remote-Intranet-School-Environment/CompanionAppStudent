@@ -18,8 +18,6 @@ captures
 **/xcshareddata/WorkspaceSettings.xcsettings
 bin/
 
-=======
-
 # brouillon à ne pas ajouter
 notes.ipynb
 .vscode/
@@ -29,4 +27,3 @@ CompanionAppStudent-master/
 
 # cache python
 scripts/__pycache__/
->>>>>>> a153374afdf17f8dba4b6db5a1743c22fbfbe5d1
