@@ -9,10 +9,11 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
+import be.ecam.companion.di.appJson
 
 actual fun platformBuildHttpClient(): HttpClient = HttpClient(Android) {
     // JSON
-    install(ContentNegotiation) { json() }
+    install(ContentNegotiation) { json(appJson) }
 
     // Timeouts to avoid indefinite hangs
     install(HttpTimeout) {

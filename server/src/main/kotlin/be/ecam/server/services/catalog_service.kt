@@ -3,6 +3,7 @@ package be.ecam.server.services
 import be.ecam.server.models.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -23,6 +24,7 @@ object CatalogService {
         val id: String,            // "automatisation"
         val name: String,          // "Automatisation"
         val source_url: String? = null,
+        val image_url: String? = null,
         val blocks: List<BlockJson>
     )
 
@@ -62,30 +64,32 @@ object CatalogService {
                         slug = f.id
                         name = f.name
                         sourceUrl = f.source_url ?: ""
+                        imageUrl = f.image_url
                     }
+                formation.imageUrl = f.image_url ?: formation.imageUrl
 
                 f.blocks.forEach { b ->
-                    val block = Block.new {
-                        name = b.name
-                        this.formation = formation
-                    }
+                    val block = Block.find { (BlockTable.name eq b.name) and (BlockTable.formation eq formation.id) }
+                        .firstOrNull()
+                        ?: Block.new {
+                            name = b.name
+                            this.formation = formation
+                        }
 
                     b.courses.forEach { c ->
-                        val existing = Course.find { CourseTable.code eq c.code }.firstOrNull()
-                        if (existing == null) {
-                            Course.new {
-                                code = c.code
-                                title = c.title
-                                credits = c.credits
-                                periods = c.periods.joinToString(",")
-                                detailsUrl = c.details_url
-                                this.formation = formation
-                                this.blockRef = block
-                            }
-                        } else {
-                            // ici tu pourrais mettre à jour des champs si tu veux
-                            // existing.title = c.title
-                        }
+                        val existing = Course.find {
+                            (CourseTable.code eq c.code) and (CourseTable.formation eq formation.id)
+                        }.firstOrNull()
+
+                        val course = existing ?: Course.new {}
+                        course.code = c.code
+                        course.title = c.title
+                        course.credits = c.credits
+                        course.periods = c.periods.joinToString(",")
+                        course.detailsUrl = c.details_url
+                        course.formation = formation
+                        course.bloc = block.name
+                        course.blockRef = block
                     }
                 }
             }
@@ -99,7 +103,8 @@ object CatalogService {
             FormationDTO(
                 id = it.id.value,
                 slug = it.slug,
-                name = it.name
+                name = it.name,
+                imageUrl = it.imageUrl
             )
         }
     }
@@ -111,12 +116,15 @@ object CatalogService {
             ?: return@transaction emptyList()
 
         Course.find { CourseTable.formation eq formation.id }.map {
+            val blocName = it.blockRef?.name ?: it.bloc
             CourseDTO(
                 id = it.id.value,
                 code = it.code,
                 title = it.title,
                 credits = it.credits,
-                bloc = it.bloc,
+                periods = it.periods,
+                bloc = blocName,
+                detailsUrl = it.detailsUrl,
                 formationSlug = formation.slug
             )
         }

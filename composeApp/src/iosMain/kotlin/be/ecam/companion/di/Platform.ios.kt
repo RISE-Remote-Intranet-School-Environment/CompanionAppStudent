@@ -4,9 +4,10 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.darwin.Darwin
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
+import be.ecam.companion.di.appJson
 
 
 actual fun platformBuildHttpClient(): HttpClient = HttpClient(Darwin) {
-    install(ContentNegotiation) { json() }
+    install(ContentNegotiation) { json(appJson) }
     expectSuccess = false
 }

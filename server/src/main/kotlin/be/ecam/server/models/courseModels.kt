@@ -1,5 +1,6 @@
 package be.ecam.server.models
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -12,6 +13,7 @@ object FormationTable : IntIdTable("formations") {
     val slug = varchar("slug", 50).uniqueIndex()
     val name = varchar("name", 255)
     val sourceUrl = varchar("source_url", 255)
+    val imageUrl = varchar("image_url", 1024).nullable()
 }
 
 object BlockTable : IntIdTable("blocks") {
@@ -20,7 +22,7 @@ object BlockTable : IntIdTable("blocks") {
 }
 
 object CourseTable : IntIdTable("courses") {
-    val code = varchar("code", 50).uniqueIndex()
+    val code = varchar("code", 50)
     val title = varchar("title", 255)
     val credits = integer("credits")
     val periods = varchar("periods", 20)
@@ -43,6 +45,7 @@ class Formation(id: EntityID<Int>) : IntEntity(id) {
     var slug by FormationTable.slug
     var name by FormationTable.name
     var sourceUrl by FormationTable.sourceUrl
+    var imageUrl by FormationTable.imageUrl
 }
 
 class Block(id: EntityID<Int>) : IntEntity(id) {
@@ -74,7 +77,8 @@ class Course(id: EntityID<Int>) : IntEntity(id) {
 data class FormationDTO(
     val id: Int,
     val slug: String,
-    val name: String
+    val name: String,
+    @SerialName("image_url") val imageUrl: String? = null
 )
 
 @Serializable
@@ -83,7 +87,9 @@ data class CourseDTO(
     val code: String,
     val title: String,
     val credits: Int,
+    val periods: String?,
     val bloc: String?,
-    val formationSlug: String?
+    @SerialName("details_url") val detailsUrl: String?,
+    @SerialName("formation_slug") val formationSlug: String?
 )
 
