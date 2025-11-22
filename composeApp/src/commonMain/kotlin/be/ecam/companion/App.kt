@@ -153,6 +153,7 @@ fun App(extraModules: List<Module> = emptyList()) {
                                 val settingsRepo = koinInject<SettingsRepository>()
                                 SettingsScreen(
                                     repo = settingsRepo,
+                                    modifier = baseModifier,
                                     onSaved = { scope.launch { vm.load() } }
                                 )
                             }
