@@ -19,11 +19,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.border
 import be.ecam.companion.viewmodel.LoginViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import be.ecam.companion.ui.components.EcamBackground
+
 
 @Composable
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
-    onNavigateToRegister: () -> Unit, // ← nouveau paramètre
+    onNavigateToRegister: () -> Unit,
     viewModel: LoginViewModel = remember { LoginViewModel() }
 ) {
     var email by remember { mutableStateOf("") }
@@ -33,45 +35,55 @@ fun LoginScreen(
     val buttonFocusRequester = remember { FocusRequester() }
 
     LaunchedEffect(viewModel.loginSuccess) {
-        if (viewModel.loginSuccess) {
-            onLoginSuccess()
-        }
+        if (viewModel.loginSuccess) onLoginSuccess()
     }
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            LoginCard(
-                email = email,
-                onEmailChange = { email = it },
-                password = password,
-                onPasswordChange = { password = it },
-                onLoginClick = {
-                    if (email.isNotBlank() && password.isNotBlank()) {
-                        viewModel.login(emailOrUsername = email, password = password)
-                    }
-                },
-                onMicrosoftLoginClick = { /* OAuth Microsoft */ },
-                passwordFocusRequester = passwordFocusRequester,
-                buttonFocusRequester = buttonFocusRequester
-            )
+    // Fond ECAM
+    EcamBackground {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-            Spacer(Modifier.height(16.dp))
-
-            // Bouton pour aller à l'inscription
-            TextButton(onClick = onNavigateToRegister) {
-                Text("Pas encore de compte ? Inscrivez-vous")
-            }
-
-            Spacer(Modifier.height(16.dp))
-
-            if (viewModel.isLoading) {
-                CircularProgressIndicator()
-            } else if (viewModel.errorMessage.isNotEmpty()) {
-                Text(
-                    text = viewModel.errorMessage,
-                    color = Color.Red,
-                    style = MaterialTheme.typography.bodyMedium
+                LoginCard(
+                    email = email,
+                    onEmailChange = { email = it },
+                    password = password,
+                    onPasswordChange = { password = it },
+                    onLoginClick = {
+                        if (email.isNotBlank() && password.isNotBlank())
+                            viewModel.login(emailOrUsername = email, password = password)
+                    },
+                    onMicrosoftLoginClick = {},
+                    passwordFocusRequester = passwordFocusRequester,
+                    buttonFocusRequester = buttonFocusRequester
                 )
+
+                Spacer(Modifier.height(20.dp))
+
+                TextButton(onClick = onNavigateToRegister) {
+                    Text(
+                        "Pas encore de compte ? Inscrivez-vous",
+                        color = Color.White
+                    )
+                }
+
+                if (viewModel.isLoading) {
+                    Spacer(Modifier.height(12.dp))
+                    CircularProgressIndicator(color = Color.White)
+                }
+
+                if (viewModel.errorMessage.isNotEmpty()) {
+                    Spacer(Modifier.height(12.dp))
+                    Text(
+                        text = viewModel.errorMessage,
+                        color = Color.Red,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
         }
     }
@@ -90,87 +102,92 @@ fun LoginCard(
 ) {
     Card(
         modifier = Modifier
-            .width(450.dp)
-            .border(2.dp, Color.Gray, shape = RoundedCornerShape(16.dp)),
-        elevation = CardDefaults.cardElevation(12.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-        shape = RoundedCornerShape(16.dp)
+            .width(420.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White.copy(alpha = 0.12f)
+        ),
+        shape = RoundedCornerShape(20.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(
             modifier = Modifier.padding(32.dp),
-            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 "Connexion",
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.primary
+                style = MaterialTheme.typography.headlineMedium,
+                color = Color.White
             )
 
             Spacer(Modifier.height(24.dp))
 
-            // Champ email
             OutlinedTextField(
                 value = email,
                 onValueChange = onEmailChange,
-                label = { Text("Email ou nom d’utilisateur") },
+                label = { Text("Email ou nom d’utilisateur", color = Color.White) },
                 singleLine = true,
-                modifier = Modifier
-                    .width(400.dp)
-                    .onKeyEvent { keyEvent ->
-                        if (keyEvent.type == KeyEventType.KeyDown && keyEvent.key == Key.Enter) {
-                            onLoginClick()
-                            true
-                        } else false
-                    }
+                modifier = Modifier.width(350.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Black,
+                    unfocusedContainerColor = Color.Black,
+                    focusedIndicatorColor = Color.White,
+                    unfocusedIndicatorColor = Color.White.copy(alpha = 0.6f),
+                    cursorColor = Color.White,
+                    focusedLabelColor = Color.White,
+                    unfocusedLabelColor = Color.White.copy(alpha = 0.8f),
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White
+                )
+
             )
 
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(16.dp))
 
-            // Champ mot de passe
             OutlinedTextField(
                 value = password,
                 onValueChange = onPasswordChange,
-                label = { Text("Mot de passe") },
-                visualTransformation = PasswordVisualTransformation(),
+                label = { Text("Mot de passe", color = Color.White) },
                 singleLine = true,
+                visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier
-                    .width(400.dp)
-                    .focusRequester(passwordFocusRequester)
-                    .onKeyEvent { keyEvent ->
-                        if (keyEvent.type == KeyEventType.KeyDown && keyEvent.key == Key.Enter) {
-                            onLoginClick()
-                            true
-                        } else false
-                    }
+                    .width(350.dp)
+                    .focusRequester(passwordFocusRequester),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Black,
+                    unfocusedContainerColor = Color.Black,
+                    focusedIndicatorColor = Color.White,
+                    unfocusedIndicatorColor = Color.White.copy(alpha = 0.6f),
+                    cursorColor = Color.White,
+                    focusedLabelColor = Color.White,
+                    unfocusedLabelColor = Color.White.copy(alpha = 0.8f),
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White
+                )
             )
 
-            Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(28.dp))
 
-            // Bouton de connexion
             Button(
                 onClick = onLoginClick,
                 modifier = Modifier
-                    .width(400.dp)
-                    .height(50.dp)
+                    .width(350.dp)
+                    .height(48.dp)
                     .focusRequester(buttonFocusRequester),
-                shape = RoundedCornerShape(12.dp),
-                elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
+                shape = RoundedCornerShape(12.dp)
             ) {
                 Text("Se connecter")
             }
 
             Spacer(Modifier.height(16.dp))
 
-            
-
-            // Bouton Microsoft
             Button(
                 onClick = onMicrosoftLoginClick,
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2F2F2F)),
                 modifier = Modifier
-                    .width(400.dp)
-                    .height(50.dp),
+                    .width(350.dp)
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF2F2F2F)
+                ),
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text("Se connecter avec Microsoft", color = Color.White)

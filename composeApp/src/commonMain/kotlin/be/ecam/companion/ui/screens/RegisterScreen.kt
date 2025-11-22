@@ -14,28 +14,27 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.border
 import androidx.lifecycle.viewmodel.compose.viewModel
 import be.ecam.companion.viewmodel.LoginViewModel
+import be.ecam.companion.ui.components.EcamBackground
 
 @Composable
 fun RegisterScreen(
     onRegisterSuccess: () -> Unit,
-    onNavigateToLogin: () -> Unit, // ← nouveau paramètre
+    onNavigateToLogin: () -> Unit,
     viewModel: LoginViewModel = remember { LoginViewModel() }
 ) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    val passwordFocusRequester = remember { FocusRequester() }
-    val buttonFocusRequester = remember { FocusRequester() }
-
     LaunchedEffect(viewModel.loginSuccess) {
-        if (viewModel.loginSuccess) {
-            onRegisterSuccess()
-        }
+        if (viewModel.loginSuccess) onRegisterSuccess()
     }
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    EcamBackground {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
             RegisterCard(
                 username = username,
                 onUsernameChange = { username = it },
@@ -48,31 +47,12 @@ fun RegisterScreen(
                         viewModel.register(username, email, password)
                     }
                 },
-                passwordFocusRequester = passwordFocusRequester,
-                buttonFocusRequester = buttonFocusRequester
+                onNavigateToLogin = onNavigateToLogin
             )
-
-            Spacer(Modifier.height(16.dp))
-
-            // Bouton pour aller à la connexion
-            TextButton(onClick = onNavigateToLogin) {
-                Text("Vous avez déjà un compte ? Connectez-vous")
-            }
-
-            Spacer(Modifier.height(16.dp))
-
-            if (viewModel.isLoading) {
-                CircularProgressIndicator()
-            } else if (viewModel.errorMessage.isNotEmpty()) {
-                Text(
-                    text = viewModel.errorMessage,
-                    color = Color.Red,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
         }
     }
 }
+
 
 
 @Composable
@@ -84,20 +64,18 @@ fun RegisterCard(
     password: String,
     onPasswordChange: (String) -> Unit,
     onRegisterClick: () -> Unit,
-    passwordFocusRequester: FocusRequester,
-    buttonFocusRequester: FocusRequester
+    onNavigateToLogin: () -> Unit
 ) {
     Card(
-        modifier = Modifier
-            .width(450.dp)
-            .border(2.dp, Color.Gray, shape = RoundedCornerShape(16.dp)),
-        elevation = CardDefaults.cardElevation(12.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-        shape = RoundedCornerShape(16.dp)
+        modifier = Modifier.width(420.dp),
+        shape = RoundedCornerShape(24.dp),
+        elevation = CardDefaults.cardElevation(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White.copy(alpha = 0.92f)
+        )
     ) {
         Column(
             modifier = Modifier.padding(32.dp),
-            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -106,14 +84,14 @@ fun RegisterCard(
                 color = MaterialTheme.colorScheme.primary
             )
 
-            Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(20.dp))
 
             OutlinedTextField(
                 value = username,
                 onValueChange = onUsernameChange,
                 label = { Text("Nom d’utilisateur") },
                 singleLine = true,
-                modifier = Modifier.width(400.dp)
+                modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(Modifier.height(12.dp))
@@ -123,7 +101,7 @@ fun RegisterCard(
                 onValueChange = onEmailChange,
                 label = { Text("Email") },
                 singleLine = true,
-                modifier = Modifier.width(400.dp)
+                modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(Modifier.height(12.dp))
@@ -134,9 +112,7 @@ fun RegisterCard(
                 label = { Text("Mot de passe") },
                 visualTransformation = PasswordVisualTransformation(),
                 singleLine = true,
-                modifier = Modifier
-                    .width(400.dp)
-                    .focusRequester(passwordFocusRequester)
+                modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(Modifier.height(24.dp))
@@ -144,13 +120,17 @@ fun RegisterCard(
             Button(
                 onClick = onRegisterClick,
                 modifier = Modifier
-                    .width(400.dp)
-                    .height(50.dp)
-                    .focusRequester(buttonFocusRequester),
-                shape = RoundedCornerShape(12.dp),
-                elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(16.dp)
             ) {
                 Text("S'inscrire")
+            }
+
+            Spacer(Modifier.height(16.dp))
+
+            TextButton(onClick = onNavigateToLogin) {
+                Text("Déjà un compte ? Connectez-vous")
             }
         }
     }
