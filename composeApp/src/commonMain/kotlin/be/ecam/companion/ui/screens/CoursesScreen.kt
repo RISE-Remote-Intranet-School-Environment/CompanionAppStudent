@@ -47,6 +47,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import be.ecam.companion.data.FormationCatalogRepository
@@ -346,12 +347,14 @@ private fun ProgramCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
+    val cardHeight = 260.dp
+    val imageHeight = 140.dp
     Card(
-        modifier = modifier,
+        modifier = modifier.height(cardHeight),
         onClick = onClick,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.fillMaxSize()) {
             val imageShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
             val fallbackPainter = program.imageRes?.let { painterResource(it) }
             when {
@@ -364,7 +367,7 @@ private fun ProgramCard(
                         error = fallbackPainter,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(140.dp)
+                            .height(imageHeight)
                             .clip(imageShape)
                     )
                 }
@@ -375,7 +378,7 @@ private fun ProgramCard(
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(140.dp)
+                            .height(imageHeight)
                             .clip(imageShape)
                     )
                 }
@@ -383,7 +386,7 @@ private fun ProgramCard(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(140.dp)
+                            .height(imageHeight)
                             .clip(imageShape)
                             .background(MaterialTheme.colorScheme.surfaceVariant)
                     )
@@ -392,6 +395,7 @@ private fun ProgramCard(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .weight(1f, fill = true)
                     .padding(16.dp)
             ) {
                 Text(
@@ -402,7 +406,9 @@ private fun ProgramCard(
                 Spacer(Modifier.height(8.dp))
                 Text(
                     text = program.description,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
