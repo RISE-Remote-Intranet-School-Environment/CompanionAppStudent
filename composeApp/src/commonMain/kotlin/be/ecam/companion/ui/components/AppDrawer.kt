@@ -27,15 +27,20 @@ fun AppDrawer(
     val scrollState = rememberScrollState()
 
     ModalDrawerSheet(
-        modifier = Modifier.width(280.dp)
+        modifier = Modifier
+            .fillMaxHeight()
+            .widthIn(min = 140.dp, max = 200.dp) // Max drawer size
     ) {
         Column(
             modifier = Modifier
                 .fillMaxHeight()
-                .padding(horizontal = 16.dp, vertical = 12.dp),
-            verticalArrangement = Arrangement.SpaceBetween
+                .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
-            Column {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .verticalScroll(scrollState)
+            ) {
                 DrawerProfileSection(onSelectDashboard)
                 Spacer(Modifier.height(8.dp))
 
@@ -54,7 +59,7 @@ fun AppDrawer(
                 }
 
                 Spacer(Modifier.height(16.dp))
-                DrawerExtraScrollableSection(scrollState)
+                DrawerExtraScrollableSection()
             }
 
             DrawerLogoutSection(onLogout)
@@ -90,12 +95,8 @@ private fun DrawerProfileSection(onSelectDashboard: () -> Unit) {
 }
 
 @Composable
-private fun DrawerExtraScrollableSection(scrollState: androidx.compose.foundation.ScrollState) {
-    Column(
-        modifier = Modifier
-            .verticalScroll(scrollState)
-            .padding(top = 12.dp)
-    ) {
+private fun DrawerExtraScrollableSection() {
+    Column(modifier = Modifier.padding(top = 12.dp)) {
         Text("Drawer content here")
         Spacer(Modifier.height(400.dp)) // Exemple, à remplacer par un vrai contenu
     }
