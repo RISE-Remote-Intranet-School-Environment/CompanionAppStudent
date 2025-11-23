@@ -18,6 +18,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
@@ -57,10 +59,12 @@ fun CalendarScreen(
     val eventsByDate = remember(localEventsByDate, scheduledByDate) {
         mergeCalendarEvents(localEventsByDate, scheduledByDate)
     }
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .verticalScroll(scrollState)
             .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
     ) {
         // Header with month/year and navigation
