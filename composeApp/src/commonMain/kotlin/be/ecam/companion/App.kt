@@ -73,7 +73,8 @@ fun App(extraModules: List<Module> = emptyList()) {
 
             ModalNavigationDrawer(
                 drawerState = drawerState,
-                gesturesEnabled = selectedScreen != BottomItem.CALENDAR && !showCoursesPage && !showProfessorsPage,
+                // Allow swipe/edge gestures to open/close the drawer on every screen
+                gesturesEnabled = true,
                 drawerContent = {
                     AppDrawer(
                         onSelectDashboard = {
