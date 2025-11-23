@@ -1,0 +1,278 @@
+{
+  "students": [
+    {
+      "student_name": "Nirina Crépin",
+      "student_id": "05732000",
+      "role": "Etudiant",
+      "username": "ncrepin",
+      "email": "ncrepin@ecam.be",
+      "password": "nirina1234",
+      "records": [
+        {
+          "program": "5MIN",
+          "academic_year_label": "Année académique 2025-2026",
+          "catalog_year": "2025-2026",
+          "block": "Bloc 5",
+          "courses": [
+            {
+              "code": "4eial40",
+              "title": "Architecture and software quality",
+              "ects": 4,
+              "period": "Q1",
+              "course_id": 135,
+              "sessions": { "jan": "-", "jun": "-", "sep": "-" },
+              "components": [
+                {
+                  "code": "4eial4T",
+                  "title": "Architecture logicielle",
+                  "weight": "100%",
+                  "sessions": { "jan": "-", "jun": "-", "sep": "-" }
+                }
+              ]
+            },
+            {
+              "code": "4eiam40",
+              "title": "Mobile development",
+              "ects": 3,
+              "period": "Q2",
+              "course_id": 136,
+              "sessions": { "jan": "-", "jun": "-", "sep": "-" },
+              "components": [
+                {
+                  "code": "4eiam4C",
+                  "title": "Applications mobiles et laboratoires",
+                  "weight": "100%",
+                  "sessions": { "jan": "-", "jun": "-", "sep": "-" }
+                }
+              ]
+            },
+            {
+              "code": "4eiaw40",
+              "title": "Web Architecture",
+              "ects": 4,
+              "period": "Q2",
+              "course_id": 137,
+              "sessions": { "jan": "-", "jun": "-", "sep": "-" },
+              "components": [
+                {
+                  "code": "4eiaw4L",
+                  "title": "Applications et services web",
+                  "weight": "100%",
+                  "sessions": { "jan": "-", "jun": "-", "sep": "-" }
+                }
+              ]
+            },
+            {
+              "code": "4eidb40",
+              "title": "Database management system",
+              "ects": 4,
+              "period": "Q1",
+              "course_id": 138,
+              "sessions": { "jan": "I", "jun": "I", "sep": "-" },
+              "components": [
+                {
+                  "code": "4eidb4L",
+                  "title": "Base de données",
+                  "weight": "60%",
+                  "sessions": { "jan": "I", "jun": "I", "sep": "-" }
+                },
+                {
+                  "code": "4eidb4T",
+                  "title": "Nosql",
+                  "weight": "40%",
+                  "sessions": { "jan": "I", "jun": "I", "sep": "-" }
+                }
+              ]
+            },
+            {
+              "code": "4einm40",
+              "title": "Network management",
+              "ects": 5,
+              "period": "Q2",
+              "course_id": 139,
+              "sessions": { "jan": "-", "jun": "-", "sep": "-" },
+              "components": [
+                {
+                  "code": "4einm4C",
+                  "title": "Réseaux et labo admin. réseaux",
+                  "weight": "100%",
+                  "sessions": { "jan": "-", "jun": "-", "sep": "-" }
+                }
+              ]
+            },
+            {
+              "code": "4eisa40",
+              "title": "GPU computing",
+              "ects": 6,
+              "period": "Q1",
+              "course_id": 140,
+              "sessions": { "jan": "-", "jun": "-", "sep": "-" },
+              "components": [
+                {
+                  "code": "4eisa4L",
+                  "title": "Programmation parallèle, OpenGL",
+                  "weight": "34%",
+                  "sessions": { "jan": "-", "jun": "-", "sep": "-" }
+                },
+                {
+                  "code": "4eisa4T",
+                  "title": "Algorithmique",
+                  "weight": "33%",
+                  "sessions": { "jan": "-", "jun": "-", "sep": "-" }
+                },
+                {
+                  "code": "4eitm4L",
+                  "title": "Traitement des images",
+                  "weight": "33%",
+                  "sessions": { "jan": "-", "jun": "-", "sep": "-" }
+                }
+              ]
+            },
+            {
+              "code": "4eoai40",
+              "title": "Artificial Intelligence",
+              "ects": 5,
+              "period": "Q2",
+              "course_id": 118,
+              "sessions": { "jan": "-", "jun": "-", "sep": "-" },
+              "components": [
+                {
+                  "code": "4eoai4B",
+                  "title": "Artificial intelligence",
+                  "weight": "20%",
+                  "sessions": { "jan": "-", "jun": "-", "sep": "-" }
+                },
+                {
+                  "code": "4eoai4C",
+                  "title": "Machine learning",
+                  "weight": "80%",
+                  "sessions": { "jan": "-", "jun": "-", "sep": "-" }
+                }
+              ]
+            },
+            {
+              "code": "4eore40",
+              "title": "Computer Networks",
+              "ects": 5,
+              "period": "Q1",
+              "course_id": 124,
+              "sessions": { "jan": "-", "jun": "I", "sep": "-" },
+              "components": [
+                {
+                  "code": "4eobs4T",
+                  "title": "Bus de terrain",
+                  "weight": "10%",
+                  "sessions": { "jan": "-", "jun": "-", "sep": "-" }
+                },
+                {
+                  "code": "4eocr4T",
+                  "title": "Concepts réseaux",
+                  "weight": "60%",
+                  "sessions": { "jan": "-", "jun": "-", "sep": "-" }
+                },
+                {
+                  "code": "4eore4L",
+                  "title": "Labo réseaux et simulation",
+                  "weight": "30%",
+                  "sessions": { "jan": "-", "jun": "I", "sep": "-" }
+                }
+              ]
+            },
+            {
+              "code": "5eisd50",
+              "title": "Computer security",
+              "ects": 4,
+              "period": "Q1",
+              "course_id": 146,
+              "sessions": { "jan": "I", "jun": "-", "sep": "-" },
+              "components": [
+                {
+                  "code": "5eisd5L",
+                  "title": "Laboratoire sécurité logicielle",
+                  "weight": "50%",
+                  "sessions": { "jan": "I", "jun": "-", "sep": "-" }
+                },
+                {
+                  "code": "5eisd5T",
+                  "title": "Computer security",
+                  "weight": "50%",
+                  "sessions": { "jan": "-", "jun": "-", "sep": "-" }
+                }
+              ]
+            },
+            {
+              "code": "5eitf50",
+              "title": "Travail de fin d'études",
+              "ects": 20,
+              "period": "Q1,Q2",
+              "course_id": 999,
+              "sessions": { "jan": "-", "jun": "-", "sep": "-" },
+              "components": [
+                {
+                  "code": "5matf5X",
+                  "title": "TFE 100%",
+                  "weight": "100%",
+                  "sessions": { "jan": "-", "jun": "-", "sep": "-" }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "student_name": "Nicolas Scheel",
+      "student_id": "21523",
+      "role": "Etudiant",
+      "username": "nschell",
+      "email": "nschell@ecam.be",
+      "password": "nicolas1234",
+      "records": [
+        {
+          "academic_year_label": "Année académique 2024-2025",
+          "catalog_year": "2024",
+          "formation_slug": "informatique",
+          "formation_id": 6,
+          "block": "Bloc 3",
+          "program": "3BA",
+          "courses": [
+            { "code": "3base30", "title": "Comptabilité et entrepreneuriat", "ects": 5, "period": "Q1,Q2", "course_id": 376, "sessions": { "jan": "15", "jun": "-", "sep": "-" } },
+            { "code": "3basg30", "title": "Stage", "ects": 10, "period": "Q2", "course_id": 377, "sessions": { "jan": "15", "jun": "-", "sep": "-" } },
+            { "code": "3beal30", "title": "Electronic design", "ects": 5, "period": "Q1", "course_id": 378, "sessions": { "jan": "15", "jun": "-", "sep": "-" } },
+            { "code": "3bect30", "title": "Control Theory and applications", "ects": 3, "period": "Q2", "course_id": 379, "sessions": { "jan": "5", "jun": "-", "sep": "17" } },
+            { "code": "3beee30", "title": "Embedded systems", "ects": 4, "period": "Q2", "course_id": 380, "sessions": { "jan": "15", "jun": "-", "sep": "-" } },
+            { "code": "3been30", "title": "Microcontroller and logic design", "ects": 6, "period": "Q1", "course_id": 381, "sessions": { "jan": "-", "jun": "17", "sep": "-" } },
+            { "code": "3befe30", "title": "Fundamentals of electrical engineering", "ects": 3, "period": "Q2", "course_id": 382, "sessions": { "jan": "-", "jun": "17", "sep": "-" } },
+            { "code": "3bepe30", "title": "PCB design", "ects": 5, "period": "Q1,Q2", "course_id": 383, "sessions": { "jan": "-", "jun": "17", "sep": "-" } },
+            { "code": "3bepi30", "title": "Software engineering 2", "ects": 3, "period": "Q1,Q2", "course_id": 384, "sessions": { "jan": "-", "jun": "17", "sep": "-" } },
+            { "code": "3bepo30", "title": "Software engineering 1", "ects": 7, "period": "Q1", "course_id": 385, "sessions": { "jan": "-", "jun": "5", "sep": "12" } },
+            { "code": "3bess30", "title": "Signals, systems and telecommunications", "ects": 5, "period": "Q1,Q2", "course_id": 386, "sessions": { "jan": "-", "jun": "-", "sep": "12" } },
+            { "code": "3betw30", "title": "Network and web technologies", "ects": 4, "period": "Q1", "course_id": 387, "sessions": { "jan": "-", "jun": "-", "sep": "12" } }
+          ]
+        },
+        {
+          "academic_year_label": "Année académique 2025-2026",
+          "catalog_year": "2025",
+          "formation_slug": "informatique",
+          "formation_id": 6,
+          "block": "Bloc 4",
+          "program": "4MIN",
+          "courses": [
+            { "code": "4eiai40", "title": "Artificial Intelligence", "ects": 6, "period": "Q2", "course_id": 134, "sessions": { "jan": "-", "jun": "-", "sep": "-" } },
+            { "code": "4eial40", "title": "Architecture and software quality", "ects": 4, "period": "Q1", "course_id": 135, "sessions": { "jan": "-", "jun": "-", "sep": "-" } },
+            { "code": "4eiam40", "title": "Mobile development", "ects": 3, "period": "Q2", "course_id": 136, "sessions": { "jan": "-", "jun": "-", "sep": "-" } },
+            { "code": "4eiaw40", "title": "Web Architecture", "ects": 4, "period": "Q2", "course_id": 137, "sessions": { "jan": "-", "jun": "-", "sep": "-" } },
+            { "code": "4eidb40", "title": "Database management system", "ects": 4, "period": "Q1", "course_id": 138, "sessions": { "jan": "-", "jun": "-", "sep": "-" } },
+            { "code": "4einm40", "title": "Network management", "ects": 5, "period": "Q2", "course_id": 139, "sessions": { "jan": "-", "jun": "-", "sep": "-" } },
+            { "code": "4eisa40", "title": "GPU computing", "ects": 6, "period": "Q1", "course_id": 140, "sessions": { "jan": "-", "jun": "-", "sep": "-" } },
+            { "code": "4eisd40", "title": "System on chip", "ects": 3, "period": "Q2", "course_id": 141, "sessions": { "jan": "-", "jun": "-", "sep": "-" } },
+            { "code": "4eope40", "title": "Embedded Project", "ects": 9, "period": "Q1,Q2", "course_id": 389, "sessions": { "jan": "-", "jun": "-", "sep": "-" } },
+            { "code": "4eore40", "title": "Computer Networks", "ects": 5, "period": "Q1", "course_id": 390, "sessions": { "jan": "-", "jun": "-", "sep": "-" } },
+            { "code": "4eosi40", "title": "Hardware Testing Processes", "ects": 2, "period": "Q1", "course_id": 391, "sessions": { "jan": "-", "jun": "-", "sep": "-" } },
+            { "code": "4eisa40", "title": "GPU computing", "ects": 6, "period": "Q1", "course_id": 392, "sessions": { "jan": "-", "jun": "-", "sep": "-" } }
+          ]
+        }
+      ]
+    }
+  ]
+}

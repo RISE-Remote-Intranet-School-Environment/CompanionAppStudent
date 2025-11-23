@@ -2,8 +2,6 @@ package be.ecam.companion
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.rememberDrawerState
@@ -23,6 +21,7 @@ import be.ecam.companion.ui.screens.RegisterScreen
 import be.ecam.companion.ui.screens.SettingsScreen
 import be.ecam.companion.ui.screens.UserDashboardScreen
 import be.ecam.companion.ui.screens.ProfessorsScreen
+import be.ecam.companion.ui.screens.MonPaeScreen
 
 
 import be.ecam.companion.viewmodel.HomeViewModel
@@ -66,10 +65,10 @@ fun App(extraModules: List<Module> = emptyList()) {
             var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
             var showCoursesPage by remember { mutableStateOf(false) }
             var showProfessorsPage by remember { mutableStateOf(false) }
+            var showPaePage by remember { mutableStateOf(false) }
             var coursesTitleSuffix by remember { mutableStateOf<String?>(null) }
+            var paeTitleSuffix by remember { mutableStateOf<String?>(null) }
             var coursesResetCounter by remember { mutableStateOf(0) }
-
-            val scrollState = rememberScrollState()
 
             ModalNavigationDrawer(
                 drawerState = drawerState,
@@ -79,22 +78,39 @@ fun App(extraModules: List<Module> = emptyList()) {
                     AppDrawer(
                         onSelectDashboard = {
                             selectedScreen = BottomItem.DASHBOARD
+                            showPaePage = false
+                            paeTitleSuffix = null
+                            showCoursesPage = false
+                            showProfessorsPage = false
                             scope.launch { drawerState.close() }
                         },
                         onSelectCourses = {
                             showCoursesPage = true
                             coursesTitleSuffix = null
+                            showPaePage = false
+                            paeTitleSuffix = null
                             showProfessorsPage = false
                             coursesResetCounter++
                             scope.launch { drawerState.close() }
                         },
                         onSelectProfessors = {
                             showProfessorsPage = true
+                            showPaePage = false
+                            paeTitleSuffix = null
                             showCoursesPage = false
+                            scope.launch { drawerState.close() }
+                        },
+                        onSelectPae = {
+                            showPaePage = true
+                            paeTitleSuffix = null
+                            showCoursesPage = false
+                            showProfessorsPage = false
                             scope.launch { drawerState.close() }
                         },
                         onLogout = {
                             scope.launch { drawerState.close() }
+                            showPaePage = false
+                            paeTitleSuffix = null
                             isLoggedIn = false
                         }
                     )
@@ -107,7 +123,9 @@ fun App(extraModules: List<Module> = emptyList()) {
                             selectedScreen = selectedScreen,
                             showCoursesPage = showCoursesPage,
                             showProfessorsPage = showProfessorsPage,
+                            showPaePage = showPaePage,
                             coursesTitleSuffix = coursesTitleSuffix,
+                            paeTitleSuffix = paeTitleSuffix,
                             onMenuClick = { scope.launch { drawerState.open() } }
                         )
                     },
@@ -117,7 +135,9 @@ fun App(extraModules: List<Module> = emptyList()) {
                             onSelect = { item ->
                                 showCoursesPage = false
                                 showProfessorsPage = false
+                                showPaePage = false
                                 coursesTitleSuffix = null
+                                paeTitleSuffix = null
                                 selectedScreen = item
                             }
                         )
@@ -135,6 +155,10 @@ fun App(extraModules: List<Module> = emptyList()) {
                             onContextChange = { coursesTitleSuffix = it }
                         )
                         showProfessorsPage -> ProfessorsScreen(baseModifier)
+                        showPaePage -> MonPaeScreen(
+                            modifier = baseModifier,
+                            onContextChange = { paeTitleSuffix = it }
+                        )
                         else -> when (selectedScreen) {
                             BottomItem.HOME -> {
                                 LaunchedEffect(Unit) { vm.load() }

@@ -22,6 +22,7 @@ fun AppDrawer(
     onSelectDashboard: () -> Unit,
     onSelectCourses: () -> Unit,
     onSelectProfessors: () -> Unit,
+    onSelectPae: () -> Unit,
     onLogout: () -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -49,6 +50,13 @@ fun AppDrawer(
                     modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
                 ) {
                     Text("Formations")
+                }
+
+                Button(
+                    onClick = onSelectPae,
+                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                ) {
+                    Text("Mon PAE")
                 }
 
                 Button(
