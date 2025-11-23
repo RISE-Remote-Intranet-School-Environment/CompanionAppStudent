@@ -1,5 +1,6 @@
 package be.ecam.companion.ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
@@ -8,13 +9,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -195,13 +200,7 @@ fun CourseDetailScreen(course: CourseDetail, modifier: Modifier = Modifier) {
 
 
         course.sections.forEach { (title, content) ->
-            SectionCard(title) {
-                Text(
-                    content,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-            Spacer(Modifier.height(12.dp))
+            ExpandableSectionCard(title, content)
         }
     }
 }
@@ -224,24 +223,49 @@ fun SectionTitle(title: String, icon: androidx.compose.ui.graphics.vector.ImageV
 }
 
 @Composable
-fun SectionCard(title: String, content: @Composable ColumnScope.() -> Unit) {
+fun SectionCard(
+    title: String,
+    content: @Composable ColumnScope.() -> Unit
+) {
     Card(
-        shape = RoundedCornerShape(16.dp),
-        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(18.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp)
+            .then(
+                if (true) Modifier else Modifier // (placeholder for responsiveness if you want later)
+            ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
-        Column(Modifier.padding(16.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(24.dp)
+                .fillMaxWidth()
+                .widthIn(max = 900.dp)
+                .align(Alignment.CenterHorizontally)
+        ) {
             Text(
                 title,
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                ),
+                modifier = Modifier.padding(bottom = 12.dp)
             )
-            Spacer(Modifier.height(8.dp))
-            content()
+
+            ProvideTextStyle(
+                MaterialTheme.typography.bodyLarge.copy(
+                    lineHeight = 26.sp
+                )
+            ) {
+                content()
+            }
         }
     }
 }
+
 
 @Composable
 fun ActivityCard(activity: OrganizedActivity) {
@@ -293,7 +317,7 @@ fun OrganizedActivitiesTable(activities: List<OrganizedActivity>) {
         Row(Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
             Text("Code", Modifier.weight(1f), fontWeight = FontWeight.Bold)
             Text("Activité", Modifier.weight(2f), fontWeight = FontWeight.Bold)
-            Text("Heures", Modifier.weight(1f), fontWeight = FontWeight.Bold)
+            Text("Heures \n Q1/Q2", Modifier.weight(1f), fontWeight = FontWeight.Bold)
             Text("Enseignants", Modifier.weight(2f), fontWeight = FontWeight.Bold)
         }
 
@@ -344,3 +368,53 @@ fun EvaluatedActivitiesTable(list: List<EvaluatedActivity>) {
         }
     }
 }
+@Composable
+fun ExpandableSectionCard(
+    title: String,
+    content: String
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Column(Modifier.padding(16.dp)) {
+
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    title,
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                    modifier = Modifier.weight(1f)
+                )
+
+                IconButton(onClick = { expanded = !expanded }) {
+                    Icon(
+                        imageVector = if (expanded)
+                            Icons.Default.KeyboardArrowUp
+                        else
+                            Icons.Default.KeyboardArrowDown,
+                        contentDescription = null
+                    )
+                }
+            }
+
+
+            AnimatedVisibility(visible = expanded) {
+                Text(
+                    text = content,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(top = 8.dp),
+                    textAlign = TextAlign.Justify
+                )
+            }
+        }
+    }
+}
+
