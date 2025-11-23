@@ -1,21 +1,32 @@
 package be.ecam.companion.ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.School
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import companion.composeapp.generated.resources.Res
 
 
-// --- Structures de données simples (tu les remplaceras plus tard par ton JSON) ---
+
 @Serializable
 data class OrganizedActivity(
     val code: String,
@@ -55,102 +66,27 @@ data class CourseDetail(
     val sections: Map<String, String> = emptyMap()
 )
 
-// Petit DTO pour transmettre un identifiant de cours depuis `CoursesScreen`.
 data class CourseRef(val code: String, val detailsUrl: String?)
+
 
 @Composable
 fun loadCourses(): List<CourseDetail> {
-    // Chargement asynchrone via produceState car Res.readBytes est suspendante
-    val state = produceState<List<CourseDetail>>(initialValue = emptyList()) {
+    val state = produceState(initialValue = emptyList<CourseDetail>()) {
         try {
             val bytes = Res.readBytes("files/ecam_courses_details_2025.json")
             if (bytes.isNotEmpty()) {
-                val text = bytes.decodeToString()
                 val json = Json { ignoreUnknownKeys = true; isLenient = true }
-                val parsed = json.decodeFromString<List<CourseDetail>>(text)
-                println("[CoursesLoader] loaded ${parsed.size} course fiches")
-                value = parsed
-            } else {
-                value = emptyList()
+                value = json.decodeFromString(bytes.decodeToString())
             }
-        } catch (t: Throwable) {
-            // En cas d'erreur, on retourne liste vide
-            println("[CoursesLoader] error loading courses: ${t.message}")
+        } catch (e: Throwable) {
+            println("[CoursesLoader] error: ${e.message}")
             value = emptyList()
         }
     }
     return state.value
 }
 
-@Composable
-fun CourseDetailScreen(course: CourseDetail) {
-    val scrollState = rememberScrollState()
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-            .padding(16.dp)
-    ) {
-        // --- En-tête du cours ---
-        Text(
-            text = "${course.code} - ${course.title}",
-            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-
-        if (!course.bloc.isNullOrBlank() || !course.program.isNullOrBlank()) {
-            Text("Bloc : ${course.bloc ?: "-"} | Programme : ${course.program ?: "-"}")
-        }
-        Text("Crédits : ${course.credits ?: "-"} | Heures : ${course.hours ?: "-"}")
-        Text("Responsable : ${course.responsable ?: "-"}")
-        Text("Langue : ${course.language ?: "-"}")
-
-        Text(
-            text = if (course.mandatory) "Unité obligatoire" else "Unité optionnelle",
-            color = if (course.mandatory) MaterialTheme.colorScheme.primary
-            else MaterialTheme.colorScheme.secondary,
-            modifier = Modifier.padding(top = 4.dp)
-        )
-
-        Spacer(Modifier.height(20.dp))
-
-        // --- Activités organisées ---
-        if (course.organized_activities.isNotEmpty()) {
-            SectionTitle("Activités organisées")
-            course.organized_activities.forEach { act ->
-                ActivityCard(act)
-            }
-            Spacer(Modifier.height(16.dp))
-        }
-
-        // --- Activités évaluées ---
-        if (course.evaluated_activities.isNotEmpty()) {
-            SectionTitle("Activités évaluées")
-            course.evaluated_activities.forEach { eval ->
-                EvaluationCard(eval)
-            }
-            Spacer(Modifier.height(16.dp))
-        }
-
-        // --- Sections textuelles (Contribution, Contenu, Méthodes...) ---
-        if (course.sections.isNotEmpty()) {
-            course.sections.forEach { (title, content) ->
-                SectionTitle(title)
-                Text(
-                    text = content,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(bottom = 12.dp)
-                )
-            }
-        } else {
-            Text(
-                "Aucune information complémentaire disponible.",
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-    }
-}
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CoursesFicheScreen(
     courseRef: CourseRef,
@@ -158,114 +94,192 @@ fun CoursesFicheScreen(
     modifier: Modifier = Modifier
 ) {
     val allCourses = rememberCoursesDetails()
-    val query = courseRef.code.trim()
-
-    fun normalizeKey(s: String): String {
-        return s.replace(Regex("[^A-Za-z0-9]"), "").lowercase()
-    }
-
-    // Prépare une liste de valeurs candidates provenant du CourseRef
-    val candidates = mutableListOf<String>().apply {
-        add(query)
-        courseRef.detailsUrl?.let { url ->
-            // extraire le dernier segment du path (ex: https://.../1bach10 -> 1bach10)
-            val last = url.trimEnd('/').substringAfterLast('/')
-            if (last.isNotBlank()) add(last)
-        }
-    }
-
-    val normalizedCandidates = candidates.map { normalizeKey(it) }.toSet()
+    val normalizedKey = courseRef.code.lowercase().replace(" ", "")
 
     val course = allCourses.find { cd ->
-        val nCode = normalizeKey(cd.code)
-        val nTitle = normalizeKey(cd.title)
-        // test direct contre tous les candidats
-        if (normalizedCandidates.contains(nCode) || normalizedCandidates.contains(nTitle)) return@find true
-        // tolerances
-        if (normalizedCandidates.any { cand -> nCode.contains(cand) || nTitle.contains(cand) }) return@find true
-        false
+        cd.code.lowercase().replace(" ", "").contains(normalizedKey)
+                || cd.title.lowercase().replace(" ", "").contains(normalizedKey)
     }
 
-    if (course == null) {
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(16.dp)
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Retour")
+                    }
+                },
+                title = { Text(course?.title ?: "Fiche de cours") }
+            )
+        }
+    ) { padding ->
+        if (course == null) {
+            Box(
+                modifier = Modifier.fillMaxSize().padding(padding),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("Aucune fiche trouvée pour '${courseRef.code}'.")
+            }
+        } else {
+            CourseDetailScreen(
+                course = course,
+                modifier = Modifier.padding(padding)
+            )
+        }
+    }
+}
+
+
+@Composable
+fun CourseDetailScreen(course: CourseDetail, modifier: Modifier = Modifier) {
+    val scroll = rememberScrollState()
+
+    Column(
+        modifier = modifier
+            .verticalScroll(scroll)
+            .padding(16.dp)
+    ) {
+
+
+        Card(
+            shape = RoundedCornerShape(20.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
+            ),
+            modifier = Modifier.fillMaxWidth()
         ) {
-            OutlinedButton(onClick = onBack) { Text("← Retour") }
-            Spacer(Modifier.height(8.dp))
+            Column(Modifier.padding(16.dp)) {
+                Text(
+                    "${course.code} — ${course.title}",
+                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
+                )
 
-            if (allCourses.isEmpty()) {
-                // Chargement en cours
-                Spacer(Modifier.height(12.dp))
-                Text("Chargement des fiches...", style = MaterialTheme.typography.bodyMedium)
-                Spacer(Modifier.height(8.dp))
-                CircularProgressIndicator()
-            } else {
-                Spacer(Modifier.height(12.dp))
-                Text("Fiche introuvable pour le cours: \"${courseRef.code}\"", style = MaterialTheme.typography.bodyLarge)
-                Spacer(Modifier.height(12.dp))
-                Text("Fiches chargées: ${allCourses.size}", style = MaterialTheme.typography.bodyMedium)
                 Spacer(Modifier.height(8.dp))
 
-                // Affiche un échantillon de codes (premiers 30) pour debug
-                val sample = allCourses.take(30).map { it.code }.joinToString(", ")
-                Text("Exemples de codes: ", style = MaterialTheme.typography.titleSmall)
-                Text(sample, style = MaterialTheme.typography.bodySmall, maxLines = 4)
+                Text("Bloc : ${course.bloc ?: "-"}")
+                Text("Programme : ${course.program ?: "-"}")
+                Text("Crédits : ${course.credits ?: "-"} | Heures : ${course.hours ?: "-"}")
+                Text("Responsable : ${course.responsable ?: "-"}")
+                Text("Langue : ${course.language ?: "-"}")
 
-                Spacer(Modifier.height(12.dp))
-                Text("Query normalisée candidates: ${normalizedCandidates.joinToString(", ")}", style = MaterialTheme.typography.bodySmall)
+                Spacer(Modifier.height(6.dp))
 
-                // Montrer correspondances proches (codes dont le préfixe correspond)
-                val close = allCourses.filter { c ->
-                    val nk = normalizeKey(c.code)
-                    normalizedCandidates.any { cand -> nk.startsWith(cand) || nk.contains(cand) }
-                }.take(20).map { it.code }
-                if (close.isNotEmpty()) {
-                    Spacer(Modifier.height(8.dp))
-                    Text("Correspondances proches:", style = MaterialTheme.typography.titleSmall)
-                    Text(close.joinToString(", "), style = MaterialTheme.typography.bodySmall, maxLines = 4)
-                }
+                AssistChip(
+                    onClick = {},
+                    label = {
+                        Text(if (course.mandatory) "Obligatoire" else "Optionnel")
+                    },
+                    leadingIcon = {
+                        Icon(
+                            Icons.Default.School,
+                            contentDescription = null
+                        )
+                    }
+                )
             }
         }
-    } else {
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            OutlinedButton(onClick = onBack) { Text("← Retour") }
-            Spacer(Modifier.height(16.dp))
-            CourseDetailScreen(course = course) // déjà scrollable à l’intérieur
+
+        Spacer(Modifier.height(20.dp))
+
+
+
+        if (course.organized_activities.isNotEmpty()) {
+            SectionTitle("Activités organisées", Icons.Default.List)
+            OrganizedActivitiesTable(course.organized_activities)
         }
+
+        Spacer(Modifier.height(16.dp))
+
+
+        if (course.evaluated_activities.isNotEmpty()) {
+            SectionTitle("Activités évaluées", Icons.Default.Info)
+            EvaluatedActivitiesTable(course.evaluated_activities)
+        }
+
+        Spacer(Modifier.height(16.dp))
+
+
+        course.sections.forEach { (title, content) ->
+            ExpandableSectionCard(title, content)
+        }
+    }
+}
+
+
+@Composable
+fun SectionTitle(title: String, icon: androidx.compose.ui.graphics.vector.ImageVector) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(vertical = 8.dp)
+    ) {
+        Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+        Spacer(Modifier.width(8.dp))
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+            color = MaterialTheme.colorScheme.primary
+        )
     }
 }
 
 @Composable
-fun SectionTitle(title: String) {
-    Text(
-        text = title,
-        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-        color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.padding(vertical = 8.dp)
-    )
+fun SectionCard(
+    title: String,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Card(
+        shape = RoundedCornerShape(18.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp)
+            .then(
+                if (true) Modifier else Modifier // (placeholder for responsiveness if you want later)
+            ),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(24.dp)
+                .fillMaxWidth()
+                .widthIn(max = 900.dp)
+                .align(Alignment.CenterHorizontally)
+        ) {
+            Text(
+                title,
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                ),
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+
+            ProvideTextStyle(
+                MaterialTheme.typography.bodyLarge.copy(
+                    lineHeight = 26.sp
+                )
+            ) {
+                content()
+            }
+        }
+    }
 }
+
 
 @Composable
 fun ActivityCard(activity: OrganizedActivity) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surface),
+        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
     ) {
-        Column(modifier = Modifier.padding(12.dp)) {
+        Column(Modifier.padding(12.dp)) {
             Text(activity.title, fontWeight = FontWeight.Bold)
             Text("Code : ${activity.code}")
             Text("Q1 : ${activity.hours_Q1 ?: "-"} | Q2 : ${activity.hours_Q2 ?: "-"}")
-            if (activity.teachers.isNotEmpty()) {
+            if (activity.teachers.isNotEmpty())
                 Text("Enseignants : ${activity.teachers.joinToString(", ")}")
-            }
             Text("Langue : ${activity.language ?: "-"}")
         }
     }
@@ -274,29 +288,133 @@ fun ActivityCard(activity: OrganizedActivity) {
 @Composable
 fun EvaluationCard(eval: EvaluatedActivity) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surface),
+        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
     ) {
-        Column(modifier = Modifier.padding(12.dp)) {
+        Column(Modifier.padding(12.dp)) {
             Text(eval.title, fontWeight = FontWeight.Bold)
             Text("Code : ${eval.code}")
-            if (!eval.weight.isNullOrBlank()) Text("Pondération : ${eval.weight}%")
-            if (!eval.type_Q1.isNullOrBlank()) Text("Évaluation Q1 : ${eval.type_Q1}")
-            if (!eval.type_Q2.isNullOrBlank()) Text("Évaluation Q2 : ${eval.type_Q2}")
-            if (!eval.type_Q3.isNullOrBlank()) Text("Évaluation Q3 : ${eval.type_Q3}")
-            if (eval.teachers.isNotEmpty()) Text("Enseignants : ${eval.teachers.joinToString(", ")}")
-            if (eval.linked_activities.isNotEmpty()) {
+            eval.weight?.let { Text("Pondération : $it%") }
+            eval.type_Q1?.let { Text("Évaluation Q1 : $it") }
+            eval.type_Q2?.let { Text("Évaluation Q2 : $it") }
+            eval.type_Q3?.let { Text("Évaluation Q3 : $it") }
+            if (eval.teachers.isNotEmpty())
+                Text("Enseignants : ${eval.teachers.joinToString(", ")}")
+            if (eval.linked_activities.isNotEmpty())
                 Text("Activités liées : ${eval.linked_activities.joinToString(" / ")}")
-            }
         }
     }
 }
 
 @Composable
-fun rememberCoursesDetails(): List<CourseDetail> {
-    // Wrapper simple autour de `loadCourses()` pour rendre l'appel plus lisible
-    // et centraliser le nom utilisé par le reste du code.
-    return loadCourses()
+fun rememberCoursesDetails(): List<CourseDetail> = loadCourses()
+@Composable
+fun OrganizedActivitiesTable(activities: List<OrganizedActivity>) {
+
+    Column(Modifier.fillMaxWidth()) {
+
+        Row(Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+            Text("Code", Modifier.weight(1f), fontWeight = FontWeight.Bold)
+            Text("Activité", Modifier.weight(2f), fontWeight = FontWeight.Bold)
+            Text("Heures \n Q1/Q2", Modifier.weight(1f), fontWeight = FontWeight.Bold)
+            Text("Enseignants", Modifier.weight(2f), fontWeight = FontWeight.Bold)
+        }
+
+        Divider()
+
+        activities.forEach { act ->
+            Row(
+                Modifier.fillMaxWidth().padding(vertical = 6.dp)
+            ) {
+                Text(act.code, Modifier.weight(1f))
+                Text(act.title, Modifier.weight(2f))
+                Text("${act.hours_Q1 ?: "-"} / ${act.hours_Q2 ?: "-"}", Modifier.weight(1f))
+                Text(act.teachers.joinToString(", "), Modifier.weight(2f))
+            }
+            Divider()
+        }
+    }
 }
+
+@Composable
+fun EvaluatedActivitiesTable(list: List<EvaluatedActivity>) {
+
+    Column(Modifier.fillMaxWidth()) {
+
+        Row(Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+            Text("Code", Modifier.weight(1f), fontWeight = FontWeight.Bold)
+            Text("Activité", Modifier.weight(2f), fontWeight = FontWeight.Bold)
+            Text("%", Modifier.weight(1f), fontWeight = FontWeight.Bold)
+            Text("Q1", Modifier.weight(1f), fontWeight = FontWeight.Bold)
+            Text("Q2", Modifier.weight(1f), fontWeight = FontWeight.Bold)
+            Text("Q3", Modifier.weight(1f), fontWeight = FontWeight.Bold)
+            Text("Enseignants", Modifier.weight(2f), fontWeight = FontWeight.Bold)
+        }
+
+        Divider()
+
+        list.forEach { eval ->
+            Row(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
+                Text(eval.code, Modifier.weight(1f))
+                Text(eval.title, Modifier.weight(2f))
+                Text(eval.weight ?: "-", Modifier.weight(1f))
+                Text(eval.type_Q1 ?: "-", Modifier.weight(1f))
+                Text(eval.type_Q2 ?: "-", Modifier.weight(1f))
+                Text(eval.type_Q3 ?: "-", Modifier.weight(1f))
+                Text(eval.teachers.joinToString(", "), Modifier.weight(2f))
+            }
+            Divider()
+        }
+    }
+}
+@Composable
+fun ExpandableSectionCard(
+    title: String,
+    content: String
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Column(Modifier.padding(16.dp)) {
+
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    title,
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                    modifier = Modifier.weight(1f)
+                )
+
+                IconButton(onClick = { expanded = !expanded }) {
+                    Icon(
+                        imageVector = if (expanded)
+                            Icons.Default.KeyboardArrowUp
+                        else
+                            Icons.Default.KeyboardArrowDown,
+                        contentDescription = null
+                    )
+                }
+            }
+
+
+            AnimatedVisibility(visible = expanded) {
+                Text(
+                    text = content,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(top = 8.dp),
+                    textAlign = TextAlign.Justify
+                )
+            }
+        }
+    }
+}
+
