@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package be.ecam.companion.ui
 
 import androidx.compose.animation.AnimatedVisibility
@@ -14,6 +16,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -321,7 +324,7 @@ fun OrganizedActivitiesTable(activities: List<OrganizedActivity>) {
             Text("Enseignants", Modifier.weight(2f), fontWeight = FontWeight.Bold)
         }
 
-        Divider()
+        HorizontalDivider()
 
         activities.forEach { act ->
             Row(
@@ -332,7 +335,7 @@ fun OrganizedActivitiesTable(activities: List<OrganizedActivity>) {
                 Text("${act.hours_Q1 ?: "-"} / ${act.hours_Q2 ?: "-"}", Modifier.weight(1f))
                 Text(act.teachers.joinToString(", "), Modifier.weight(2f))
             }
-            Divider()
+            HorizontalDivider()
         }
     }
 }
@@ -352,7 +355,7 @@ fun EvaluatedActivitiesTable(list: List<EvaluatedActivity>) {
             Text("Enseignants", Modifier.weight(2f), fontWeight = FontWeight.Bold)
         }
 
-        Divider()
+        HorizontalDivider()
 
         list.forEach { eval ->
             Row(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
@@ -364,7 +367,7 @@ fun EvaluatedActivitiesTable(list: List<EvaluatedActivity>) {
                 Text(eval.type_Q3 ?: "-", Modifier.weight(1f))
                 Text(eval.teachers.joinToString(", "), Modifier.weight(2f))
             }
-            Divider()
+            HorizontalDivider()
         }
     }
 }

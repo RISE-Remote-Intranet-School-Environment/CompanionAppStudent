@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package be.ecam.companion.ui.screens
 
 import androidx.compose.animation.AnimatedVisibility
@@ -32,7 +34,7 @@ import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -486,10 +488,10 @@ private fun CoursesTable(courses: List<PaeCourse>) {
             Text("Juin", modifier = Modifier.width(50.dp), fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
             Text("Sept", modifier = Modifier.width(50.dp), fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
         }
-        Divider()
+        HorizontalDivider()
         courses.forEach { course ->
             CourseRow(course)
-            Divider()
+            HorizontalDivider()
         }
     }
 }

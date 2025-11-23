@@ -447,7 +447,7 @@ private fun LocalDate.startOfWeek(): LocalDate {
 
 private fun LocalDate.toEuropeanString(): String {
     // dd/MM/yyyy formatting for Belgian/European style
-    val day = this.dayOfMonth.toString().padStart(2, '0')
+    val day = this.day.toString().padStart(2, '0')
     val month = this.month.number.toString().padStart(2, '0')
     return "$day/$month/${this.year}"
 }
