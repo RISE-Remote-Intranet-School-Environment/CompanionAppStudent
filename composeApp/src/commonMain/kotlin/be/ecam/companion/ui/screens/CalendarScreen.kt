@@ -52,6 +52,7 @@ fun CalendarScreen(
     var anchorDate by remember { mutableStateOf(initialAnchorDate ?: today) }
     var mode by remember { mutableStateOf(initialMode ?: CalendarMode.Month) }
     var slideDirection by remember { mutableStateOf(0) } // -1 for left (next), +1 for right (prev)
+    var dialogDate by remember { mutableStateOf(initialDialogDate) }
     val localEventsByDate = rememberCalendarEventsByDate()
     val eventsByDate = remember(localEventsByDate, scheduledByDate) {
         mergeCalendarEvents(localEventsByDate, scheduledByDate)
@@ -83,7 +84,11 @@ fun CalendarScreen(
                     text = "Today",
                     modifier = Modifier
                         .padding(end = 8.dp)
-                        .clickable { slideDirection = 0; anchorDate = today },
+                        .clickable {
+                            slideDirection = 0
+                            anchorDate = today
+                            dialogDate = today
+                        },
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -140,8 +145,6 @@ fun CalendarScreen(
         }
 
         Spacer(Modifier.height(4.dp))
-
-        var dialogDate by remember { mutableStateOf(initialDialogDate) }
 
         Box(
             modifier = Modifier
