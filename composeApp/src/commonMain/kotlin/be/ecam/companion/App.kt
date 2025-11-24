@@ -1,17 +1,7 @@
 package be.ecam.companion
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.Dashboard
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.rememberDrawerState
@@ -21,12 +11,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.di.appModule
-import be.ecam.companion.ui.CalendarScreen
-import be.ecam.companion.ui.CoursesScreen
-import be.ecam.companion.ui.LoginScreen
-import be.ecam.companion.ui.RegisterScreen
-import be.ecam.companion.ui.SettingsScreen
-import be.ecam.companion.ui.UserDashboardScreen
+
+import be.ecam.companion.ui.components.*
+
+import be.ecam.companion.ui.screens.CalendarScreen
+import be.ecam.companion.ui.screens.CoursesScreen
+import be.ecam.companion.ui.screens.HomeScreen
+import be.ecam.companion.ui.screens.LoginScreen
+import be.ecam.companion.ui.screens.RegisterScreen
+import be.ecam.companion.ui.screens.SettingsScreen
+import be.ecam.companion.ui.screens.UserDashboardScreen
+import be.ecam.companion.ui.screens.ProfessorsScreen
+import be.ecam.companion.ui.screens.MonPaeScreen
+
+
 import be.ecam.companion.viewmodel.HomeViewModel
 import companion.composeapp.generated.resources.Res
 import companion.composeapp.generated.resources.nicolas
@@ -133,151 +131,131 @@ fun App(extraModules: List<Module> = emptyList()) {
                                             Text("Nicolas Schell")
                                         }
 
-                                        Button(
-                                                onClick = {
-                                                    showCoursesPage = true
-                                                    coursesTitleSuffix = null
-                                                    coursesResetCounter++
-                                                    scope.launch { drawerState.close() }
-                                                },
-                                                modifier =
-                                                        Modifier.fillMaxWidth().padding(top = 16.dp)
-                                        ) { Text("Formations") }
-                                    }
+            var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
+            var showCoursesPage by remember { mutableStateOf(false) }
+            var showProfessorsPage by remember { mutableStateOf(false) }
+            var showPaePage by remember { mutableStateOf(false) }
+            var coursesTitleSuffix by remember { mutableStateOf<String?>(null) }
+            var paeTitleSuffix by remember { mutableStateOf<String?>(null) }
+            var coursesResetCounter by remember { mutableStateOf(0) }
 
-                                    Spacer(Modifier.width(12.dp))
-                                    Column(modifier = Modifier.verticalScroll(scroll)) {
-                                        Text("Drawer content here")
-                                    }
-
-                                    Column {
-                                        Divider()
-                                        TextButton(
-                                                onClick = {
-                                                    scope.launch { drawerState.close() }
-                                                    isLoggedIn = false
-                                                },
-                                        ) { Text("Logout") }
-                                    }
-                                }
-                            }
+            ModalNavigationDrawer(
+                drawerState = drawerState,
+                // Allow swipe/edge gestures to open/close the drawer on every screen
+                gesturesEnabled = true,
+                drawerContent = {
+                    AppDrawer(
+                        onSelectDashboard = {
+                            selectedScreen = BottomItem.DASHBOARD
+                            showPaePage = false
+                            paeTitleSuffix = null
+                            showCoursesPage = false
+                            showProfessorsPage = false
+                            scope.launch { drawerState.close() }
+                        },
+                        onSelectCourses = {
+                            showCoursesPage = true
+                            coursesTitleSuffix = null
+                            showPaePage = false
+                            paeTitleSuffix = null
+                            showProfessorsPage = false
+                            coursesResetCounter++
+                            scope.launch { drawerState.close() }
+                        },
+                        onSelectProfessors = {
+                            showProfessorsPage = true
+                            showPaePage = false
+                            paeTitleSuffix = null
+                            showCoursesPage = false
+                            scope.launch { drawerState.close() }
+                        },
+                        onSelectPae = {
+                            showPaePage = true
+                            paeTitleSuffix = null
+                            showCoursesPage = false
+                            showProfessorsPage = false
+                            scope.launch { drawerState.close() }
+                        },
+                        onLogout = {
+                            scope.launch { drawerState.close() }
+                            showPaePage = false
+                            paeTitleSuffix = null
+                            isLoggedIn = false
                         }
-                ) {
-                    Scaffold(
-                            topBar = {
-                                TopAppBar(
-                                        title = {
-                                            if (showCoursesPage) {
-                                                val dynamicTitle =
-                                                        coursesTitleSuffix?.let {
-                                                            "Formations - $it"
-                                                        }
-                                                                ?: "Formations"
-                                                Text(dynamicTitle)
-                                            } else {
-                                                Text(selectedScreen.getLabel())
-                                            }
-                                        },
-                                        navigationIcon = {
-                                            if (!showCoursesPage &&
-                                                            selectedScreen == BottomItem.CALENDAR
-                                            ) {
-                                                Spacer(Modifier)
-                                            } else {
-                                                IconButton(
-                                                        onClick = {
-                                                            scope.launch { drawerState.open() }
-                                                        }
-                                                ) {
-                                                    Icon(
-                                                            Icons.Filled.Menu,
-                                                            contentDescription = "Open drawer"
-                                                    )
-                                                }
-                                            }
-                                        }
-                                )
-                            },
-                            bottomBar = {
-                                NavigationBar {
-                                    BottomItem.entries.forEach { item ->
-                                        if (item != BottomItem.DASHBOARD
-                                        ) { // on n'affiche pas l'item dashboard dans la bottom bar
-                                            NavigationBarItem(
-                                                    selected = selectedScreen == item,
-                                                    onClick = {
-                                                        showCoursesPage = false
-                                                        coursesTitleSuffix = null
-                                                        selectedScreen = item
-                                                    },
-                                                    icon = {
-                                                        Icon(
-                                                                item.getIconRes(),
-                                                                contentDescription = item.getLabel()
-                                                        )
-                                                    },
-                                                    label = { Text(item.getLabel()) },
-                                                    alwaysShowLabel = true
-                                            )
-                                        }
-                                    }
-                                }
+                    )
+                }
+            ) {
+
+                Scaffold(
+                    topBar = {
+                        TopBar(
+                            selectedScreen = selectedScreen,
+                            showCoursesPage = showCoursesPage,
+                            showProfessorsPage = showProfessorsPage,
+                            showPaePage = showPaePage,
+                            coursesTitleSuffix = coursesTitleSuffix,
+                            paeTitleSuffix = paeTitleSuffix,
+                            onMenuClick = { scope.launch { drawerState.open() } }
+                        )
+                    },
+                    bottomBar = {
+                        BottomBar(
+                            selected = selectedScreen,
+                            onSelect = { item ->
+                                showCoursesPage = false
+                                showProfessorsPage = false
+                                showPaePage = false
+                                coursesTitleSuffix = null
+                                paeTitleSuffix = null
+                                selectedScreen = item
                             }
                     ) { paddingValues ->
                         val baseModifier =
                                 Modifier.fillMaxSize().padding(paddingValues).padding(16.dp)
 
-                        if (showCoursesPage) {
-                            CoursesScreen(
+                    val baseModifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding)
+
+                    when {
+                        showCoursesPage -> CoursesScreen(
+                            modifier = baseModifier,
+                            resetTrigger = coursesResetCounter,
+                            onContextChange = { coursesTitleSuffix = it }
+                        )
+                        showProfessorsPage -> ProfessorsScreen(baseModifier)
+                        showPaePage -> MonPaeScreen(
+                            modifier = baseModifier,
+                            onContextChange = { paeTitleSuffix = it }
+                        )
+                        else -> when (selectedScreen) {
+                            BottomItem.HOME -> {
+                                LaunchedEffect(Unit) { vm.load() }
+                                HomeScreen(
                                     modifier = baseModifier,
-                                    resetTrigger = coursesResetCounter,
-                                    onContextChange = { coursesTitleSuffix = it }
-                            )
-                        } else {
-                            Column(
-                                    verticalArrangement = Arrangement.Top,
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                when (selectedScreen) {
-                                    BottomItem.HOME -> {
-                                        LaunchedEffect(Unit) { vm.load() }
-                                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                            Text(
-                                                    text = selectedScreen.getLabel(),
-                                                    style = MaterialTheme.typography.titleLarge
-                                            )
-                                            Spacer(Modifier.height(12.dp))
-                                            if (vm.lastErrorMessage.isNotEmpty()) {
-                                                Text(
-                                                        vm.lastErrorMessage,
-                                                        color = MaterialTheme.colorScheme.error
-                                                )
-                                                Spacer(Modifier.height(8.dp))
-                                            }
-                                            Text(vm.helloMessage)
-                                        }
-                                    }
-                                    BottomItem.CALENDAR -> {
-                                        LaunchedEffect(Unit) { vm.load() }
-                                        CalendarScreen(
-                                                modifier = Modifier.fillMaxSize(),
-                                                scheduledByDate = vm.scheduledByDate
-                                        )
-                                    }
-                                    BottomItem.SETTINGS -> {
-                                        val settingsRepo = koinInject<SettingsRepository>()
-                                        SettingsScreen(
-                                                repo = settingsRepo,
-                                                onSaved = { scope.launch { vm.load() } }
-                                        )
-                                    }
-                                    BottomItem.DASHBOARD -> {
-                                        UserDashboardScreen(
-                                                isAdmin = false,
-                                                modifier = Modifier.padding(paddingValues)
-                                        ) // mock pour le moment
-                                    }
-                                }
+                                    vm = vm
+                                )
+                            }
+                            BottomItem.CALENDAR -> {
+                                LaunchedEffect(Unit) { vm.load() }
+                                CalendarScreen(
+                                    modifier = baseModifier,
+                                    scheduledByDate = vm.scheduledByDate
+                                )
+                            }
+                            BottomItem.SETTINGS -> {
+                                val settingsRepo = koinInject<SettingsRepository>()
+                                SettingsScreen(
+                                    repo = settingsRepo,
+                                    modifier = baseModifier,
+                                    onSaved = { scope.launch { vm.load() } }
+                                )
+                            }
+                            BottomItem.DASHBOARD -> {
+                                UserDashboardScreen(
+                                    isAdmin = false,
+                                    modifier = baseModifier
+                                )
                             }
                         }
                     }

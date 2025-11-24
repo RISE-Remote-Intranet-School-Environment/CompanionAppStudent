@@ -5,6 +5,7 @@ import be.ecam.companion.data.KtorApiRepository
 import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.viewmodel.HomeViewModel
 import io.ktor.client.HttpClient
+import kotlinx.serialization.json.Json
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -36,3 +37,9 @@ fun buildBaseUrl(host: String, port: Int): String {
 
 // Platform-specific client builder (Android adds Logging, others are minimal)
 expect fun platformBuildHttpClient(): HttpClient
+
+// Shared JSON configuration for all platforms
+val appJson: Json = Json {
+    ignoreUnknownKeys = true
+    isLenient = true
+}

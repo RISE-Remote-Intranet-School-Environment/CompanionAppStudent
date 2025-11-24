@@ -18,6 +18,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
@@ -52,14 +54,17 @@ fun CalendarScreen(
     var anchorDate by remember { mutableStateOf(initialAnchorDate ?: today) }
     var mode by remember { mutableStateOf(initialMode ?: CalendarMode.Month) }
     var slideDirection by remember { mutableStateOf(0) } // -1 for left (next), +1 for right (prev)
+    var dialogDate by remember { mutableStateOf(initialDialogDate) }
     val localEventsByDate = rememberCalendarEventsByDate()
     val eventsByDate = remember(localEventsByDate, scheduledByDate) {
         mergeCalendarEvents(localEventsByDate, scheduledByDate)
     }
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .verticalScroll(scrollState)
             .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
     ) {
         // Header with month/year and navigation
@@ -83,7 +88,11 @@ fun CalendarScreen(
                     text = "Today",
                     modifier = Modifier
                         .padding(end = 8.dp)
-                        .clickable { slideDirection = 0; anchorDate = today },
+                        .clickable {
+                            slideDirection = 0
+                            anchorDate = today
+                            dialogDate = today
+                        },
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -140,8 +149,6 @@ fun CalendarScreen(
         }
 
         Spacer(Modifier.height(4.dp))
-
-        var dialogDate by remember { mutableStateOf(initialDialogDate) }
 
         Box(
             modifier = Modifier
@@ -225,11 +232,11 @@ fun CalendarScreen(
         if (dialogDate != null) {
             val items = eventsByDate[dialogDate] ?: emptyList()
             Column(modifier = Modifier.fillMaxWidth()) {
-                val header = "${dialogDate!!.year}-${dialogDate!!.month.number.toString().padStart(2, '0')}-${dialogDate!!.day.toString().padStart(2, '0')}"
-                Text(text = "Items on $header", style = MaterialTheme.typography.titleSmall)
+                val header = dialogDate!!.toEuropeanString()
+                Text(text = "Events on $header", style = MaterialTheme.typography.titleSmall)
                 Spacer(Modifier.height(6.dp))
                 if (items.isEmpty()) {
-                    Text("No items", color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+                    Text("No events", color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
                 } else {
                     for (event in items) {
                         Row(
@@ -440,6 +447,13 @@ private fun LocalDate.startOfWeek(): LocalDate {
     // Assume Monday as first day
     val dayIndex = (this.dayOfWeek.isoDayNumber - 1) // 0..6
     return this.minus(dayIndex, DateTimeUnit.DAY)
+}
+
+private fun LocalDate.toEuropeanString(): String {
+    // dd/MM/yyyy formatting for Belgian/European style
+    val day = this.day.toString().padStart(2, '0')
+    val month = this.month.number.toString().padStart(2, '0')
+    return "$day/$month/${this.year}"
 }
 
 

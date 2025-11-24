@@ -2,8 +2,10 @@ package be.ecam.companion.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -15,7 +17,11 @@ import be.ecam.companion.di.buildBaseUrl
 import kotlinx.coroutines.launch
 
 @Composable
-fun SettingsScreen(repo: SettingsRepository, onSaved: (() -> Unit)? = null) {
+fun SettingsScreen(
+    repo: SettingsRepository,
+    modifier: Modifier = Modifier,
+    onSaved: (() -> Unit)? = null
+) {
     val scope = rememberCoroutineScope()
     var host by remember { mutableStateOf("") }
     var portText by remember { mutableStateOf("") }
@@ -28,7 +34,11 @@ fun SettingsScreen(repo: SettingsRepository, onSaved: (() -> Unit)? = null) {
         portText = repo.getServerPort().toString()
     }
 
-    Column {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp, vertical = 12.dp)
+    ) {
         Text("Server configuration")
         Spacer(Modifier.height(8.dp))
         OutlinedTextField(

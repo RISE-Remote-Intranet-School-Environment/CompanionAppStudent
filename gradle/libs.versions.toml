@@ -13,6 +13,7 @@ kotlinx-serialization-core = "1.9.0"
 ktor = "3.3.0"
 logback = "1.5.18"
 koin = "4.1.1"
+coil3 = "3.0.0-alpha06"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -41,6 +42,8 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "k
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
+coil3-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

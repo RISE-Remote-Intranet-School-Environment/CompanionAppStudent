@@ -22,4 +22,10 @@ notes.ipynb
 .vscode/
 .instructions.md
 
-android_emulator.sh
+CompanionAppStudent-master/
+
+# cache python
+scripts/__pycache__/
+etapes.md
+scripts/.pytest_cache/
+

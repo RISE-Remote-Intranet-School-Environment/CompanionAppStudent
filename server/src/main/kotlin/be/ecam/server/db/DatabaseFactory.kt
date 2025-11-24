@@ -1,51 +1,56 @@
 package be.ecam.server.db
-import be.ecam.server.models.AdminTable 
-import org.jetbrains.exposed.sql.Database 
-import org.jetbrains.exposed.sql.SchemaUtils 
-import org.jetbrains.exposed.sql.transactions.TransactionManager 
-import org.jetbrains.exposed.sql.transactions.transaction 
+
+import be.ecam.server.models.AdminTable
 import be.ecam.server.models.FormationTable
 import be.ecam.server.models.BlockTable
 import be.ecam.server.models.CourseTable
 import be.ecam.server.models.CalendarEventsTable
-
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.transaction
 import java.io.File
-import java.sql.Connection 
+import be.ecam.server.models.Admin
+import org.jetbrains.exposed.sql.selectAll
 
 object DatabaseFactory {
 
-    // Connect to the db SQLlite 
-    fun connect(url: String) {
-        if (url.startsWith("jdbc:sqlite:")) {
-            val rawPath = url.removePrefix("jdbc:sqlite:")
-            File(rawPath).parentFile?.mkdirs()
+    fun connect() {
+        // we force the creation of a "data" folder in the working directory
+        val dbFolder = File("data")
+        if (!dbFolder.exists()) {
+            dbFolder.mkdirs()
+            println(" Created DB folder: ${dbFolder.absolutePath}")
         }
 
-        // Establish the db connection
-        Database.connect(
-            url = url,
-            driver = "org.sqlite.JDBC"
-        )
-        // debug
-        println("Exposed SQL logging enabled")
+        val dbFile = File(dbFolder, "app.db")
+        val url = "jdbc:sqlite:${dbFile.absolutePath}"
 
-        
-        TransactionManager.manager.defaultIsolationLevel = Connection.TRANSACTION_SERIALIZABLE
-        println("Connected to DB : $url")
-    }
+        Database.connect(url, driver = "org.sqlite.JDBC")
+        println("SQLite DB = $url")
 
-    // Migrate the schema (create/update tables)
-    fun migrate() {
+        // Create tables if not exists
         transaction {
             SchemaUtils.create(
-                AdminTable, 
+                AdminTable,
                 FormationTable,
                 BlockTable,
                 CourseTable,
                 CalendarEventsTable
-            )  
+            )
+            println("Schema synced (Admin, Formation, Block, Course, CalendarEvents)")
+
+
+        // autocreation admin 
+            val adminCount = AdminTable.selectAll().count()
+            if (adminCount == 0L) {
+                val a = Admin.new {
+                    username = "admin"
+                    email = "admin@example.com"
+                    password = "1234"   // just for dev/debug
+                }
+                println("Default admin created with id=${a.id.value}")
         }
-        println("Schema up-to-date (admins, formations, blocks, courses, calendar events).")
     }
+}
 
 }

@@ -6,7 +6,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import be.ecam.companion.ui.components.BottomItem
-import androidx.compose.foundation.layout.Spacer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -14,7 +13,9 @@ fun TopBar(
     selectedScreen: BottomItem,
     showCoursesPage: Boolean,
     showProfessorsPage: Boolean,
+    showPaePage: Boolean,
     coursesTitleSuffix: String?,
+    paeTitleSuffix: String?,
     onMenuClick: () -> Unit
 ) {
     TopAppBar(
@@ -25,6 +26,9 @@ fun TopBar(
 
                 showProfessorsPage ->
                     Text("Professeurs")
+
+                showPaePage ->
+                    Text(paeTitleSuffix ?: "Mon PAE")
 
                 else ->
                     Text(selectedScreen.getLabel())

@@ -1,6 +1,5 @@
 package be.ecam.companion.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +35,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -47,19 +47,26 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import be.ecam.companion.data.EcamFormationsRepository
+import be.ecam.companion.data.FormationCatalogRepository
+import be.ecam.companion.data.FormationCatalogResult
 import be.ecam.companion.data.Formation
 import be.ecam.companion.data.FormationBlock
 import be.ecam.companion.data.FormationCourse
 import be.ecam.companion.data.FormationDatabase
+import be.ecam.companion.data.SettingsRepository
+import be.ecam.companion.di.buildBaseUrl
 import be.ecam.companion.ui.CourseRef
 import be.ecam.companion.ui.CoursesFicheScreen
+import coil3.compose.AsyncImage
 import companion.composeapp.generated.resources.Res
 import companion.composeapp.generated.resources.*
+import io.ktor.client.HttpClient
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.koinInject
 import kotlin.math.roundToInt
 @Composable
 fun CoursesScreen(
@@ -68,9 +75,26 @@ fun CoursesScreen(
     onContextChange: (String?) -> Unit = {},
     onCourseSelected: ((CourseRef) -> Unit)? = null
 ) {
-    val database by produceState<FormationDatabase?>(initialValue = null) {
-        value = EcamFormationsRepository.load()
+    val httpClient = koinInject<HttpClient>()
+    val settingsRepo = koinInject<SettingsRepository>()
+    val host by settingsRepo.serverHostFlow.collectAsState(settingsRepo.getServerHost())
+    val port by settingsRepo.serverPortFlow.collectAsState(settingsRepo.getServerPort())
+    val formationsRepo = remember(httpClient, host, port) {
+        FormationCatalogRepository(httpClient) { buildBaseUrl(host, port) }
     }
+
+    var loadError by remember { mutableStateOf<String?>(null) }
+    val catalogResult by produceState<FormationCatalogResult?>(initialValue = null, key1 = resetTrigger, key2 = host, key3 = port) {
+        loadError = null
+        value = try {
+            formationsRepo.load()
+        } catch (t: Throwable) {
+            val reason = t.message?.takeIf { it.isNotBlank() } ?: t::class.simpleName ?: "erreur inconnue"
+            loadError = "Impossible de charger les formations depuis le serveur : $reason"
+            null
+        }
+    }
+    val database = catalogResult?.database
     val programs = remember(database) { database?.formations?.toProgramCards().orEmpty() }
     var uiState by remember { mutableStateOf<CoursesState>(CoursesState.ProgramList) }
     val scrollState = rememberScrollState()
@@ -83,9 +107,10 @@ fun CoursesScreen(
         uiState = CoursesState.BlockDetail(program, block)
     }
     val selectProgram: (ProgramCardData) -> Unit = { program ->
+        val blocks = program.formation.blocks.sortedByBlocOrder()
         val preferred = blockSelection[program.formation.id] ?: lastSelectedBlockName
         val targetBlock = program.formation.blocks.firstOrNull { it.name == preferred }
-            ?: program.formation.blocks.firstOrNull()
+            ?: blocks.firstOrNull()
         uiState = if (targetBlock != null) {
             CoursesState.BlockDetail(program, targetBlock)
         } else {
@@ -163,6 +188,15 @@ fun CoursesScreen(
                         textAlign = TextAlign.Center
                     )
                 }
+                loadError?.let {
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.error,
+                        textAlign = TextAlign.Center
+                    )
+                }
                 Spacer(Modifier.height(12.dp))
                 if (selectedProgram != null) {
                     FormationSelector(
@@ -177,7 +211,16 @@ fun CoursesScreen(
                         IntroText(database)
                         Spacer(Modifier.height(24.dp))
                         if (database == null || programs.isEmpty()) {
-                            CircularProgressIndicator()
+                            if (loadError != null) {
+                                Text(
+                                    text = "Aucune donn\u00e9e n'a pu \u00eatre charg\u00e9e.",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.error,
+                                    textAlign = TextAlign.Center
+                                )
+                            } else {
+                                CircularProgressIndicator()
+                            }
                         } else {
                             ProgramGrid(
                                 programs = programs,
@@ -304,24 +347,55 @@ private fun ProgramCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
+    val cardHeight = 260.dp
+    val imageHeight = 140.dp
     Card(
-        modifier = modifier,
+        modifier = modifier.height(cardHeight),
         onClick = onClick,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Image(
-                painter = painterResource(program.image),
-                contentDescription = program.title,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(140.dp)
-                    .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
-            )
+        Column(modifier = Modifier.fillMaxSize()) {
+            val imageShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
+            val fallbackPainter = program.imageRes?.let { painterResource(it) }
+            when {
+                program.imageUrl != null -> {
+                    AsyncImage(
+                        model = program.imageUrl,
+                        contentDescription = program.title,
+                        contentScale = ContentScale.Crop,
+                        placeholder = fallbackPainter,
+                        error = fallbackPainter,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(imageHeight)
+                            .clip(imageShape)
+                    )
+                }
+                fallbackPainter != null -> {
+                    androidx.compose.foundation.Image(
+                        painter = fallbackPainter,
+                        contentDescription = program.title,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(imageHeight)
+                            .clip(imageShape)
+                    )
+                }
+                else -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(imageHeight)
+                            .clip(imageShape)
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                    )
+                }
+            }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .weight(1f, fill = true)
                     .padding(16.dp)
             ) {
                 Text(
@@ -332,7 +406,9 @@ private fun ProgramCard(
                 Spacer(Modifier.height(8.dp))
                 Text(
                     text = program.description,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
@@ -347,6 +423,8 @@ private fun ProgramBlocks(
     showIntro: Boolean = true,
     inlineChips: Boolean = false
 ) {
+    val sortedBlocks = program.formation.blocks.sortedByBlocOrder()
+
     if (showIntro) {
         Text(
             text = program.title,
@@ -395,7 +473,7 @@ private fun ProgramBlocks(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             maxItemsInEachRow = Int.MAX_VALUE
         ) {
-            program.formation.blocks.forEach { block ->
+            sortedBlocks.forEach { block ->
                 BlockChip(
                     block = block,
                     selected = selectedBlock == block,
@@ -406,7 +484,7 @@ private fun ProgramBlocks(
         Spacer(Modifier.height(24.dp))
     } else {
         Spacer(Modifier.height(24.dp))
-        program.formation.blocks.chunked(2).forEach { blockRow ->
+        sortedBlocks.chunked(2).forEach { blockRow ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -618,7 +696,8 @@ private fun CourseRow(
 private data class ProgramCardData(
     val formation: Formation,
     val description: String,
-    val image: DrawableResource
+    val imageUrl: String?,
+    val imageRes: DrawableResource?
 ) {
     val title: String get() = formation.name
 }
@@ -657,29 +736,49 @@ private val formationDescriptions = mapOf(
 )
 
 private val formationImages = mapOf(
-    "automatisation" to Res.drawable.courses_automatisation,
-    "construction" to Res.drawable.courses_construction,
-    "electromecanique" to Res.drawable.courses_electromecanique,
-    "electronique" to Res.drawable.courses_electronique,
-    "geometre" to Res.drawable.courses_geometre,
-    "informatique" to Res.drawable.courses_informatique,
-    "ingenierie_sante" to Res.drawable.courses_sante,
-    "ingenieur_industriel_commercial" to Res.drawable.courses_industriel_commercial,
-    "business_analyst" to Res.drawable.courses_business_analyst
+    "courses_automatisation" to Res.drawable.courses_automatisation,
+    "courses_construction" to Res.drawable.courses_construction,
+    "courses_electromecanique" to Res.drawable.courses_electromecanique,
+    "courses_electronique" to Res.drawable.courses_electronique,
+    "courses_geometre" to Res.drawable.courses_geometre,
+    "courses_informatique" to Res.drawable.courses_informatique,
+    "courses_ingenierie_sante" to Res.drawable.courses_sante,
+    "courses_ingenieur_industriel_commercial" to Res.drawable.courses_industriel_commercial,
+    "courses_industriel_commercial" to Res.drawable.courses_industriel_commercial,
+    "courses_business_analyst" to Res.drawable.courses_business_analyst
 )
 
 private fun List<Formation>.toProgramCards(): List<ProgramCardData> =
     this.sortedBy { formationOrder.indexOf(it.id).takeIf { index -> index >= 0 } ?: Int.MAX_VALUE }
         .mapNotNull { formation ->
-            val image = formationImages[formation.id] ?: return@mapNotNull null
+            val imageUrl = formation.imageUrl?.takeIf { it.isNotBlank() }
+            val key = formation.imageKey?.takeIf { it.isNotBlank() } ?: "courses_${formation.id}"
+            val imageRes = formationImages[key]
+            if (imageUrl == null && imageRes == null) return@mapNotNull null
             val description = formationDescriptions[formation.id] ?: ""
-            ProgramCardData(formation = formation, description = description, image = image)
+            ProgramCardData(
+                formation = formation,
+                description = description,
+                imageUrl = imageUrl,
+                imageRes = imageRes
+            )
         }
 
-  private fun Double.formatCredits(): String {
-      val rounded = (this * 100).roundToInt() / 100.0
-      return if (rounded % 1.0 == 0.0) rounded.toInt().toString() else rounded.toString()
-  }
+private fun Double.formatCredits(): String {
+    val rounded = (this * 100).roundToInt() / 100.0
+    return if (rounded % 1.0 == 0.0) rounded.toInt().toString() else rounded.toString()
+}
+
+private fun List<FormationBlock>.sortedByBlocOrder(): List<FormationBlock> {
+    fun extractNumber(name: String): Int? =
+        Regex("""\d+""").find(name)?.value?.toIntOrNull()
+
+    return this.sortedWith(
+        compareBy<FormationBlock> { extractNumber(it.name) ?: Int.MAX_VALUE }
+            .thenBy { it.name }
+    )
+}
+
 @Composable
 private fun BlockChip(
     block: FormationBlock,
@@ -698,9 +797,3 @@ private fun BlockChip(
         Text(block.name, style = MaterialTheme.typography.labelLarge)
     }
 }
-
-
-
-
-
-
