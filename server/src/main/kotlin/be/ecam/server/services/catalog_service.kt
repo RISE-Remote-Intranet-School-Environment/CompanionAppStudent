@@ -21,8 +21,8 @@ object CatalogService {
 
     @Serializable
     data class FormationJson(
-        val id: String,            // "automatisation"
-        val name: String,          // "Automatisation"
+        val id: String,
+        val name: String,
         val source_url: String? = null,
         val image_url: String? = null,
         val blocks: List<BlockJson>
@@ -30,20 +30,20 @@ object CatalogService {
 
     @Serializable
     data class BlockJson(
-        val name: String,          // "Bloc 1"
+        val name: String,
         val courses: List<BlockCourseJson>
     )
 
     @Serializable
     data class BlockCourseJson(
-        val code: String,          // "1bach10"
-        val title: String,         // "Chimie"
+        val code: String,
+        val title: String,
         val credits: Int,
-        val periods: List<String>, // ["Q1"], ["Q1","Q2"]
+        val periods: List<String>,
         val details_url: String
     )
 
-    // --- 1) SEED : remplir la DB à partir du JSON formations ---
+    // --- SEED depuis JSON ---
 
     fun seedFormationsFromJson() {
         val resource = CatalogService::class.java.classLoader
@@ -51,14 +51,12 @@ object CatalogService {
             ?: error("Resource 'files/ecam_formations_2025.json' introuvable dans le classpath")
 
         val text = resource.readText()
-
         val json = Json { ignoreUnknownKeys = true }
         val file = json.decodeFromString<FormationsFile>(text)
 
         transaction {
             file.formations.forEach { f ->
 
-                // Formation : si déjà présente, on la réutilise
                 val formation = Formation.find { FormationTable.slug eq f.id }.firstOrNull()
                     ?: Formation.new {
                         slug = f.id
@@ -66,22 +64,28 @@ object CatalogService {
                         sourceUrl = f.source_url ?: ""
                         imageUrl = f.image_url
                     }
+
+                // mise à jour éventuellement
                 formation.imageUrl = f.image_url ?: formation.imageUrl
 
                 f.blocks.forEach { b ->
-                    val block = Block.find { (BlockTable.name eq b.name) and (BlockTable.formation eq formation.id) }
-                        .firstOrNull()
+
+                    val block = Block.find {
+                        (BlockTable.name eq b.name) and (BlockTable.formation eq formation.id)
+                    }.firstOrNull()
                         ?: Block.new {
                             name = b.name
                             this.formation = formation
                         }
 
                     b.courses.forEach { c ->
+
                         val existing = Course.find {
                             (CourseTable.code eq c.code) and (CourseTable.formation eq formation.id)
                         }.firstOrNull()
 
                         val course = existing ?: Course.new {}
+
                         course.code = c.code
                         course.title = c.title
                         course.credits = c.credits
@@ -96,7 +100,7 @@ object CatalogService {
         }
     }
 
-    // --- 2) LECTURE : formations pour l’API ---
+    // --- LECTURE : formations pour l’API ---
 
     fun getAllFormations(): List<FormationDTO> = transaction {
         Formation.all().map {
@@ -109,7 +113,7 @@ object CatalogService {
         }
     }
 
-    // --- 3) LECTURE : cours par formation (via slug) ---
+    // --- LECTURE : cours par formation (via slug) ---
 
     fun getCoursesByFormationSlug(slug: String): List<CourseDTO> = transaction {
         val formation = Formation.find { FormationTable.slug eq slug }.firstOrNull()
@@ -130,3 +134,5 @@ object CatalogService {
         }
     }
 }
+
+

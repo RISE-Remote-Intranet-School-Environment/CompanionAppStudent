@@ -27,3 +27,6 @@ CompanionAppStudent-master/
 
 # cache python
 scripts/__pycache__/
+etapes.md
+scripts/.pytest_cache/
+

@@ -447,13 +447,18 @@ private fun StatsStrip(record: PaeRecord) {
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         StatCard(title = "Total ECTS", value = totalEcts.toString(), modifier = Modifier.weight(1f))
-        StatCard(title = "Moyenne générale", value = average?.let { String.format("%.1f", it) } ?: "-", modifier = Modifier.weight(1f))
+        StatCard(title = "Moyenne générale", value = average?.let { formatOneDecimal(it) } ?: "-", modifier = Modifier.weight(1f))
         StatCard(
             title = "Nombre de cours",
             value = record.courses.size.toString(),
             modifier = Modifier.weight(1f)
         )
     }
+}
+
+private fun formatOneDecimal(value: Double): String {
+    val rounded = kotlin.math.round(value * 10) / 10.0
+    return if (rounded % 1.0 == 0.0) "${rounded.toInt()}.0" else rounded.toString()
 }
 
 @Composable

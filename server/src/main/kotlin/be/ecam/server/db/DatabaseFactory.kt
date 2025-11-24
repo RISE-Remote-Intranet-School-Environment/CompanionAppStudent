@@ -1,51 +1,39 @@
 package be.ecam.server.db
-import be.ecam.server.models.AdminTable 
-import org.jetbrains.exposed.sql.Database 
-import org.jetbrains.exposed.sql.SchemaUtils 
-import org.jetbrains.exposed.sql.transactions.TransactionManager 
-import org.jetbrains.exposed.sql.transactions.transaction 
+
+import be.ecam.server.models.AdminTable
 import be.ecam.server.models.FormationTable
 import be.ecam.server.models.BlockTable
 import be.ecam.server.models.CourseTable
-import be.ecam.server.models.CalendarEventsTable
-
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.transaction
 import java.io.File
-import java.sql.Connection 
 
 object DatabaseFactory {
 
-    // Connect to the db SQLlite 
-    fun connect(url: String) {
-        if (url.startsWith("jdbc:sqlite:")) {
-            val rawPath = url.removePrefix("jdbc:sqlite:")
-            File(rawPath).parentFile?.mkdirs()
+    fun connect() {
+        // On force la DB dans data/app.db
+        val dbFolder = File("data")
+        if (!dbFolder.exists()) {
+            dbFolder.mkdirs()
+            println(" Created DB folder: ${dbFolder.absolutePath}")
         }
 
-        // Establish the db connection
-        Database.connect(
-            url = url,
-            driver = "org.sqlite.JDBC"
-        )
-        // debug
-        println("Exposed SQL logging enabled")
+        val dbFile = File(dbFolder, "app.db")
+        val url = "jdbc:sqlite:${dbFile.absolutePath}"
 
-        
-        TransactionManager.manager.defaultIsolationLevel = Connection.TRANSACTION_SERIALIZABLE
-        println("Connected to DB : $url")
-    }
+        Database.connect(url, driver = "org.sqlite.JDBC")
+        println("SQLite DB = $url")
 
-    // Migrate the schema (create/update tables)
-    fun migrate() {
+        // Création / mise à jour des tables
         transaction {
             SchemaUtils.create(
-                AdminTable, 
+                AdminTable,
                 FormationTable,
                 BlockTable,
-                CourseTable,
-                CalendarEventsTable
-            )  
+                CourseTable
+            )
+            println("Schema synced (Admin, Formation, Block, Course)")
         }
-        println("Schema up-to-date (admins, formations, blocks, courses, calendar events).")
     }
-
 }

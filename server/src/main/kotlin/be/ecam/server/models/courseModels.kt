@@ -25,11 +25,11 @@ object CourseTable : IntIdTable("courses") {
     val code = varchar("code", 50)
     val title = varchar("title", 255)
     val credits = integer("credits")
-    val periods = varchar("periods", 20)
+    val periods = varchar("periods", 255)
     val detailsUrl = varchar("details_url", 255)
 
     val mandatory = bool("mandatory").default(true)
-    val bloc = varchar("bloc", 20).nullable()
+    val bloc = varchar("bloc", 255).nullable()
     val program = varchar("program", 100).nullable()
     val language = varchar("language", 10).nullable()
 

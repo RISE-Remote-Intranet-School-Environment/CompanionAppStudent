@@ -28,7 +28,8 @@ data class AuthUserDTO(
 @Serializable 
 data class AuthResponse(
     val user: AuthUserDTO, 
-    val message: String)
+    val message: String,
+    val token: String)
 
 
 

@@ -16,8 +16,8 @@ import io.ktor.server.response.respondBytes
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.RoutingContext
 import io.ktor.server.routing.get
-// added imports for new routes
 import io.ktor.server.routing.post
+
 // added import for authroutes
 import be.ecam.server.routes.authRoutes
 // added import for adminroutes
@@ -26,24 +26,32 @@ import be.ecam.server.routes.adminRoutes
 import be.ecam.server.routes.calendarRoutes
 // added import for catalogroutes
 import be.ecam.server.routes.catalogRoutes
+
 // add callloging import
 import io.ktor.server.plugins.calllogging.*
 import org.slf4j.event.Level
+
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
+
 import java.io.File
 import java.nio.file.Paths
 
-
+// import JWT auth
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
+import be.ecam.server.security.JwtConfig
+import be.ecam.server.security.JwtService
 
 
 fun main(args: Array<String>) {
-    // Start Ktor with configuration from application.conf (HTTP)
     EngineMain.main(args)
 }
 
 fun Application.module() {
-    // install call logging
+
     install(CallLogging){
         level = Level.INFO
         filter { call -> true }
@@ -51,24 +59,35 @@ fun Application.module() {
 
     install(ContentNegotiation) { json() }
 
-    // read config and connection to db 
-    val config = environment.config
-    val dbUrl = config.property("db.url").getString()
-    // we don't need now 
-    //val dbUser = config.propertyOrNull("db.user")?.getString()
-    //val dbPass = config.propertyOrNull("db.password")?.getString()
-    //be.ecam.server.db.DatabaseFactory.connect(dbUrl, dbUser, dbPass) //   if we won't to switch at Postgres with docker
-    be.ecam.server.db.DatabaseFactory.connect(dbUrl)
-    be.ecam.server.db.DatabaseFactory.migrate()
-    
-    // ---
+    // install JWT authentication
+    install(Authentication) {
+        jwt("jwt") {
+            realm = JwtConfig.realm
+            verifier(
+                JWT
+                    .require(Algorithm.HMAC256(JwtConfig.secret))
+                    .withIssuer(JwtConfig.issuer)
+                    .withAudience(JwtConfig.audience)
+                    .build()
+            )
+            validate { credential ->
+                if (credential.payload.getClaim("id").asInt() != null) {
+                    JWTPrincipal(credential.payload)
+                } else null
+            }
+        }
+    }
 
-    
+    // ----------------------------------------------------------
+    //  CORRECTION ICI : on initialise proprement SQLite
+    // ----------------------------------------------------------
 
+    be.ecam.server.db.DatabaseFactory.connect()   // <-- juste ça ✔
 
-    // Serve static WASM app if present and expose simple API
+    // ----------------------------------------------------------
+
     routing {
-        // Robust resolver for the WASM app output directory (Option A)
+
         fun wasmCandidates(): List<File> {
             val override = System.getProperty("wasm.dir")?.trim().takeUnless { it.isNullOrEmpty() }
                 ?: System.getenv("WASM_DIR")?.trim().takeUnless { it.isNullOrEmpty() }
@@ -76,12 +95,10 @@ fun Application.module() {
             val paths = mutableListOf<String>()
             if (override != null) paths += override
 
-            // Project-root relative (works if working dir is repo root)
             paths += listOf(
                 "composeApp/build/dist/wasmJs/productionExecutable",
                 "composeApp/build/dist/wasmJs/developmentExecutable"
             )
-            // Server-module relative (works if working dir is repoRoot/server)
             paths += listOf(
                 "../composeApp/build/dist/wasmJs/productionExecutable",
                 "../composeApp/build/dist/wasmJs/developmentExecutable"
@@ -95,10 +112,6 @@ fun Application.module() {
             "Working dir: ${System.getProperty("user.dir")} | Using WASM dir: ${wasmOut?.absolutePath ?: "<not found>"}"
         )
 
-        if (wasmOut != null) {
-            staticFiles("/", wasmOut, index = "index.html")
-        }
-
         get("/favicon.png") {
             respondFavIcon()
         }
@@ -106,8 +119,6 @@ fun Application.module() {
             respondFavIcon()
         }
 
-        // API endpoints kept under /api to avoid collision with index.html routing
-        // Serve index.html at root when WASM output exists; otherwise fall back to legacy greeting
         if (wasmOut == null) {
             get("/") {
                 call.respondText("Ktor: ${Greeting().greet()}")
@@ -123,49 +134,45 @@ fun Application.module() {
             }
 
             // --- road debug db access ---
-            // we 
-            // get("/debug/admins/count") {
-            //     val n = org.jetbrains.exposed.sql.transactions.transaction {
-            //         be.ecam.server.models.Admin.all().count()
-            //     }
-            //     call.respondText("Admins count: $n")
-            // }
+            get("/debug/admins/count") {
+                val n = org.jetbrains.exposed.sql.transactions.transaction {
+                    be.ecam.server.models.Admin.all().count()
+                }
+                call.respondText("Admins count: $n")
+            }
 
-            
-            // post("/debug/admins/seed") {
-            //     val id = org.jetbrains.exposed.sql.transactions.transaction {
-            //         val a = be.ecam.server.models.Admin.new {
-            //             username = "admin"
-            //             email = "admin@example.com"
-            //             password = "1234" // just for debug
-            //         }
-            //         a.id.value
-            //     }
-            //     call.respondText("Seeded admin with ID: $id")
-            // }
-
-            // -------------------------------------------------
+            post("/debug/admins/seed") {
+                val id = org.jetbrains.exposed.sql.transactions.transaction {
+                    val a = be.ecam.server.models.Admin.new {
+                        username = "admin"
+                        email = "admin@example.com"
+                        password = "1234"
+                    }
+                    a.id.value
+                }
+                call.respondText("Seeded admin with ID: $id")
+            }
 
             // Auth routes (register/login)
             authRoutes()
-            // admin management routes (CRUD)
-            adminRoutes()
+
             // catalog routes (formations, blocks, courses)
             catalogRoutes()
+
             // calendar routes (events)
             calendarRoutes()
-        
-            
+
+            // route protected with JWT
+            authenticate("jwt") {
+                adminRoutes()
+            }
 
             get("/schedule") {
-                // Generate example items for multiple dates until end of 2025
                 val schedule = mutableMapOf<String, List<ScheduleItem>>()
 
-                // A couple of fixed examples around current timeframe
                 schedule["2025-09-30"] = listOf(ScheduleItem("Team sync"), ScheduleItem("Release planning"))
                 schedule["2025-10-01"] = listOf(ScheduleItem("Code review"))
 
-                // Add examples for each remaining month of 2025
                 for (month in 1..12) {
                     val first = java.time.LocalDate.of(2025, month, 1)
                     val mid = first.withDayOfMonth(minOf(15, first.lengthOfMonth()))
@@ -175,7 +182,6 @@ fun Application.module() {
                     schedule.putIfAbsent(last.toString(), listOf(ScheduleItem("Retrospective")))
                 }
 
-                // Also sprinkle weekly examples on Mondays in Q4 2025
                 var d = java.time.LocalDate.of(2025, 10, 1)
                 while (!d.isAfter(java.time.LocalDate.of(2025, 12, 31))) {
                     if (d.dayOfWeek == java.time.DayOfWeek.MONDAY) {
@@ -189,6 +195,7 @@ fun Application.module() {
         }
     }
 }
+
 suspend fun RoutingContext.respondFavIcon() {
     val bytes = this::class.java.classLoader.getResourceAsStream("favicon.png")?.readBytes()
     if (bytes == null) {
@@ -196,7 +203,4 @@ suspend fun RoutingContext.respondFavIcon() {
     } else {
         call.respondBytes(bytes, contentType = ContentType.Image.PNG)
     }
-
-     
-} 
-
+}

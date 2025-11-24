@@ -1,9 +1,7 @@
 package be.ecam.server.routes
 
-import be.ecam.server.models.AuthResponse
-import be.ecam.server.models.AuthUserDTO
-import be.ecam.server.models.LoginRequest
-import be.ecam.server.models.RegisterRequest
+import be.ecam.server.models.*
+import be.ecam.server.security.JwtService
 import be.ecam.server.services.AuthService
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -15,7 +13,6 @@ fun Route.authRoutes() {
 
     // POST /api/auth/register
     post("/auth/register") {
-        // Parse JSON
         val body = runCatching { call.receive<RegisterRequest>() }.getOrElse {
             call.respond(HttpStatusCode.BadRequest, "JSON invalide")
             return@post
@@ -29,11 +26,15 @@ fun Route.authRoutes() {
                     password = body.password
                 )
             )
+
+            val token = JwtService.generateToken(user)
+
             call.respond(
                 HttpStatusCode.Created,
                 AuthResponse(
                     user = user,
-                    message = "Compte créé"
+                    message = "Compte créé",
+                    token = token
                 )
             )
         } catch (e: IllegalArgumentException) {
@@ -55,17 +56,19 @@ fun Route.authRoutes() {
                     password = body.password
                 )
             )
+
+            val token = JwtService.generateToken(user)
+
             call.respond(
                 AuthResponse(
                     user = user,
-                    message = "Connexion OK"
+                    message = "Connexion OK",
+                    token = token
                 )
             )
         } catch (e: IllegalArgumentException) {
-            // mdp incorrect
             call.respond(HttpStatusCode.Unauthorized, e.message ?: "Identifiants invalides")
         } catch (e: IllegalStateException) {
-            // Utilisateur introuvable
             call.respond(HttpStatusCode.Unauthorized, e.message ?: "Identifiants invalides")
         }
     }

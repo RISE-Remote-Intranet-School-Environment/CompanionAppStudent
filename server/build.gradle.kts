@@ -39,4 +39,9 @@ dependencies {
     // Ktor Call Logging
     implementation("io.ktor:ktor-server-call-logging:2.3.4")
 
+    // jwt for authentication
+    implementation("io.ktor:ktor-server-auth:2.3.6")
+    implementation("io.ktor:ktor-server-auth-jwt:2.3.6")
+    implementation("com.auth0:java-jwt:4.4.0")
+
 }
