@@ -2,6 +2,7 @@ package be.ecam.server.services
 
 import be.ecam.server.models.*
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -134,8 +135,7 @@ object CatalogService {
         }
     }
 
-
-     // --- FORMATIONS CRUD ---
+    // --- FORMATIONS CRUD ---
 
     fun getFormationById(id: Int): FormationDTO? = transaction {
         Formation.findById(id)?.let {
@@ -318,6 +318,180 @@ object CatalogService {
         course.delete()
         true
     }
+
+    // =====================
+    //  JSON course details
+    // =====================
+
+    @Serializable
+    private data class CourseSectionsJson(
+        @SerialName("Contribution au programme")
+        val contribution: String? = null,
+        @SerialName("Acquis d’apprentissage spécifiques")
+        val learningOutcomes: String? = null,
+        @SerialName("Description du contenu")
+        val content: String? = null,
+        @SerialName("Méthodes d'enseignement")
+        val teachingMethods: String? = null,
+        @SerialName("Méthodes d'évaluation")
+        val evaluationMethods: String? = null,
+        @SerialName("Support de cours")
+        val courseMaterial: String? = null,
+        @SerialName("Bibliographie")
+        val bibliography: String? = null
+    )
+
+    @Serializable
+    private data class CourseDetailsJson(
+        val details_url: String? = null,
+        val code: String,
+        val title: String,
+        val mandatory: Boolean? = null,
+        val bloc: String? = null,
+        val program: String? = null,
+        val credits: String? = null,
+        val hours: String? = null,
+        val responsable: String? = null,
+        val teachers: List<String>? = null,
+        val language: String? = null,
+        val organized_activities: List<OrganizedActivityJson>? = null,
+        val evaluated_activities: List<EvaluatedActivityJson>? = null,
+        val sections: CourseSectionsJson? = null,
+        val formation: String? = null,
+        val block: String? = null
+    )
+
+    @Serializable
+    private data class OrganizedActivityJson(
+        val code: String,
+        val title: String,
+        val hours_Q1: String? = null,
+        val hours_Q2: String? = null,
+        val teachers: List<String>? = null,
+        val language: String? = null
+    )
+
+    @Serializable
+    private data class EvaluatedActivityJson(
+        val code: String,
+        val title: String,
+        val weight: String? = null,
+        val type_Q1: String? = null,
+        val type_Q2: String? = null,
+        val type_Q3: String? = null,
+        val teachers: List<String>? = null,
+        val language: String? = null,
+        val linked_activities: List<String>? = null
+    )
+
+    // ============================================================
+    // SEED course details
+    // ============================================================
+    fun seedCourseDetailsFromJson() {
+        val resource = CatalogService::class.java.classLoader
+            .getResource("files/ecam_courses_details_2025.json")
+            ?: error("Resource 'files/ecam_courses_details_2025.json' introuvable dans le classpath")
+
+        val text = resource.readText()
+        val json = Json { ignoreUnknownKeys = true }
+
+        val detailsList = json.decodeFromString<List<CourseDetailsJson>>(text)
+
+        transaction {
+            detailsList.forEach { d ->
+
+                // retrouver le cours (ex: 1bach10, 4eore40, etc.)
+                val course = Course.find { CourseTable.code eq d.code }.firstOrNull()
+                    ?: return@forEach
+
+                // collecter TOUS les profs dans teachersRaw
+                val teachersAll = buildList {
+                    d.teachers?.let { addAll(it) }
+                    d.organized_activities?.forEach { oa ->
+                        oa.teachers?.let { addAll(it) }
+                    }
+                    d.evaluated_activities?.forEach { ea ->
+                        ea.teachers?.let { addAll(it) }
+                    }
+                }.distinct()
+
+                val teachersRaw = if (teachersAll.isEmpty()) null else teachersAll.joinToString("; ")
+
+                val sections = d.sections
+
+                // upsert : si details déjà existants → update
+                val existing = CourseDetails.find { CourseDetailsTable.course eq course.id }.firstOrNull()
+
+                if (existing == null) {
+                    CourseDetails.new {
+                        this.course = course
+                        responsable = d.responsable
+                        this.teachersRaw = teachersRaw
+                        contribution = sections?.contribution
+                        learningOutcomes = sections?.learningOutcomes
+                        content = sections?.content
+                        teachingMethods = sections?.teachingMethods
+                        evaluationMethods = sections?.evaluationMethods
+                        courseMaterial = sections?.courseMaterial
+                        bibliography = sections?.bibliography
+                    }
+                } else {
+                    existing.apply {
+                        responsable = d.responsable
+                        this.teachersRaw = teachersRaw
+                        contribution = sections?.contribution
+                        learningOutcomes = sections?.learningOutcomes
+                        content = sections?.content
+                        teachingMethods = sections?.teachingMethods
+                        evaluationMethods = sections?.evaluationMethods
+                        courseMaterial = sections?.courseMaterial
+                        bibliography = sections?.bibliography
+                    }
+                }
+            }
+        }
+    }
+
+    // ============================================================
+    // Helpers CourseDetails -> DTO
+    // ============================================================
+
+    private fun CourseDetails.toDto(): CourseDetailsDTO =
+        CourseDetailsDTO(
+            id = id.value,
+            courseId = course.id.value,
+            courseCode = course.code,
+            titre = course.title,
+            responsable = responsable,
+            teachers = teachersList(),
+            contribution = contribution,
+            learningOutcomes = learningOutcomes,
+            content = content,
+            teachingMethods = teachingMethods,
+            evaluationMethods = evaluationMethods,
+            courseMaterial = courseMaterial,
+            bibliography = bibliography
+        )
+
+    // ============================================================
+    // READ : récupérer les détails d’un cours
+    // ============================================================
+
+    // Par CODE (utile si tu veux /api/courses/code/{code}/details)
+    fun getCourseDetailsByCode(code: String): CourseDetailsDTO? = transaction {
+        val course = Course.find { CourseTable.code eq code }.firstOrNull() ?: return@transaction null
+        CourseDetails
+            .find { CourseDetailsTable.course eq course.id }
+            .firstOrNull()
+            ?.toDto()
+    }
+
+    // Par ID (ce que ta route /api/courses/{id}/details utilise)
+    fun getCourseDetailsByCourseId(courseId: Int): CourseDetailsDTO? = transaction {
+        val course = Course.findById(courseId) ?: return@transaction null
+        CourseDetails
+            .find { CourseDetailsTable.course eq course.id }
+            .firstOrNull()
+            ?.toDto()
+    }
 }
-
-

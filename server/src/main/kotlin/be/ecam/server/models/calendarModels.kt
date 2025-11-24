@@ -82,3 +82,61 @@ data class CalendarEventWriteRequest(
     val ownerRef: String,
     val courseId: Int? = null
 )
+
+
+// ==============================
+// Course schedule (emplois du temps)
+// ==============================
+
+object CourseScheduleTable : IntIdTable("course_schedule") {
+    val week = integer("week")
+    val yearOption = varchar("year_option", 20)
+    val groupNo = integer("group_no")
+
+    val seriesJson = text("series_json")
+    val date = varchar("date", 10)
+    val dayName = varchar("day_name", 20)
+    val startTime = varchar("start_time", 5)
+    val endTime = varchar("end_time", 5)
+
+    val courseCode = varchar("course_code", 20)
+    val teachersJson = text("teachers_json")
+    val roomsJson = text("rooms_json")
+    val courseName = varchar("course_name", 255)
+}
+
+class CourseSchedule(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<CourseSchedule>(CourseScheduleTable)
+
+    var week by CourseScheduleTable.week
+    var yearOption by CourseScheduleTable.yearOption
+    var groupNo by CourseScheduleTable.groupNo
+
+    var seriesJson by CourseScheduleTable.seriesJson
+    var date by CourseScheduleTable.date
+    var dayName by CourseScheduleTable.dayName
+    var startTime by CourseScheduleTable.startTime
+    var endTime by CourseScheduleTable.endTime
+
+    var courseCode by CourseScheduleTable.courseCode
+    var teachersJson by CourseScheduleTable.teachersJson
+    var roomsJson by CourseScheduleTable.roomsJson
+    var courseName by CourseScheduleTable.courseName
+}
+
+@Serializable
+data class CourseScheduleDTO(
+    val id: Int,
+    val week: Int,
+    val yearOption: String,
+    val group: Int,
+    val series: List<String>,
+    val date: String,
+    val dayName: String,
+    val startTime: String,
+    val endTime: String,
+    val courseCode: String,
+    val courseName: String,
+    val teachers: List<String>,
+    val rooms: List<String>
+)

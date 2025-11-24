@@ -5,6 +5,9 @@ import be.ecam.server.models.FormationTable
 import be.ecam.server.models.BlockTable
 import be.ecam.server.models.CourseTable
 import be.ecam.server.models.CalendarEventsTable
+import be.ecam.server.models.CourseScheduleTable
+import be.ecam.server.models.CourseDetailsTable
+import be.ecam.server.models.ProfessorsTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -35,9 +38,12 @@ object DatabaseFactory {
                 FormationTable,
                 BlockTable,
                 CourseTable,
-                CalendarEventsTable
+                CalendarEventsTable,
+                CourseScheduleTable,
+                CourseDetailsTable,
+                ProfessorsTable
             )
-            println("Schema synced (Admin, Formation, Block, Course, CalendarEvents)")
+            println("Schema synced (Admin, Formation, Block, Course, CalendarEvents, CourseSchedule, CourseDetails, Professors tables)")
 
 
         // autocreation admin 

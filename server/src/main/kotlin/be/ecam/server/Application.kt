@@ -26,6 +26,8 @@ import be.ecam.server.routes.adminRoutes
 import be.ecam.server.routes.calendarRoutes
 // added import for catalogroutes
 import be.ecam.server.routes.catalogRoutes
+// added import for professorroutes
+import be.ecam.server.routes.professorRoutes
 
 // add callloging import
 import io.ktor.server.plugins.calllogging.*
@@ -44,6 +46,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import be.ecam.server.security.JwtConfig
 import be.ecam.server.security.JwtService
+
 
 
 fun main(args: Array<String>) {
@@ -87,6 +90,15 @@ fun Application.module() {
 
     // seed the calendar events from JSON automatically (idempotent, does not duplicate events)
     be.ecam.server.services.CalendarService.seedCalendarEventsFromJson()
+
+    // seed the course schedule from JSON automatically (idempotent, does not duplicate schedule entries)
+    be.ecam.server.services.CalendarService.seedCourseScheduleFromJson()
+
+    // seed the course details from JSON automatically (idempotent, does not duplicate details)
+    be.ecam.server.services.CatalogService.seedCourseDetailsFromJson()
+
+    // seed the professors from JSON automatically (idempotent, does not duplicate professors)
+    //be.ecam.server.services.ProfessorService.seedProfessorsFromJson()
 
     // ----------------------------------------------------------
 
@@ -166,6 +178,9 @@ fun Application.module() {
 
             // calendar routes (events)
             calendarRoutes()
+
+            // professor routes (professors)
+            professorRoutes()
 
             // route protected with JWT
             authenticate("jwt") {

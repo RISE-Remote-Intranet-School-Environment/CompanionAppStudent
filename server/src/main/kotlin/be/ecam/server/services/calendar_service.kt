@@ -5,11 +5,12 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.and
 
 object CalendarService {
 
     // ============================================================
-    // JSON pour ton fichier ecam_calendar_events_2025_2026.json
+    // ========== PARTIE 1 : JSON EVENTS ==========================
     // ============================================================
 
     @Serializable
@@ -25,9 +26,6 @@ object CalendarService {
         val title: String
     )
 
-    /**
-     * Importe les événements depuis resources/files/ecam_calendar_events_2025_2026.json
-     */
     fun seedCalendarEventsFromJson() {
         val resource = CalendarService::class.java.classLoader
             .getResource("files/ecam_calendar_events_2025_2026.json")
@@ -35,39 +33,23 @@ object CalendarService {
 
         val text = resource.readText()
         val json = Json { ignoreUnknownKeys = true }
-
-        // TON JSON → une LISTE d'objets, pas un objet global
         val events = json.decodeFromString<List<CalendarEventJson>>(text)
 
         transaction {
             events.forEach { e ->
-
-                // 1) Date (si "date" absent, on prend "start")
                 val eventDate = e.date ?: e.start ?: "2025-01-01"
 
-                // 2) Pas d'heures dans ton fichier → valeurs par défaut
-                val startTime = "00:00"
-                val endTime = "23:59"
-
-                // 3) Groupe : première année concernée
-                val groupCode = e.annees_concernees?.firstOrNull()
-
-                // 4) Owner
-                val ownerType = e.type.uppercase()              // evenement
-                val ownerRef = e.categorie ?: "GLOBAL"
-
-                // 5) AUCUN cours lié → course = null
                 CalendarEvent.new {
                     code = e.id
                     title = e.title
                     date = eventDate
-                    this.startTime = startTime
-                    this.endTime = endTime
+                    startTime = "00:00"
+                    endTime = "23:59"
                     room = null
                     sessionNumber = null
-                    this.groupCode = groupCode
-                    this.ownerType = ownerType
-                    this.ownerRef = ownerRef
+                    groupCode = e.annees_concernees?.firstOrNull()
+                    ownerType = e.type.uppercase()
+                    ownerRef = e.categorie ?: "GLOBAL"
                     course = null
                 }
             }
@@ -75,7 +57,56 @@ object CalendarService {
     }
 
     // ============================================================
-    // LECTURE
+    // ========== PARTIE 2 : JSON COURSE SCHEDULE ==================
+    // ============================================================
+
+    @Serializable
+    private data class CourseScheduleJson(
+        val week: Int,
+        val year_option: String,
+        val group: Int,
+        val series: List<String>,
+        val date: String,
+        val day_name: String,
+        val start_time: String,
+        val end_time: String,
+        val course_code: String,
+        val teachers: List<String>,
+        val room: List<String>,
+        val course_name: String
+    )
+
+    fun seedCourseScheduleFromJson() {
+        val resource = CalendarService::class.java.classLoader
+            .getResource("files/ecam_calendar_courses_schedule_2025.json")
+            ?: error("Resource 'files/ecam_calendar_courses_schedule_2025.json' introuvable")
+
+        val text = resource.readText()
+        val json = Json { ignoreUnknownKeys = true }
+        val records = json.decodeFromString<List<CourseScheduleJson>>(text)
+
+        transaction {
+            records.forEach { r ->
+                CourseSchedule.new {
+                    week = r.week
+                    yearOption = r.year_option
+                    groupNo = r.group
+                    seriesJson = r.series.joinToString(",")    // stocké en CSV
+                    date = r.date
+                    dayName = r.day_name
+                    startTime = r.start_time
+                    endTime = r.end_time
+                    courseCode = r.course_code
+                    teachersJson = r.teachers.joinToString(",")
+                    roomsJson = r.room.joinToString(",")
+                    courseName = r.course_name
+                }
+            }
+        }
+    }
+
+    // ============================================================
+    // ========== PARTIE 3 : LECTURE EVENTS ========================
     // ============================================================
 
     fun getAllEvents(): List<CalendarEventDTO> = transaction {
@@ -93,7 +124,77 @@ object CalendarService {
     }
 
     // ============================================================
-    // CRUD ADMIN
+    // ========== PARTIE 4 : LECTURE COURSE SCHEDULE ===============
+    // ============================================================
+
+    fun getAllCourseSchedule(): List<CourseScheduleDTO> = transaction {
+        CourseSchedule.all().map { it.toDTO() }
+    }
+
+    fun getScheduleForWeek(week: Int): List<CourseScheduleDTO> = transaction {
+        CourseSchedule.find { CourseScheduleTable.week eq week }
+            .map { it.toDTO() }
+    }
+
+    fun getScheduleForYear(year: String): List<CourseScheduleDTO> = transaction {
+        CourseSchedule.find { CourseScheduleTable.yearOption eq year }
+            .map { it.toDTO() }
+    }
+
+    fun getScheduleForYearAndGroup(year: String, group: Int): List<CourseScheduleDTO> =
+        transaction {
+            CourseSchedule.find {
+                (CourseScheduleTable.yearOption eq year) and
+                        (CourseScheduleTable.groupNo eq group)
+            }.map { it.toDTO() }
+        }
+
+    fun getScheduleForCourse(code: String): List<CourseScheduleDTO> =
+        transaction {
+            CourseSchedule.find { CourseScheduleTable.courseCode eq code }
+                .map { it.toDTO() }
+        }
+
+    // ============================================================
+    // ========== Mapping Entity -> DTO ============================
+    // ============================================================
+
+    private fun CalendarEvent.toDTO(): CalendarEventDTO =
+        CalendarEventDTO(
+            id = id.value,
+            code = code,
+            title = title,
+            date = date,
+            startTime = startTime,
+            endTime = endTime,
+            room = room,
+            sessionNumber = sessionNumber,
+            groupCode = groupCode,
+            ownerType = ownerType,
+            ownerRef = ownerRef,
+            courseCode = course?.code
+        )
+
+    private fun CourseSchedule.toDTO(): CourseScheduleDTO =
+        CourseScheduleDTO(
+            id = id.value,
+            week = week,
+            yearOption = yearOption,
+            group = groupNo,
+            series = seriesJson.split(","),
+            date = date,
+            dayName = dayName,
+            startTime = startTime,
+            endTime = endTime,
+            courseCode = courseCode,
+            courseName = courseName,
+            teachers = teachersJson.split(","),
+            rooms = roomsJson.split(",")
+        )
+
+
+    // ============================================================
+    // CRUD ADMIN pour les events
     // ============================================================
 
     fun createEvent(req: CalendarEventWriteRequest): CalendarEventDTO = transaction {
@@ -139,23 +240,4 @@ object CalendarService {
         true
     }
 
-    // ============================================================
-    // Mapping Entity -> DTO
-    // ============================================================
-
-    private fun CalendarEvent.toDTO(): CalendarEventDTO =
-        CalendarEventDTO(
-            id = id.value,
-            code = code,
-            title = title,
-            date = date,
-            startTime = startTime,
-            endTime = endTime,
-            room = room,
-            sessionNumber = sessionNumber,
-            groupCode = groupCode,
-            ownerType = ownerType,
-            ownerRef = ownerRef,
-            courseCode = course?.code
-        )
 }

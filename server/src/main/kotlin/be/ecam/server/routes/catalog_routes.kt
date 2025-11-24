@@ -45,6 +45,18 @@ fun Route.catalogRoutes() {
         call.respond(courses)
     }
 
+    // GET /api/courses/code/{code}/details
+    get("/courses/code/{code}/details") {
+        val code = call.parameters["code"]
+            ?: return@get call.respond(HttpStatusCode.BadRequest, "Code manquant")
+
+        val details = CatalogService.getCourseDetailsByCode(code)
+            ?: return@get call.respond(HttpStatusCode.NotFound, "Détails introuvables")
+
+        call.respond(details)
+    }
+
+
     // GET /api/courses/{id}
     // -> on balaye tous les cours de toutes les formations
     get("/courses/{id}") {
@@ -89,6 +101,21 @@ fun Route.catalogRoutes() {
             call.respond(course)
         }
     }
+
+
+    // GET /api/courses/{id}/details
+    // Récupère les détails d'un cours à partir de son ID (courses.id)
+    get("/courses/{id}/details") {
+        val id = call.parameters["id"]?.toIntOrNull()
+            ?: return@get call.respond(HttpStatusCode.BadRequest, "ID invalide")
+
+        val details = CatalogService.getCourseDetailsByCourseId(id)
+            ?: return@get call.respond(HttpStatusCode.NotFound, "Détails introuvables")
+
+        call.respond(details)
+    }
+
+
 
     // debug route to seed formations from JSON
     get("/debug/seed/formations") {
