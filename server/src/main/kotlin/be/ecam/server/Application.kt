@@ -45,14 +45,13 @@ import com.auth0.jwt.algorithms.Algorithm
 import be.ecam.server.security.JwtConfig
 import be.ecam.server.security.JwtService
 
-
 fun main(args: Array<String>) {
     EngineMain.main(args)
 }
 
 fun Application.module() {
 
-    install(CallLogging){
+    install(CallLogging) {
         level = Level.INFO
         filter { call -> true }
     }
@@ -78,11 +77,15 @@ fun Application.module() {
         }
     }
 
-    // ----------------------------------------------------------
-    //  CORRECTION ICI : on initialise proprement SQLite
-    // ----------------------------------------------------------
+    // connect to the database
 
-    be.ecam.server.db.DatabaseFactory.connect()   // <-- juste ça ✔
+    be.ecam.server.db.DatabaseFactory.connect()   
+
+    // seed the formations from JSON automatically (idempotent, does not duplicate courses)
+    be.ecam.server.services.CatalogService.seedFormationsFromJson()
+
+    // seed the calendar events from JSON automatically (idempotent, does not duplicate events)
+    be.ecam.server.services.CalendarService.seedCalendarEventsFromJson()
 
     // ----------------------------------------------------------
 

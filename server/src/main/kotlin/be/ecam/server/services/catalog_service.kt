@@ -133,6 +133,191 @@ object CatalogService {
             )
         }
     }
+
+
+     // --- FORMATIONS CRUD ---
+
+    fun getFormationById(id: Int): FormationDTO? = transaction {
+        Formation.findById(id)?.let {
+            FormationDTO(
+                id = it.id.value,
+                slug = it.slug,
+                name = it.name,
+                imageUrl = it.imageUrl
+            )
+        }
+    }
+
+    fun getFormationBySlug(slug: String): FormationDTO? = transaction {
+        Formation.find { FormationTable.slug eq slug }.firstOrNull()?.let {
+            FormationDTO(
+                id = it.id.value,
+                slug = it.slug,
+                name = it.name,
+                imageUrl = it.imageUrl
+            )
+        }
+    }
+
+    fun createFormation(req: FormationWriteRequest): FormationDTO = transaction {
+        val formation = Formation.new {
+            slug = req.slug
+            name = req.name
+            sourceUrl = req.sourceUrl
+            imageUrl = req.imageUrl
+        }
+        FormationDTO(
+            id = formation.id.value,
+            slug = formation.slug,
+            name = formation.name,
+            imageUrl = formation.imageUrl
+        )
+    }
+
+    fun updateFormation(id: Int, req: FormationWriteRequest): FormationDTO? = transaction {
+        val formation = Formation.findById(id) ?: return@transaction null
+
+        formation.slug = req.slug
+        formation.name = req.name
+        formation.sourceUrl = req.sourceUrl
+        formation.imageUrl = req.imageUrl
+
+        FormationDTO(
+            id = formation.id.value,
+            slug = formation.slug,
+            name = formation.name,
+            imageUrl = formation.imageUrl
+        )
+    }
+
+    fun deleteFormation(id: Int): Boolean = transaction {
+        val formation = Formation.findById(id) ?: return@transaction false
+        formation.delete()
+        true
+    }
+
+    // --- BLOCKS CRUD ---
+
+    fun createBlock(req: BlockWriteRequest): BlockDTO = transaction {
+        val formation = Formation.findById(req.formationId)
+            ?: error("Formation ${req.formationId} introuvable")
+
+        val block = Block.new {
+            name = req.name
+            this.formation = formation
+        }
+
+        BlockDTO(
+            id = block.id.value,
+            name = block.name,
+            formationId = block.formation.id.value
+        )
+    }
+
+    fun updateBlock(id: Int, req: BlockWriteRequest): BlockDTO? = transaction {
+        val block = Block.findById(id) ?: return@transaction null
+        val formation = Formation.findById(req.formationId)
+            ?: error("Formation ${req.formationId} introuvable")
+
+        block.name = req.name
+        block.formation = formation
+
+        BlockDTO(
+            id = block.id.value,
+            name = block.name,
+            formationId = block.formation.id.value
+        )
+    }
+
+    fun deleteBlock(id: Int): Boolean = transaction {
+        val block = Block.findById(id) ?: return@transaction false
+        block.delete()
+        true
+    }
+
+    // --- Helper pour mapper un Course en CourseDTO ---
+
+    private fun Course.toDto(): CourseDTO {
+        val formation = this.formation
+        val blocName = this.blockRef?.name ?: this.bloc
+
+        return CourseDTO(
+            id = this.id.value,
+            code = this.code,
+            title = this.title,
+            credits = this.credits,
+            periods = this.periods,
+            bloc = blocName,
+            detailsUrl = this.detailsUrl,
+            formationSlug = formation?.slug
+        )
+    }
+
+    // --- COURSES CRUD / LECTURE ---
+
+    fun getCourseById(id: Int): CourseDTO? = transaction {
+        Course.findById(id)?.toDto()
+    }
+
+    fun getCourseByCode(code: String): CourseDTO? = transaction {
+        Course.find { CourseTable.code eq code }.firstOrNull()?.toDto()
+    }
+
+    fun createCourse(req: CourseWriteRequest): CourseDTO = transaction {
+        val formation = req.formationId?.let { fid ->
+            Formation.findById(fid) ?: error("Formation $fid introuvable")
+        }
+        val block = req.blockId?.let { bid ->
+            Block.findById(bid) ?: error("Block $bid introuvable")
+        }
+
+        val course = Course.new {
+            code = req.code
+            title = req.title
+            credits = req.credits
+            periods = req.periods
+            detailsUrl = req.detailsUrl
+            mandatory = req.mandatory
+            bloc = req.bloc
+            program = req.program
+            language = req.language
+            this.formation = formation
+            this.blockRef = block
+        }
+
+        course.toDto()
+    }
+
+    fun updateCourse(id: Int, req: CourseWriteRequest): CourseDTO? = transaction {
+        val course = Course.findById(id) ?: return@transaction null
+
+        val formation = req.formationId?.let { fid ->
+            Formation.findById(fid) ?: error("Formation $fid introuvable")
+        }
+        val block = req.blockId?.let { bid ->
+            Block.findById(bid) ?: error("Block $bid introuvable")
+        }
+
+        course.code = req.code
+        course.title = req.title
+        course.credits = req.credits
+        course.periods = req.periods
+        course.detailsUrl = req.detailsUrl
+        course.mandatory = req.mandatory
+        course.bloc = req.bloc
+        course.program = req.program
+        course.language = req.language
+        course.formation = formation
+        course.blockRef = block
+
+        course.toDto()
+    }
+
+    fun deleteCourse(id: Int): Boolean = transaction {
+        val course = Course.findById(id) ?: return@transaction false
+        course.delete()
+        true
+    }
 }
 
 

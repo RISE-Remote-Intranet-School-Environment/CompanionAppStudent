@@ -17,7 +17,7 @@ object JwtService {
             .withAudience(JwtConfig.audience)
             .withClaim("id", user.id)
             .withClaim("username", user.username)
-            .withExpiresAt(Date(now + 1000 * 60 * 60 * 24)) // token valable 24h
+            .withExpiresAt(Date(now + 1000 * 60 * 60 * 24)) // token valid for 24 hours
             .sign(algorithm)
     }
 }

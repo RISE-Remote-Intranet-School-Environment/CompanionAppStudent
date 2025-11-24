@@ -4,15 +4,18 @@ import be.ecam.server.models.AdminTable
 import be.ecam.server.models.FormationTable
 import be.ecam.server.models.BlockTable
 import be.ecam.server.models.CourseTable
+import be.ecam.server.models.CalendarEventsTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.io.File
+import be.ecam.server.models.Admin
+import org.jetbrains.exposed.sql.selectAll
 
 object DatabaseFactory {
 
     fun connect() {
-        // On force la DB dans data/app.db
+        // we force the creation of a "data" folder in the working directory
         val dbFolder = File("data")
         if (!dbFolder.exists()) {
             dbFolder.mkdirs()
@@ -25,15 +28,29 @@ object DatabaseFactory {
         Database.connect(url, driver = "org.sqlite.JDBC")
         println("SQLite DB = $url")
 
-        // Création / mise à jour des tables
+        // Create tables if not exists
         transaction {
             SchemaUtils.create(
                 AdminTable,
                 FormationTable,
                 BlockTable,
-                CourseTable
+                CourseTable,
+                CalendarEventsTable
             )
-            println("Schema synced (Admin, Formation, Block, Course)")
+            println("Schema synced (Admin, Formation, Block, Course, CalendarEvents)")
+
+
+        // autocreation admin 
+            val adminCount = AdminTable.selectAll().count()
+            if (adminCount == 0L) {
+                val a = Admin.new {
+                    username = "admin"
+                    email = "admin@example.com"
+                    password = "1234"   // just for dev/debug
+                }
+                println("Default admin created with id=${a.id.value}")
         }
     }
+}
+
 }

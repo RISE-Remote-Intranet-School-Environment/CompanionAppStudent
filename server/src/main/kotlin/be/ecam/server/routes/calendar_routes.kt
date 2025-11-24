@@ -1,69 +1,81 @@
 package be.ecam.server.routes
 
-import be.ecam.server.models.CalendarEvent
-import be.ecam.server.models.Course
-import be.ecam.server.models.CourseTable
+import be.ecam.server.models.CalendarEventWriteRequest
 import be.ecam.server.services.CalendarService
+
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import org.jetbrains.exposed.sql.transactions.transaction
 
 fun Route.calendarRoutes() {
 
-    // GET /api/calendar/events
+    // -------- GET --------
+
     get("/calendar/events") {
-        val events = CalendarService.getAllEvents()
-        call.respond(events)
+        call.respond(CalendarService.getAllEvents())
     }
 
-    // GET /api/calendar/group/{groupCode}
     get("/calendar/group/{groupCode}") {
         val groupCode = call.parameters["groupCode"]
-        if (groupCode == null) {
-            call.respond(HttpStatusCode.BadRequest, "groupCode manquant")
-            return@get
-        }
+            ?: return@get call.respond(HttpStatusCode.BadRequest, "groupCode manquant")
 
-        val events = CalendarService.getEventsForGroup(groupCode)
-        call.respond(events)
+        call.respond(CalendarService.getEventsForGroup(groupCode))
     }
 
-    // GET /api/calendar/owner/{ownerRef}
     get("/calendar/owner/{ownerRef}") {
         val ownerRef = call.parameters["ownerRef"]
-        if (ownerRef == null) {
-            call.respond(HttpStatusCode.BadRequest, "ownerRef manquant")
-            return@get
-        }
+            ?: return@get call.respond(HttpStatusCode.BadRequest, "ownerRef manquant")
 
-        val events = CalendarService.getEventsForOwner(ownerRef)
-        call.respond(events)
+        call.respond(CalendarService.getEventsForOwner(ownerRef))
     }
 
-    // ---------- DEBUG : créer un event de test dans la DB ----------
-    // GET /api/calendar/debug/seed-one
+    // -------- CRUD (admin) --------
+
+    post("/calendar/events") {
+        val req = call.receive<CalendarEventWriteRequest>()
+        val event = CalendarService.createEvent(req)
+        call.respond(HttpStatusCode.Created, event)
+    }
+
+    put("/calendar/events/{id}") {
+        val id = call.parameters["id"]?.toIntOrNull()
+            ?: return@put call.respond(HttpStatusCode.BadRequest, "ID invalide")
+
+        val req = call.receive<CalendarEventWriteRequest>()
+        val updated = CalendarService.updateEvent(id, req)
+            ?: return@put call.respond(HttpStatusCode.NotFound, "Événement introuvable")
+
+        call.respond(updated)
+    }
+
+    delete("/calendar/events/{id}") {
+        val id = call.parameters["id"]?.toIntOrNull()
+            ?: return@delete call.respond(HttpStatusCode.BadRequest, "ID invalide")
+
+        val ok = CalendarService.deleteEvent(id)
+        if (ok) call.respond(HttpStatusCode.NoContent)
+        else call.respond(HttpStatusCode.NotFound, "Événement introuvable")
+    }
+
+    // -------- DEBUG --------
+
     get("/calendar/debug/seed-one") {
-        transaction {
-            // on prend un cours existant 
-            val course = Course.find { CourseTable.code eq "1bach10" }.firstOrNull()
-
-            CalendarEvent.new {
-                code = "EO2L-L2-2BA-A"
-                title = "Laboratoire d’électronique"
-                date = "2025-11-28"
-                startTime = "12:45"
-                endTime = "16:15"
-                room = "1F04"
-                sessionNumber = 2
-                groupCode = "2BA-s3"
-                ownerType = "TEACHER"   
-                ownerRef = "DLH"
-                this.course = course
-            }
+        call.respondText("Route debug active (pas d’action)")
+    }
+    
+    // route de debug pour importer les events depuis le JSON
+    get("/calendar/debug/seed/events") {
+        try {
+            CalendarService.seedCalendarEventsFromJson()
+            call.respondText("Calendar events importés depuis ecam_calendar_events_2025_2026.json")
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            call.respond(
+                HttpStatusCode.InternalServerError,
+                "Erreur dans seedCalendarEventsFromJson: ${e.message}"
+            )
         }
-
-        call.respondText("Event de test créé")
     }
 }

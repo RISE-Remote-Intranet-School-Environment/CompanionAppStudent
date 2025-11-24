@@ -71,7 +71,7 @@ class Course(id: EntityID<Int>) : IntEntity(id) {
     var blockRef by Block optionalReferencedOn CourseTable.block
 }
 
-// --- DTOs exposés par l'API ---
+// --- DTOs exposed by the API ---
 
 @Serializable
 data class FormationDTO(
@@ -93,3 +93,43 @@ data class CourseDTO(
     @SerialName("formation_slug") val formationSlug: String?
 )
 
+// DTOs
+
+// --- DTO pour renvoyer un block via l'API (optionnel mais pratique) ---
+@Serializable
+data class BlockDTO(
+    val id: Int,
+    val name: String,
+    @SerialName("formation_id") val formationId: Int
+)
+
+// --- DTOs d'écriture (requêtes admin) ---
+
+@Serializable
+data class FormationWriteRequest(
+    val slug: String,
+    val name: String,
+    @SerialName("source_url") val sourceUrl: String = "",
+    @SerialName("image_url") val imageUrl: String? = null
+)
+
+@Serializable
+data class BlockWriteRequest(
+    val name: String,
+    @SerialName("formation_id") val formationId: Int
+)
+
+@Serializable
+data class CourseWriteRequest(
+    val code: String,
+    val title: String,
+    val credits: Int,
+    val periods: String,
+    @SerialName("details_url") val detailsUrl: String,
+    val mandatory: Boolean = true,
+    val bloc: String? = null,
+    val program: String? = null,
+    val language: String? = null,
+    @SerialName("formation_id") val formationId: Int? = null,
+    @SerialName("block_id") val blockId: Int? = null
+)
