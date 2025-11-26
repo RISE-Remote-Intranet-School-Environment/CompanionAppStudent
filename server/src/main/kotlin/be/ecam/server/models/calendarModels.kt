@@ -6,9 +6,7 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 
-// ---------------------------
-// TABLE
-// ---------------------------
+// table
 object CalendarEventsTable : IntIdTable("calendar_events") {
     val code = varchar("code", 50)
     val title = varchar("title", 255)
@@ -25,9 +23,8 @@ object CalendarEventsTable : IntIdTable("calendar_events") {
     val course = reference("course_id", CourseTable).nullable()
 }
 
-// ---------------------------
-// ENTITY
-// ---------------------------
+
+// entity
 class CalendarEvent(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<CalendarEvent>(CalendarEventsTable)
 
@@ -46,9 +43,8 @@ class CalendarEvent(id: EntityID<Int>) : IntEntity(id) {
     var course by Course optionalReferencedOn CalendarEventsTable.course
 }
 
-// ---------------------------
-// DTO READ
-// ---------------------------
+
+// dto read
 @Serializable
 data class CalendarEventDTO(
     val id: Int,
@@ -65,9 +61,7 @@ data class CalendarEventDTO(
     val courseCode: String?
 )
 
-// ---------------------------
-// DTO WRITE (pour POST/PUT futur)
-// ---------------------------
+// dto write
 @Serializable
 data class CalendarEventWriteRequest(
     val code: String,
@@ -84,10 +78,8 @@ data class CalendarEventWriteRequest(
 )
 
 
-// ==============================
-// Course schedule (emplois du temps)
-// ==============================
 
+// table
 object CourseScheduleTable : IntIdTable("course_schedule") {
     val week = integer("week")
     val yearOption = varchar("year_option", 20)

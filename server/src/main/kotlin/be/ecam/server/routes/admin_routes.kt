@@ -10,13 +10,13 @@ import io.ktor.server.routing.*
 
 fun Route.adminRoutes() {
 
-    // ------ GET /api/admins ------
+    // GET /api/admins 
     get("/admins") {
         val admins = AdminService.getAllAdmins()
         call.respond(admins)
     }
 
-    // ------ GET /api/admins/{id} ------
+    // GET /api/admins/{id} 
     get("/admins/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
         if (id == null) {
@@ -32,7 +32,7 @@ fun Route.adminRoutes() {
         }
     }
 
-    // ------ PATCH /api/admins/{id} ------
+    // PATCH /api/admins/{id} 
     patch("/admins/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
         if (id == null) {
@@ -53,7 +53,7 @@ fun Route.adminRoutes() {
         }
     }
 
-    // ------ DELETE /api/admins/{id} ------
+    // DELETE /api/admins/{id} 
     delete("/admins/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
         if (id == null) {

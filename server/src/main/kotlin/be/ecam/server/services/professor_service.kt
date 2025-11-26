@@ -8,9 +8,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object ProfessorService {
 
-    // ============================================================
-    // JSON parsing for ecam_professors_2025.json
-    // ============================================================
+    // json professors format
 
     @Serializable
     private data class ProfessorsRootJson(
@@ -72,10 +70,9 @@ object ProfessorService {
         }
     }
 
-    // ============================================================
-    // READ
-    // ============================================================
-
+    
+    // read professors
+   
     fun getAllProfessors(): List<ProfessorDTO> = transaction {
         Professor.all().map { it.toDto() }
     }
@@ -95,9 +92,7 @@ object ProfessorService {
             .map { it.toDto() }
     }
 
-    // ============================================================
-    // CREATE
-    // ============================================================
+   // crearte professor
 
     fun createProfessor(req: ProfessorWriteRequest): ProfessorDTO = transaction {
         val existing = Professor.find { ProfessorsTable.email eq req.email }.firstOrNull()
@@ -115,16 +110,14 @@ object ProfessorService {
         p.toDto()
     }
 
-    // ============================================================
-    // UPDATE
-    // ============================================================
+    // update professor
 
     fun updateProfessor(id: Int, req: ProfessorWriteRequest): ProfessorDTO? = transaction {
         val p = Professor.findById(id) ?: return@transaction null
 
         p.firstName = req.firstName
         p.lastName = req.lastName
-        // email ne change pas
+
         p.office = req.office
         p.phone = req.phone
         p.speciality = req.speciality
@@ -132,9 +125,7 @@ object ProfessorService {
         p.toDto()
     }
 
-    // ============================================================
-    // DELETE
-    // ============================================================
+    // delete professor
 
     fun deleteProfessor(id: Int): Boolean = transaction {
         val p = Professor.findById(id) ?: return@transaction false
@@ -142,9 +133,7 @@ object ProfessorService {
         true
     }
 
-    // ============================================================
-    // Mapping entity → DTO
-    // ============================================================
+    // mapper professor 
 
     private fun Professor.toDto(): ProfessorDTO =
         ProfessorDTO(

@@ -9,7 +9,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object AdminService {
 
-    // READ ALL : retourne tous les admins
+    // READ ALL 
     fun getAllAdmins(): List<AdminDTO> = transaction {
         Admin.all().map {
             AdminDTO(
@@ -20,7 +20,7 @@ object AdminService {
         }
     }
 
-    // READ ONE : retourne un admin par id ou null
+    // READ ONE 
     fun getAdminById(id: Int): AdminDTO? = transaction {
         val a = Admin.findById(id) ?: return@transaction null
         AdminDTO(
@@ -30,7 +30,7 @@ object AdminService {
         )
     }
 
-    // UPDATE : met à jour partiellement un admin
+    // UPDATE 
     fun updateAdmin(id: Int, req: UpdateAdminRequest): AdminDTO? = transaction {
         val a = Admin.findById(id) ?: return@transaction null
 
@@ -50,7 +50,7 @@ object AdminService {
         )
     }
 
-    // DELETE : supprime un admin, retourne true si ok, false si introuvable
+    // DELETE 
     fun deleteAdmin(id: Int): Boolean = transaction {
         val a = Admin.findById(id) ?: return@transaction false
         a.delete()

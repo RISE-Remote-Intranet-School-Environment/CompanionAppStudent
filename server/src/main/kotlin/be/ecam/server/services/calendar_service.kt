@@ -9,10 +9,8 @@ import org.jetbrains.exposed.sql.and
 
 object CalendarService {
 
-    // ============================================================
-    // ========== PARTIE 1 : JSON EVENTS ==========================
-    // ============================================================
 
+    // json event format
     @Serializable
     private data class CalendarEventJson(
         val id: String,
@@ -29,7 +27,7 @@ object CalendarService {
     fun seedCalendarEventsFromJson() {
         val resource = CalendarService::class.java.classLoader
             .getResource("files/ecam_calendar_events_2025_2026.json")
-            ?: error("Resource 'files/ecam_calendar_events_2025_2026.json' introuvable dans le classpath")
+            ?: error("Resource 'files/ecam_calendar_events_2025_2026.json' not found in classpath")
 
         val text = resource.readText()
         val json = Json { ignoreUnknownKeys = true }
@@ -56,10 +54,8 @@ object CalendarService {
         }
     }
 
-    // ============================================================
-    // ========== PARTIE 2 : JSON COURSE SCHEDULE ==================
-    // ============================================================
 
+    // json course schedule format
     @Serializable
     private data class CourseScheduleJson(
         val week: Int,
@@ -79,7 +75,7 @@ object CalendarService {
     fun seedCourseScheduleFromJson() {
         val resource = CalendarService::class.java.classLoader
             .getResource("files/ecam_calendar_courses_schedule_2025.json")
-            ?: error("Resource 'files/ecam_calendar_courses_schedule_2025.json' introuvable")
+            ?: error("Resource 'files/ecam_calendar_courses_schedule_2025.json' not found in classpath")
 
         val text = resource.readText()
         val json = Json { ignoreUnknownKeys = true }
@@ -91,7 +87,7 @@ object CalendarService {
                     week = r.week
                     yearOption = r.year_option
                     groupNo = r.group
-                    seriesJson = r.series.joinToString(",")    // stocké en CSV
+                    seriesJson = r.series.joinToString(",")    // stored as CSV
                     date = r.date
                     dayName = r.day_name
                     startTime = r.start_time
@@ -105,9 +101,7 @@ object CalendarService {
         }
     }
 
-    // ============================================================
-    // ========== PARTIE 3 : LECTURE EVENTS ========================
-    // ============================================================
+    // read all events
 
     fun getAllEvents(): List<CalendarEventDTO> = transaction {
         CalendarEvent.all().map { it.toDTO() }
@@ -122,11 +116,8 @@ object CalendarService {
         CalendarEvent.find { CalendarEventsTable.ownerRef eq ownerRef }
             .map { it.toDTO() }
     }
-
-    // ============================================================
-    // ========== PARTIE 4 : LECTURE COURSE SCHEDULE ===============
-    // ============================================================
-
+     
+    // read all course schedule
     fun getAllCourseSchedule(): List<CourseScheduleDTO> = transaction {
         CourseSchedule.all().map { it.toDTO() }
     }
@@ -155,9 +146,8 @@ object CalendarService {
                 .map { it.toDTO() }
         }
 
-    // ============================================================
-    // ========== Mapping Entity -> DTO ============================
-    // ============================================================
+    
+    // mapper functions
 
     private fun CalendarEvent.toDTO(): CalendarEventDTO =
         CalendarEventDTO(
@@ -193,9 +183,7 @@ object CalendarService {
         )
 
 
-    // ============================================================
-    // CRUD ADMIN pour les events
-    // ============================================================
+    // CRUD for calendar events
 
     fun createEvent(req: CalendarEventWriteRequest): CalendarEventDTO = transaction {
         val course = req.courseId?.let { Course.findById(it) }

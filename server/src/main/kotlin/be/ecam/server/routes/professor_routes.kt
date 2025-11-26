@@ -10,32 +10,27 @@ import io.ktor.server.routing.*
 
 fun Route.professorRoutes() {
 
-    // =============================
-    // GET ALL
-    // =============================
+    // get all professors
     get("/professors") {
         call.respond(ProfessorService.getAllProfessors())
     }
 
-    // =============================
+    // get professor by id
     // GET by id
-    // =============================
     get("/professors/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
-            ?: return@get call.respond(HttpStatusCode.BadRequest, "ID invalide")
+            ?: return@get call.respond(HttpStatusCode.BadRequest, "IInvalid ID")
 
         val prof = ProfessorService.getProfessorById(id)
-            ?: return@get call.respond(HttpStatusCode.NotFound, "Professeur introuvable")
+            ?: return@get call.respond(HttpStatusCode.NotFound, "Professor not found")
 
         call.respond(prof)
     }
 
-    // =============================
     // GET by email
-    // =============================
     get("/professors/email/{email}") {
         val email = call.parameters["email"]
-            ?: return@get call.respond(HttpStatusCode.BadRequest, "Email manquant")
+            ?: return@get call.respond(HttpStatusCode.BadRequest, "Missing email")
 
         val prof = ProfessorService.getProfessorByEmail(email)
             ?: return@get call.respond(HttpStatusCode.NotFound, "Professeur introuvable")
@@ -43,64 +38,51 @@ fun Route.professorRoutes() {
         call.respond(prof)
     }
 
-    // =============================
-    // GET by speciality
-    // (nouvelle fonction du service)
-    // =============================
+    // get professors by speciality
     get("/professors/speciality/{spec}") {
         val speciality = call.parameters["spec"]
-            ?: return@get call.respond(HttpStatusCode.BadRequest, "Speciality manquante")
+            ?: return@get call.respond(HttpStatusCode.BadRequest, "Missing speciality")
 
         val list = ProfessorService.getProfessorsBySpeciality(speciality)
         call.respond(list)
     }
-
-    // =============================
-    // CREATE
-    // =============================
+    // create professor
     post("/professors") {
         val req = call.receive<ProfessorWriteRequest>()
         val created = ProfessorService.createProfessor(req)
         call.respond(HttpStatusCode.Created, created)
     }
-
-    // =============================
-    // UPDATE
-    // =============================
+    // update professor
     put("/professors/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
-            ?: return@put call.respond(HttpStatusCode.BadRequest, "ID invalide")
+            ?: return@put call.respond(HttpStatusCode.BadRequest, "IInvalid ID")
 
         val req = call.receive<ProfessorWriteRequest>()
         val updated = ProfessorService.updateProfessor(id, req)
-            ?: return@put call.respond(HttpStatusCode.NotFound, "Prof introuvable")
+            ?: return@put call.respond(HttpStatusCode.NotFound, "Prof not found")
 
         call.respond(updated)
     }
 
-    // =============================
-    // DELETE
-    // =============================
+    // delete professor
     delete("/professors/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
-            ?: return@delete call.respond(HttpStatusCode.BadRequest, "ID invalide")
+            ?: return@delete call.respond(HttpStatusCode.BadRequest, "IInvalid ID")
 
         val ok = ProfessorService.deleteProfessor(id)
         if (ok) call.respond(HttpStatusCode.NoContent)
-        else call.respond(HttpStatusCode.NotFound, "Prof introuvable")
+        else call.respond(HttpStatusCode.NotFound, "Prof not found")
     }
 
-    // =============================
-    // DEBUG — Seed JSON
-    // =============================
+    // debug route to seed professors from JSON file
     get("/debug/seed/professors") {
         try {
             ProfessorService.seedProfessorsFromJson()
-            call.respondText("Professeurs importés depuis ecam_professors_2025.json")
+            call.respondText("Professors imported from ecam_professors_2025.json")
         } catch (e: Throwable) {
             call.respond(
                 HttpStatusCode.InternalServerError,
-                "Erreur lors de l'import: ${e.message}"
+                "Error during import: ${e.message}"
             )
         }
     }

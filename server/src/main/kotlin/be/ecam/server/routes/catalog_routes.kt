@@ -20,7 +20,7 @@ fun Route.catalogRoutes() {
     }
 
     // GET /api/formations/{slug}
-    // -> on cherche la formation dans la liste renvoyée par getAllFormations()
+    // slug ex: "bachelier-en-informatique-de-gestion"
     get("/formations/{slug}") {
         val slug = call.parameters["slug"]
             ?: return@get call.respond(HttpStatusCode.BadRequest, "Slug manquant")
@@ -58,7 +58,6 @@ fun Route.catalogRoutes() {
 
 
     // GET /api/courses/{id}
-    // -> on balaye tous les cours de toutes les formations
     get("/courses/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
             ?: return@get call.respond(HttpStatusCode.BadRequest, "ID invalide")
@@ -104,13 +103,13 @@ fun Route.catalogRoutes() {
 
 
     // GET /api/courses/{id}/details
-    // Récupère les détails d'un cours à partir de son ID (courses.id)
+    // Retrieve course details by course ID (courses.id)
     get("/courses/{id}/details") {
         val id = call.parameters["id"]?.toIntOrNull()
-            ?: return@get call.respond(HttpStatusCode.BadRequest, "ID invalide")
+            ?: return@get call.respond(HttpStatusCode.BadRequest, "IInvalid ID")
 
         val details = CatalogService.getCourseDetailsByCourseId(id)
-            ?: return@get call.respond(HttpStatusCode.NotFound, "Détails introuvables")
+            ?: return@get call.respond(HttpStatusCode.NotFound, "DDetails not found")
 
         call.respond(details)
     }
@@ -121,27 +120,25 @@ fun Route.catalogRoutes() {
     get("/debug/seed/formations") {
         try {
             CatalogService.seedFormationsFromJson()
-            call.respondText("Formations + cours importés depuis ecam_formations_2025.json")
+            call.respondText("Formations + cours imported from ecam_formations_2025.json")
         } catch (e: Throwable) {
             e.printStackTrace()
             call.respond(
                 HttpStatusCode.InternalServerError,
-                "Erreur dans seedFormationsFromJson: ${e.message}"
+                "Error in seedFormationsFromJson: ${e.message}"
             )
         }
     }
 
 
     // crud admin routes
-    // --- FORMATIONS CRUD ---
-
     // GET /api/formations/id/{id}
     get("/formations/id/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
-            ?: return@get call.respond(HttpStatusCode.BadRequest, "ID invalide")
+            ?: return@get call.respond(HttpStatusCode.BadRequest, "IInvalid ID")
 
         val formation = CatalogService.getFormationById(id)
-            ?: return@get call.respond(HttpStatusCode.NotFound, "Formation non trouvée")
+            ?: return@get call.respond(HttpStatusCode.NotFound, "Formation not found")
 
         call.respond(formation)
     }
@@ -156,11 +153,11 @@ fun Route.catalogRoutes() {
     // PUT /api/formations/{id}
     put("/formations/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
-            ?: return@put call.respond(HttpStatusCode.BadRequest, "ID invalide")
+            ?: return@put call.respond(HttpStatusCode.BadRequest, "IInvalid ID")
 
         val req = call.receive<FormationWriteRequest>()
         val updated = CatalogService.updateFormation(id, req)
-            ?: return@put call.respond(HttpStatusCode.NotFound, "Formation non trouvée")
+            ?: return@put call.respond(HttpStatusCode.NotFound, "Formation not found")
 
         call.respond(updated)
     }
@@ -168,15 +165,14 @@ fun Route.catalogRoutes() {
     // DELETE /api/formations/{id}
     delete("/formations/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
-            ?: return@delete call.respond(HttpStatusCode.BadRequest, "ID invalide")
+            ?: return@delete call.respond(HttpStatusCode.BadRequest, "IInvalid ID")
 
         val ok = CatalogService.deleteFormation(id)
         if (ok) call.respond(HttpStatusCode.NoContent)
-        else call.respond(HttpStatusCode.NotFound, "Formation non trouvée")
+        else call.respond(HttpStatusCode.NotFound, "Formation not found")
     }
 
-    // --- BLOCKS CRUD ---
-
+    // blocks crud routes
     // POST /api/blocks
     post("/blocks") {
         try {
@@ -184,10 +180,10 @@ fun Route.catalogRoutes() {
             val block = CatalogService.createBlock(req)
             call.respond(HttpStatusCode.Created, block)
         } catch (e: IllegalStateException) {
-            // par ex. "Formation 999 introuvable"
+            // ex: "Formation 999 not found"
             call.respond(
                 HttpStatusCode.BadRequest,
-                e.message ?: "Données invalides pour le block"
+                e.message ?: "Invalid data for block"
             )
         }
     }
@@ -195,18 +191,18 @@ fun Route.catalogRoutes() {
     // PUT /api/blocks/{id}
     put("/blocks/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
-            ?: return@put call.respond(HttpStatusCode.BadRequest, "ID invalide")
+            ?: return@put call.respond(HttpStatusCode.BadRequest, "IInvalid ID")
 
         try {
             val req = call.receive<BlockWriteRequest>()
             val updated = CatalogService.updateBlock(id, req)
-                ?: return@put call.respond(HttpStatusCode.NotFound, "Block introuvable")
+                ?: return@put call.respond(HttpStatusCode.NotFound, "Block not found")
 
             call.respond(updated)
         } catch (e: IllegalStateException) {
             call.respond(
                 HttpStatusCode.BadRequest,
-                e.message ?: "Données invalides pour le block"
+                e.message ?: "Invalid data for block"
             )
         }
     }
@@ -214,15 +210,14 @@ fun Route.catalogRoutes() {
     // DELETE /api/blocks/{id}
     delete("/blocks/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
-            ?: return@delete call.respond(HttpStatusCode.BadRequest, "ID invalide")
+            ?: return@delete call.respond(HttpStatusCode.BadRequest, "IInvalid ID")
 
         val ok = CatalogService.deleteBlock(id)
         if (ok) call.respond(HttpStatusCode.NoContent)
-        else call.respond(HttpStatusCode.NotFound, "Block introuvable")
+        else call.respond(HttpStatusCode.NotFound, "Block not found")
     }
 
-    // --- COURSES CRUD ---
-
+    // courses crud routes
     // POST /api/courses
     post("/courses") {
         try {
@@ -230,10 +225,10 @@ fun Route.catalogRoutes() {
             val course = CatalogService.createCourse(req)
             call.respond(HttpStatusCode.Created, course)
         } catch (e: IllegalStateException) {
-            // ex: "Block 37 introuvable" ou "Formation 4 introuvable"
+            // ex: "Block 37 not found" or "Formation 4 not found"
             call.respond(
                 HttpStatusCode.BadRequest,
-                e.message ?: "Données invalides pour le cours"
+                e.message ?: "Invalid data for course"
             )
         }
     }
@@ -241,18 +236,18 @@ fun Route.catalogRoutes() {
     // PUT /api/courses/{id}
     put("/courses/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
-            ?: return@put call.respond(HttpStatusCode.BadRequest, "ID invalide")
+            ?: return@put call.respond(HttpStatusCode.BadRequest, "IInvalid ID")
 
         try {
             val req = call.receive<CourseWriteRequest>()
             val updated = CatalogService.updateCourse(id, req)
-                ?: return@put call.respond(HttpStatusCode.NotFound, "Cours introuvable")
+                ?: return@put call.respond(HttpStatusCode.NotFound, "Course not found")
 
             call.respond(updated)
         } catch (e: IllegalStateException) {
             call.respond(
                 HttpStatusCode.BadRequest,
-                e.message ?: "Données invalides pour le cours"
+                e.message ?: "Invalid data for course"
             )
         }
     }
@@ -260,10 +255,10 @@ fun Route.catalogRoutes() {
     // DELETE /api/courses/{id}
     delete("/courses/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
-            ?: return@delete call.respond(HttpStatusCode.BadRequest, "ID invalide")
+            ?: return@delete call.respond(HttpStatusCode.BadRequest, "IInvalid ID")
 
         val ok = CatalogService.deleteCourse(id)
         if (ok) call.respond(HttpStatusCode.NoContent)
-        else call.respond(HttpStatusCode.NotFound, "Cours introuvable")
+        else call.respond(HttpStatusCode.NotFound, "Course not found")
     }
 }

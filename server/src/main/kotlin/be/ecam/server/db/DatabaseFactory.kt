@@ -52,7 +52,7 @@ object DatabaseFactory {
                 val a = Admin.new {
                     username = "admin"
                     email = "admin@example.com"
-                    password = "1234"   // just for dev/debug
+                    password = "1234"  
                 }
                 println("Default admin created with id=${a.id.value}")
         }

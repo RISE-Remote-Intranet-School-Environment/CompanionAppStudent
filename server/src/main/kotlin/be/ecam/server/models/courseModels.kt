@@ -7,8 +7,8 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 
-// --- TABLES ---
 
+// table
 object FormationTable : IntIdTable("formations") {
     val slug = varchar("slug", 50).uniqueIndex()
     val name = varchar("name", 255)
@@ -37,7 +37,8 @@ object CourseTable : IntIdTable("courses") {
     val block = reference("block_id", BlockTable).nullable()
 }
 
-// --- ENTITIES ---
+
+// entity
 
 class Formation(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<Formation>(FormationTable)
@@ -71,8 +72,9 @@ class Course(id: EntityID<Int>) : IntEntity(id) {
     var blockRef by Block optionalReferencedOn CourseTable.block
 }
 
-// --- DTOs exposed by the API ---
 
+
+// dto read
 @Serializable
 data class FormationDTO(
     val id: Int,
@@ -93,9 +95,8 @@ data class CourseDTO(
     @SerialName("formation_slug") val formationSlug: String?
 )
 
-// DTOs
 
-// --- DTO pour renvoyer un block via l'API (optionnel mais pratique) ---
+// dto read
 @Serializable
 data class BlockDTO(
     val id: Int,
@@ -103,8 +104,8 @@ data class BlockDTO(
     @SerialName("formation_id") val formationId: Int
 )
 
-// --- DTOs d'écriture (requêtes admin) ---
 
+// dto write 
 @Serializable
 data class FormationWriteRequest(
     val slug: String,

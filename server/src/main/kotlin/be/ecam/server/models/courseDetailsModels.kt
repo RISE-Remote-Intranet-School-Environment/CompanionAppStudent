@@ -6,11 +6,10 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 
-// ==============================
-// Table course_details
-// ==============================
+
+// table 
 object CourseDetailsTable : IntIdTable("course_details") {
-    // 1–1 avec un cours (unique)
+    
     val course = reference("course_id", CourseTable).uniqueIndex()
 
     val responsable = varchar("responsable", 255).nullable()
@@ -25,9 +24,7 @@ object CourseDetailsTable : IntIdTable("course_details") {
     val bibliography = text("bibliography").nullable()
 }
 
-// ==============================
-// Entity Exposed
-// ==============================
+// entity
 class CourseDetails(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<CourseDetails>(CourseDetailsTable)
 
@@ -44,7 +41,7 @@ class CourseDetails(id: EntityID<Int>) : IntEntity(id) {
     var courseMaterial by CourseDetailsTable.courseMaterial
     var bibliography by CourseDetailsTable.bibliography
 
-    // Helper pour transformer la chaîne "prof1; prof2; ..." en liste
+   
     fun teachersList(): List<String> =
         teachersRaw
             ?.split(";")
@@ -53,9 +50,7 @@ class CourseDetails(id: EntityID<Int>) : IntEntity(id) {
             ?: emptyList()
 }
 
-// ==============================
-// DTO retourné par l’API
-// ==============================
+// dto read
 @Serializable
 data class CourseDetailsDTO(
     val id: Int,

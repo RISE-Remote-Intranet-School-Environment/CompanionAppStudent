@@ -10,8 +10,8 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object CatalogService {
 
-    // --- DTOs pour parser ecam_formations_2025.json ---
-
+   
+    // JSON formations format
     @Serializable
     data class FormationsFile(
         val year: String,
@@ -44,12 +44,12 @@ object CatalogService {
         val details_url: String
     )
 
-    // --- SEED depuis JSON ---
+    // SEED from JSON 
 
     fun seedFormationsFromJson() {
         val resource = CatalogService::class.java.classLoader
             .getResource("files/ecam_formations_2025.json")
-            ?: error("Resource 'files/ecam_formations_2025.json' introuvable dans le classpath")
+            ?: error("Resource 'files/ecam_formations_2025.json' not found in classpath")
 
         val text = resource.readText()
         val json = Json { ignoreUnknownKeys = true }
@@ -66,7 +66,8 @@ object CatalogService {
                         imageUrl = f.image_url
                     }
 
-                // mise à jour éventuellement
+
+                // update if needed
                 formation.imageUrl = f.image_url ?: formation.imageUrl
 
                 f.blocks.forEach { b ->
@@ -101,7 +102,7 @@ object CatalogService {
         }
     }
 
-    // --- LECTURE : formations pour l’API ---
+    // read all formations
 
     fun getAllFormations(): List<FormationDTO> = transaction {
         Formation.all().map {
@@ -114,7 +115,7 @@ object CatalogService {
         }
     }
 
-    // --- LECTURE : cours par formation (via slug) ---
+    // read courses by formation slug
 
     fun getCoursesByFormationSlug(slug: String): List<CourseDTO> = transaction {
         val formation = Formation.find { FormationTable.slug eq slug }.firstOrNull()
@@ -135,7 +136,7 @@ object CatalogService {
         }
     }
 
-    // --- FORMATIONS CRUD ---
+    // formations CRUD
 
     fun getFormationById(id: Int): FormationDTO? = transaction {
         Formation.findById(id)?.let {
@@ -196,12 +197,11 @@ object CatalogService {
         true
     }
 
-    // --- BLOCKS CRUD ---
+    // blocks CRUD
 
     fun createBlock(req: BlockWriteRequest): BlockDTO = transaction {
         val formation = Formation.findById(req.formationId)
-            ?: error("Formation ${req.formationId} introuvable")
-
+            ?: error("Formation ${req.formationId} not found")
         val block = Block.new {
             name = req.name
             this.formation = formation
@@ -217,7 +217,7 @@ object CatalogService {
     fun updateBlock(id: Int, req: BlockWriteRequest): BlockDTO? = transaction {
         val block = Block.findById(id) ?: return@transaction null
         val formation = Formation.findById(req.formationId)
-            ?: error("Formation ${req.formationId} introuvable")
+            ?: error("Formation ${req.formationId} not found")
 
         block.name = req.name
         block.formation = formation
@@ -235,7 +235,7 @@ object CatalogService {
         true
     }
 
-    // --- Helper pour mapper un Course en CourseDTO ---
+    // --- Helper to map a Course to CourseDTO ---
 
     private fun Course.toDto(): CourseDTO {
         val formation = this.formation
@@ -253,7 +253,7 @@ object CatalogService {
         )
     }
 
-    // --- COURSES CRUD / LECTURE ---
+    // courses CRUD
 
     fun getCourseById(id: Int): CourseDTO? = transaction {
         Course.findById(id)?.toDto()
@@ -265,10 +265,10 @@ object CatalogService {
 
     fun createCourse(req: CourseWriteRequest): CourseDTO = transaction {
         val formation = req.formationId?.let { fid ->
-            Formation.findById(fid) ?: error("Formation $fid introuvable")
+            Formation.findById(fid) ?: error("Formation $fid not found")
         }
         val block = req.blockId?.let { bid ->
-            Block.findById(bid) ?: error("Block $bid introuvable")
+            Block.findById(bid) ?: error("Block $bid not found")
         }
 
         val course = Course.new {
@@ -292,10 +292,10 @@ object CatalogService {
         val course = Course.findById(id) ?: return@transaction null
 
         val formation = req.formationId?.let { fid ->
-            Formation.findById(fid) ?: error("Formation $fid introuvable")
+            Formation.findById(fid) ?: error("Formation $fid not found")
         }
         val block = req.blockId?.let { bid ->
-            Block.findById(bid) ?: error("Block $bid introuvable")
+            Block.findById(bid) ?: error("Block $bid not found")
         }
 
         course.code = req.code
@@ -319,10 +319,8 @@ object CatalogService {
         true
     }
 
-    // =====================
-    //  JSON course details
-    // =====================
-
+  
+    // json course details format
     @Serializable
     private data class CourseSectionsJson(
         @SerialName("Contribution au programme")
@@ -384,14 +382,11 @@ object CatalogService {
         val linked_activities: List<String>? = null
     )
 
-    // ============================================================
-    // SEED course details
-    // ============================================================
+    // SEED CourseDetails from JSON
     fun seedCourseDetailsFromJson() {
         val resource = CatalogService::class.java.classLoader
             .getResource("files/ecam_courses_details_2025.json")
-            ?: error("Resource 'files/ecam_courses_details_2025.json' introuvable dans le classpath")
-
+            ?: error("Resource 'files/ecam_courses_details_2025.json' not found in classpath")
         val text = resource.readText()
         val json = Json { ignoreUnknownKeys = true }
 
@@ -400,11 +395,11 @@ object CatalogService {
         transaction {
             detailsList.forEach { d ->
 
-                // retrouver le cours (ex: 1bach10, 4eore40, etc.)
+                // return if course not found
                 val course = Course.find { CourseTable.code eq d.code }.firstOrNull()
                     ?: return@forEach
 
-                // collecter TOUS les profs dans teachersRaw
+                // collect all teachers into teachersRaw
                 val teachersAll = buildList {
                     d.teachers?.let { addAll(it) }
                     d.organized_activities?.forEach { oa ->
@@ -419,7 +414,7 @@ object CatalogService {
 
                 val sections = d.sections
 
-                // upsert : si details déjà existants → update
+                // upsert : if details already exist : update
                 val existing = CourseDetails.find { CourseDetailsTable.course eq course.id }.firstOrNull()
 
                 if (existing == null) {
@@ -452,9 +447,7 @@ object CatalogService {
         }
     }
 
-    // ============================================================
-    // Helpers CourseDetails -> DTO
-    // ============================================================
+    // mapper CourseDetails : CourseDetailsDTO
 
     private fun CourseDetails.toDto(): CourseDetailsDTO =
         CourseDetailsDTO(
@@ -473,11 +466,9 @@ object CatalogService {
             bibliography = bibliography
         )
 
-    // ============================================================
-    // READ : récupérer les détails d’un cours
-    // ============================================================
+    // read course details
 
-    // Par CODE (utile si tu veux /api/courses/code/{code}/details)
+    // for course code
     fun getCourseDetailsByCode(code: String): CourseDetailsDTO? = transaction {
         val course = Course.find { CourseTable.code eq code }.firstOrNull() ?: return@transaction null
         CourseDetails
@@ -486,7 +477,7 @@ object CatalogService {
             ?.toDto()
     }
 
-    // Par ID (ce que ta route /api/courses/{id}/details utilise)
+    // for course ID (used by your route /api/courses/{id}/details)
     fun getCourseDetailsByCourseId(courseId: Int): CourseDetailsDTO? = transaction {
         val course = Course.findById(courseId) ?: return@transaction null
         CourseDetails

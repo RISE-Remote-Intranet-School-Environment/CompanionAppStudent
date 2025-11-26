@@ -10,12 +10,13 @@ import io.ktor.server.routing.*
 
 fun Route.calendarRoutes() {
 
-    // -------- GET EVENTS --------
 
+    // get all events
     get("/calendar/events") {
         call.respond(CalendarService.getAllEvents())
     }
 
+    // get events for group
     get("/calendar/group/{groupCode}") {
         val groupCode = call.parameters["groupCode"]
             ?: return@get call.respond(HttpStatusCode.BadRequest, "groupCode manquant")
@@ -23,6 +24,7 @@ fun Route.calendarRoutes() {
         call.respond(CalendarService.getEventsForGroup(groupCode))
     }
 
+    // get events for owner
     get("/calendar/owner/{ownerRef}") {
         val ownerRef = call.parameters["ownerRef"]
             ?: return@get call.respond(HttpStatusCode.BadRequest, "ownerRef manquant")
@@ -30,14 +32,14 @@ fun Route.calendarRoutes() {
         call.respond(CalendarService.getEventsForOwner(ownerRef))
     }
 
-    // -------- CRUD EVENTS (admin) --------
-
+    // CRUD EVENTS (admin)
     post("/calendar/events") {
         val req = call.receive<CalendarEventWriteRequest>()
         val event = CalendarService.createEvent(req)
         call.respond(HttpStatusCode.Created, event)
     }
 
+    // update event
     put("/calendar/events/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
             ?: return@put call.respond(HttpStatusCode.BadRequest, "ID invalide")
@@ -49,6 +51,7 @@ fun Route.calendarRoutes() {
         call.respond(updated)
     }
 
+    // delete event
     delete("/calendar/events/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
             ?: return@delete call.respond(HttpStatusCode.BadRequest, "ID invalide")
@@ -58,16 +61,13 @@ fun Route.calendarRoutes() {
         else call.respond(HttpStatusCode.NotFound, "Événement introuvable")
     }
 
-    // ============================================================
-    //           COURSE SCHEDULE (emplois du temps)
-    // ============================================================
-
-    // Tous les créneaux
+    // COURSE SCHEDULE ROUTES
+    // all schedule
     get("/calendar/schedule") {
         call.respond(CalendarService.getAllCourseSchedule())
     }
 
-    // Par semaine
+    // By week
     get("/calendar/schedule/week/{week}") {
         val week = call.parameters["week"]?.toIntOrNull()
             ?: return@get call.respond(HttpStatusCode.BadRequest, "week invalide")
@@ -75,7 +75,7 @@ fun Route.calendarRoutes() {
         call.respond(CalendarService.getScheduleForWeek(week))
     }
 
-    // Par année / option (ex: "3BA", "4E_EI", etc.)
+    // By year 
     get("/calendar/schedule/year/{year}") {
         val year = call.parameters["year"]
             ?: return@get call.respond(HttpStatusCode.BadRequest, "year manquant")
@@ -83,7 +83,7 @@ fun Route.calendarRoutes() {
         call.respond(CalendarService.getScheduleForYear(year))
     }
 
-    // Par année + groupe (ex: year=3BA, group=2)
+    // By year + group 
     get("/calendar/schedule/year/{year}/group/{group}") {
         val year = call.parameters["year"]
             ?: return@get call.respond(HttpStatusCode.BadRequest, "year manquant")
@@ -93,7 +93,7 @@ fun Route.calendarRoutes() {
         call.respond(CalendarService.getScheduleForYearAndGroup(year, group))
     }
 
-    // Par code de cours (ex: "3bect30")
+    // By course code 
     get("/calendar/schedule/course/{code}") {
         val code = call.parameters["code"]
             ?: return@get call.respond(HttpStatusCode.BadRequest, "code manquant")
@@ -101,36 +101,35 @@ fun Route.calendarRoutes() {
         call.respond(CalendarService.getScheduleForCourse(code))
     }
 
-    // -------- DEBUG --------
-
+    // DEBUG / SEEDING ROUTES
     get("/calendar/debug/seed-one") {
         call.respondText("Route debug active (pas d’action)")
     }
 
-    // Import events depuis ecam_calendar_events_2025_2026.json
+    // Import events from ecam_calendar_events_2025_2026.json
     get("/calendar/debug/seed/events") {
         try {
             CalendarService.seedCalendarEventsFromJson()
-            call.respondText("Calendar events importés depuis ecam_calendar_events_2025_2026.json")
+            call.respondText("Calendar events imported from ecam_calendar_events_2025_2026.json")
         } catch (e: Throwable) {
             e.printStackTrace()
             call.respond(
                 HttpStatusCode.InternalServerError,
-                "Erreur dans seedCalendarEventsFromJson: ${e.message}"
+                "Error in seedCalendarEventsFromJson: ${e.message}"
             )
         }
     }
 
-    // Import schedule depuis ecam_calendar_courses_schedule_2025.json
+    // Import schedule from ecam_calendar_courses_schedule_2025.json
     get("/calendar/debug/seed/schedule") {
         try {
             CalendarService.seedCourseScheduleFromJson()
-            call.respondText("Course schedule importé depuis ecam_calendar_courses_schedule_2025.json")
+            call.respondText("Course schedule imported from ecam_calendar_courses_schedule_2025.json")
         } catch (e: Throwable) {
             e.printStackTrace()
             call.respond(
                 HttpStatusCode.InternalServerError,
-                "Erreur dans seedCourseScheduleFromJson: ${e.message}"
+                "Error in seedCourseScheduleFromJson: ${e.message}"
             )
         }
     }

@@ -6,9 +6,7 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 
-// -----------------------
-// TABLE
-// -----------------------
+// table
 object ProfessorsTable : IntIdTable("professors") {
     val firstName = varchar("first_name", 100)
     val lastName = varchar("last_name", 100)
@@ -18,9 +16,7 @@ object ProfessorsTable : IntIdTable("professors") {
     val speciality = varchar("speciality", 255).nullable()
 }
 
-// -----------------------
-// ENTITY
-// -----------------------
+// entity
 class Professor(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<Professor>(ProfessorsTable)
 
@@ -32,9 +28,7 @@ class Professor(id: EntityID<Int>) : IntEntity(id) {
     var speciality by ProfessorsTable.speciality
 }
 
-// -----------------------
-// DTO READ
-// -----------------------
+// dto read
 @Serializable
 data class ProfessorDTO(
     val id: Int,
@@ -46,9 +40,7 @@ data class ProfessorDTO(
     val speciality: String?
 )
 
-// -----------------------
-// DTO WRITE
-// -----------------------
+// dto write
 @Serializable
 data class ProfessorWriteRequest(
     val firstName: String,
