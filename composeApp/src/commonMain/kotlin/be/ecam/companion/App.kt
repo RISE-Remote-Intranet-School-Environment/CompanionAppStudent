@@ -35,8 +35,12 @@ import org.koin.compose.koinInject
 import org.koin.core.module.Module
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.Dashboard
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.input.key.Key.Companion.R
 import companion.composeapp.generated.resources.compose_multiplatform
 import org.jetbrains.compose.resources.painterResource
 import companion.composeapp.generated.resources.nicolas
@@ -51,85 +55,27 @@ fun App(extraModules: List<Module> = emptyList()) {
 
         val vm = koinInject<HomeViewModel>()
         MaterialTheme {
+
             var isLoggedIn by remember { mutableStateOf(false) }
+            var showRegister by remember { mutableStateOf(false) }
 
             if (!isLoggedIn) {
                 if (showRegister) {
                     RegisterScreen(
-                            onRegisterSuccess = { isLoggedIn = true },
-                            onNavigateToLogin = { showRegister = false }
+                        onRegisterSuccess = { isLoggedIn = true },
+                        onNavigateToLogin = { showRegister = false }
                     )
                 } else {
                     LoginScreen(
-                            onLoginSuccess = { isLoggedIn = true },
-                            onNavigateToRegister = { showRegister = true }
+                        onLoginSuccess = { isLoggedIn = true },
+                        onNavigateToRegister = { showRegister = true }
                     )
                 }
-            } else {
-                var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
-                var showCoursesPage by remember { mutableStateOf(false) }
-                var coursesTitleSuffix by remember { mutableStateOf<String?>(null) }
-                var coursesResetCounter by remember { mutableStateOf(0) }
-                val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-                val scope = rememberCoroutineScope()
-                val scroll = rememberScrollState()
-                // Remplacer par CourseRef pour transporter code + detailsUrl
-                var selectedCourseRef by remember { mutableStateOf<be.ecam.companion.ui.CourseRef?>(null) }
+                return@MaterialTheme
+            }
 
-                ModalNavigationDrawer(
-                        drawerState = drawerState,
-                        gesturesEnabled = selectedScreen != BottomItem.CALENDAR && !showCoursesPage,
-                        drawerContent = {
-                            ModalDrawerSheet(modifier = Modifier.width(280.dp)) {
-                                Column(
-                                        modifier =
-                                                Modifier.fillMaxHeight()
-                                                        .padding(
-                                                                vertical = 12.dp,
-                                                                horizontal = 16.dp
-                                                        ),
-                                        verticalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    Column {
-                                        // --- Photo de profil cliquable vers Dashboard ---
-                                        Row(
-                                                verticalAlignment = Alignment.CenterVertically,
-                                                modifier =
-                                                        Modifier.fillMaxWidth()
-                                                                .padding(bottom = 8.dp)
-                                                                .clickable {
-                                                                    selectedScreen =
-                                                                            BottomItem.DASHBOARD
-                                                                    scope.launch {
-                                                                        drawerState.close()
-                                                                    }
-                                                                }
-                                        ) {
-                                            Box(
-                                                    modifier =
-                                                            Modifier.size(56.dp)
-                                                                    .clip(CircleShape)
-                                                                    .background(
-                                                                            MaterialTheme
-                                                                                    .colorScheme
-                                                                                    .primary
-                                                                    ),
-                                                    contentAlignment = Alignment.Center
-                                            ) {
-                                                Image(
-                                                        painter =
-                                                                painterResource(
-                                                                        Res.drawable.nicolas
-                                                                ),
-                                                        contentDescription = "Profile Picture",
-                                                        modifier =
-                                                                Modifier.size(56.dp)
-                                                                        .clip(CircleShape)
-                                                )
-                                            }
-                                            Spacer(Modifier.width(8.dp))
-                                            Text("Nicolas Schell")
-                                        }
+            val drawerState = rememberDrawerState(DrawerValue.Closed)
+            val scope = rememberCoroutineScope()
 
             var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
             var showCoursesPage by remember { mutableStateOf(false) }
@@ -138,6 +84,8 @@ fun App(extraModules: List<Module> = emptyList()) {
             var coursesTitleSuffix by remember { mutableStateOf<String?>(null) }
             var paeTitleSuffix by remember { mutableStateOf<String?>(null) }
             var coursesResetCounter by remember { mutableStateOf(0) }
+
+
 
             ModalNavigationDrawer(
                 drawerState = drawerState,
@@ -185,8 +133,6 @@ fun App(extraModules: List<Module> = emptyList()) {
                     )
                 }
             ) {
-                
-
                 Scaffold(
                     topBar = {
                         TopBar(
@@ -210,13 +156,14 @@ fun App(extraModules: List<Module> = emptyList()) {
                                 paeTitleSuffix = null
                                 selectedScreen = item
                             }
-                    ) { paddingValues ->
-                        val baseModifier =
-                                Modifier.fillMaxSize().padding(paddingValues).padding(16.dp)
+                        )
+                    }
+                ) { paddingValues ->
 
                     val baseModifier = Modifier
                         .fillMaxSize()
-                        .padding(padding)
+                        .padding(paddingValues)
+                        .padding(16.dp)
 
                     when {
                         showCoursesPage -> CoursesScreen(
@@ -224,19 +171,20 @@ fun App(extraModules: List<Module> = emptyList()) {
                             resetTrigger = coursesResetCounter,
                             onContextChange = { coursesTitleSuffix = it }
                         )
+
                         showProfessorsPage -> ProfessorsScreen(baseModifier)
+
                         showPaePage -> MonPaeScreen(
                             modifier = baseModifier,
                             onContextChange = { paeTitleSuffix = it }
                         )
+
                         else -> when (selectedScreen) {
                             BottomItem.HOME -> {
                                 LaunchedEffect(Unit) { vm.load() }
-                                HomeScreen(
-                                    modifier = baseModifier,
-                                    vm = vm
-                                )
+                                HomeScreen(modifier = baseModifier, vm = vm)
                             }
+
                             BottomItem.EVENTCALENDAR -> {
                                 LaunchedEffect(Unit) { vm.load() }
                                 CalendarScreen(
@@ -244,12 +192,11 @@ fun App(extraModules: List<Module> = emptyList()) {
                                     scheduledByDate = vm.scheduledByDate
                                 )
                             }
-                            BottomItem.COURSECALENDAR -> {
-                                
-                                StudentCourseCalendar(modifier = baseModifier)
 
-                                
+                            BottomItem.COURSECALENDAR -> {
+                                StudentCourseCalendar(modifier = baseModifier)
                             }
+
                             BottomItem.SETTINGS -> {
                                 val settingsRepo = koinInject<SettingsRepository>()
                                 SettingsScreen(
@@ -258,6 +205,7 @@ fun App(extraModules: List<Module> = emptyList()) {
                                     onSaved = { scope.launch { vm.load() } }
                                 )
                             }
+
                             BottomItem.DASHBOARD -> {
                                 UserDashboardScreen(
                                     isAdmin = false,
@@ -269,33 +217,5 @@ fun App(extraModules: List<Module> = emptyList()) {
                 }
             }
         }
-    }
-}
-
-private enum class BottomItem {
-    HOME,
-    CALENDAR,
-    SETTINGS,
-    DASHBOARD; // nouvel item dashboard
-
-    @Composable
-    fun getLabel() =
-            when (this) {
-                HOME -> "Accueil"
-                CALENDAR -> "Calendrier"
-                SETTINGS -> "Paramètres"
-                DASHBOARD -> "Dashboard"
-            }
-
-    fun getIconRes() =
-            when (this) {
-                HOME -> Icons.Filled.Home
-                CALENDAR -> Icons.Filled.CalendarMonth
-                SETTINGS -> Icons.Filled.Settings
-                DASHBOARD -> Icons.Filled.Dashboard
-            }
-
-    companion object {
-        val entries = values()
     }
 }
