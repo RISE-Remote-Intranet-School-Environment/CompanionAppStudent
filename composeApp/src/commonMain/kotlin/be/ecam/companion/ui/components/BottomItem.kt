@@ -9,7 +9,8 @@ import androidx.compose.runtime.Composable
 
 enum class BottomItem {
     HOME,
-    CALENDAR,
+    COURSECALENDAR,
+    EVENTCALENDAR,
     SETTINGS,
     DASHBOARD;
 
@@ -17,7 +18,8 @@ enum class BottomItem {
     fun getLabel(): String =
         when (this) {
             HOME -> "Accueil"
-            CALENDAR -> "Calendrier"
+            COURSECALENDAR -> "Cours"
+            EVENTCALENDAR -> "Événements"
             SETTINGS -> "Paramètres"
             DASHBOARD -> "Dashboard"
         }
@@ -25,7 +27,8 @@ enum class BottomItem {
     fun getIconRes() =
         when (this) {
             HOME -> Icons.Filled.Home
-            CALENDAR -> Icons.Filled.CalendarMonth
+            EVENTCALENDAR -> Icons.Filled.CalendarMonth
+            COURSECALENDAR -> Icons.Filled.CalendarMonth
             SETTINGS -> Icons.Filled.Settings
             DASHBOARD -> Icons.Filled.Dashboard
         }
