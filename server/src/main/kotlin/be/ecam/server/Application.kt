@@ -8,6 +8,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
+import io.ktor.server.http.content.default
 import io.ktor.server.http.content.staticFiles
 import io.ktor.server.netty.EngineMain
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
@@ -138,6 +139,10 @@ fun Application.module() {
         if (wasmOut == null) {
             get("/") {
                 call.respondText("Ktor: ${Greeting().greet()}")
+            }
+        } else {
+            staticFiles("/", wasmOut) {
+                default("index.html")
             }
         }
 
