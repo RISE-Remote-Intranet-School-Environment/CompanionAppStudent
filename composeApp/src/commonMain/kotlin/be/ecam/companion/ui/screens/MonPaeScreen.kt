@@ -266,8 +266,7 @@ private fun PaeHeaderCard(student: PaeStudent) {
             }
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 InfoChip(label = "Student ID", value = student.studentId ?: "-")
-                                InfoChip(label = "Email", value = student.email ?: "-")
-                                InfoChip(label = "Utilisateur", value = student.username ?: "-")
+                InfoChip(label = "Email", value = student.email ?: "-")
             }
         }
     }
@@ -279,15 +278,15 @@ private fun InfoChip(label: String, value: String) {
         onClick = {},
         label = {
             Column {
-                Text(label, style = MaterialTheme.typography.labelSmall)
-                Text(value, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
+                Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onPrimaryContainer)
+                Text(value, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onPrimaryContainer)
             }
         },
         colors = AssistChipDefaults.assistChipColors(
-            containerColor = Color.White.copy(alpha = 0.16f),
-            labelColor = Color.White
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            labelColor = MaterialTheme.colorScheme.onPrimaryContainer
         ),
-        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.35f))
+        border = BorderStroke(0.dp, Color.Transparent)
     )
 }
 
