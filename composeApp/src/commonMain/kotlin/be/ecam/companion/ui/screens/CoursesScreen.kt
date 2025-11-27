@@ -61,11 +61,7 @@ import be.ecam.companion.di.buildBaseUrl
 import be.ecam.companion.ui.CourseRef
 import be.ecam.companion.ui.CoursesFicheScreen
 import coil3.compose.AsyncImage
-import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.*
 import io.ktor.client.HttpClient
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 import kotlin.math.roundToInt
 @Composable
@@ -356,41 +352,24 @@ private fun ProgramCard(
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             val imageShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
-            val fallbackPainter = program.imageRes?.let { painterResource(it) }
-            when {
-                program.imageUrl != null -> {
-                    AsyncImage(
-                        model = program.imageUrl,
-                        contentDescription = program.title,
-                        contentScale = ContentScale.Crop,
-                        placeholder = fallbackPainter,
-                        error = fallbackPainter,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(imageHeight)
-                            .clip(imageShape)
-                    )
-                }
-                fallbackPainter != null -> {
-                    androidx.compose.foundation.Image(
-                        painter = fallbackPainter,
-                        contentDescription = program.title,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(imageHeight)
-                            .clip(imageShape)
-                    )
-                }
-                else -> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(imageHeight)
-                            .clip(imageShape)
-                            .background(MaterialTheme.colorScheme.surfaceVariant)
-                    )
-                }
+            if (program.imageUrl != null) {
+                AsyncImage(
+                    model = program.imageUrl,
+                    contentDescription = program.title,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(imageHeight)
+                        .clip(imageShape)
+                )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(imageHeight)
+                        .clip(imageShape)
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                )
             }
             Column(
                 modifier = Modifier
@@ -696,8 +675,7 @@ private fun CourseRow(
 private data class ProgramCardData(
     val formation: Formation,
     val description: String,
-    val imageUrl: String?,
-    val imageRes: DrawableResource?
+    val imageUrl: String?
 ) {
     val title: String get() = formation.name
 }
@@ -735,32 +713,16 @@ private val formationDescriptions = mapOf(
     "business_analyst" to "Passerelle entre utilisateurs et equipes de developpement."
 )
 
-private val formationImages = mapOf(
-    "courses_automatisation" to Res.drawable.courses_automatisation,
-    "courses_construction" to Res.drawable.courses_construction,
-    "courses_electromecanique" to Res.drawable.courses_electromecanique,
-    "courses_electronique" to Res.drawable.courses_electronique,
-    "courses_geometre" to Res.drawable.courses_geometre,
-    "courses_informatique" to Res.drawable.courses_informatique,
-    "courses_ingenierie_sante" to Res.drawable.courses_sante,
-    "courses_ingenieur_industriel_commercial" to Res.drawable.courses_industriel_commercial,
-    "courses_industriel_commercial" to Res.drawable.courses_industriel_commercial,
-    "courses_business_analyst" to Res.drawable.courses_business_analyst
-)
-
 private fun List<Formation>.toProgramCards(): List<ProgramCardData> =
     this.sortedBy { formationOrder.indexOf(it.id).takeIf { index -> index >= 0 } ?: Int.MAX_VALUE }
         .mapNotNull { formation ->
             val imageUrl = formation.imageUrl?.takeIf { it.isNotBlank() }
-            val key = formation.imageKey?.takeIf { it.isNotBlank() } ?: "courses_${formation.id}"
-            val imageRes = formationImages[key]
-            if (imageUrl == null && imageRes == null) return@mapNotNull null
+            if (imageUrl == null) return@mapNotNull null
             val description = formationDescriptions[formation.id] ?: ""
             ProgramCardData(
                 formation = formation,
                 description = description,
-                imageUrl = imageUrl,
-                imageRes = imageRes
+                imageUrl = imageUrl
             )
         }
 
