@@ -5,6 +5,8 @@ import be.ecam.common.api.HelloResponse
 import be.ecam.common.api.ScheduleItem
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
@@ -32,10 +34,12 @@ import be.ecam.server.routes.professorRoutes
 
 // add callloging import
 import io.ktor.server.plugins.calllogging.*
+import io.ktor.server.plugins.cors.routing.*
 import org.slf4j.event.Level
 
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
+import io.ktor.server.routing.options
 
 import java.io.File
 import java.nio.file.Paths
@@ -62,6 +66,16 @@ fun Application.module() {
     }
 
     install(ContentNegotiation) { json() }
+
+    // Allow the web app (served from the same host) to call the API with JSON/Authorization headers.
+    install(CORS) {
+        anyHost()
+        allowMethod(HttpMethod.Get)
+        allowMethod(HttpMethod.Post)
+        allowMethod(HttpMethod.Options)
+        allowHeader(HttpHeaders.ContentType)
+        allowHeader(HttpHeaders.Authorization)
+    }
 
     // install JWT authentication
     install(Authentication) {
@@ -147,6 +161,11 @@ fun Application.module() {
         }
 
         route("/api") {
+            // Respond to preflight requests so the browser will proceed with POST/GET.
+            options("{...}") {
+                call.respond(HttpStatusCode.OK)
+            }
+
             get("/") {
                 call.respondText("Ktor: ${Greeting().greet()}")
             }
