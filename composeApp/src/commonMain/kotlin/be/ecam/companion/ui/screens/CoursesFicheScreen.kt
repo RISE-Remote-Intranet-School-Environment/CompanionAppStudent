@@ -30,6 +30,17 @@ import companion.composeapp.generated.resources.Res
 
 
 
+@Composable
+fun isWideScreen(): Boolean {
+    var wide by remember { mutableStateOf(false) }
+
+    BoxWithConstraints {
+        val maxWidthDp = maxWidth
+        wide = maxWidthDp > 900.dp
+    }
+
+    return wide
+}
 @Serializable
 data class OrganizedActivity(
     val code: String,
@@ -202,9 +213,10 @@ fun CourseDetailScreen(course: CourseDetail, modifier: Modifier = Modifier) {
         Spacer(Modifier.height(16.dp))
 
 
-        course.sections.forEach { (title, content) ->
-            ExpandableSectionCard(title, content)
+        if (course.sections.isNotEmpty()) {
+            SectionsResponsiveLayout(course.sections)
         }
+
     }
 }
 
@@ -420,4 +432,40 @@ fun ExpandableSectionCard(
         }
     }
 }
+@Composable
+fun SectionsResponsiveLayout(sections: Map<String, String>) {
+    val wide = isWideScreen()
 
+    if (wide) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                sections.entries.filterIndexed { index, _ -> index % 2 == 0 }
+                    .forEach { (title, content) ->
+                        ExpandableSectionCard(title, content)
+                    }
+            }
+
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                sections.entries.filterIndexed { index, _ -> index % 2 == 1 }
+                    .forEach { (title, content) ->
+                        ExpandableSectionCard(title, content)
+                    }
+            }
+        }
+    } else {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            sections.forEach { (title, content) ->
+                ExpandableSectionCard(title, content)
+            }
+        }
+    }
+}
