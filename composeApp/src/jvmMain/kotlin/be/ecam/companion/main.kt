@@ -4,6 +4,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import be.ecam.companion.data.PersistentSettingsRepository
 import be.ecam.companion.data.SettingsRepository
+import be.ecam.companion.coil.initDesktopCoilImageLoader
 import org.koin.dsl.module
 
 fun main() = application {
@@ -12,10 +13,12 @@ fun main() = application {
         title = "companion",
     ) {
         run {
-            val desktopModule = module {
-                single<SettingsRepository> { PersistentSettingsRepository() }
-            }
-            App(extraModules = listOf(desktopModule))
+        initDesktopCoilImageLoader()
+
+        val desktopModule = module {
+            single<SettingsRepository> { PersistentSettingsRepository() }
         }
+        App(extraModules = listOf(desktopModule))
     }
+}
 }
