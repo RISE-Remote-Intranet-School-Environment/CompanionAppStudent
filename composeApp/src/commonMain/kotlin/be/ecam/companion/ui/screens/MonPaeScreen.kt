@@ -524,7 +524,7 @@ private fun CourseRow(course: PaeCourse) {
             ScoreBadge(course.sessions.jun)
             ScoreBadge(course.sessions.sep)
         }
-        AnimatedVisibility(visible = course.components.isNotEmpty()) {
+        AnimatedVisibility(visible = course.components.size > 1) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
