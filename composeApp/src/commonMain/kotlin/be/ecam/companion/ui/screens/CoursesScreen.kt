@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.size
@@ -19,11 +20,33 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Apartment
+import androidx.compose.material.icons.filled.Assessment
+import androidx.compose.material.icons.automirrored.filled.TrendingUp
+import androidx.compose.material.icons.filled.AutoGraph
+import androidx.compose.material.icons.filled.BusinessCenter
+import androidx.compose.material.icons.filled.Computer
+import androidx.compose.material.icons.filled.Construction
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.EmojiEvents
+import androidx.compose.material.icons.filled.HealthAndSafety
+import androidx.compose.material.icons.filled.Science
+import androidx.compose.material.icons.filled.WorkspacePremium
+import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.Memory
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.Timer
+import androidx.compose.material.icons.filled.ViewWeek
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
@@ -41,6 +64,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.SpanStyle
@@ -166,7 +192,7 @@ fun CoursesScreen(
         } else {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
                     .verticalScroll(scrollState)
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -185,20 +211,25 @@ fun CoursesScreen(
                     )
                 }
                 loadError?.let {
-                    Spacer(Modifier.height(8.dp))
                     Text(
                         text = it,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.error,
                         textAlign = TextAlign.Center
                     )
+                    Spacer(Modifier.height(12.dp))
                 }
-                Spacer(Modifier.height(12.dp))
-                if (selectedProgram != null) {
+                if (selectedProgram != null && uiState !is CoursesState.BlockDetail) {
                     FormationSelector(
                         programs = programs,
                         selectedProgram = selectedProgram,
                         onProgramSelected = selectProgram
+                    )
+                    Spacer(Modifier.height(12.dp))
+                    FormationHeroCard(
+                        program = selectedProgram,
+                        year = database?.year,
+                        totalCourses = selectedProgram.formation.blocks.sumOf { it.courses.size }
                     )
                     Spacer(Modifier.height(16.dp))
                 }
@@ -233,18 +264,112 @@ fun CoursesScreen(
                     }
 
                     is CoursesState.BlockDetail -> {
-                        ProgramBlocks(
-                            program = state.program,
-                            selectedBlock = state.block,
-                            showIntro = false,
-                            inlineChips = true,
-                            onBlockSelected = { block -> selectBlock(state.program, block) }
-                        )
-                        BlockDetails(
-                            program = state.program,
-                            block = state.block,
-                            onCourseSelected = tableCourseSelection
-                        )
+                        BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+                            val isWide = maxWidth > 900.dp
+                            val sidebarWidth = 550.dp
+                            val sidebarMaxHeight = maxHeight
+                            val availablePeriods = remember(state.block) {
+                                state.block.courses.flatMap { it.periods }
+                                    .distinct()
+                                    .filter { it.isNotBlank() }
+                                    .ifEmpty { listOf("Q1", "Q2", "Q1 - Q2") }
+                            }
+                            var periodFilter by remember(state.block) { mutableStateOf("Tous") }
+                            var sortOption by remember(state.block) { mutableStateOf(SortOption.Default) }
+                            val filteredCourses = remember(state.block, periodFilter, sortOption) {
+                                applySortAndFilter(state.block.courses, periodFilter, sortOption)
+                            }
+
+                            if (isWide) {
+                                Box(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    contentAlignment = Alignment.TopCenter
+                                ) {
+                                    Row(
+                                        modifier = Modifier
+                                            .widthIn(max = 1580.dp)
+                                            .fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                                    ) {
+                                        Column(
+                                            modifier = Modifier
+                                                .widthIn(max = sidebarWidth)
+                                                .heightIn(max = sidebarMaxHeight),
+                                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                                        ) {
+                                            FormationHeroCard(
+                                                program = state.program,
+                                                year = database?.year,
+                                                totalCourses = filteredCourses.size,
+                                                block = state.block,
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
+                                            FilterPanel(
+                                                availablePeriods = availablePeriods,
+                                                selectedPeriod = periodFilter,
+                                                onPeriodSelected = { periodFilter = it },
+                                                sortOption = sortOption,
+                                                onSortSelected = { sortOption = it },
+                                                totalCourses = filteredCourses.size,
+                                                showFormation = true,
+                                                selectedFormation = state.program,
+                                                formations = programs,
+                                                onFormationSelected = selectProgram,
+                                                blocks = state.program.formation.blocks,
+                                                selectedBlock = state.block,
+                                                onBlockSelected = { block -> selectBlock(state.program, block) },
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
+                                        }
+                                        BlockDetails(
+                                            program = state.program,
+                                            block = state.block,
+                                            courses = filteredCourses,
+                                            onCourseSelected = tableCourseSelection,
+                                            modifier = Modifier.weight(1f)
+                                        )
+                                    }
+                                }
+                            } else {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .widthIn(max = 700.dp),
+                                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    FormationHeroCard(
+                                        program = state.program,
+                                        year = database?.year,
+                                        totalCourses = filteredCourses.size,
+                                        block = state.block,
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                    FilterPanel(
+                                        availablePeriods = availablePeriods,
+                                        selectedPeriod = periodFilter,
+                                        onPeriodSelected = { periodFilter = it },
+                                        sortOption = sortOption,
+                                        onSortSelected = { sortOption = it },
+                                        totalCourses = filteredCourses.size,
+                                        showFormation = true,
+                                        selectedFormation = state.program,
+                                        formations = programs,
+                                        onFormationSelected = selectProgram,
+                                        blocks = state.program.formation.blocks,
+                                        selectedBlock = state.block,
+                                        onBlockSelected = { block -> selectBlock(state.program, block) },
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                    BlockDetails(
+                                        program = state.program,
+                                        block = state.block,
+                                        courses = filteredCourses,
+                                        onCourseSelected = tableCourseSelection
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -327,10 +452,16 @@ private fun FormationSelector(
                     ButtonDefaults.outlinedButtonColors()
                 }
             ) {
-                Text(
-                    text = program.title,
-                    style = MaterialTheme.typography.labelLarge
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    FormationAvatar(program.formation.id)
+                    Text(
+                        text = program.title,
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                }
             }
         }
     }
@@ -377,20 +508,109 @@ private fun ProgramCard(
                     .weight(1f, fill = true)
                     .padding(16.dp)
             ) {
-                Text(
-                    text = program.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Spacer(Modifier.height(8.dp))
-                Text(
-                    text = program.description,
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    FormationAvatar(program.formation.id)
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = program.title,
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            text = program.description,
+                            style = MaterialTheme.typography.bodyMedium,
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun FormationHeroCard(
+    program: ProgramCardData,
+    year: String?,
+    totalCourses: Int,
+    block: FormationBlock? = null,
+    modifier: Modifier = Modifier
+) {
+    val color = formationColors[program.formation.id] ?: MaterialTheme.colorScheme.primary
+    val gradient = Brush.horizontalGradient(
+        listOf(
+            color.copy(alpha = 0.16f),
+            MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
+        )
+    )
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .widthIn(max = 960.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(gradient)
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(14.dp)
+        ) {
+            FormationAvatar(program.formation.id)
+            Column(modifier = Modifier.weight(1f)) {
+                Text(program.title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    program.description.ifBlank { "Explore les blocs, cours et crédits de la formation." },
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(Modifier.height(10.dp))
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    block?.let {
+                        InfoPill(icon = Icons.Filled.ViewWeek, label = "Bloc", value = it.name)
+                        InfoPill(
+                            icon = Icons.Filled.AutoGraph,
+                            label = "Cours du bloc ${it.name}",
+                            value = it.courses.size.toString()
+                        )
+                    } ?: run {
+                        InfoPill(icon = Icons.Filled.ViewWeek, label = "Blocs", value = program.formation.blocks.size.toString())
+                        InfoPill(icon = Icons.Filled.AutoGraph, label = "Cours", value = totalCourses.toString())
+                        year?.let { InfoPill(icon = Icons.Filled.Timer, label = "Programme", value = it) }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun FormationAvatar(formationId: String, size: Dp = 44.dp) {
+    val icon = formationIcons[formationId] ?: Icons.Filled.School
+    val color = formationColors[formationId] ?: MaterialTheme.colorScheme.primary
+    val bg = color.copy(alpha = 0.12f)
+    Box(
+        modifier = Modifier
+            .size(size)
+            .clip(RoundedCornerShape(12.dp))
+            .background(bg),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = color
+        )
     }
 }
 
@@ -456,6 +676,7 @@ private fun ProgramBlocks(
                 BlockChip(
                     block = block,
                     selected = selectedBlock == block,
+                    formationId = program.formation.id,
                     onClick = { onBlockSelected(block) }
                 )
             }
@@ -526,9 +747,11 @@ private fun BlockCard(
 private fun BlockDetails(
     program: ProgramCardData,
     block: FormationBlock,
-    onCourseSelected: (CourseRef) -> Unit
+    courses: List<FormationCourse>,
+    onCourseSelected: (CourseRef) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+    BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
         val creditWidth = remember(maxWidth) {
             when {
                 maxWidth < 400.dp -> 48.dp
@@ -543,18 +766,18 @@ private fun BlockDetails(
                 else -> basePeriodColumnWidth
             }
         }
-        val tableWidth = remember(maxWidth) { maxWidth.coerceAtMost(800.dp) } // maxwidth table
+        val tableWidth = remember(maxWidth) { maxWidth }
 
         Card(
             modifier = Modifier
-                .align(Alignment.Center)
+                .fillMaxWidth()
                 .width(tableWidth),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
         ) {
             Column(modifier = Modifier.padding(12.dp)) {
                 TableHeader(creditWidth, periodWidth)
                 Spacer(Modifier.height(8.dp))
-                block.courses.forEachIndexed { index, course ->
+                courses.forEachIndexed { index, course ->
                     CourseRow(
                         course = course,
                         striped = index % 2 == 0,
@@ -713,11 +936,86 @@ private val formationDescriptions = mapOf(
     "business_analyst" to "Passerelle entre utilisateurs et equipes de developpement."
 )
 
+private val formationIcons: Map<String, ImageVector> = mapOf(
+    "automatisation" to Icons.Filled.Settings,
+    "construction" to Icons.Filled.Apartment,
+    "electromecanique" to Icons.Filled.Construction,
+    "electronique" to Icons.Filled.Memory,
+    "geometre" to Icons.Filled.Map,
+    "informatique" to Icons.Filled.Computer,
+    "ingenierie_sante" to Icons.Filled.HealthAndSafety,
+    "ingenieur_industriel_commercial" to Icons.Filled.BusinessCenter,
+    "business_analyst" to Icons.Filled.Assessment
+)
+
+private val formationColors: Map<String, Color> = mapOf(
+    "automatisation" to Color(0xFF5C6BC0),
+    "construction" to Color(0xFF8D6E63),
+    "electromecanique" to Color(0xFF00897B),
+    "electronique" to Color(0xFF7E57C2),
+    "geometre" to Color(0xFF5C7F67),
+    "informatique" to Color(0xFF3949AB),
+    "ingenierie_sante" to Color(0xFF26A69A),
+    "ingenieur_industriel_commercial" to Color(0xFFF9A825),
+    "business_analyst" to Color(0xFF6D4C41)
+)
+
+private val blocColors: Map<String, Color> = mapOf(
+    "1" to Color(0xFF7E57C2),
+    "2" to Color(0xFF5C6BC0),
+    "3" to Color(0xFF42A5F5),
+    "4" to Color(0xFF26A69A),
+    "5" to Color(0xFF66BB6A),
+    "6" to Color(0xFFF9A825)
+)
+
+private val blocIcons: Map<String, ImageVector> = mapOf(
+    "1" to Icons.AutoMirrored.Filled.TrendingUp,
+    "2" to Icons.Filled.Build,
+    "3" to Icons.Filled.EmojiEvents,
+    "4" to Icons.Filled.WorkspacePremium,
+    "5" to Icons.Filled.School,
+    "6" to Icons.Filled.Science
+)
+
+private val formationHighlights: Map<String, List<String>> = mapOf(
+    "automatisation" to listOf("Robotique", "Capteurs IoT", "Chaînes pilotées"),
+    "construction" to listOf("Chantiers", "Structures durables", "Gestion projets"),
+    "electromecanique" to listOf("Machines tournantes", "Maintenance", "Energie"),
+    "electronique" to listOf("Systèmes embarqués", "Télécom", "Objets connectés"),
+    "geometre" to listOf("Topographie", "BIM", "Modélisation 3D"),
+    "informatique" to listOf("Dev logiciel", "Cloud", "Cyber-sécu"),
+    "ingenierie_sante" to listOf("Dispositifs médicaux", "Bio-instrumentation", "Régulation"),
+    "ingenieur_industriel_commercial" to listOf("Double diplôme", "Business", "Gestion tech"),
+    "business_analyst" to listOf("Analyse besoins", "Data", "Pilotage IT")
+)
+
+private enum class SortOption { Default, CreditsAsc, CreditsDesc, Title }
+
+private fun applySortAndFilter(
+    courses: List<FormationCourse>,
+    periodFilter: String,
+    sortOption: SortOption
+): List<FormationCourse> {
+    var result = courses
+    if (periodFilter != "Tous") {
+        result = result.filter { course ->
+            course.periods.any { it.equals(periodFilter, ignoreCase = true) }
+        }
+    }
+    result = when (sortOption) {
+        SortOption.CreditsAsc -> result.sortedBy { it.credits }
+        SortOption.CreditsDesc -> result.sortedByDescending { it.credits }
+        SortOption.Title -> result.sortedBy { it.title.lowercase() }
+        SortOption.Default -> result
+    }
+    return result
+}
+
 private fun List<Formation>.toProgramCards(): List<ProgramCardData> =
     this.sortedBy { formationOrder.indexOf(it.id).takeIf { index -> index >= 0 } ?: Int.MAX_VALUE }
-        .mapNotNull { formation ->
+        .map { formation ->
             val imageUrl = formation.imageUrl?.takeIf { it.isNotBlank() }
-            if (imageUrl == null) return@mapNotNull null
             val description = formationDescriptions[formation.id] ?: ""
             ProgramCardData(
                 formation = formation,
@@ -741,10 +1039,155 @@ private fun List<FormationBlock>.sortedByBlocOrder(): List<FormationBlock> {
     )
 }
 
+
+@Composable
+private fun InfoPill(icon: ImageVector, label: String, value: String) {
+    Card(
+        shape = RoundedCornerShape(10.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+            Column {
+                Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(value, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
+            }
+        }
+    }
+}
+
+@Composable
+private fun HighlightChip(text: String) {
+    Card(
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelLarge,
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+        )
+    }
+}
+
+@Composable
+private fun FilterPanel(
+    availablePeriods: List<String>,
+    selectedPeriod: String,
+    onPeriodSelected: (String) -> Unit,
+    sortOption: SortOption,
+    onSortSelected: (SortOption) -> Unit,
+    totalCourses: Int,
+    showFormation: Boolean,
+    selectedFormation: ProgramCardData,
+    formations: List<ProgramCardData>,
+    onFormationSelected: (ProgramCardData) -> Unit,
+    blocks: List<FormationBlock>,
+    selectedBlock: FormationBlock,
+    onBlockSelected: (FormationBlock) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)),
+        shape = RoundedCornerShape(14.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+    ) {
+        Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Text("Filtres et tri", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+            if (showFormation) {
+                Text("Formation", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    formations.forEach { program ->
+                        AssistChip(
+                            onClick = { onFormationSelected(program) },
+                            label = {
+                                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                    FormationAvatar(program.formation.id, size = 18.dp)
+                                    Text(program.title)
+                                }
+                            },
+                            colors = if (program == selectedFormation) {
+                                AssistChipDefaults.assistChipColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                            } else {
+                                AssistChipDefaults.assistChipColors()
+                            }
+                        )
+                    }
+                }
+                if (blocks.isNotEmpty()) {
+                    Text("Bloc", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        blocks.forEach { block ->
+                            AssistChip(
+                                onClick = { onBlockSelected(block) },
+                                label = {
+                                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                        BlocAvatar(block.name, size = 16.dp)
+                                        Text(block.name)
+                                    }
+                                },
+                                colors = if (block == selectedBlock) {
+                                    AssistChipDefaults.assistChipColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                                } else {
+                                    AssistChipDefaults.assistChipColors()
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+            Text("Périodes", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                val periods = listOf("Tous") + availablePeriods
+                periods.forEach { period ->
+                    AssistChip(
+                        onClick = { onPeriodSelected(period) },
+                        label = { Text(period) },
+                        colors = if (period == selectedPeriod) {
+                            AssistChipDefaults.assistChipColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                        } else {
+                            AssistChipDefaults.assistChipColors()
+                        }
+                    )
+                }
+            }
+            Text("Tri", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                SortOption.values().forEach { option ->
+                    AssistChip(
+                        onClick = { onSortSelected(option) },
+                        label = { Text(option.label()) },
+                        colors = if (option == sortOption) {
+                            AssistChipDefaults.assistChipColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                        } else {
+                            AssistChipDefaults.assistChipColors()
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
+private fun SortOption.label(): String = when (this) {
+    SortOption.Default -> "Par défaut"
+    SortOption.CreditsAsc -> "ECTS croissant"
+    SortOption.CreditsDesc -> "ECTS décroissant"
+    SortOption.Title -> "Titre A-Z"
+}
+
 @Composable
 private fun BlockChip(
     block: FormationBlock,
     selected: Boolean,
+    formationId: String,
     onClick: () -> Unit
 ) {
     OutlinedButton(
@@ -756,6 +1199,33 @@ private fun BlockChip(
             ButtonDefaults.outlinedButtonColors()
         }
     ) {
-        Text(block.name, style = MaterialTheme.typography.labelLarge)
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            BlocAvatar(block.name)
+            Text(block.name, style = MaterialTheme.typography.labelLarge)
+        }
+    }
+}
+
+@Composable
+private fun BlocAvatar(name: String, size: Dp = 36.dp) {
+    val number = Regex("""\d+""").find(name)?.value
+    val color = number?.let { blocColors[it] } ?: MaterialTheme.colorScheme.primary
+    val icon = number?.let { blocIcons[it] } ?: Icons.Filled.School
+    val bg = color.copy(alpha = 0.12f)
+    Box(
+        modifier = Modifier
+            .size(size)
+            .clip(RoundedCornerShape(10.dp))
+            .background(bg),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = color
+        )
     }
 }
