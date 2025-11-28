@@ -15,7 +15,7 @@ import be.ecam.companion.di.appModule
 import be.ecam.companion.ui.components.*
 
 import be.ecam.companion.ui.screens.CalendarScreen
-import be.ecam.companion.ui.screens.CoursesScreen
+import be.ecam.companion.ui.screens.CoursesFormationScreen
 import be.ecam.companion.ui.screens.HomeScreen
 import be.ecam.companion.ui.screens.LoginScreen
 import be.ecam.companion.ui.screens.RegisterScreen
@@ -166,7 +166,7 @@ fun App(extraModules: List<Module> = emptyList()) {
                         .padding(16.dp)
 
                     when {
-                        showCoursesPage -> CoursesScreen(
+                        showCoursesPage -> CoursesFormationScreen(
                             modifier = baseModifier,
                             resetTrigger = coursesResetCounter,
                             onContextChange = { coursesTitleSuffix = it }
