@@ -14,6 +14,8 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import java.io.File
 import be.ecam.server.models.Admin
 import org.jetbrains.exposed.sql.selectAll
+import at.favre.lib.crypto.bcrypt.BCrypt
+
 
 object DatabaseFactory {
 
@@ -52,7 +54,7 @@ object DatabaseFactory {
                 val a = Admin.new {
                     username = "admin"
                     email = "admin@example.com"
-                    password = "1234"  
+                    password = BCrypt.withDefaults().hashToString(12, "1234".toCharArray())
                 }
                 println("Default admin created with id=${a.id.value}")
         }

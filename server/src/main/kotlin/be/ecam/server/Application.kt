@@ -182,17 +182,17 @@ fun Application.module() {
             //     call.respondText("Admins count: $n")
             // }
 
-            post("/debug/admins/seed") {
-                val id = org.jetbrains.exposed.sql.transactions.transaction {
-                    val a = be.ecam.server.models.Admin.new {
-                        username = "admin"
-                        email = "admin@example.com"
-                        password = "1234"
-                    }
-                    a.id.value
-                }
-                call.respondText("Seeded admin with ID: $id")
-            }
+            // post("/debug/admins/seed") {
+            //     val id = org.jetbrains.exposed.sql.transactions.transaction {
+            //         val a = be.ecam.server.models.Admin.new {
+            //             username = "admin"
+            //             email = "admin@example.com"
+            //             password = "1234"
+            //         }
+            //         a.id.value
+            //     }
+            //     call.respondText("Seeded admin with ID: $id")
+            // }
 
             // Auth routes (register/login)
             authRoutes()
