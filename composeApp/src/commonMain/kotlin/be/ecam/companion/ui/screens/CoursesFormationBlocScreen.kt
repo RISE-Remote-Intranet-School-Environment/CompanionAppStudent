@@ -52,7 +52,6 @@ fun CoursesFormationBlocScreen(
 ) {
     BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
         val isWide = maxWidth > 900.dp
-        val sidebarWidth = 550.dp
         val sidebarMaxHeight = maxHeight
         val availablePeriods = remember(block) {
             block.courses.flatMap { it.periods }
@@ -80,7 +79,7 @@ fun CoursesFormationBlocScreen(
                 ) {
                     Column(
                         modifier = Modifier
-                            .widthIn(max = sidebarWidth)
+                            .weight(1f)
                             .heightIn(max = sidebarMaxHeight),
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
@@ -111,7 +110,7 @@ fun CoursesFormationBlocScreen(
                         block = block,
                         courses = filteredCourses,
                         onCourseSelected = onCourseSelected,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(2.5f)
                     )
                 }
             }
@@ -177,17 +176,15 @@ private fun FilterPanel(
         shape = RoundedCornerShape(14.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
-        Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text("Filtres et tri", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-            Text(
-                "Cours trouves : $totalCourses",
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+        Column(modifier = Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(1.dp)) {
+            Text("Filtres et Tri", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(14.dp))
             Text("Formation", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(Modifier.height(8.dp))
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 formations.forEach { program ->
                     AssistChip(
@@ -207,10 +204,12 @@ private fun FilterPanel(
                 }
             }
             if (blocks.isNotEmpty()) {
+                Spacer(Modifier.height(10.dp))
                 Text("Bloc", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Spacer(Modifier.height(8.dp))
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     blocks.forEach { block ->
                         AssistChip(
@@ -230,10 +229,12 @@ private fun FilterPanel(
                     }
                 }
             }
+            Spacer(Modifier.height(10.dp))
             Text("Periodes", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(Modifier.height(8.dp))
             FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 val periods = listOf("Tous") + availablePeriods
                 periods.forEach { period ->
@@ -248,10 +249,12 @@ private fun FilterPanel(
                     )
                 }
             }
+            Spacer(Modifier.height(10.dp))
             Text("Tri", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(Modifier.height(8.dp))
             FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 SortOption.values().forEach { option ->
                     AssistChip(
