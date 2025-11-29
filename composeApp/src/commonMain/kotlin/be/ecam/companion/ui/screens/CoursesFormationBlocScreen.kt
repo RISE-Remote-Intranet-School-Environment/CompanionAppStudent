@@ -66,6 +66,7 @@ fun CoursesFormationBlocScreen(
     onFormationSelected: (ProgramCardData) -> Unit,
     onBlockSelected: (FormationBlock) -> Unit,
     onCourseSelected: (CourseRef) -> Unit,
+    onOpenCourseCalendar: (String?, String?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
@@ -129,6 +130,7 @@ fun CoursesFormationBlocScreen(
                         block = block,
                         courses = filteredCourses,
                         onCourseSelected = onCourseSelected,
+                        onOpenCourseCalendar = onOpenCourseCalendar,
                         modifier = Modifier.weight(2.5f)
                     )
                 }
@@ -167,7 +169,8 @@ fun CoursesFormationBlocScreen(
                     program = program,
                     block = block,
                     courses = filteredCourses,
-                    onCourseSelected = onCourseSelected
+                    onCourseSelected = onCourseSelected,
+                    onOpenCourseCalendar = onOpenCourseCalendar
                 )
             }
         }
@@ -227,18 +230,19 @@ private fun FilterPanel(
                 Spacer(Modifier.height(10.dp))
                 Text("Bloc", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Spacer(Modifier.height(4.dp))
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(1.dp)
-                ) {
-                    blocks.forEach { block ->
-                        AssistChip(
-                            onClick = { onBlockSelected(block) },
-                            label = {
-                                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                                    BlocAvatar(block.name, size = 16.dp)
-                                    Text(block.name)
-                                }
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(1.dp)
+            ) {
+                val blockColor = formationAccentColor(selectedFormation.formation.id, MaterialTheme.colorScheme.primary)
+                blocks.forEach { block ->
+                    AssistChip(
+                        onClick = { onBlockSelected(block) },
+                        label = {
+                            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                BlocAvatar(block.name, size = 16.dp, color = blockColor)
+                                Text(block.name)
+                            }
                             },
                             colors = if (block == selectedBlock) {
                                 AssistChipDefaults.assistChipColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
@@ -298,6 +302,7 @@ private fun BlockDetails(
     block: FormationBlock,
     courses: List<FormationCourse>,
     onCourseSelected: (CourseRef) -> Unit,
+    onOpenCourseCalendar: (String?, String?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
@@ -325,7 +330,15 @@ private fun BlockDetails(
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
         ) {
             Column(modifier = Modifier.padding(12.dp)) {
-                TableHeader(program, block, courses.size, creditWidth, periodWidth, accentColor)
+                TableHeader(
+                    program = program,
+                    block = block,
+                    courseCount = courses.size,
+                    creditWidth = creditWidth,
+                    periodWidth = periodWidth,
+                    accentColor = accentColor,
+                    onOpenCourseCalendar = onOpenCourseCalendar
+                )
                 Spacer(Modifier.height(10.dp))
                 courses.forEachIndexed { index, course ->
                     CourseRow(
@@ -350,12 +363,13 @@ private fun TableHeader(
     courseCount: Int,
     creditWidth: Dp,
     periodWidth: Dp,
-    accentColor: Color
+    accentColor: Color,
+    onOpenCourseCalendar: (String?, String?) -> Unit
 ) {
     val headerTint = Brush.horizontalGradient(
         listOf(
-            accentColor.copy(alpha = 0.18f),
-            MaterialTheme.colorScheme.surface
+            accentColor.copy(alpha = 0.20f),
+            accentColor.copy(alpha = 0.08f)
         )
     )
 
@@ -368,39 +382,55 @@ private fun TableHeader(
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            BlocAvatar(block.name, size = 32.dp)
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "${block.name}",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Text(
-                    text = "$courseCount unité${if (courseCount > 1) "s" else ""} d'enseignement",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
             Row(
+                modifier = Modifier.weight(1f),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                FormationAvatar(program.formation.id, size = 26.dp)
-                Text(
-                    text = program.title,
-                    style = MaterialTheme.typography.labelLarge,
-                    fontWeight = FontWeight.SemiBold
-                )
+                BlocAvatar(block.name, size = 32.dp, color = accentColor)
+                Column {
+                    Text(
+                        text = "${block.name}",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        text = "$courseCount unité${if (courseCount > 1) "s" else ""} d'enseignement",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
             Surface(
+                shape = RoundedCornerShape(14.dp),
+                color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.4f))
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    FormationAvatar(program.formation.id, size = 22.dp)
+                    Text(
+                        text = program.title,
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+            Surface(
+                modifier = Modifier
+                    .height(40.dp)
+                    .clickable { onOpenCourseCalendar(inferYearOption(block.name), null) },
                 shape = RoundedCornerShape(18.dp),
                 color = accentColor.copy(alpha = 0.14f),
                 border = BorderStroke(1.dp, accentColor.copy(alpha = 0.4f))
             ) {
                 Row(
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                    modifier = Modifier.padding(horizontal = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
@@ -655,10 +685,23 @@ private fun formationAccentColor(formationId: String, fallback: Color): Color =
         "geometre" -> Color(0xFF5C7F67)
         "informatique" -> Color(0xFF3949AB)
         "ingenierie_sante" -> Color(0xFF26A69A)
-        "ingenieur_industriel_commercial" -> Color(0xFFF9A825)
+        "ingenieur_industriel_commercial" -> Color(0xFFE07A5F)
         "business_analyst" -> Color(0xFF6D4C41)
         else -> fallback
     }
+
+private fun inferYearOption(blockName: String): String? {
+    val number = Regex("""\d+""").find(blockName)?.value ?: return null
+    return when (number) {
+        "1" -> "1BA"
+        "2" -> "2BA"
+        "3" -> "3B"
+        "4" -> "4M"
+        "5" -> "5M"
+        "6" -> "6M"
+        else -> null
+    }
+}
 
 private val baseCreditColumnWidth = 70.dp
 private val basePeriodColumnWidth = 104.dp

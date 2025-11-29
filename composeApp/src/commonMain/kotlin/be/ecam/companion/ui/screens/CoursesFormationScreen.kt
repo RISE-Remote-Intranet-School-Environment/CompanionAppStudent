@@ -72,7 +72,8 @@ fun CoursesFormationScreen(
     modifier: Modifier = Modifier,
     resetTrigger: Int = 0,
     onContextChange: (String?) -> Unit = {},
-    onCourseSelected: ((CourseRef) -> Unit)? = null
+    onCourseSelected: ((CourseRef) -> Unit)? = null,
+    onOpenCourseCalendar: (String?, String?) -> Unit = { _, _ -> }
 ) {
     val httpClient = koinInject<HttpClient>()
     val settingsRepo = koinInject<SettingsRepository>()
@@ -174,18 +175,20 @@ fun CoursesFormationScreen(
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = headerTitle,
-                    style = MaterialTheme.typography.displayLarge,
-                    textAlign = TextAlign.Center
-                )
-                if (uiState !is CoursesState.ProgramList && headerSubtitle.isNotBlank()) {
-                    Spacer(Modifier.height(4.dp))
+                if (uiState !is CoursesState.BlockDetail) {
                     Text(
-                        text = headerSubtitle,
-                        style = MaterialTheme.typography.titleMedium,
+                        text = headerTitle,
+                        style = MaterialTheme.typography.displayLarge,
                         textAlign = TextAlign.Center
                     )
+                    if (uiState !is CoursesState.ProgramList && headerSubtitle.isNotBlank()) {
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            text = headerSubtitle,
+                            style = MaterialTheme.typography.titleMedium,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
                 loadError?.let {
                     Text(
@@ -248,7 +251,8 @@ fun CoursesFormationScreen(
                             databaseYear = database?.year,
                             onFormationSelected = selectProgram,
                             onBlockSelected = { block -> selectBlock(state.program, block) },
-                            onCourseSelected = tableCourseSelection
+                            onCourseSelected = tableCourseSelection,
+                            onOpenCourseCalendar = onOpenCourseCalendar
                         )
                     }
                 }
@@ -549,6 +553,7 @@ private fun BlockChip(
     formationId: String,
     onClick: () -> Unit
 ) {
+    val formationColor = formationColors[formationId] ?: MaterialTheme.colorScheme.primary
     OutlinedButton(
         onClick = onClick,
         modifier = Modifier.padding(horizontal = 4.dp),
@@ -562,7 +567,7 @@ private fun BlockChip(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            BlocAvatar(block.name)
+            BlocAvatar(block.name, color = formationColor)
             Text(block.name, style = MaterialTheme.typography.labelLarge)
         }
     }

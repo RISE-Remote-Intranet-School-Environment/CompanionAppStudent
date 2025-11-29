@@ -84,6 +84,8 @@ fun App(extraModules: List<Module> = emptyList()) {
             var coursesTitleSuffix by remember { mutableStateOf<String?>(null) }
             var paeTitleSuffix by remember { mutableStateOf<String?>(null) }
             var coursesResetCounter by remember { mutableStateOf(0) }
+            var courseCalendarInitialYearOption by remember { mutableStateOf<String?>(null) }
+            var courseCalendarInitialSeries by remember { mutableStateOf<String?>(null) }
 
 
 
@@ -150,15 +152,17 @@ fun App(extraModules: List<Module> = emptyList()) {
                             selected = selectedScreen,
                             onSelect = { item ->
                                 showCoursesPage = false
-                                showProfessorsPage = false
-                                showPaePage = false
-                                coursesTitleSuffix = null
-                                paeTitleSuffix = null
-                                selectedScreen = item
-                            }
-                        )
+                        showProfessorsPage = false
+                        showPaePage = false
+                        coursesTitleSuffix = null
+                        paeTitleSuffix = null
+                        courseCalendarInitialYearOption = null
+                        courseCalendarInitialSeries = null
+                        selectedScreen = item
                     }
-                ) { paddingValues ->
+                )
+            }
+        ) { paddingValues ->
 
                     val baseModifier = Modifier
                         .fillMaxSize()
@@ -169,7 +173,16 @@ fun App(extraModules: List<Module> = emptyList()) {
                         showCoursesPage -> CoursesFormationScreen(
                             modifier = baseModifier,
                             resetTrigger = coursesResetCounter,
-                            onContextChange = { coursesTitleSuffix = it }
+                            onContextChange = { coursesTitleSuffix = it },
+                            onOpenCourseCalendar = { yearOption, series ->
+                                showCoursesPage = false
+                                showProfessorsPage = false
+                                showPaePage = false
+                                coursesTitleSuffix = null
+                                courseCalendarInitialYearOption = yearOption
+                                courseCalendarInitialSeries = series
+                                selectedScreen = BottomItem.COURSECALENDAR
+                            }
                         )
 
                         showProfessorsPage -> ProfessorsScreen(baseModifier)
@@ -194,7 +207,11 @@ fun App(extraModules: List<Module> = emptyList()) {
                             }
 
                             BottomItem.COURSECALENDAR -> {
-                                StudentCourseCalendar(modifier = baseModifier)
+                                StudentCourseCalendar(
+                                    modifier = baseModifier,
+                                    initialYearOption = courseCalendarInitialYearOption,
+                                    initialSeries = courseCalendarInitialSeries
+                                )
                             }
 
                             BottomItem.SETTINGS -> {

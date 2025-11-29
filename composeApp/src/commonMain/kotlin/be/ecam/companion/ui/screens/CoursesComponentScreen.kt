@@ -63,6 +63,8 @@ fun FormationHeroCard(
     modifier: Modifier = Modifier
 ) {
     val color = formationColors[program.formation.id] ?: MaterialTheme.colorScheme.primary
+    val totalBlocks = program.formation.blocks.size
+    val totalCoursesAll = program.formation.blocks.sumOf { it.courses.size }
     val gradient = Brush.horizontalGradient(
         listOf(
             color.copy(alpha = 0.16f),
@@ -98,14 +100,10 @@ fun FormationHeroCard(
                 Spacer(Modifier.height(10.dp))
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     block?.let {
-                        InfoPill(icon = Icons.Filled.ViewWeek, label = "Bloc", value = it.name)
-                        InfoPill(
-                            icon = Icons.Filled.AutoGraph,
-                            label = "Cours du ${it.name}",
-                            value = it.courses.size.toString()
-                        )
+                        InfoPill(icon = Icons.Filled.ViewWeek, label = "Blocs", value = totalBlocks.toString())
+                        InfoPill(icon = Icons.Filled.AutoGraph, label = "Cours totaux", value = totalCoursesAll.toString())
                     } ?: run {
-                        InfoPill(icon = Icons.Filled.ViewWeek, label = "Blocs", value = program.formation.blocks.size.toString())
+                        InfoPill(icon = Icons.Filled.ViewWeek, label = "Blocs", value = totalBlocks.toString())
                         InfoPill(icon = Icons.Filled.AutoGraph, label = "Cours", value = totalCourses.toString())
                         year?.let { InfoPill(icon = Icons.Filled.Timer, label = "Programme", value = it) }
                     }
@@ -136,11 +134,11 @@ fun FormationAvatar(formationId: String, size: Dp = 44.dp) {
 }
 
 @Composable
-fun BlocAvatar(name: String, size: Dp = 36.dp) {
+fun BlocAvatar(name: String, size: Dp = 36.dp, color: Color? = null) {
     val number = Regex("""\d+""").find(name)?.value
-    val color = number?.let { blocColors[it] } ?: MaterialTheme.colorScheme.primary
+    val accent = color ?: number?.let { blocColors[it] } ?: MaterialTheme.colorScheme.primary
     val icon = number?.let { blocIcons[it] } ?: Icons.Filled.School
-    val bg = color.copy(alpha = 0.12f)
+    val bg = accent.copy(alpha = 0.12f)
     Box(
         modifier = Modifier
             .size(size)
@@ -151,7 +149,7 @@ fun BlocAvatar(name: String, size: Dp = 36.dp) {
         androidx.compose.material3.Icon(
             imageVector = icon,
             contentDescription = null,
-            tint = color
+            tint = accent
         )
     }
 }
@@ -229,7 +227,7 @@ val formationColors: Map<String, Color> = mapOf(
     "geometre" to Color(0xFF5C7F67),
     "informatique" to Color(0xFF3949AB),
     "ingenierie_sante" to Color(0xFF26A69A),
-    "ingenieur_industriel_commercial" to Color(0xFFF9A825),
+    "ingenieur_industriel_commercial" to Color(0xFFE07A5F),
     "business_analyst" to Color(0xFF6D4C41)
 )
 
