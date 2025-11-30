@@ -45,6 +45,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
+import be.ecam.companion.ui.theme.ScreenSizeMode
 import companion.composeapp.generated.resources.compose_multiplatform
 import org.jetbrains.compose.resources.painterResource
 import companion.composeapp.generated.resources.nicolas
@@ -60,11 +61,12 @@ fun App(extraModules: List<Module> = emptyList()) {
         val vm = koinInject<HomeViewModel>()
         var themeMode by remember { mutableStateOf(ThemeMode.LIGHT) }
         var textScaleMode by remember { mutableStateOf(TextScaleMode.NORMAL) }
+        var screenSizeMode by remember { mutableStateOf(ScreenSizeMode.Default) }
         val baseDensity = LocalDensity.current
 
         CompositionLocalProvider(
             LocalDensity provides Density(
-                density = baseDensity.density,
+                density = baseDensity.density * screenSizeMode.scale,
                 fontScale = textScaleMode.fontScale
             )
         ) {
@@ -154,15 +156,17 @@ fun App(extraModules: List<Module> = emptyList()) {
                             TopBar(
                                 selectedScreen = selectedScreen,
                                 showCoursesPage = showCoursesPage,
-                                showProfessorsPage = showProfessorsPage,
-                                showPaePage = showPaePage,
-                                coursesTitleSuffix = coursesTitleSuffix,
-                                paeTitleSuffix = paeTitleSuffix,
-                                textScaleMode = textScaleMode,
-                                onToggleTextScale = { textScaleMode = textScaleMode.next() },
-                                themeMode = themeMode,
-                                onToggleTheme = { themeMode = themeMode.toggle() },
-                                onMenuClick = { scope.launch { drawerState.open() } }
+                            showProfessorsPage = showProfessorsPage,
+                            showPaePage = showPaePage,
+                            coursesTitleSuffix = coursesTitleSuffix,
+                            paeTitleSuffix = paeTitleSuffix,
+                            screenSizeMode = screenSizeMode,
+                            onZoomChange = { screenSizeMode = screenSizeMode.next() },
+                            textScaleMode = textScaleMode,
+                            onToggleTextScale = { textScaleMode = textScaleMode.next() },
+                            themeMode = themeMode,
+                            onToggleTheme = { themeMode = themeMode.toggle() },
+                            onMenuClick = { scope.launch { drawerState.open() } }
                             )
                         },
                         bottomBar = {
