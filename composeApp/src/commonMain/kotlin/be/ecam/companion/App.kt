@@ -13,6 +13,7 @@ import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.di.appModule
 
 import be.ecam.companion.ui.components.*
+import be.ecam.companion.ui.theme.ThemeMode
 
 import be.ecam.companion.ui.screens.CalendarScreen
 import be.ecam.companion.ui.screens.CoursesFormationScreen
@@ -54,7 +55,11 @@ fun App(extraModules: List<Module> = emptyList()) {
     KoinApplication(application = { modules(appModule + extraModules) }) {
 
         val vm = koinInject<HomeViewModel>()
-        MaterialTheme {
+        var themeMode by remember { mutableStateOf(ThemeMode.LIGHT) }
+
+        MaterialTheme(
+            colorScheme = themeMode.colorScheme()
+        ) {
 
             var isLoggedIn by remember { mutableStateOf(false) }
             var showRegister by remember { mutableStateOf(false) }
@@ -144,6 +149,8 @@ fun App(extraModules: List<Module> = emptyList()) {
                             showPaePage = showPaePage,
                             coursesTitleSuffix = coursesTitleSuffix,
                             paeTitleSuffix = paeTitleSuffix,
+                            themeMode = themeMode,
+                            onToggleTheme = { themeMode = themeMode.toggle() },
                             onMenuClick = { scope.launch { drawerState.open() } }
                         )
                     },
