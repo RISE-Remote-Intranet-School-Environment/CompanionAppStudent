@@ -17,16 +17,17 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.border
-import be.ecam.companion.viewmodel.LoginViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import be.ecam.companion.ui.components.EcamBackground
+import be.ecam.companion.viewmodel.LoginViewModel
 
 
 @Composable
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
     onNavigateToRegister: () -> Unit,
-    viewModel: LoginViewModel = remember { LoginViewModel() }
+    viewModel: LoginViewModel
+
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }

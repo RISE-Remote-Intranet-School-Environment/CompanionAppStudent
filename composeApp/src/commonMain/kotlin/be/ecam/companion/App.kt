@@ -28,6 +28,7 @@ import be.ecam.companion.ui.screens.MonPaeScreen
 
 
 import be.ecam.companion.viewmodel.HomeViewModel
+import be.ecam.companion.viewmodel.LoginViewModel
 import companion.composeapp.generated.resources.Res
 import companion.composeapp.generated.resources.nicolas
 import kotlinx.coroutines.launch
@@ -59,6 +60,7 @@ fun App(extraModules: List<Module> = emptyList()) {
     KoinApplication(application = { modules(appModule + extraModules) }) {
 
         val vm = koinInject<HomeViewModel>()
+        val loginViewModel = remember { LoginViewModel() }
         var themeMode by remember { mutableStateOf(ThemeMode.LIGHT) }
         var textScaleMode by remember { mutableStateOf(TextScaleMode.NORMAL) }
         var screenSizeMode by remember { mutableStateOf(ScreenSizeMode.Default) }
@@ -85,6 +87,7 @@ fun App(extraModules: List<Module> = emptyList()) {
                         )
                     } else {
                         LoginScreen(
+                            viewModel = loginViewModel,
                             onLoginSuccess = { isLoggedIn = true },
                             onNavigateToRegister = { showRegister = true }
                         )
@@ -239,7 +242,7 @@ fun App(extraModules: List<Module> = emptyList()) {
 
                                 BottomItem.DASHBOARD -> {
                                     UserDashboardScreen(
-                                        isAdmin = false,
+                                        loginViewModel = loginViewModel,
                                         modifier = baseModifier
                                     )
                                 }

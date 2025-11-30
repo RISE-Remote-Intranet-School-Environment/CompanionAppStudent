@@ -40,7 +40,8 @@ data class AuthUserDTO(
 @Serializable
 data class AuthResponse(
     val user: AuthUserDTO? = null,
-    val message: String
+    val message: String,
+    val token: String? = null
 )
 
 class LoginViewModel : ViewModel() {
@@ -57,6 +58,12 @@ class LoginViewModel : ViewModel() {
         private set
 
     var loginSuccess by mutableStateOf(false)
+        private set
+
+    var jwtToken by mutableStateOf<String?>(null)
+        private set
+
+    var currentUser by mutableStateOf<AuthUserDTO?>(null)
         private set
 
 
@@ -106,13 +113,15 @@ class LoginViewModel : ViewModel() {
                     setBody(LoginRequest(emailOrUsername, password))
                 }
 
-                if (response.status.value in 200..299) {
+                if (response.status.isSuccess()) {
+                    val authResponse: AuthResponse = response.body()
+
+                    jwtToken = authResponse.token
+                    currentUser = authResponse.user
                     loginSuccess = true
                 } else {
-                    val message = response.bodyAsText()
-                    errorMessage = "Erreur (${response.status.value}): $message"
+                    errorMessage = "Erreur ${response.status.value}: ${response.bodyAsText()}"
                 }
-
             } catch (e: Exception) {
                 errorMessage = "Erreur de connexion : ${e.message}"
             } finally {
@@ -120,4 +129,29 @@ class LoginViewModel : ViewModel() {
             }
         }
     }
+
+
+    fun fetchMe(baseUrl: String = "http://localhost:28088") {
+    viewModelScope.launch {
+        if (jwtToken == null) {
+            errorMessage = "Aucun token disponible"
+            return@launch
+        }
+
+        try {
+            val response: HttpResponse = client.get("$baseUrl/api/auth/me") {
+                header("Authorization", "Bearer $jwtToken")
+            }
+
+            if (response.status.isSuccess()) {
+                currentUser = response.body()
+            } else {
+                errorMessage = "Erreur : ${response.bodyAsText()}"
+            }
+        } catch (e: Exception) {
+            errorMessage = "Erreur fetchMe : ${e.message}"
+        }
+    }
+}
+
 }
