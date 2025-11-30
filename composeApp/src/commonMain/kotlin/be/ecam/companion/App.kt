@@ -220,14 +220,6 @@ fun App(extraModules: List<Module> = emptyList()) {
                                     HomeScreen(modifier = baseModifier, vm = vm)
                                 }
 
-                                BottomItem.EVENTCALENDAR -> {
-                                    LaunchedEffect(Unit) { vm.load() }
-                                    CalendarScreen(
-                                        modifier = baseModifier,
-                                        scheduledByDate = vm.scheduledByDate
-                                    )
-                                }
-
                                 BottomItem.COURSECALENDAR -> {
                                     StudentCourseCalendar(
                                         modifier = baseModifier,
