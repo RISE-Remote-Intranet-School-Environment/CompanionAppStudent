@@ -1,6 +1,7 @@
 package be.ecam.companion.ui.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.FormatSize
 import androidx.compose.material.icons.filled.LightMode
@@ -71,6 +72,9 @@ fun TopBar(
                     if (themeMode.isDark) Icons.Filled.LightMode else Icons.Filled.DarkMode,
                     contentDescription = if (themeMode.isDark) "Passer en mode clair" else "Passer en mode sombre"
                 )
+            }
+            IconButton(onClick = { /* TODO: message mode action */ }) {
+                Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = "Message mode")
             }
         }
     )
