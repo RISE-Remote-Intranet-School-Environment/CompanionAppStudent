@@ -13,6 +13,7 @@ import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.di.appModule
 
 import be.ecam.companion.ui.components.*
+import be.ecam.companion.ui.theme.TextScaleMode
 import be.ecam.companion.ui.theme.ThemeMode
 
 import be.ecam.companion.ui.screens.CalendarScreen
@@ -42,6 +43,8 @@ import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import companion.composeapp.generated.resources.compose_multiplatform
 import org.jetbrains.compose.resources.painterResource
 import companion.composeapp.generated.resources.nicolas
@@ -56,185 +59,194 @@ fun App(extraModules: List<Module> = emptyList()) {
 
         val vm = koinInject<HomeViewModel>()
         var themeMode by remember { mutableStateOf(ThemeMode.LIGHT) }
+        var textScaleMode by remember { mutableStateOf(TextScaleMode.NORMAL) }
+        val baseDensity = LocalDensity.current
 
-        MaterialTheme(
-            colorScheme = themeMode.colorScheme()
+        CompositionLocalProvider(
+            LocalDensity provides Density(
+                density = baseDensity.density,
+                fontScale = textScaleMode.fontScale
+            )
         ) {
-
-            var isLoggedIn by remember { mutableStateOf(false) }
-            var showRegister by remember { mutableStateOf(false) }
-
-            if (!isLoggedIn) {
-                if (showRegister) {
-                    RegisterScreen(
-                        onRegisterSuccess = { isLoggedIn = true },
-                        onNavigateToLogin = { showRegister = false }
-                    )
-                } else {
-                    LoginScreen(
-                        onLoginSuccess = { isLoggedIn = true },
-                        onNavigateToRegister = { showRegister = true }
-                    )
-                }
-                return@MaterialTheme
-            }
-
-            val drawerState = rememberDrawerState(DrawerValue.Closed)
-            val scope = rememberCoroutineScope()
-
-            var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
-            var showCoursesPage by remember { mutableStateOf(false) }
-            var showProfessorsPage by remember { mutableStateOf(false) }
-            var showPaePage by remember { mutableStateOf(false) }
-            var coursesTitleSuffix by remember { mutableStateOf<String?>(null) }
-            var paeTitleSuffix by remember { mutableStateOf<String?>(null) }
-            var coursesResetCounter by remember { mutableStateOf(0) }
-            var courseCalendarInitialYearOption by remember { mutableStateOf<String?>(null) }
-            var courseCalendarInitialSeries by remember { mutableStateOf<String?>(null) }
-
-
-
-            ModalNavigationDrawer(
-                drawerState = drawerState,
-                // Allow swipe/edge gestures to open/close the drawer on every screen
-                gesturesEnabled = true,
-                drawerContent = {
-                    AppDrawer(
-                        onSelectDashboard = {
-                            selectedScreen = BottomItem.DASHBOARD
-                            showPaePage = false
-                            paeTitleSuffix = null
-                            showCoursesPage = false
-                            showProfessorsPage = false
-                            scope.launch { drawerState.close() }
-                        },
-                        onSelectCourses = {
-                            showCoursesPage = true
-                            coursesTitleSuffix = null
-                            showPaePage = false
-                            paeTitleSuffix = null
-                            showProfessorsPage = false
-                            coursesResetCounter++
-                            scope.launch { drawerState.close() }
-                        },
-                        onSelectProfessors = {
-                            showProfessorsPage = true
-                            showPaePage = false
-                            paeTitleSuffix = null
-                            showCoursesPage = false
-                            scope.launch { drawerState.close() }
-                        },
-                        onSelectPae = {
-                            showPaePage = true
-                            paeTitleSuffix = null
-                            showCoursesPage = false
-                            showProfessorsPage = false
-                            scope.launch { drawerState.close() }
-                        },
-                        onLogout = {
-                            scope.launch { drawerState.close() }
-                            showPaePage = false
-                            paeTitleSuffix = null
-                            isLoggedIn = false
-                        }
-                    )
-                }
+            MaterialTheme(
+                colorScheme = themeMode.colorScheme()
             ) {
-                Scaffold(
-                    topBar = {
-                        TopBar(
-                            selectedScreen = selectedScreen,
-                            showCoursesPage = showCoursesPage,
-                            showProfessorsPage = showProfessorsPage,
-                            showPaePage = showPaePage,
-                            coursesTitleSuffix = coursesTitleSuffix,
-                            paeTitleSuffix = paeTitleSuffix,
-                            themeMode = themeMode,
-                            onToggleTheme = { themeMode = themeMode.toggle() },
-                            onMenuClick = { scope.launch { drawerState.open() } }
+
+                var isLoggedIn by remember { mutableStateOf(false) }
+                var showRegister by remember { mutableStateOf(false) }
+
+                if (!isLoggedIn) {
+                    if (showRegister) {
+                        RegisterScreen(
+                            onRegisterSuccess = { isLoggedIn = true },
+                            onNavigateToLogin = { showRegister = false }
                         )
-                    },
-                    bottomBar = {
-                        BottomBar(
-                            selected = selectedScreen,
-                            onSelect = { item ->
-                                showCoursesPage = false
-                        showProfessorsPage = false
-                        showPaePage = false
-                        coursesTitleSuffix = null
-                        paeTitleSuffix = null
-                        courseCalendarInitialYearOption = null
-                        courseCalendarInitialSeries = null
-                        selectedScreen = item
+                    } else {
+                        LoginScreen(
+                            onLoginSuccess = { isLoggedIn = true },
+                            onNavigateToRegister = { showRegister = true }
+                        )
                     }
-                )
-            }
-        ) { paddingValues ->
+                    return@MaterialTheme
+                }
 
-                    val baseModifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues)
-                        .padding(16.dp)
+                val drawerState = rememberDrawerState(DrawerValue.Closed)
+                val scope = rememberCoroutineScope()
 
-                    when {
-                        showCoursesPage -> CoursesFormationScreen(
-                            modifier = baseModifier,
-                            resetTrigger = coursesResetCounter,
-                            onContextChange = { coursesTitleSuffix = it },
-                            onOpenCourseCalendar = { yearOption, series ->
+                var selectedScreen by remember { mutableStateOf(BottomItem.HOME) }
+                var showCoursesPage by remember { mutableStateOf(false) }
+                var showProfessorsPage by remember { mutableStateOf(false) }
+                var showPaePage by remember { mutableStateOf(false) }
+                var coursesTitleSuffix by remember { mutableStateOf<String?>(null) }
+                var paeTitleSuffix by remember { mutableStateOf<String?>(null) }
+                var coursesResetCounter by remember { mutableStateOf(0) }
+                var courseCalendarInitialYearOption by remember { mutableStateOf<String?>(null) }
+                var courseCalendarInitialSeries by remember { mutableStateOf<String?>(null) }
+
+                ModalNavigationDrawer(
+                    drawerState = drawerState,
+                    // Allow swipe/edge gestures to open/close the drawer on every screen
+                    gesturesEnabled = true,
+                    drawerContent = {
+                        AppDrawer(
+                            onSelectDashboard = {
+                                selectedScreen = BottomItem.DASHBOARD
+                                showPaePage = false
+                                paeTitleSuffix = null
                                 showCoursesPage = false
                                 showProfessorsPage = false
-                                showPaePage = false
+                                scope.launch { drawerState.close() }
+                            },
+                            onSelectCourses = {
+                                showCoursesPage = true
                                 coursesTitleSuffix = null
-                                courseCalendarInitialYearOption = yearOption
-                                courseCalendarInitialSeries = series
-                                selectedScreen = BottomItem.COURSECALENDAR
+                                showPaePage = false
+                                paeTitleSuffix = null
+                                showProfessorsPage = false
+                                coursesResetCounter++
+                                scope.launch { drawerState.close() }
+                            },
+                            onSelectProfessors = {
+                                showProfessorsPage = true
+                                showPaePage = false
+                                paeTitleSuffix = null
+                                showCoursesPage = false
+                                scope.launch { drawerState.close() }
+                            },
+                            onSelectPae = {
+                                showPaePage = true
+                                paeTitleSuffix = null
+                                showCoursesPage = false
+                                showProfessorsPage = false
+                                scope.launch { drawerState.close() }
+                            },
+                            onLogout = {
+                                scope.launch { drawerState.close() }
+                                showPaePage = false
+                                paeTitleSuffix = null
+                                isLoggedIn = false
                             }
                         )
+                    }
+                ) {
+                    Scaffold(
+                        topBar = {
+                            TopBar(
+                                selectedScreen = selectedScreen,
+                                showCoursesPage = showCoursesPage,
+                                showProfessorsPage = showProfessorsPage,
+                                showPaePage = showPaePage,
+                                coursesTitleSuffix = coursesTitleSuffix,
+                                paeTitleSuffix = paeTitleSuffix,
+                                textScaleMode = textScaleMode,
+                                onToggleTextScale = { textScaleMode = textScaleMode.next() },
+                                themeMode = themeMode,
+                                onToggleTheme = { themeMode = themeMode.toggle() },
+                                onMenuClick = { scope.launch { drawerState.open() } }
+                            )
+                        },
+                        bottomBar = {
+                            BottomBar(
+                                selected = selectedScreen,
+                                onSelect = { item ->
+                                    showCoursesPage = false
+                                    showProfessorsPage = false
+                                    showPaePage = false
+                                    coursesTitleSuffix = null
+                                    paeTitleSuffix = null
+                                    courseCalendarInitialYearOption = null
+                                    courseCalendarInitialSeries = null
+                                    selectedScreen = item
+                                }
+                            )
+                        }
+                    ) { paddingValues ->
 
-                        showProfessorsPage -> ProfessorsScreen(baseModifier)
+                        val baseModifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                            .padding(16.dp)
 
-                        showPaePage -> MonPaeScreen(
-                            modifier = baseModifier,
-                            onContextChange = { paeTitleSuffix = it }
-                        )
+                        when {
+                            showCoursesPage -> CoursesFormationScreen(
+                                modifier = baseModifier,
+                                resetTrigger = coursesResetCounter,
+                                onContextChange = { coursesTitleSuffix = it },
+                                onOpenCourseCalendar = { yearOption, series ->
+                                    showCoursesPage = false
+                                    showProfessorsPage = false
+                                    showPaePage = false
+                                    coursesTitleSuffix = null
+                                    courseCalendarInitialYearOption = yearOption
+                                    courseCalendarInitialSeries = series
+                                    selectedScreen = BottomItem.COURSECALENDAR
+                                }
+                            )
 
-                        else -> when (selectedScreen) {
-                            BottomItem.HOME -> {
-                                LaunchedEffect(Unit) { vm.load() }
-                                HomeScreen(modifier = baseModifier, vm = vm)
-                            }
+                            showProfessorsPage -> ProfessorsScreen(baseModifier)
 
-                            BottomItem.EVENTCALENDAR -> {
-                                LaunchedEffect(Unit) { vm.load() }
-                                CalendarScreen(
-                                    modifier = baseModifier,
-                                    scheduledByDate = vm.scheduledByDate
-                                )
-                            }
+                            showPaePage -> MonPaeScreen(
+                                modifier = baseModifier,
+                                onContextChange = { paeTitleSuffix = it }
+                            )
 
-                            BottomItem.COURSECALENDAR -> {
-                                StudentCourseCalendar(
-                                    modifier = baseModifier,
-                                    initialYearOption = courseCalendarInitialYearOption,
-                                    initialSeries = courseCalendarInitialSeries
-                                )
-                            }
+                            else -> when (selectedScreen) {
+                                BottomItem.HOME -> {
+                                    LaunchedEffect(Unit) { vm.load() }
+                                    HomeScreen(modifier = baseModifier, vm = vm)
+                                }
 
-                            BottomItem.SETTINGS -> {
-                                val settingsRepo = koinInject<SettingsRepository>()
-                                SettingsScreen(
-                                    repo = settingsRepo,
-                                    modifier = baseModifier,
-                                    onSaved = { scope.launch { vm.load() } }
-                                )
-                            }
+                                BottomItem.EVENTCALENDAR -> {
+                                    LaunchedEffect(Unit) { vm.load() }
+                                    CalendarScreen(
+                                        modifier = baseModifier,
+                                        scheduledByDate = vm.scheduledByDate
+                                    )
+                                }
 
-                            BottomItem.DASHBOARD -> {
-                                UserDashboardScreen(
-                                    isAdmin = false,
-                                    modifier = baseModifier
-                                )
+                                BottomItem.COURSECALENDAR -> {
+                                    StudentCourseCalendar(
+                                        modifier = baseModifier,
+                                        initialYearOption = courseCalendarInitialYearOption,
+                                        initialSeries = courseCalendarInitialSeries
+                                    )
+                                }
+
+                                BottomItem.SETTINGS -> {
+                                    val settingsRepo = koinInject<SettingsRepository>()
+                                    SettingsScreen(
+                                        repo = settingsRepo,
+                                        modifier = baseModifier,
+                                        onSaved = { scope.launch { vm.load() } }
+                                    )
+                                }
+
+                                BottomItem.DASHBOARD -> {
+                                    UserDashboardScreen(
+                                        isAdmin = false,
+                                        modifier = baseModifier
+                                    )
+                                }
                             }
                         }
                     }
