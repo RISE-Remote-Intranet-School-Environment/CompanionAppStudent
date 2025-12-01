@@ -3,112 +3,3714 @@
   "generated_at": "2025-11-11T21:30:00+00:00",
   "source": "https://www.ecam.be/annuaire/",
   "professors": [
-    { "id": 1, "first_name": "Edouard", "last_name": "AUVINET", "email": "auv@ecam.be", "speciality": "FGS", "office": "1H05" },
-    { "id": 2, "first_name": "Edoardo", "last_name": "BORI", "email": "bor@ecam.be", "speciality": "FGS", "office": "2F44" },
-    { "id": 3, "first_name": "Olivier", "last_name": "CARTIAUX", "email": "crt@ecam.be", "speciality": "FGS", "office": "2E27" },
-    { "id": 4, "first_name": "Emmanuel", "last_name": "CORDIER", "email": "crd@ecam.be", "speciality": "FGS", "office": "2F28" },
-    { "id": 5, "first_name": "Mikael", "last_name": "DHEN", "email": "dhn@ecam.be", "speciality": "FGS", "office": "2F28" },
-    { "id": 6, "first_name": "Rolando", "last_name": "GUERRIERI", "email": "r5g@ecam.be", "speciality": "FGS", "office": "2F44" },
-    { "id": 7, "first_name": "Virginie", "last_name": "HENROTTE", "email": "hnt@ecam.be", "speciality": "FGS", "office": "2F22" },
-    { "id": 8, "first_name": "Ruben", "last_name": "HILLEWAERE", "email": "hil@ecam.be", "speciality": "FGS", "office": "2F28" },
-    { "id": 9, "first_name": "Marius", "last_name": "JOLY", "email": "mj5@ecam.be", "speciality": "FGS", "office": "2F44" },
-    { "id": 10, "first_name": "Jacek", "last_name": "JONAS-SZATANSKI", "email": "jsz@ecam.be", "speciality": "FGS", "office": "2F28" },
-    { "id": 11, "first_name": "Nathalie", "last_name": "SIEBERT", "email": "sbr@ecam.be", "speciality": "FGS", "office": "2F44" },
-    { "id": 12, "first_name": "Geraldine", "last_name": "SPRINGUEL", "email": "spr@ecam.be", "speciality": "FGS", "office": "2F22" },
-    { "id": 13, "first_name": "Barbara", "last_name": "WEIS", "email": "b5w@ecam.be", "speciality": "FGS", "office": "2F22" },
-    { "id": 14, "first_name": "David", "last_name": "BOUCHEZ", "email": "david.bouchez@ecam.be", "speciality": "FGS", "office": "Non renseigné" },
-    { "id": 15, "first_name": "Carlo", "last_name": "CORONATO", "email": "carlo.coronato@ecam.be", "speciality": "FGS", "office": "Non renseigné" },
-    { "id": 16, "first_name": "Bernard", "last_name": "COUVREUR", "email": "bernard.couvreur@ecam.be", "speciality": "FGS", "office": "Non renseigné" },
-    { "id": 17, "first_name": "Patrick", "last_name": "MIQUEU", "email": "patrick.miqueu@ecam.be", "speciality": "FGS", "office": "Non renseigné" },
-
-    { "id": 18, "first_name": "Antoine", "last_name": "AIFA", "email": "antoine.aifa@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-    { "id": 19, "first_name": "Bertrand", "last_name": "BAIJOT", "email": "bertrand.baijot@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-    { "id": 20, "first_name": "Joseph Desire", "last_name": "CHAMASSI TOWO", "email": "joseph.desire.chamassi-towo@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-    { "id": 21, "first_name": "Claire", "last_name": "CHEVALIER", "email": "claire.chevalier@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-    { "id": 22, "first_name": "Franky", "last_name": "DE BRUYNE", "email": "franky.debruyne@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-    { "id": 23, "first_name": "David", "last_name": "KIMPLAIRE", "email": "david.kimplaire@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-    { "id": 24, "first_name": "Yves", "last_name": "MOLLET", "email": "yves.mollet@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-    { "id": 25, "first_name": "Thomas", "last_name": "MUSEUR", "email": "thomas.museur@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-    { "id": 26, "first_name": "David", "last_name": "ROUCHARD", "email": "david.rouchard@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-    { "id": 27, "first_name": "Jean-Michel", "last_name": "ROUSSEAU", "email": "jean-michel.rousseau@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-    { "id": 28, "first_name": "Denis", "last_name": "TIHON", "email": "denis.tihon@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-    { "id": 29, "first_name": "Thierry", "last_name": "BAUERFELD", "email": "thierry.bauerfeld@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-    { "id": 30, "first_name": "Louis", "last_name": "ENGELEN", "email": "louis.engelen@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-    { "id": 31, "first_name": "Philippe", "last_name": "GONZE", "email": "philippe.gonze@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-    { "id": 32, "first_name": "Arnaud", "last_name": "MASURE", "email": "arnaud.masure@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-    { "id": 33, "first_name": "Jean-Jacques", "last_name": "RENAUD", "email": "jean-jacques.renaud@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-    { "id": 34, "first_name": "Eric", "last_name": "VAN VAERENBERG", "email": "eric.van-vaerenberg@ecam.be", "speciality": "GEA", "office": "Non renseigné" },
-
-    { "id": 35, "first_name": "Nathalie", "last_name": "BAUCHE", "email": "nathalie.bauche@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 36, "first_name": "Benjamin", "last_name": "BERGER", "email": "benjamin.berger@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 37, "first_name": "Antoine", "last_name": "BOUCQUEY", "email": "antoine.boucquey@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 38, "first_name": "Quentin", "last_name": "de GRADY de HORION", "email": "quentin.degrady-de-horion@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 39, "first_name": "Etienne", "last_name": "DENIS", "email": "etienne.denis@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 40, "first_name": "Daniel", "last_name": "GALHAUT", "email": "daniel.galhaut@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 41, "first_name": "William", "last_name": "KIES", "email": "william.kies@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 42, "first_name": "Bechir", "last_name": "MAAREF", "email": "bechir.maaref@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 43, "first_name": "Pierre", "last_name": "MATHIEU", "email": "pierre.mathieu@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 44, "first_name": "Diego", "last_name": "NOTHOMB", "email": "diego.nothomb@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 45, "first_name": "Quentin", "last_name": "OTJACQUES", "email": "quentin.otjacques@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 46, "first_name": "Maxime", "last_name": "POCHET", "email": "maxime.pochet@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 47, "first_name": "Xavier", "last_name": "VAN den DOOREN", "email": "xavier.van-den-dooren@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 48, "first_name": "Jeremy", "last_name": "BAUDET", "email": "jeremy.baudet@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 49, "first_name": "Laurent", "last_name": "BRICTEUX", "email": "laurent.bricteux@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 50, "first_name": "Pierre", "last_name": "COLON", "email": "pierre.colon@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 51, "first_name": "Dario", "last_name": "DALLA RIVA", "email": "dario.dalla-riva@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 52, "first_name": "Gregory", "last_name": "ZAMBELLI", "email": "gregory.zambelli@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 53, "first_name": "Sebastien", "last_name": "SCHRURS", "email": "sebastien.schrurs@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-    { "id": 54, "first_name": "Chance", "last_name": "MWISENEZA", "email": "chance.mwiseneza@ecam.be", "speciality": "GMT", "office": "Non renseigné" },
-
-    { "id": 55, "first_name": "Nicolas", "last_name": "BURNY", "email": "brn@ecam.be", "speciality": "GEI", "office": "Non renseigné" },
-    { "id": 56, "first_name": "Francois", "last_name": "DEFRANCE", "email": "dfr@ecam.be", "speciality": "GEI", "office": "1E07" },
-    { "id": 57, "first_name": "Quentin", "last_name": "DELHAYE", "email": "dlh@ecam.be", "speciality": "GEI", "office": "1E07" },
-    { "id": 58, "first_name": "Clemence", "last_name": "FLEMAL", "email": "fle@ecam.be", "speciality": "GEI", "office": "1E07" },
-    { "id": 59, "first_name": "Martin", "last_name": "FOCKEDEY", "email": "fky@ecam.be", "speciality": "GEI", "office": "1E07" },
-    { "id": 60, "first_name": "Andre", "last_name": "LORGE", "email": "lrg@ecam.be", "speciality": "GEI", "office": "1E07" },
-    { "id": 61, "first_name": "Nicolas", "last_name": "LORIAU", "email": "n3l@ecam.be", "speciality": "GEI", "office": "Non renseigné" },
-    { "id": 62, "first_name": "Quentin", "last_name": "LURKIN", "email": "lur@ecam.be", "speciality": "GEI", "office": "1E07" },
-    { "id": 63, "first_name": "Cedric", "last_name": "MARCHAND", "email": "mar@ecam.be", "speciality": "GEI", "office": "Non renseigné" },
-    { "id": 64, "first_name": "Nicolas", "last_name": "MARCHAND", "email": "mch@ecam.be", "speciality": "GEI", "office": "1E07" },
-    { "id": 65, "first_name": "Khoi", "last_name": "NGUYEN", "email": "ngy@ecam.be", "speciality": "GEI", "office": "1E07" },
-    { "id": 66, "first_name": "Renaud", "last_name": "DE SAINT MOULIN", "email": "renaud.de-saint-moulin@ecam.be", "speciality": "GEI", "office": "Non renseigné" },
-    { "id": 67, "first_name": "Thierry", "last_name": "JESUPRET", "email": "thierry.jesupret@ecam.be", "speciality": "GEI", "office": "Non renseigné" },
-    { "id": 68, "first_name": "Nicolas", "last_name": "LE FEVERE", "email": "nicolas.le-fevere@ecam.be", "speciality": "GEI", "office": "Non renseigné" },
-    { "id": 69, "first_name": "Jean-Guillaume", "last_name": "LOUIS", "email": "j3l@ecam.be", "speciality": "GEI", "office": "Non renseigné" },
-    { "id": 70, "first_name": "Nicolas", "last_name": "SCAUT", "email": "nicolas.scaut@ecam.be", "speciality": "GEI", "office": "Non renseigné" },
-    { "id": 71, "first_name": "Luleta", "last_name": "SHABANI", "email": "luleta.shabani@ecam.be", "speciality": "GEI", "office": "Non renseigné" },
-    { "id": 72, "first_name": "Sebastien", "last_name": "VAN CAUWENBERGHE", "email": "sebastien.van-cauwenberghe@ecam.be", "speciality": "GEI", "office": "Non renseigné" },
-    { "id": 73, "first_name": "Emilio", "last_name": "VILLANO", "email": "emilio.villano@ecam.be", "speciality": "GEI", "office": "Non renseigné" },
-
-    { "id": 74, "first_name": "Hannah", "last_name": "FRANZ", "email": "hannah.franz@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 75, "first_name": "William", "last_name": "GILSON", "email": "william.gilson@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 76, "first_name": "Yves", "last_name": "GOBERT", "email": "yves.gobert@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 77, "first_name": "Pierre", "last_name": "HENRIET", "email": "pierre.henriet@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 78, "first_name": "Christelle", "last_name": "HUENAERTS", "email": "christelle.huenaerts@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 79, "first_name": "Madeleine", "last_name": "RANWEZ", "email": "madeleine.ranwez@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 80, "first_name": "Maxime", "last_name": "STEISEL", "email": "maxime.steisel@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 81, "first_name": "Sylvie", "last_name": "VAN EMELEN", "email": "sylvie.van-emelen@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 82, "first_name": "Jerome", "last_name": "VERSLYPE", "email": "jerome.verslype@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 83, "first_name": "Luigi", "last_name": "VULLO", "email": "luigi.vullo@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 84, "first_name": "Mohamed", "last_name": "ANSRIOU", "email": "mohamed.ansriou@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 85, "first_name": "Alain", "last_name": "BELLAY", "email": "alain.bellay@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 86, "first_name": "Renaud", "last_name": "BERTIN", "email": "renaud.bertin@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 87, "first_name": "Francoise", "last_name": "DE ROY", "email": "francoise.de-roy@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 88, "first_name": "Thomas", "last_name": "DEVILLE", "email": "thomas.deville@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 89, "first_name": "Yves", "last_name": "HANIN", "email": "yves.hanin@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 90, "first_name": "Francois", "last_name": "LAPY", "email": "francois.lapy@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 91, "first_name": "Rose", "last_name": "MASANGA", "email": "rose.masanga@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 92, "first_name": "Frederic", "last_name": "OLEKSANDROW", "email": "frederic.oleksandrow@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 93, "first_name": "Mohamed", "last_name": "OUALMAKRAN", "email": "mohamed.oualmakran@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 94, "first_name": "Xavier", "last_name": "RAUCROIX", "email": "xavier.raucroix@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-    { "id": 95, "first_name": "Philippe", "last_name": "VANDEVONDELE", "email": "philippe.vandevondele@ecam.be", "speciality": "GCG", "office": "Non renseigné" },
-
-    { "id": 96, "first_name": "Philippe", "last_name": "MELOTTE", "email": "philippe.melotte@ecam.be", "speciality": "GLA", "office": "Non renseigné" },
-    { "id": 97, "first_name": "Thibaud", "last_name": "STEVENS", "email": "thibaud.stevens@ecam.be", "speciality": "GLA", "office": "Non renseigné" },
-    { "id": 98, "first_name": "Julie", "last_name": "DEGOSSELY", "email": "julie.degossely@ecam.be", "speciality": "GLA", "office": "Non renseigné" },
-    { "id": 99, "first_name": "Ruw", "last_name": "JAYASURIYA", "email": "ruw.jayasuriya@ecam.be", "speciality": "GLA", "office": "Non renseigné" },
-    { "id": 100, "first_name": "Ivan", "last_name": "MATILLA", "email": "ivan.matilla@ecam.be", "speciality": "GLA", "office": "Non renseigné" },
-    { "id": 101, "first_name": "Gael", "last_name": "N'GOM", "email": "gael.n-gom@ecam.be", "speciality": "GLA", "office": "Non renseigné" },
-    { "id": 102, "first_name": "Pascale", "last_name": "SINNAEVE", "email": "pascale.sinnaeve@ecam.be", "speciality": "GLA", "office": "Non renseigné" }
+    {
+      "id": 1,
+      "first_name": "Edouard",
+      "last_name": "AUVINET",
+      "email": "auv@ecam.be",
+      "speciality": "FGS",
+      "office": "1H05",
+      "courses": [
+        {
+          "code": "3bmsi30",
+          "title": "Syst\u00e8me d\u2019information",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmsi30"
+        },
+        {
+          "code": "3bess30",
+          "title": "Signals, systems and telecommunications",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bess30"
+        },
+        {
+          "code": "5eohf50",
+          "title": "High Frequency Circuit Design",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eohf50"
+        },
+        {
+          "code": "4ishm40",
+          "title": "Human motion analysis",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4ishm40"
+        },
+        {
+          "code": "4isme40",
+          "title": "Prototyping of medical devices : electronics and IT",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4isme40"
+        },
+        {
+          "code": "4ismi40",
+          "title": "Medical Imaging",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4ismi40"
+        },
+        {
+          "code": "4ispm40",
+          "title": "Project medical devices 1",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4ispm40"
+        },
+        {
+          "code": "5isce50",
+          "title": "Clinical evaluation of medical devices",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5isce50"
+        },
+        {
+          "code": "5ishe50",
+          "title": "e-Health systems",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5ishe50"
+        },
+        {
+          "code": "5ispm50",
+          "title": "Project medical devices 2",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5ispm50"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "first_name": "Edoardo",
+      "last_name": "BORI",
+      "email": "bor@ecam.be",
+      "speciality": "FGS",
+      "office": "2F44",
+      "courses": [
+        {
+          "code": "5autf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5autf50"
+        },
+        {
+          "code": "5cotf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5cotf50"
+        },
+        {
+          "code": "5emcm50",
+          "title": "Bureau d'\u00e9tude m\u00e9canique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emcm50"
+        },
+        {
+          "code": "5emtf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emtf50"
+        },
+        {
+          "code": "5eotf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eotf50"
+        },
+        {
+          "code": "5eitf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eitf50"
+        },
+        {
+          "code": "3bsbc30",
+          "title": "Biom\u00e9canique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bsbc30"
+        },
+        {
+          "code": "4isad40",
+          "title": "Active medical devices",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4isad40"
+        },
+        {
+          "code": "4ismr40",
+          "title": "Medical robotics",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4ismr40"
+        },
+        {
+          "code": "4isnu40",
+          "title": "Prototyping of medical devices: mechanics",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4isnu40"
+        },
+        {
+          "code": "4ispm40",
+          "title": "Project medical devices 1",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4ispm40"
+        },
+        {
+          "code": "5isod50",
+          "title": "Design of Orthopaedic Medical Devices : biomechanics, design and regulation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5isod50"
+        },
+        {
+          "code": "5ispm50",
+          "title": "Project medical devices 2",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5ispm50"
+        },
+        {
+          "code": "5istf50",
+          "title": "Master thesis in health engineering",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5istf50"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "first_name": "Olivier",
+      "last_name": "CARTIAUX",
+      "email": "crt@ecam.be",
+      "speciality": "FGS",
+      "office": "2E27",
+      "courses": [
+        {
+          "code": "1bapi10",
+          "title": "Projet int\u00e9grateur",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bapi10"
+        },
+        {
+          "code": "3bsmd30",
+          "title": "Conception des machines",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bsmd30"
+        },
+        {
+          "code": "3bsrs30",
+          "title": "M\u00e9thodes de recherche scientifique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bsrs30"
+        },
+        {
+          "code": "4ismd40",
+          "title": "Design of medical devices",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4ismd40"
+        },
+        {
+          "code": "5istf50",
+          "title": "Master thesis in health engineering",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5istf50"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "first_name": "Emmanuel",
+      "last_name": "CORDIER",
+      "email": "crd@ecam.be",
+      "speciality": "FGS",
+      "office": "2F28",
+      "courses": [
+        {
+          "code": "1bach10",
+          "title": "Chimie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bach10"
+        },
+        {
+          "code": "1bamd10",
+          "title": "Sciences du mouvement - dynamique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamd10"
+        },
+        {
+          "code": "1bamm10",
+          "title": "Sciences des mat\u00e9riaux",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamm10"
+        },
+        {
+          "code": "1baph10",
+          "title": "Physique et fluides",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baph10"
+        },
+        {
+          "code": "2bach20",
+          "title": "Chimie du vivant et environnement",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bach20"
+        },
+        {
+          "code": "2baom20",
+          "title": "Outils math\u00e9matiques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2baom20"
+        },
+        {
+          "code": "2baph20",
+          "title": "Ondes. optique et physique moderne",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2baph20"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "first_name": "Mikael",
+      "last_name": "DHEN",
+      "email": "dhn@ecam.be",
+      "speciality": "FGS",
+      "office": "2F28",
+      "courses": [
+        {
+          "code": "1bach10",
+          "title": "Chimie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bach10"
+        },
+        {
+          "code": "1bamc10",
+          "title": "Sciences du mouvement - cin\u00e9matique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamc10"
+        },
+        {
+          "code": "1bamd10",
+          "title": "Sciences du mouvement - dynamique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamd10"
+        },
+        {
+          "code": "1bamm10",
+          "title": "Sciences des mat\u00e9riaux",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamm10"
+        },
+        {
+          "code": "1baph10",
+          "title": "Physique et fluides",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baph10"
+        },
+        {
+          "code": "2baom20",
+          "title": "Outils math\u00e9matiques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2baom20"
+        },
+        {
+          "code": "2baph20",
+          "title": "Ondes. optique et physique moderne",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2baph20"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "first_name": "Rolando",
+      "last_name": "GUERRIERI",
+      "email": "r5g@ecam.be",
+      "speciality": "FGS",
+      "office": "2F44",
+      "courses": [
+        {
+          "code": "1bamd10",
+          "title": "Sciences du mouvement - dynamique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamd10"
+        },
+        {
+          "code": "1baph10",
+          "title": "Physique et fluides",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baph10"
+        },
+        {
+          "code": "1bapm10",
+          "title": "Pont vers le sup\u00e9rieur: math\u00e9matiques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bapm10"
+        },
+        {
+          "code": "1bast10",
+          "title": "Stabilit\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bast10"
+        },
+        {
+          "code": "2baom20",
+          "title": "Outils math\u00e9matiques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2baom20"
+        },
+        {
+          "code": "2baph20",
+          "title": "Ondes. optique et physique moderne",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2baph20"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "first_name": "Virginie",
+      "last_name": "HENROTTE",
+      "email": "hnt@ecam.be",
+      "speciality": "FGS",
+      "office": "2F22",
+      "courses": [
+        {
+          "code": "1bach10",
+          "title": "Chimie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bach10"
+        },
+        {
+          "code": "1bamm10",
+          "title": "Sciences des mat\u00e9riaux",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamm10"
+        },
+        {
+          "code": "2bach20",
+          "title": "Chimie du vivant et environnement",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bach20"
+        },
+        {
+          "code": "4emmt40",
+          "title": "Mat\u00e9riaux et technologie de mise en oeuvre",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emmt40"
+        },
+        {
+          "code": "3bsbm30",
+          "title": "Biomat\u00e9riaux",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bsbm30"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "first_name": "Ruben",
+      "last_name": "HILLEWAERE",
+      "email": "hil@ecam.be",
+      "speciality": "FGS",
+      "office": "2F28",
+      "courses": [
+        {
+          "code": "1baem10",
+          "title": "Electricit\u00e9 et outils math\u00e9matiques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baem10"
+        },
+        {
+          "code": "1bamc10",
+          "title": "Sciences du mouvement - cin\u00e9matique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamc10"
+        },
+        {
+          "code": "1bapm10",
+          "title": "Pont vers le sup\u00e9rieur: math\u00e9matiques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bapm10"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "first_name": "Marius",
+      "last_name": "JOLY",
+      "email": "mj5@ecam.be",
+      "speciality": "FGS",
+      "office": "2F44",
+      "courses": [
+        {
+          "code": "1baem10",
+          "title": "Electricit\u00e9 et outils math\u00e9matiques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baem10"
+        },
+        {
+          "code": "1bamd10",
+          "title": "Sciences du mouvement - dynamique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamd10"
+        },
+        {
+          "code": "1bame10",
+          "title": "M\u00e9thodologie scientifique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bame10"
+        },
+        {
+          "code": "1baph10",
+          "title": "Physique et fluides",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baph10"
+        },
+        {
+          "code": "1bapi10",
+          "title": "Projet int\u00e9grateur",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bapi10"
+        },
+        {
+          "code": "1bapm10",
+          "title": "Pont vers le sup\u00e9rieur: math\u00e9matiques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bapm10"
+        },
+        {
+          "code": "1bast10",
+          "title": "Stabilit\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bast10"
+        },
+        {
+          "code": "2badt20",
+          "title": "Dessin technique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2badt20"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "first_name": "Jacek",
+      "last_name": "JONAS-SZATANSKI",
+      "email": "jsz@ecam.be",
+      "speciality": "FGS",
+      "office": "2F28",
+      "courses": [
+        {
+          "code": "1baem10",
+          "title": "Electricit\u00e9 et outils math\u00e9matiques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baem10"
+        },
+        {
+          "code": "1bamc10",
+          "title": "Sciences du mouvement - cin\u00e9matique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamc10"
+        },
+        {
+          "code": "1bamd10",
+          "title": "Sciences du mouvement - dynamique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamd10"
+        },
+        {
+          "code": "1bamm10",
+          "title": "Sciences des mat\u00e9riaux",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamm10"
+        },
+        {
+          "code": "1baph10",
+          "title": "Physique et fluides",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baph10"
+        },
+        {
+          "code": "2baom20",
+          "title": "Outils math\u00e9matiques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2baom20"
+        },
+        {
+          "code": "2baph20",
+          "title": "Ondes. optique et physique moderne",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2baph20"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "first_name": "Nathalie",
+      "last_name": "SIEBERT",
+      "email": "sbr@ecam.be",
+      "speciality": "FGS",
+      "office": "2F44",
+      "courses": [
+        {
+          "code": "1bame10",
+          "title": "M\u00e9thodologie scientifique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bame10"
+        },
+        {
+          "code": "1bapi10",
+          "title": "Projet int\u00e9grateur",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bapi10"
+        },
+        {
+          "code": "2bsps20",
+          "title": "Projet en ing\u00e9nierie de la sant\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bsps20"
+        },
+        {
+          "code": "3bsan30",
+          "title": "Anatomie et physiologie humaines",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bsan30"
+        },
+        {
+          "code": "5istf50",
+          "title": "Master thesis in health engineering",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5istf50"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "first_name": "Geraldine",
+      "last_name": "SPRINGUEL",
+      "email": "spr@ecam.be",
+      "speciality": "FGS",
+      "office": "2F22",
+      "courses": [
+        {
+          "code": "1bach10",
+          "title": "Chimie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bach10"
+        },
+        {
+          "code": "1bamm10",
+          "title": "Sciences des mat\u00e9riaux",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamm10"
+        },
+        {
+          "code": "2bach20",
+          "title": "Chimie du vivant et environnement",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bach20"
+        },
+        {
+          "code": "4emmt40",
+          "title": "Mat\u00e9riaux et technologie de mise en oeuvre",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emmt40"
+        },
+        {
+          "code": "3bsbm30",
+          "title": "Biomat\u00e9riaux",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bsbm30"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "first_name": "Barbara",
+      "last_name": "WEIS",
+      "email": "b5w@ecam.be",
+      "speciality": "FGS",
+      "office": "2F22",
+      "courses": [
+        {
+          "code": "1bach10",
+          "title": "Chimie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bach10"
+        },
+        {
+          "code": "2bach20",
+          "title": "Chimie du vivant et environnement",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bach20"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "first_name": "David",
+      "last_name": "BOUCHEZ",
+      "email": "david.bouchez@ecam.be",
+      "speciality": "FGS",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4isrm40",
+          "title": "Regulatory affairs for medical devices",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4isrm40"
+        },
+        {
+          "code": "5isce50",
+          "title": "Clinical evaluation of medical devices",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5isce50"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "first_name": "Carlo",
+      "last_name": "CORONATO",
+      "email": "carlo.coronato@ecam.be",
+      "speciality": "FGS",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4ismd40",
+          "title": "Design of medical devices",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4ismd40"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "first_name": "Bernard",
+      "last_name": "COUVREUR",
+      "email": "bernard.couvreur@ecam.be",
+      "speciality": "FGS",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4isrm40",
+          "title": "Regulatory affairs for medical devices",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4isrm40"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "first_name": "Patrick",
+      "last_name": "MIQUEU",
+      "email": "patrick.miqueu@ecam.be",
+      "speciality": "FGS",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4isgs40",
+          "title": "Gestion",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4isgs40"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "first_name": "Antoine",
+      "last_name": "AIFA",
+      "email": "antoine.aifa@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1baci10",
+          "title": "Circuits \u00e9lectriques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baci10"
+        },
+        {
+          "code": "1baem10",
+          "title": "Electricit\u00e9 et outils math\u00e9matiques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baem10"
+        },
+        {
+          "code": "2batm20",
+          "title": "Mesures",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2batm20"
+        },
+        {
+          "code": "2bmto20",
+          "title": "Technologie EM",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bmto20"
+        },
+        {
+          "code": "3bmis30",
+          "title": "Instrumentation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmis30"
+        },
+        {
+          "code": "3bmra30",
+          "title": "Signals, systems and tools",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmra30"
+        },
+        {
+          "code": "3bmrg30",
+          "title": "R\u00e9gulation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmrg30"
+        },
+        {
+          "code": "4auat40",
+          "title": "Applied automation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4auat40"
+        },
+        {
+          "code": "4auds40",
+          "title": "Dynamics of mechanical and thermal systems",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4auds40"
+        },
+        {
+          "code": "4aumd40",
+          "title": "Modelling and Simulation of dynamical systems",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4aumd40"
+        },
+        {
+          "code": "5emaa50",
+          "title": "Projet d'architectures d'automatisation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emaa50"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "first_name": "Bertrand",
+      "last_name": "BAIJOT",
+      "email": "bertrand.baijot@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1baci10",
+          "title": "Circuits \u00e9lectriques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baci10"
+        },
+        {
+          "code": "2bael20",
+          "title": "Electricit\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bael20"
+        },
+        {
+          "code": "3bmet30",
+          "title": "R\u00e9seaux, appareillages et sch\u00e9matiques \u00e9lectriques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmet30"
+        },
+        {
+          "code": "3bmis30",
+          "title": "Instrumentation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmis30"
+        },
+        {
+          "code": "3bmrg30",
+          "title": "R\u00e9gulation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmrg30"
+        },
+        {
+          "code": "4auat40",
+          "title": "Applied automation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4auat40"
+        },
+        {
+          "code": "5emaa50",
+          "title": "Projet d'architectures d'automatisation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emaa50"
+        },
+        {
+          "code": "5emdi50",
+          "title": "Projet de dimensionnement des installations \u00e9lectriques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emdi50"
+        },
+        {
+          "code": "4emat40",
+          "title": "Sequential automation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emat40"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "first_name": "Joseph Desire",
+      "last_name": "CHAMASSI TOWO",
+      "email": "joseph.desire.chamassi-towo@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": []
+    },
+    {
+      "id": 21,
+      "first_name": "Claire",
+      "last_name": "CHEVALIER",
+      "email": "claire.chevalier@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1baci10",
+          "title": "Circuits \u00e9lectriques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baci10"
+        },
+        {
+          "code": "1baem10",
+          "title": "Electricit\u00e9 et outils math\u00e9matiques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baem10"
+        },
+        {
+          "code": "3bmet30",
+          "title": "R\u00e9seaux, appareillages et sch\u00e9matiques \u00e9lectriques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmet30"
+        },
+        {
+          "code": "4auat40",
+          "title": "Applied automation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4auat40"
+        },
+        {
+          "code": "5emaa50",
+          "title": "Projet d'architectures d'automatisation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emaa50"
+        },
+        {
+          "code": "5emdi50",
+          "title": "Projet de dimensionnement des installations \u00e9lectriques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emdi50"
+        },
+        {
+          "code": "4emat40",
+          "title": "Sequential automation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emat40"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "first_name": "Franky",
+      "last_name": "DE BRUYNE",
+      "email": "franky.debruyne@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "3bmra30",
+          "title": "Signals, systems and tools",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmra30"
+        },
+        {
+          "code": "4auds40",
+          "title": "Dynamics of mechanical and thermal systems",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4auds40"
+        },
+        {
+          "code": "4aure40",
+          "title": "Digital control",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4aure40"
+        },
+        {
+          "code": "4aurg40",
+          "title": "Advanced control 1",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4aurg40"
+        },
+        {
+          "code": "4aurl40",
+          "title": "Advanced control 2",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4aurl40"
+        },
+        {
+          "code": "5auin50",
+          "title": "Industrie 4.0",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5auin50"
+        },
+        {
+          "code": "5aumd50",
+          "title": "System identification Project",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5aumd50"
+        },
+        {
+          "code": "5emin50",
+          "title": "Projet industrie 4.0",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emin50"
+        },
+        {
+          "code": "3bect30",
+          "title": "Control Theory and applications",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bect30"
+        },
+        {
+          "code": "3bess30",
+          "title": "Signals, systems and telecommunications",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bess30"
+        },
+        {
+          "code": "3bsau30",
+          "title": "Control theory and applications",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bsau30"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "first_name": "David",
+      "last_name": "KIMPLAIRE",
+      "email": "david.kimplaire@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "2bael20",
+          "title": "Electricit\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bael20"
+        },
+        {
+          "code": "2batm20",
+          "title": "Mesures",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2batm20"
+        },
+        {
+          "code": "3bmea30",
+          "title": "Electrotechnique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmea30"
+        },
+        {
+          "code": "4auet40",
+          "title": "Electrical Drives",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4auet40"
+        },
+        {
+          "code": "4emet40",
+          "title": "Electrical drives",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emet40"
+        },
+        {
+          "code": "3bsae30",
+          "title": "M\u00e9catronique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bsae30"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "first_name": "Yves",
+      "last_name": "MOLLET",
+      "email": "yves.mollet@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1baci10",
+          "title": "Circuits \u00e9lectriques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baci10"
+        },
+        {
+          "code": "1baem10",
+          "title": "Electricit\u00e9 et outils math\u00e9matiques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baem10"
+        },
+        {
+          "code": "2bael20",
+          "title": "Electricit\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bael20"
+        },
+        {
+          "code": "2batm20",
+          "title": "Mesures",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2batm20"
+        },
+        {
+          "code": "3bmea30",
+          "title": "Electrotechnique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmea30"
+        },
+        {
+          "code": "3bmis30",
+          "title": "Instrumentation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmis30"
+        },
+        {
+          "code": "3bmra30",
+          "title": "Signals, systems and tools",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmra30"
+        },
+        {
+          "code": "5emai50",
+          "title": "Projet de dimensionnement des entrainements \u00e9lectriques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emai50"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "first_name": "Thomas",
+      "last_name": "MUSEUR",
+      "email": "thomas.museur@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "3bmrg30",
+          "title": "R\u00e9gulation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmrg30"
+        },
+        {
+          "code": "4aurl40",
+          "title": "Advanced control 2",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4aurl40"
+        },
+        {
+          "code": "4emau40",
+          "title": "Practical process control",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emau40"
+        },
+        {
+          "code": "5auin50",
+          "title": "Industrie 4.0",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5auin50"
+        },
+        {
+          "code": "5aumd50",
+          "title": "System identification Project",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5aumd50"
+        },
+        {
+          "code": "5emin50",
+          "title": "Projet industrie 4.0",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emin50"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "first_name": "David",
+      "last_name": "ROUCHARD",
+      "email": "david.rouchard@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1bapi10",
+          "title": "Projet int\u00e9grateur",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bapi10"
+        },
+        {
+          "code": "3bmrg30",
+          "title": "R\u00e9gulation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmrg30"
+        },
+        {
+          "code": "4auat40",
+          "title": "Applied automation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4auat40"
+        },
+        {
+          "code": "5autf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5autf50"
+        },
+        {
+          "code": "5emaa50",
+          "title": "Projet d'architectures d'automatisation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emaa50"
+        },
+        {
+          "code": "5emai50",
+          "title": "Projet de dimensionnement des entrainements \u00e9lectriques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emai50"
+        },
+        {
+          "code": "5cotf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5cotf50"
+        },
+        {
+          "code": "4emat40",
+          "title": "Sequential automation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emat40"
+        },
+        {
+          "code": "5emtf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emtf50"
+        },
+        {
+          "code": "4eore40",
+          "title": "Computer Networks",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eore40"
+        },
+        {
+          "code": "5eotf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eotf50"
+        },
+        {
+          "code": "5eitf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eitf50"
+        },
+        {
+          "code": "5istf50",
+          "title": "Master thesis in health engineering",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5istf50"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "first_name": "Jean-Michel",
+      "last_name": "ROUSSEAU",
+      "email": "jean-michel.rousseau@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": []
+    },
+    {
+      "id": 28,
+      "first_name": "Denis",
+      "last_name": "TIHON",
+      "email": "denis.tihon@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1baci10",
+          "title": "Circuits \u00e9lectriques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baci10"
+        },
+        {
+          "code": "1baem10",
+          "title": "Electricit\u00e9 et outils math\u00e9matiques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baem10"
+        },
+        {
+          "code": "1bame10",
+          "title": "M\u00e9thodologie scientifique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bame10"
+        },
+        {
+          "code": "2bael20",
+          "title": "Electricit\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bael20"
+        },
+        {
+          "code": "2batm20",
+          "title": "Mesures",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2batm20"
+        },
+        {
+          "code": "3bmet30",
+          "title": "R\u00e9seaux, appareillages et sch\u00e9matiques \u00e9lectriques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmet30"
+        },
+        {
+          "code": "3bmis30",
+          "title": "Instrumentation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmis30"
+        },
+        {
+          "code": "3bmra30",
+          "title": "Signals, systems and tools",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmra30"
+        },
+        {
+          "code": "3bmsi30",
+          "title": "Syst\u00e8me d\u2019information",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmsi30"
+        },
+        {
+          "code": "5emai50",
+          "title": "Projet de dimensionnement des entrainements \u00e9lectriques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emai50"
+        },
+        {
+          "code": "5emdi50",
+          "title": "Projet de dimensionnement des installations \u00e9lectriques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emdi50"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "first_name": "Thierry",
+      "last_name": "BAUERFELD",
+      "email": "thierry.bauerfeld@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4emau40",
+          "title": "Practical process control",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emau40"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "first_name": "Louis",
+      "last_name": "ENGELEN",
+      "email": "louis.engelen@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "3bmea30",
+          "title": "Electrotechnique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmea30"
+        },
+        {
+          "code": "3bmra30",
+          "title": "Signals, systems and tools",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmra30"
+        },
+        {
+          "code": "4eoee40",
+          "title": "Power Electronics",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eoee40"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "first_name": "Philippe",
+      "last_name": "GONZE",
+      "email": "philippe.gonze@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "3bmis30",
+          "title": "Instrumentation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmis30"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "first_name": "Arnaud",
+      "last_name": "MASURE",
+      "email": "arnaud.masure@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "3bsae30",
+          "title": "M\u00e9catronique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bsae30"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "first_name": "Jean-Jacques",
+      "last_name": "RENAUD",
+      "email": "jean-jacques.renaud@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": []
+    },
+    {
+      "id": 34,
+      "first_name": "Eric",
+      "last_name": "VAN VAERENBERG",
+      "email": "eric.van-vaerenberg@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseign\u00e9",
+      "courses": []
+    },
+    {
+      "id": 35,
+      "first_name": "Nathalie",
+      "last_name": "BAUCHE",
+      "email": "nathalie.bauche@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1baic10",
+          "title": "Informatique et communication",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+        },
+        {
+          "code": "1bamm10",
+          "title": "Sciences des mat\u00e9riaux",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamm10"
+        },
+        {
+          "code": "2bmto20",
+          "title": "Technologie EM",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bmto20"
+        },
+        {
+          "code": "2bctc20",
+          "title": "Technologie des mat\u00e9riaux",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bctc20"
+        },
+        {
+          "code": "4emma40",
+          "title": "Metallic materials and welding",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emma40"
+        },
+        {
+          "code": "2bsis20",
+          "title": "Technologie ing\u00e9nierie sant\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bsis20"
+        },
+        {
+          "code": "3bsmd30",
+          "title": "Conception des machines",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bsmd30"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "first_name": "Benjamin",
+      "last_name": "BERGER",
+      "email": "benjamin.berger@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "2bamf20",
+          "title": "M\u00e9canique des fluides et transfert de chaleur",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bamf20"
+        },
+        {
+          "code": "2bath20",
+          "title": "Thermodynamique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bath20"
+        },
+        {
+          "code": "3bmcv30",
+          "title": "HVAC",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcv30"
+        },
+        {
+          "code": "4emen40",
+          "title": "Sustainable energy",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emen40"
+        },
+        {
+          "code": "3bsrs30",
+          "title": "M\u00e9thodes de recherche scientifique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bsrs30"
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "first_name": "Antoine",
+      "last_name": "BOUCQUEY",
+      "email": "antoine.boucquey@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1baic10",
+          "title": "Informatique et communication",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+        },
+        {
+          "code": "1bapi10",
+          "title": "Projet int\u00e9grateur",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bapi10"
+        },
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "2badt20",
+          "title": "Dessin technique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2badt20"
+        },
+        {
+          "code": "2bmpm20",
+          "title": "Projet EM",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bmpm20"
+        },
+        {
+          "code": "3bmcp30",
+          "title": "Projet machine industrielle",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcp30"
+        },
+        {
+          "code": "5auin50",
+          "title": "Industrie 4.0",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5auin50"
+        },
+        {
+          "code": "5emai50",
+          "title": "Projet de dimensionnement des entrainements \u00e9lectriques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emai50"
+        },
+        {
+          "code": "4emcp40",
+          "title": "M\u00e9thodes CNC",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emcp40"
+        },
+        {
+          "code": "5emin50",
+          "title": "Projet industrie 4.0",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emin50"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "first_name": "Quentin",
+      "last_name": "de GRADY de HORION",
+      "email": "quentin.degrady-de-horion@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "3bmcv30",
+          "title": "HVAC",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcv30"
+        },
+        {
+          "code": "4emio40",
+          "title": "Installations op\u00e9ratrices",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emio40"
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "first_name": "Etienne",
+      "last_name": "DENIS",
+      "email": "etienne.denis@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1baic10",
+          "title": "Informatique et communication",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+        },
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "2badt20",
+          "title": "Dessin technique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2badt20"
+        },
+        {
+          "code": "2bmpm20",
+          "title": "Projet EM",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bmpm20"
+        },
+        {
+          "code": "3bmcp30",
+          "title": "Projet machine industrielle",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcp30"
+        },
+        {
+          "code": "4emcm40",
+          "title": "Elements de structure et de m\u00e9canique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emcm40"
+        },
+        {
+          "code": "4emfe40",
+          "title": "Finite element method",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emfe40"
+        },
+        {
+          "code": "5emcm50",
+          "title": "Bureau d'\u00e9tude m\u00e9canique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emcm50"
+        },
+        {
+          "code": "2bsis20",
+          "title": "Technologie ing\u00e9nierie sant\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bsis20"
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "first_name": "Daniel",
+      "last_name": "GALHAUT",
+      "email": "daniel.galhaut@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1baic10",
+          "title": "Informatique et communication",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+        },
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "2bmpm20",
+          "title": "Projet EM",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bmpm20"
+        },
+        {
+          "code": "3bmcp30",
+          "title": "Projet machine industrielle",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcp30"
+        },
+        {
+          "code": "4emcp40",
+          "title": "M\u00e9thodes CNC",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emcp40"
+        },
+        {
+          "code": "2bsis20",
+          "title": "Technologie ing\u00e9nierie sant\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bsis20"
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "first_name": "William",
+      "last_name": "KIES",
+      "email": "william.kies@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1baic10",
+          "title": "Informatique et communication",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+        },
+        {
+          "code": "1bamd10",
+          "title": "Sciences du mouvement - dynamique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamd10"
+        },
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "2badt20",
+          "title": "Dessin technique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2badt20"
+        },
+        {
+          "code": "2bmpm20",
+          "title": "Projet EM",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bmpm20"
+        },
+        {
+          "code": "3bmcp30",
+          "title": "Projet machine industrielle",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcp30"
+        },
+        {
+          "code": "3bmsi30",
+          "title": "Syst\u00e8me d\u2019information",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmsi30"
+        },
+        {
+          "code": "4emcm40",
+          "title": "Elements de structure et de m\u00e9canique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emcm40"
+        },
+        {
+          "code": "5emcm50",
+          "title": "Bureau d'\u00e9tude m\u00e9canique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emcm50"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "first_name": "Bechir",
+      "last_name": "MAAREF",
+      "email": "bechir.maaref@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "2bmpm20",
+          "title": "Projet EM",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bmpm20"
+        },
+        {
+          "code": "3bmcp30",
+          "title": "Projet machine industrielle",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcp30"
+        },
+        {
+          "code": "4emcm40",
+          "title": "Elements de structure et de m\u00e9canique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emcm40"
+        },
+        {
+          "code": "4emfe40",
+          "title": "Finite element method",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emfe40"
+        },
+        {
+          "code": "5emcm50",
+          "title": "Bureau d'\u00e9tude m\u00e9canique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emcm50"
+        },
+        {
+          "code": "2bsis20",
+          "title": "Technologie ing\u00e9nierie sant\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bsis20"
+        },
+        {
+          "code": "3bsmd30",
+          "title": "Conception des machines",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bsmd30"
+        },
+        {
+          "code": "4isnu40",
+          "title": "Prototyping of medical devices: mechanics",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4isnu40"
+        },
+        {
+          "code": "4ispm40",
+          "title": "Project medical devices 1",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4ispm40"
+        },
+        {
+          "code": "5ispm50",
+          "title": "Project medical devices 2",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5ispm50"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "first_name": "Pierre",
+      "last_name": "MATHIEU",
+      "email": "pierre.mathieu@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1baic10",
+          "title": "Informatique et communication",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+        },
+        {
+          "code": "5auin50",
+          "title": "Industrie 4.0",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5auin50"
+        },
+        {
+          "code": "2bctc20",
+          "title": "Technologie des mat\u00e9riaux",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bctc20"
+        },
+        {
+          "code": "4emma40",
+          "title": "Metallic materials and welding",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emma40"
+        },
+        {
+          "code": "4emmt40",
+          "title": "Mat\u00e9riaux et technologie de mise en oeuvre",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emmt40"
+        },
+        {
+          "code": "5emin50",
+          "title": "Projet industrie 4.0",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emin50"
+        },
+        {
+          "code": "4eope40",
+          "title": "Embedded Project",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eope40"
+        },
+        {
+          "code": "2bsis20",
+          "title": "Technologie ing\u00e9nierie sant\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bsis20"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "first_name": "Diego",
+      "last_name": "NOTHOMB",
+      "email": "diego.nothomb@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1baic10",
+          "title": "Informatique et communication",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+        },
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "2badt20",
+          "title": "Dessin technique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2badt20"
+        },
+        {
+          "code": "2bamf20",
+          "title": "M\u00e9canique des fluides et transfert de chaleur",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bamf20"
+        },
+        {
+          "code": "2bmpm20",
+          "title": "Projet EM",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bmpm20"
+        },
+        {
+          "code": "3bmcp30",
+          "title": "Projet machine industrielle",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcp30"
+        },
+        {
+          "code": "5auin50",
+          "title": "Industrie 4.0",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5auin50"
+        },
+        {
+          "code": "5emin50",
+          "title": "Projet industrie 4.0",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emin50"
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "first_name": "Quentin",
+      "last_name": "OTJACQUES",
+      "email": "quentin.otjacques@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1baic10",
+          "title": "Informatique et communication",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+        },
+        {
+          "code": "2bmpm20",
+          "title": "Projet EM",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bmpm20"
+        },
+        {
+          "code": "3bmcp30",
+          "title": "Projet machine industrielle",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcp30"
+        },
+        {
+          "code": "5autf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5autf50"
+        },
+        {
+          "code": "5cotf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5cotf50"
+        },
+        {
+          "code": "4emcp40",
+          "title": "M\u00e9thodes CNC",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emcp40"
+        },
+        {
+          "code": "5emtf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emtf50"
+        },
+        {
+          "code": "5eotf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eotf50"
+        },
+        {
+          "code": "5eitf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eitf50"
+        },
+        {
+          "code": "2bsis20",
+          "title": "Technologie ing\u00e9nierie sant\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bsis20"
+        },
+        {
+          "code": "5istf50",
+          "title": "Master thesis in health engineering",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5istf50"
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "first_name": "Maxime",
+      "last_name": "POCHET",
+      "email": "maxime.pochet@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1bamd10",
+          "title": "Sciences du mouvement - dynamique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamd10"
+        },
+        {
+          "code": "2bamf20",
+          "title": "M\u00e9canique des fluides et transfert de chaleur",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bamf20"
+        },
+        {
+          "code": "2bath20",
+          "title": "Thermodynamique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bath20"
+        },
+        {
+          "code": "3bmcv30",
+          "title": "HVAC",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcv30"
+        },
+        {
+          "code": "3bmsi30",
+          "title": "Syst\u00e8me d\u2019information",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmsi30"
+        },
+        {
+          "code": "4emen40",
+          "title": "Sustainable energy",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emen40"
+        },
+        {
+          "code": "4emio40",
+          "title": "Installations op\u00e9ratrices",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emio40"
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "first_name": "Xavier",
+      "last_name": "VAN den DOOREN",
+      "email": "xavier.van-den-dooren@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1bast10",
+          "title": "Stabilit\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bast10"
+        },
+        {
+          "code": "2bamf20",
+          "title": "M\u00e9canique des fluides et transfert de chaleur",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bamf20"
+        },
+        {
+          "code": "2bath20",
+          "title": "Thermodynamique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bath20"
+        },
+        {
+          "code": "3bmcv30",
+          "title": "HVAC",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcv30"
+        },
+        {
+          "code": "4auta40",
+          "title": "Power cycles",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4auta40"
+        },
+        {
+          "code": "4emmm40",
+          "title": "Power cycles",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emmm40"
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "first_name": "Jeremy",
+      "last_name": "BAUDET",
+      "email": "jeremy.baudet@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1baic10",
+          "title": "Informatique et communication",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+        },
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "2badt20",
+          "title": "Dessin technique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2badt20"
+        },
+        {
+          "code": "3bmcp30",
+          "title": "Projet machine industrielle",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcp30"
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "first_name": "Laurent",
+      "last_name": "BRICTEUX",
+      "email": "laurent.bricteux@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "2bamf20",
+          "title": "M\u00e9canique des fluides et transfert de chaleur",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bamf20"
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "first_name": "Pierre",
+      "last_name": "COLON",
+      "email": "pierre.colon@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4emmn40",
+          "title": "Advanced maintenance technologies",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emmn40"
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "first_name": "Dario",
+      "last_name": "DALLA RIVA",
+      "email": "dario.dalla-riva@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "2badt20",
+          "title": "Dessin technique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2badt20"
+        },
+        {
+          "code": "3bmcv30",
+          "title": "HVAC",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcv30"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "first_name": "Gregory",
+      "last_name": "ZAMBELLI",
+      "email": "gregory.zambelli@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "3bmcv30",
+          "title": "HVAC",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcv30"
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "first_name": "Sebastien",
+      "last_name": "SCHRURS",
+      "email": "sebastien.schrurs@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4emen40",
+          "title": "Sustainable energy",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emen40"
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "first_name": "Chance",
+      "last_name": "MWISENEZA",
+      "email": "chance.mwiseneza@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "2badt20",
+          "title": "Dessin technique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2badt20"
+        },
+        {
+          "code": "3bmcp30",
+          "title": "Projet machine industrielle",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmcp30"
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "first_name": "Nicolas",
+      "last_name": "BURNY",
+      "email": "brn@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "3bmel30",
+          "title": "Electronique et applications",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmel30"
+        },
+        {
+          "code": "3bmsi30",
+          "title": "Syst\u00e8me d\u2019information",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmsi30"
+        },
+        {
+          "code": "4emeo40",
+          "title": "Electronique num\u00e9rique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emeo40"
+        },
+        {
+          "code": "3beal30",
+          "title": "Electronic design",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3beal30"
+        },
+        {
+          "code": "3been30",
+          "title": "Microcontroller and logic design",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3been30"
+        },
+        {
+          "code": "3bess30",
+          "title": "Signals, systems and telecommunications",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bess30"
+        },
+        {
+          "code": "3betw30",
+          "title": "Network and web technologies",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3betw30"
+        },
+        {
+          "code": "4eios40",
+          "title": "Operating Systems",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eios40"
+        },
+        {
+          "code": "4eope40",
+          "title": "Embedded Project",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eope40"
+        },
+        {
+          "code": "4eidb40",
+          "title": "Database management system",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eidb40"
+        },
+        {
+          "code": "3bsei30",
+          "title": "Electronique num\u00e9rique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bsei30"
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "first_name": "Francois",
+      "last_name": "DEFRANCE",
+      "email": "dfr@ecam.be",
+      "speciality": "GEI",
+      "office": "1E07",
+      "courses": [
+        {
+          "code": "2bael20",
+          "title": "Electricit\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bael20"
+        },
+        {
+          "code": "2baeo20",
+          "title": "Electronique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2baeo20"
+        },
+        {
+          "code": "3bmel30",
+          "title": "Electronique et applications",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmel30"
+        },
+        {
+          "code": "2beea20",
+          "title": "Electronique appliqu\u00e9e",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2beea20"
+        },
+        {
+          "code": "3bepe30",
+          "title": "PCB design",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bepe30"
+        },
+        {
+          "code": "4eios40",
+          "title": "Operating Systems",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eios40"
+        },
+        {
+          "code": "4eoee40",
+          "title": "Power Electronics",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eoee40"
+        },
+        {
+          "code": "5eobm50",
+          "title": "Biodiversity Monitoring Project",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eobm50"
+        },
+        {
+          "code": "5eohf50",
+          "title": "High Frequency Circuit Design",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eohf50"
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "first_name": "Quentin",
+      "last_name": "DELHAYE",
+      "email": "dlh@ecam.be",
+      "speciality": "GEI",
+      "office": "1E07",
+      "courses": [
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "2baeo20",
+          "title": "Electronique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2baeo20"
+        },
+        {
+          "code": "3bmel30",
+          "title": "Electronique et applications",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmel30"
+        },
+        {
+          "code": "5autf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5autf50"
+        },
+        {
+          "code": "5cotf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5cotf50"
+        },
+        {
+          "code": "5emtf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emtf50"
+        },
+        {
+          "code": "2bepi20",
+          "title": "Projet informatique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bepi20"
+        },
+        {
+          "code": "3beal30",
+          "title": "Electronic design",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3beal30"
+        },
+        {
+          "code": "3bepe30",
+          "title": "PCB design",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bepe30"
+        },
+        {
+          "code": "4eios40",
+          "title": "Operating Systems",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eios40"
+        },
+        {
+          "code": "4eosd40",
+          "title": "System on Chip",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eosd40"
+        },
+        {
+          "code": "5eoee50",
+          "title": "Ethical Electronics & Informatics",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eoee50"
+        },
+        {
+          "code": "5eoes50",
+          "title": "Embedded Security Project",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eoes50"
+        },
+        {
+          "code": "5eotf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eotf50"
+        },
+        {
+          "code": "4eisd40",
+          "title": "System on chip",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eisd40"
+        },
+        {
+          "code": "5eitf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eitf50"
+        },
+        {
+          "code": "5istf50",
+          "title": "Master thesis in health engineering",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5istf50"
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "first_name": "Clemence",
+      "last_name": "FLEMAL",
+      "email": "fle@ecam.be",
+      "speciality": "GEI",
+      "office": "1E07",
+      "courses": [
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "2baeo20",
+          "title": "Electronique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2baeo20"
+        },
+        {
+          "code": "3bmel30",
+          "title": "Electronique et applications",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmel30"
+        },
+        {
+          "code": "4emeo40",
+          "title": "Electronique num\u00e9rique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emeo40"
+        },
+        {
+          "code": "2beea20",
+          "title": "Electronique appliqu\u00e9e",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2beea20"
+        },
+        {
+          "code": "2bepi20",
+          "title": "Projet informatique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bepi20"
+        },
+        {
+          "code": "3been30",
+          "title": "Microcontroller and logic design",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3been30"
+        },
+        {
+          "code": "3bepe30",
+          "title": "PCB design",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bepe30"
+        },
+        {
+          "code": "4eope40",
+          "title": "Embedded Project",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eope40"
+        },
+        {
+          "code": "5eoee50",
+          "title": "Ethical Electronics & Informatics",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eoee50"
+        },
+        {
+          "code": "5eohf50",
+          "title": "High Frequency Circuit Design",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eohf50"
+        },
+        {
+          "code": "3bsei30",
+          "title": "Electronique num\u00e9rique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bsei30"
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "first_name": "Martin",
+      "last_name": "FOCKEDEY",
+      "email": "fky@ecam.be",
+      "speciality": "GEI",
+      "office": "1E07",
+      "courses": [
+        {
+          "code": "1baic10",
+          "title": "Informatique et communication",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+        },
+        {
+          "code": "2bain20",
+          "title": "Informatique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bain20"
+        },
+        {
+          "code": "3bmsi30",
+          "title": "Syst\u00e8me d\u2019information",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmsi30"
+        },
+        {
+          "code": "5auin50",
+          "title": "Industrie 4.0",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5auin50"
+        },
+        {
+          "code": "2bepi20",
+          "title": "Projet informatique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bepi20"
+        },
+        {
+          "code": "4eoai40",
+          "title": "Artificial Intelligence",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eoai40"
+        },
+        {
+          "code": "4eiai40",
+          "title": "Artificial Intelligence",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eiai40"
+        },
+        {
+          "code": "5eiai50",
+          "title": "Artificial Intelligence project",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eiai50"
+        },
+        {
+          "code": "5eisd50",
+          "title": "Computer security",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eisd50"
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "first_name": "Andre",
+      "last_name": "LORGE",
+      "email": "lrg@ecam.be",
+      "speciality": "GEI",
+      "office": "1E07",
+      "courses": [
+        {
+          "code": "1baic10",
+          "title": "Informatique et communication",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+        },
+        {
+          "code": "2bain20",
+          "title": "Informatique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bain20"
+        },
+        {
+          "code": "3bmsi30",
+          "title": "Syst\u00e8me d\u2019information",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmsi30"
+        },
+        {
+          "code": "3beee30",
+          "title": "Embedded systems",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3beee30"
+        },
+        {
+          "code": "3bepi30",
+          "title": "Software engineering 2",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bepi30"
+        },
+        {
+          "code": "3bepo30",
+          "title": "Software engineering 1",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bepo30"
+        },
+        {
+          "code": "4eidb40",
+          "title": "Database management system",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eidb40"
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "first_name": "Nicolas",
+      "last_name": "LORIAU",
+      "email": "n3l@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "3betw30",
+          "title": "Network and web technologies",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3betw30"
+        },
+        {
+          "code": "4eore40",
+          "title": "Computer Networks",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eore40"
+        },
+        {
+          "code": "4einm40",
+          "title": "Network management",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4einm40"
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "first_name": "Quentin",
+      "last_name": "LURKIN",
+      "email": "lur@ecam.be",
+      "speciality": "GEI",
+      "office": "1E07",
+      "courses": [
+        {
+          "code": "1baic10",
+          "title": "Informatique et communication",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+        },
+        {
+          "code": "2bain20",
+          "title": "Informatique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bain20"
+        },
+        {
+          "code": "5autf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5autf50"
+        },
+        {
+          "code": "5cotf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5cotf50"
+        },
+        {
+          "code": "5emtf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emtf50"
+        },
+        {
+          "code": "2bepi20",
+          "title": "Projet informatique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bepi20"
+        },
+        {
+          "code": "3bepo30",
+          "title": "Software engineering 1",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bepo30"
+        },
+        {
+          "code": "3bess30",
+          "title": "Signals, systems and telecommunications",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bess30"
+        },
+        {
+          "code": "4eoai40",
+          "title": "Artificial Intelligence",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eoai40"
+        },
+        {
+          "code": "4eoti40",
+          "title": "Computer vision",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eoti40"
+        },
+        {
+          "code": "5eotf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eotf50"
+        },
+        {
+          "code": "4eiai40",
+          "title": "Artificial Intelligence",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eiai40"
+        },
+        {
+          "code": "4eisa40",
+          "title": "GPU computing",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eisa40"
+        },
+        {
+          "code": "5eiad50",
+          "title": "Distributed Systems Project",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eiad50"
+        },
+        {
+          "code": "5eiai50",
+          "title": "Artificial Intelligence project",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eiai50"
+        },
+        {
+          "code": "5eitf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eitf50"
+        },
+        {
+          "code": "5istf50",
+          "title": "Master thesis in health engineering",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5istf50"
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "first_name": "Cedric",
+      "last_name": "MARCHAND",
+      "email": "mar@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "2bain20",
+          "title": "Informatique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bain20"
+        },
+        {
+          "code": "3beee30",
+          "title": "Embedded systems",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3beee30"
+        },
+        {
+          "code": "3been30",
+          "title": "Microcontroller and logic design",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3been30"
+        },
+        {
+          "code": "3bepo30",
+          "title": "Software engineering 1",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bepo30"
+        },
+        {
+          "code": "4eope40",
+          "title": "Embedded Project",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eope40"
+        },
+        {
+          "code": "4eosd40",
+          "title": "System on Chip",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eosd40"
+        },
+        {
+          "code": "4eosi40",
+          "title": "Hardware Testing Processes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eosi40"
+        },
+        {
+          "code": "5eoes50",
+          "title": "Embedded Security Project",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eoes50"
+        },
+        {
+          "code": "4eisd40",
+          "title": "System on chip",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eisd40"
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "first_name": "Nicolas",
+      "last_name": "MARCHAND",
+      "email": "mch@ecam.be",
+      "speciality": "GEI",
+      "office": "1E07",
+      "courses": [
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "3bmel30",
+          "title": "Electronique et applications",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmel30"
+        },
+        {
+          "code": "4emeo40",
+          "title": "Electronique num\u00e9rique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4emeo40"
+        },
+        {
+          "code": "2beea20",
+          "title": "Electronique appliqu\u00e9e",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2beea20"
+        },
+        {
+          "code": "2bepi20",
+          "title": "Projet informatique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bepi20"
+        },
+        {
+          "code": "3bepe30",
+          "title": "PCB design",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bepe30"
+        },
+        {
+          "code": "4eoep40",
+          "title": "Advanced PCB design",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eoep40"
+        },
+        {
+          "code": "4eome40",
+          "title": "Microelectronics",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eome40"
+        },
+        {
+          "code": "4eosi40",
+          "title": "Hardware Testing Processes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eosi40"
+        },
+        {
+          "code": "5eoes50",
+          "title": "Embedded Security Project",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eoes50"
+        },
+        {
+          "code": "5eohf50",
+          "title": "High Frequency Circuit Design",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eohf50"
+        },
+        {
+          "code": "3bsei30",
+          "title": "Electronique num\u00e9rique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bsei30"
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "first_name": "Khoi",
+      "last_name": "NGUYEN",
+      "email": "ngy@ecam.be",
+      "speciality": "GEI",
+      "office": "1E07",
+      "courses": [
+        {
+          "code": "1bapm10",
+          "title": "Pont vers le sup\u00e9rieur: math\u00e9matiques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bapm10"
+        },
+        {
+          "code": "2bain20",
+          "title": "Informatique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bain20"
+        },
+        {
+          "code": "3betw30",
+          "title": "Network and web technologies",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3betw30"
+        },
+        {
+          "code": "4eiam40",
+          "title": "Mobile development",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eiam40"
+        },
+        {
+          "code": "4eiaw40",
+          "title": "Web Architecture",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eiaw40"
+        },
+        {
+          "code": "4eisa40",
+          "title": "GPU computing",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eisa40"
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "first_name": "Renaud",
+      "last_name": "DE SAINT MOULIN",
+      "email": "renaud.de-saint-moulin@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4eore40",
+          "title": "Computer Networks",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eore40"
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "first_name": "Thierry",
+      "last_name": "JESUPRET",
+      "email": "thierry.jesupret@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4eote40",
+          "title": "Telecommunications",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eote40"
+        },
+        {
+          "code": "5eobm50",
+          "title": "Biodiversity Monitoring Project",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eobm50"
+        },
+        {
+          "code": "5eohf50",
+          "title": "High Frequency Circuit Design",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eohf50"
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "first_name": "Nicolas",
+      "last_name": "LE FEVERE",
+      "email": "nicolas.le-fevere@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseign\u00e9",
+      "courses": []
+    },
+    {
+      "id": 69,
+      "first_name": "Jean-Guillaume",
+      "last_name": "LOUIS",
+      "email": "j3l@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4eodd40",
+          "title": "Architecture and software quality",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eodd40"
+        },
+        {
+          "code": "4eial40",
+          "title": "Architecture and software quality",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eial40"
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "first_name": "Nicolas",
+      "last_name": "SCAUT",
+      "email": "nicolas.scaut@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "5auin50",
+          "title": "Industrie 4.0",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5auin50"
+        },
+        {
+          "code": "5emin50",
+          "title": "Projet industrie 4.0",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emin50"
+        },
+        {
+          "code": "5eidc50",
+          "title": "Data center",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eidc50"
+        },
+        {
+          "code": "5eisd50",
+          "title": "Computer security",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eisd50"
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "first_name": "Luleta",
+      "last_name": "SHABANI",
+      "email": "luleta.shabani@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "3bepi30",
+          "title": "Software engineering 2",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bepi30"
+        },
+        {
+          "code": "3bepo30",
+          "title": "Software engineering 1",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bepo30"
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "first_name": "Sebastien",
+      "last_name": "VAN CAUWENBERGHE",
+      "email": "sebastien.van-cauwenberghe@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4aurl40",
+          "title": "Advanced control 2",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4aurl40"
+        },
+        {
+          "code": "4eosd40",
+          "title": "System on Chip",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eosd40"
+        },
+        {
+          "code": "4eoti40",
+          "title": "Computer vision",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eoti40"
+        },
+        {
+          "code": "5eobm50",
+          "title": "Biodiversity Monitoring Project",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eobm50"
+        },
+        {
+          "code": "4eisa40",
+          "title": "GPU computing",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4eisa40"
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "first_name": "Emilio",
+      "last_name": "VILLANO",
+      "email": "emilio.villano@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "5eilw50",
+          "title": "Software licences and GDPR",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eilw50"
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "first_name": "Hannah",
+      "last_name": "FRANZ",
+      "email": "hannah.franz@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1bamd10",
+          "title": "Sciences du mouvement - dynamique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamd10"
+        },
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "3bccm30",
+          "title": "Constructions m\u00e9talliques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bccm30"
+        },
+        {
+          "code": "4cons40",
+          "title": "Mod\u00e9lisation num\u00e9rique des structures",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cons40"
+        },
+        {
+          "code": "4copr40",
+          "title": "Projet - d\u00e9fi structure",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4copr40"
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "first_name": "William",
+      "last_name": "GILSON",
+      "email": "william.gilson@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "3bcba30",
+          "title": "B\u00e9ton arm\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcba30"
+        },
+        {
+          "code": "3bcbe30",
+          "title": "Bureau d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcbe30"
+        },
+        {
+          "code": "4cobe40",
+          "title": "Bureau d'\u00e9tudes- b\u00e2timents",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cobe40"
+        },
+        {
+          "code": "4cobp40",
+          "title": "B\u00e9ton pr\u00e9contraint",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cobp40"
+        },
+        {
+          "code": "4copf40",
+          "title": "Pr\u00e9fabrication b\u00e9ton",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4copf40"
+        },
+        {
+          "code": "4copr40",
+          "title": "Projet - d\u00e9fi structure",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4copr40"
+        },
+        {
+          "code": "5cogc50",
+          "title": "Projet de g\u00e9nie civil",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5cogc50"
+        },
+        {
+          "code": "5come50",
+          "title": "Mod\u00e9lisation et essais",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5come50"
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "first_name": "Yves",
+      "last_name": "GOBERT",
+      "email": "yves.gobert@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "3bcbo30",
+          "title": "Construction bois",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcbo30"
+        },
+        {
+          "code": "3bcod30",
+          "title": "El\u00e9ments de structures",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcod30"
+        },
+        {
+          "code": "4cobe40",
+          "title": "Bureau d'\u00e9tudes- b\u00e2timents",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cobe40"
+        },
+        {
+          "code": "4cogc40",
+          "title": "G\u00e9nie civil",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cogc40"
+        },
+        {
+          "code": "4copr40",
+          "title": "Projet - d\u00e9fi structure",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4copr40"
+        },
+        {
+          "code": "5cogc50",
+          "title": "Projet de g\u00e9nie civil",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5cogc50"
+        },
+        {
+          "code": "5come50",
+          "title": "Mod\u00e9lisation et essais",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5come50"
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "first_name": "Pierre",
+      "last_name": "HENRIET",
+      "email": "pierre.henriet@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "3bcgo30",
+          "title": "Projet de physique et gros-oeuvre du b\u00e2timent",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcgo30"
+        },
+        {
+          "code": "4cohy40",
+          "title": "Hydraulique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cohy40"
+        },
+        {
+          "code": "4copr40",
+          "title": "Projet - d\u00e9fi structure",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4copr40"
+        },
+        {
+          "code": "5coin50",
+          "title": "Innovation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5coin50"
+        },
+        {
+          "code": "5corn50",
+          "title": "Projet de r\u00e9novation des b\u00e2timents",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5corn50"
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "first_name": "Christelle",
+      "last_name": "HUENAERTS",
+      "email": "christelle.huenaerts@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "5autf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5autf50"
+        },
+        {
+          "code": "2bcpc20",
+          "title": "Projet construction",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bcpc20"
+        },
+        {
+          "code": "3bctp30",
+          "title": "Topographie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bctp30"
+        },
+        {
+          "code": "4copr40",
+          "title": "Projet - d\u00e9fi structure",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4copr40"
+        },
+        {
+          "code": "5cotf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5cotf50"
+        },
+        {
+          "code": "5emtf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emtf50"
+        },
+        {
+          "code": "5eotf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eotf50"
+        },
+        {
+          "code": "5eitf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eitf50"
+        },
+        {
+          "code": "5istf50",
+          "title": "Master thesis in health engineering",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5istf50"
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "first_name": "Madeleine",
+      "last_name": "RANWEZ",
+      "email": "madeleine.ranwez@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1bast10",
+          "title": "Stabilit\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bast10"
+        },
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "2barm20",
+          "title": "Stabilit\u00e9, d\u00e9formation et r\u00e9sistance des structures",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2barm20"
+        },
+        {
+          "code": "2bcpc20",
+          "title": "Projet construction",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bcpc20"
+        },
+        {
+          "code": "2bctc20",
+          "title": "Technologie des mat\u00e9riaux",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bctc20"
+        },
+        {
+          "code": "3bcba30",
+          "title": "B\u00e9ton arm\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcba30"
+        },
+        {
+          "code": "3bcbe30",
+          "title": "Bureau d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcbe30"
+        },
+        {
+          "code": "3bcod30",
+          "title": "El\u00e9ments de structures",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcod30"
+        },
+        {
+          "code": "4copr40",
+          "title": "Projet - d\u00e9fi structure",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4copr40"
+        },
+        {
+          "code": "5come50",
+          "title": "Mod\u00e9lisation et essais",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5come50"
+        }
+      ]
+    },
+    {
+      "id": 80,
+      "first_name": "Maxime",
+      "last_name": "STEISEL",
+      "email": "maxime.steisel@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1bamm10",
+          "title": "Sciences des mat\u00e9riaux",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bamm10"
+        },
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "2barm20",
+          "title": "Stabilit\u00e9, d\u00e9formation et r\u00e9sistance des structures",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2barm20"
+        },
+        {
+          "code": "2bmto20",
+          "title": "Technologie EM",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bmto20"
+        },
+        {
+          "code": "3bcbe30",
+          "title": "Bureau d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcbe30"
+        },
+        {
+          "code": "3bcgc30",
+          "title": "Gestion et technique de chantier",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcgc30"
+        },
+        {
+          "code": "3bcgo30",
+          "title": "Projet de physique et gros-oeuvre du b\u00e2timent",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcgo30"
+        },
+        {
+          "code": "3bctp30",
+          "title": "Topographie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bctp30"
+        },
+        {
+          "code": "4copr40",
+          "title": "Projet - d\u00e9fi structure",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4copr40"
+        },
+        {
+          "code": "5coin50",
+          "title": "Innovation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5coin50"
+        },
+        {
+          "code": "5copc50",
+          "title": "Gestion de projets de construction",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5copc50"
+        },
+        {
+          "code": "5corn50",
+          "title": "Projet de r\u00e9novation des b\u00e2timents",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5corn50"
+        }
+      ]
+    },
+    {
+      "id": 81,
+      "first_name": "Sylvie",
+      "last_name": "VAN EMELEN",
+      "email": "sylvie.van-emelen@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "5autf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5autf50"
+        },
+        {
+          "code": "2bcpc20",
+          "title": "Projet construction",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bcpc20"
+        },
+        {
+          "code": "3bcbe30",
+          "title": "Bureau d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcbe30"
+        },
+        {
+          "code": "3bcod30",
+          "title": "El\u00e9ments de structures",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcod30"
+        },
+        {
+          "code": "4cocs40",
+          "title": "Compl\u00e9ment de structure",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cocs40"
+        },
+        {
+          "code": "4cogc40",
+          "title": "G\u00e9nie civil",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cogc40"
+        },
+        {
+          "code": "4cohy40",
+          "title": "Hydraulique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cohy40"
+        },
+        {
+          "code": "4cons40",
+          "title": "Mod\u00e9lisation num\u00e9rique des structures",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cons40"
+        },
+        {
+          "code": "4copr40",
+          "title": "Projet - d\u00e9fi structure",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4copr40"
+        },
+        {
+          "code": "5coin50",
+          "title": "Innovation",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5coin50"
+        },
+        {
+          "code": "5come50",
+          "title": "Mod\u00e9lisation et essais",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5come50"
+        },
+        {
+          "code": "5cotf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5cotf50"
+        },
+        {
+          "code": "5emtf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5emtf50"
+        },
+        {
+          "code": "5eotf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eotf50"
+        },
+        {
+          "code": "5eitf50",
+          "title": "Travail de fin d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5eitf50"
+        },
+        {
+          "code": "5istf50",
+          "title": "Master thesis in health engineering",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5istf50"
+        }
+      ]
+    },
+    {
+      "id": 82,
+      "first_name": "Jerome",
+      "last_name": "VERSLYPE",
+      "email": "jerome.verslype@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "2bctc20",
+          "title": "Technologie des mat\u00e9riaux",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bctc20"
+        },
+        {
+          "code": "3bcba30",
+          "title": "B\u00e9ton arm\u00e9",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcba30"
+        },
+        {
+          "code": "3bcbe30",
+          "title": "Bureau d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcbe30"
+        },
+        {
+          "code": "3bcbo30",
+          "title": "Construction bois",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcbo30"
+        },
+        {
+          "code": "3bcgc30",
+          "title": "Gestion et technique de chantier",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcgc30"
+        },
+        {
+          "code": "4cobp40",
+          "title": "B\u00e9ton pr\u00e9contraint",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cobp40"
+        },
+        {
+          "code": "4coct40",
+          "title": "Conception et assemblages de charpentes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4coct40"
+        },
+        {
+          "code": "4coph40",
+          "title": "Physique du b\u00e2timent et techniques sp\u00e9ciales",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4coph40"
+        },
+        {
+          "code": "4copr40",
+          "title": "Projet - d\u00e9fi structure",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4copr40"
+        },
+        {
+          "code": "5come50",
+          "title": "Mod\u00e9lisation et essais",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5come50"
+        },
+        {
+          "code": "5copc50",
+          "title": "Gestion de projets de construction",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5copc50"
+        },
+        {
+          "code": "5corn50",
+          "title": "Projet de r\u00e9novation des b\u00e2timents",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5corn50"
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "first_name": "Luigi",
+      "last_name": "VULLO",
+      "email": "luigi.vullo@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1bate10",
+          "title": "Technologie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bate10"
+        },
+        {
+          "code": "2barm20",
+          "title": "Stabilit\u00e9, d\u00e9formation et r\u00e9sistance des structures",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2barm20"
+        },
+        {
+          "code": "2bmto20",
+          "title": "Technologie EM",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bmto20"
+        },
+        {
+          "code": "3bmsi30",
+          "title": "Syst\u00e8me d\u2019information",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bmsi30"
+        },
+        {
+          "code": "3bcbe30",
+          "title": "Bureau d'\u00e9tudes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcbe30"
+        },
+        {
+          "code": "3bccm30",
+          "title": "Constructions m\u00e9talliques",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bccm30"
+        },
+        {
+          "code": "4cocs40",
+          "title": "Compl\u00e9ment de structure",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cocs40"
+        },
+        {
+          "code": "4coct40",
+          "title": "Conception et assemblages de charpentes",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4coct40"
+        },
+        {
+          "code": "4copr40",
+          "title": "Projet - d\u00e9fi structure",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4copr40"
+        },
+        {
+          "code": "5corn50",
+          "title": "Projet de r\u00e9novation des b\u00e2timents",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5corn50"
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "first_name": "Mohamed",
+      "last_name": "ANSRIOU",
+      "email": "mohamed.ansriou@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "3bcfo30",
+          "title": "Fondations superficielles",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3bcfo30"
+        },
+        {
+          "code": "4cogo40",
+          "title": "G\u00e9otechnique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cogo40"
+        }
+      ]
+    },
+    {
+      "id": 85,
+      "first_name": "Alain",
+      "last_name": "BELLAY",
+      "email": "alain.bellay@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": []
+    },
+    {
+      "id": 86,
+      "first_name": "Renaud",
+      "last_name": "BERTIN",
+      "email": "renaud.bertin@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4cobp40",
+          "title": "B\u00e9ton pr\u00e9contraint",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cobp40"
+        },
+        {
+          "code": "4cocs40",
+          "title": "Compl\u00e9ment de structure",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cocs40"
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "first_name": "Francoise",
+      "last_name": "DE ROY",
+      "email": "francoise.de-roy@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": []
+    },
+    {
+      "id": 88,
+      "first_name": "Thomas",
+      "last_name": "DEVILLE",
+      "email": "thomas.deville@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4coph40",
+          "title": "Physique du b\u00e2timent et techniques sp\u00e9ciales",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4coph40"
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "first_name": "Yves",
+      "last_name": "HANIN",
+      "email": "yves.hanin@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": []
+    },
+    {
+      "id": 90,
+      "first_name": "Francois",
+      "last_name": "LAPY",
+      "email": "francois.lapy@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4cogc40",
+          "title": "G\u00e9nie civil",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cogc40"
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "first_name": "Rose",
+      "last_name": "MASANGA",
+      "email": "rose.masanga@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": []
+    },
+    {
+      "id": 92,
+      "first_name": "Frederic",
+      "last_name": "OLEKSANDROW",
+      "email": "frederic.oleksandrow@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "5corn50",
+          "title": "Projet de r\u00e9novation des b\u00e2timents",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5corn50"
+        }
+      ]
+    },
+    {
+      "id": 93,
+      "first_name": "Mohamed",
+      "last_name": "OUALMAKRAN",
+      "email": "mohamed.oualmakran@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4cogo40",
+          "title": "G\u00e9otechnique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cogo40"
+        }
+      ]
+    },
+    {
+      "id": 94,
+      "first_name": "Xavier",
+      "last_name": "RAUCROIX",
+      "email": "xavier.raucroix@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4cops40",
+          "title": "Proc\u00e9d\u00e9s d'ex\u00e9cution sols",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4cops40"
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "first_name": "Philippe",
+      "last_name": "VANDEVONDELE",
+      "email": "philippe.vandevondele@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseign\u00e9",
+      "courses": []
+    },
+    {
+      "id": 96,
+      "first_name": "Philippe",
+      "last_name": "MELOTTE",
+      "email": "philippe.melotte@ecam.be",
+      "speciality": "GLA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1bapi10",
+          "title": "Projet int\u00e9grateur",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1bapi10"
+        },
+        {
+          "code": "2bain20",
+          "title": "Informatique",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bain20"
+        },
+        {
+          "code": "3base30",
+          "title": "Comptabilit\u00e9 et entrepreneuriat",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3base30"
+        },
+        {
+          "code": "4mage40",
+          "title": "Gestion",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4mage40"
+        },
+        {
+          "code": "5magf50",
+          "title": "Gestion et strat\u00e9gie financi\u00e8re",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5magf50"
+        },
+        {
+          "code": "5magi50",
+          "title": "Economie",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5magi50"
+        },
+        {
+          "code": "4isgs40",
+          "title": "Gestion",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4isgs40"
+        }
+      ]
+    },
+    {
+      "id": 97,
+      "first_name": "Thibaud",
+      "last_name": "STEVENS",
+      "email": "thibaud.stevens@ecam.be",
+      "speciality": "GLA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "1baic10",
+          "title": "Informatique et communication",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/1baic10"
+        },
+        {
+          "code": "2bala20",
+          "title": "Langues",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bala20"
+        },
+        {
+          "code": "5mala50",
+          "title": "Langues",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5mala50"
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "first_name": "Julie",
+      "last_name": "DEGOSSELY",
+      "email": "julie.degossely@ecam.be",
+      "speciality": "GLA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "3base30",
+          "title": "Comptabilit\u00e9 et entrepreneuriat",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/3base30"
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "first_name": "Ruw",
+      "last_name": "JAYASURIYA",
+      "email": "ruw.jayasuriya@ecam.be",
+      "speciality": "GLA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "2bala20",
+          "title": "Langues",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/2bala20"
+        },
+        {
+          "code": "5mala50",
+          "title": "Langues",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/5mala50"
+        }
+      ]
+    },
+    {
+      "id": 100,
+      "first_name": "Ivan",
+      "last_name": "MATILLA",
+      "email": "ivan.matilla@ecam.be",
+      "speciality": "GLA",
+      "office": "Non renseign\u00e9",
+      "courses": []
+    },
+    {
+      "id": 101,
+      "first_name": "Gael",
+      "last_name": "N'GOM",
+      "email": "gael.n-gom@ecam.be",
+      "speciality": "GLA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4mage40",
+          "title": "Gestion",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4mage40"
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "first_name": "Pascale",
+      "last_name": "SINNAEVE",
+      "email": "pascale.sinnaeve@ecam.be",
+      "speciality": "GLA",
+      "office": "Non renseign\u00e9",
+      "courses": [
+        {
+          "code": "4mage40",
+          "title": "Gestion",
+          "details_url": "https://plus.ecam.be/public/fiche/2025/4mage40"
+        }
+      ]
+    }
   ]
 }
