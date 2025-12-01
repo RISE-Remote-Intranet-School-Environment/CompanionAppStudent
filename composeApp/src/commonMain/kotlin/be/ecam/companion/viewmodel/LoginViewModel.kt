@@ -154,4 +154,39 @@ class LoginViewModel : ViewModel() {
     }
 }
 
+fun updateMe(
+    newUsername: String,
+    newEmail: String,
+    baseUrl: String = "http://localhost:28088"
+) {
+    viewModelScope.launch {
+        if (jwtToken == null) {
+            errorMessage = "Aucun token disponible"
+            return@launch
+        }
+
+        try {
+            val response: HttpResponse = client.put("$baseUrl/api/auth/me") {
+                header("Authorization", "Bearer $jwtToken")
+                contentType(ContentType.Application.Json)
+                setBody(
+                    mapOf(
+                        "username" to newUsername,
+                        "email" to newEmail
+                    )
+                )
+            }
+
+            if (response.status.isSuccess()) {
+                currentUser = response.body()
+            } else {
+                errorMessage = "Erreur updateMe : ${response.bodyAsText()}"
+            }
+        } catch (e: Exception) {
+            errorMessage = "Erreur updateMe : ${e.message}"
+        }
+    }
+}
+
+
 }

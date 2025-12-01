@@ -4,6 +4,7 @@ import be.ecam.server.models.*
 import be.ecam.server.security.JwtService
 import be.ecam.server.services.AuthService
 import be.ecam.server.services.AdminService
+import be.ecam.server.models.AdminDTO
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -92,6 +93,24 @@ fun Route.authRoutes() {
 
             call.respond(user)
         }
+
+        put("/auth/me") {
+            val principal = call.principal<JWTPrincipal>()
+                ?: return@put call.respond(HttpStatusCode.Unauthorized, "Token invalide")
+
+            val userId = principal.payload.getClaim("id").asInt()
+                ?: return@put call.respond(HttpStatusCode.Unauthorized, "ID manquant")
+
+            val payload = call.receive<UpdateAdminRequest>() // { username, email }
+
+            val updatedUser = AdminService.updateAdmin(
+                id = userId,
+                req = payload
+            ) ?: return@put call.respond(HttpStatusCode.NotFound, "Utilisateur introuvable")
+
+            call.respond(updatedUser)
+        }
+
     }
 }
 
