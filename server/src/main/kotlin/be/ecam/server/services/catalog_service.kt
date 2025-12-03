@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -52,10 +53,10 @@ object CatalogService {
 
     // SEED from JSON 
 
-    fun seedFormationsFromJson() {
-        val resource = CatalogService::class.java.classLoader
-            .getResource("files/ecam_formations_2025.json")
-            ?: error("Resource 'files/ecam_formations_2025.json' not found in classpath")
+fun seedFormationsFromJson() {
+    val resource = CatalogService::class.java.classLoader
+        .getResource("files/ecam_formations_2025.json")
+        ?: error("Resource 'files/ecam_formations_2025.json' not found in classpath")
 
         val text = resource.readText()
         val json = Json { ignoreUnknownKeys = true }
@@ -78,12 +79,36 @@ object CatalogService {
 
                 f.blocks.forEach { b ->
 
-                    val block = Block.find { BlockTable.name eq b.name }.firstOrNull()
+                    val sanitizedName = sanitizeBlocName(b.name, f.id)
+                    val blocNumber = Regex("\\d+").find(sanitizedName)?.value
+                    val blocIdNormalized = blocIdFromName(sanitizedName, f.id)
+                    val blocDisplay = formatBlocDisplayName(sanitizedName)
+
+                    val legacy = buildList {
+                        add(b.name)
+                        add(blocDisplay)
+                        add(sanitizedName)
+                        blocNumber?.let { num ->
+                            add("${f.id}-bloc-$num")
+                            add("${f.id}_bloc_$num")
+                            add("bloc-$num")
+                            add("bloc_$num")
+                        }
+                    }.asSequence()
+                        .mapNotNull { candidate ->
+                            Block.find { (BlockTable.name eq candidate) or (BlockTable.blocId eq candidate) }.firstOrNull()
+                        }
+                        .firstOrNull()
+                    val block = legacy
+                        ?: Block.find { BlockTable.blocId eq blocIdNormalized }.firstOrNull()
+                        ?: Block.find { BlockTable.name eq blocDisplay }.firstOrNull()
                         ?: Block.new {
-                            blocId = b.name
-                            name = b.name
+                            blocId = blocIdNormalized
+                            name = blocDisplay
                             formationIds = f.id
                         }
+                    block.blocId = blocIdNormalized
+                    block.name = blocDisplay
                     val current = block.formationIds?.split(";")?.filter { it.isNotBlank() }?.toMutableSet() ?: mutableSetOf()
                     current.add(f.id)
                     block.formationIds = current.joinToString(";")
@@ -495,11 +520,11 @@ object CatalogService {
     }
 
     // for course ID (used by your route /api/courses/{id}/details)
-    fun getCourseDetailsByCourseId(courseId: Int): CourseDetailsDTO? = transaction {
-        val course = Course.findById(courseId) ?: return@transaction run {
-            warn("Course not found for id=$courseId when fetching details")
-            null
-        }
+fun getCourseDetailsByCourseId(courseId: Int): CourseDetailsDTO? = transaction {
+    val course = Course.findById(courseId) ?: return@transaction run {
+        warn("Course not found for id=$courseId when fetching details")
+        null
+    }
         CourseDetails
             .find { CourseDetailsTable.courseCode eq course.code }
             .firstOrNull()
@@ -508,5 +533,30 @@ object CatalogService {
                 warn("Course details not found for course code=${course.code}")
                 null
             }
+    }
+
+    private fun blocIdFromName(raw: String, formationId: String): String {
+        val number = Regex("\\d+").find(raw)?.value
+        return number?.let { "bloc_$it" } ?: "bloc_${formationId}"
+    }
+
+    private fun formatBlocDisplayName(raw: String): String {
+        val cleaned = raw
+            .replace('_', ' ')
+            .replace('-', ' ')
+            .trim()
+        if (cleaned.isEmpty()) return raw
+        return cleaned.split(Regex("\\s+")).joinToString(" ") { part ->
+            part.replaceFirstChar { ch ->
+                if (ch.isLowerCase()) ch.titlecase() else ch.toString()
+            }
+        }
+    }
+
+    private fun sanitizeBlocName(raw: String, formationId: String): String {
+        if (formationId == "ingenieur_industriel_commercial" && raw.startsWith("5MIC", ignoreCase = true)) {
+            return "Bloc 5"
+        }
+        return raw
     }
 }
