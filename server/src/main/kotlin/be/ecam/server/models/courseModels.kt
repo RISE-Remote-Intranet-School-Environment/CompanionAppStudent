@@ -10,7 +10,8 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 
 // table
 object FormationTable : IntIdTable("formations") {
-    val slug = varchar("slug", 50).uniqueIndex()
+    // Use the DB column formation_id as the unique identifier (was previously named slug)
+    val slug = varchar("formation_id", 50).uniqueIndex()
     val name = varchar("name", 255)
     val sourceUrl = varchar("source_url", 255)
     val imageUrl = varchar("image_url", 1024).nullable()
