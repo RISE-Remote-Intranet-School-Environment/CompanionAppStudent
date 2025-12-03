@@ -11,31 +11,32 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 // table
 object FormationTable : IntIdTable("formations") {
     // Use the DB column formation_id as the unique identifier (was previously named slug)
-    val slug = varchar("formation_id", 50).uniqueIndex()
+    val slug = varchar("formation_id", 255).uniqueIndex()
     val name = varchar("name", 255)
     val sourceUrl = varchar("source_url", 255)
     val imageUrl = varchar("image_url", 1024).nullable()
 }
 
-object BlockTable : IntIdTable("blocks") {
-    val name = varchar("name", 100)
-    val formation = reference("formation_id", FormationTable)
+object BlockTable : IntIdTable("blocs") {
+    val blocId = varchar("bloc_id", 255).uniqueIndex()
+    val name = varchar("name", 255)
+    // Optional semicolon-separated formation_ids.
+    val formationIds = varchar("formation_ids", 255).nullable()
 }
 
 object CourseTable : IntIdTable("courses") {
-    val code = varchar("code", 50)
+    val code = varchar("course_id", 50)
+    val courseRaccourci = varchar("course_raccourci_id", 50).nullable()
     val title = varchar("title", 255)
-    val credits = integer("credits")
-    val periods = varchar("periods", 255)
-    val detailsUrl = varchar("details_url", 255)
+    val credits = varchar("credits", 50)
+    val periods = varchar("periods", 255).nullable()
+    val detailsUrl = varchar("details_url", 255).nullable()
 
-    val mandatory = bool("mandatory").default(true)
-    val bloc = varchar("bloc", 255).nullable()
-    val program = varchar("program", 100).nullable()
+    val mandatory = varchar("mandatory", 50).nullable()
+    val bloc = varchar("bloc_id", 255).nullable()
     val language = varchar("language", 10).nullable()
 
-    val formation = reference("formation_id", FormationTable).nullable()
-    val block = reference("block_id", BlockTable).nullable()
+    val formation = varchar("formation_id", 255).nullable()
 }
 
 
@@ -53,24 +54,24 @@ class Formation(id: EntityID<Int>) : IntEntity(id) {
 class Block(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<Block>(BlockTable)
 
+    var blocId by BlockTable.blocId
     var name by BlockTable.name
-    var formation by Formation referencedOn BlockTable.formation
+    var formationIds by BlockTable.formationIds
 }
 
 class Course(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<Course>(CourseTable)
 
     var code by CourseTable.code
+    var courseRaccourci by CourseTable.courseRaccourci
     var title by CourseTable.title
     var credits by CourseTable.credits
     var periods by CourseTable.periods
     var detailsUrl by CourseTable.detailsUrl
     var mandatory by CourseTable.mandatory
     var bloc by CourseTable.bloc
-    var program by CourseTable.program
     var language by CourseTable.language
-    var formation by Formation optionalReferencedOn CourseTable.formation
-    var blockRef by Block optionalReferencedOn CourseTable.block
+    var formationId by CourseTable.formation
 }
 
 
@@ -102,7 +103,7 @@ data class CourseDTO(
 data class BlockDTO(
     val id: Int,
     val name: String,
-    @SerialName("formation_id") val formationId: Int
+    @SerialName("formation_ids") val formationIds: List<String>
 )
 
 
@@ -118,7 +119,7 @@ data class FormationWriteRequest(
 @Serializable
 data class BlockWriteRequest(
     val name: String,
-    @SerialName("formation_id") val formationId: Int
+    @SerialName("formation_ids") val formationIds: List<String> = emptyList()
 )
 
 @Serializable

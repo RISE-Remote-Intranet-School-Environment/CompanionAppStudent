@@ -10,6 +10,12 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object CatalogService {
 
+    private fun warn(msg: String) {
+        println("[CatalogService][WARN] $msg")
+    }
+ 
+   
+    // JSON formations format
    
     // JSON formations format
     @Serializable
@@ -72,30 +78,31 @@ object CatalogService {
 
                 f.blocks.forEach { b ->
 
-                    val block = Block.find {
-                        (BlockTable.name eq b.name) and (BlockTable.formation eq formation.id)
-                    }.firstOrNull()
+                    val block = Block.find { BlockTable.name eq b.name }.firstOrNull()
                         ?: Block.new {
+                            blocId = b.name
                             name = b.name
-                            this.formation = formation
+                            formationIds = f.id
                         }
+                    val current = block.formationIds?.split(";")?.filter { it.isNotBlank() }?.toMutableSet() ?: mutableSetOf()
+                    current.add(f.id)
+                    block.formationIds = current.joinToString(";")
 
                     b.courses.forEach { c ->
 
                         val existing = Course.find {
-                            (CourseTable.code eq c.code) and (CourseTable.formation eq formation.id)
+                            (CourseTable.code eq c.code) and (CourseTable.formation eq f.id)
                         }.firstOrNull()
 
                         val course = existing ?: Course.new {}
 
                         course.code = c.code
                         course.title = c.title
-                        course.credits = c.credits
+                        course.credits = c.credits.toString()
                         course.periods = c.periods.joinToString(",")
                         course.detailsUrl = c.details_url
-                        course.formation = formation
-                        course.bloc = block.name
-                        course.blockRef = block
+                        course.formationId = f.id
+                        course.bloc = block.blocId
                     }
                 }
             }
@@ -119,19 +126,22 @@ object CatalogService {
 
     fun getCoursesByFormationSlug(slug: String): List<CourseDTO> = transaction {
         val formation = Formation.find { FormationTable.slug eq slug }.firstOrNull()
-            ?: return@transaction emptyList()
+            ?: run {
+                warn("Formation not found for slug=$slug")
+                return@transaction emptyList()
+            }
 
-        Course.find { CourseTable.formation eq formation.id }.map {
-            val blocName = it.blockRef?.name ?: it.bloc
+        Course.find { CourseTable.formation eq formation.slug }.map {
+            val blocName = it.bloc
             CourseDTO(
                 id = it.id.value,
                 code = it.code,
                 title = it.title,
-                credits = it.credits,
+                credits = it.credits?.toIntOrNull() ?: 0,
                 periods = it.periods,
                 bloc = blocName,
                 detailsUrl = it.detailsUrl,
-                formationSlug = formation.slug
+                formationSlug = it.formationId
             )
         }
     }
@@ -146,6 +156,9 @@ object CatalogService {
                 name = it.name,
                 imageUrl = it.imageUrl
             )
+        } ?: run {
+            warn("Formation not found for id=$id")
+            null
         }
     }
 
@@ -157,6 +170,9 @@ object CatalogService {
                 name = it.name,
                 imageUrl = it.imageUrl
             )
+        } ?: run {
+            warn("Formation not found for slug=$slug")
+            null
         }
     }
 
@@ -176,7 +192,10 @@ object CatalogService {
     }
 
     fun updateFormation(id: Int, req: FormationWriteRequest): FormationDTO? = transaction {
-        val formation = Formation.findById(id) ?: return@transaction null
+        val formation = Formation.findById(id) ?: return@transaction run {
+            warn("Cannot update formation: id=$id not found")
+            null
+        }
 
         formation.slug = req.slug
         formation.name = req.name
@@ -192,7 +211,10 @@ object CatalogService {
     }
 
     fun deleteFormation(id: Int): Boolean = transaction {
-        val formation = Formation.findById(id) ?: return@transaction false
+        val formation = Formation.findById(id) ?: return@transaction run {
+            warn("Cannot delete formation: id=$id not found")
+            false
+        }
         formation.delete()
         true
     }
@@ -200,37 +222,40 @@ object CatalogService {
     // blocks CRUD
 
     fun createBlock(req: BlockWriteRequest): BlockDTO = transaction {
-        val formation = Formation.findById(req.formationId)
-            ?: error("Formation ${req.formationId} not found")
         val block = Block.new {
+            blocId = req.name
             name = req.name
-            this.formation = formation
+            formationIds = req.formationIds.joinToString(";")
         }
 
         BlockDTO(
             id = block.id.value,
             name = block.name,
-            formationId = block.formation.id.value
+            formationIds = req.formationIds
         )
     }
 
     fun updateBlock(id: Int, req: BlockWriteRequest): BlockDTO? = transaction {
-        val block = Block.findById(id) ?: return@transaction null
-        val formation = Formation.findById(req.formationId)
-            ?: error("Formation ${req.formationId} not found")
-
+        val block = Block.findById(id) ?: return@transaction run {
+            warn("Cannot update block: id=$id not found")
+            null
+        }
+        block.blocId = req.name
         block.name = req.name
-        block.formation = formation
+        block.formationIds = req.formationIds.joinToString(";")
 
         BlockDTO(
             id = block.id.value,
             name = block.name,
-            formationId = block.formation.id.value
+            formationIds = req.formationIds
         )
     }
 
     fun deleteBlock(id: Int): Boolean = transaction {
-        val block = Block.findById(id) ?: return@transaction false
+        val block = Block.findById(id) ?: return@transaction run {
+            warn("Cannot delete block: id=$id not found")
+            false
+        }
         block.delete()
         true
     }
@@ -238,83 +263,76 @@ object CatalogService {
     // --- Helper to map a Course to CourseDTO ---
 
     private fun Course.toDto(): CourseDTO {
-        val formation = this.formation
-        val blocName = this.blockRef?.name ?: this.bloc
+        val blocName = this.bloc
 
         return CourseDTO(
             id = this.id.value,
             code = this.code,
             title = this.title,
-            credits = this.credits,
+            credits = this.credits?.toIntOrNull() ?: 0,
             periods = this.periods,
             bloc = blocName,
             detailsUrl = this.detailsUrl,
-            formationSlug = formation?.slug
+            formationSlug = this.formationId
         )
     }
 
     // courses CRUD
 
     fun getCourseById(id: Int): CourseDTO? = transaction {
-        Course.findById(id)?.toDto()
+        Course.findById(id)?.toDto() ?: run {
+            warn("Course not found for id=$id")
+            null
+        }
     }
 
     fun getCourseByCode(code: String): CourseDTO? = transaction {
-        Course.find { CourseTable.code eq code }.firstOrNull()?.toDto()
+        Course.find { CourseTable.code eq code }.firstOrNull()?.toDto() ?: run {
+            warn("Course not found for code=$code")
+            null
+        }
     }
 
     fun createCourse(req: CourseWriteRequest): CourseDTO = transaction {
-        val formation = req.formationId?.let { fid ->
-            Formation.findById(fid) ?: error("Formation $fid not found")
-        }
-        val block = req.blockId?.let { bid ->
-            Block.findById(bid) ?: error("Block $bid not found")
-        }
-
         val course = Course.new {
             code = req.code
             title = req.title
-            credits = req.credits
+            credits = req.credits.toString()
             periods = req.periods
             detailsUrl = req.detailsUrl
-            mandatory = req.mandatory
-            bloc = req.bloc
-            program = req.program
+            mandatory = req.mandatory.toString()
+            bloc = req.bloc ?: req.blockId?.toString()
             language = req.language
-            this.formation = formation
-            this.blockRef = block
+            formationId = req.formationId?.toString()
         }
 
         course.toDto()
     }
 
     fun updateCourse(id: Int, req: CourseWriteRequest): CourseDTO? = transaction {
-        val course = Course.findById(id) ?: return@transaction null
-
-        val formation = req.formationId?.let { fid ->
-            Formation.findById(fid) ?: error("Formation $fid not found")
-        }
-        val block = req.blockId?.let { bid ->
-            Block.findById(bid) ?: error("Block $bid not found")
+        val course = Course.findById(id) ?: return@transaction run {
+            warn("Cannot update course: id=$id not found")
+            null
         }
 
         course.code = req.code
         course.title = req.title
-        course.credits = req.credits
+        course.credits = req.credits.toString()
         course.periods = req.periods
         course.detailsUrl = req.detailsUrl
-        course.mandatory = req.mandatory
-        course.bloc = req.bloc
-        course.program = req.program
+        course.mandatory = req.mandatory.toString()
+        course.bloc = req.bloc ?: req.blockId?.toString()
         course.language = req.language
-        course.formation = formation
-        course.blockRef = block
+        course.formationId = req.formationId?.toString()
 
         course.toDto()
     }
 
     fun deleteCourse(id: Int): Boolean = transaction {
-        val course = Course.findById(id) ?: return@transaction false
+        val course = Course.findById(id) ?: return@transaction run {
+            warn("Cannot delete course: id=$id not found")
+            false
+        }
         course.delete()
         true
     }
@@ -397,7 +415,10 @@ object CatalogService {
 
                 // return if course not found
                 val course = Course.find { CourseTable.code eq d.code }.firstOrNull()
-                    ?: return@forEach
+                    ?: run {
+                        warn("Skipping course details seed: course code ${d.code} not found")
+                        return@forEach
+                    }
 
                 // collect all teachers into teachersRaw
                 val teachersAll = buildList {
@@ -410,38 +431,31 @@ object CatalogService {
                     }
                 }.distinct()
 
-                val teachersRaw = if (teachersAll.isEmpty()) null else teachersAll.joinToString("; ")
+                val teachersRawStr = if (teachersAll.isEmpty()) null else teachersAll.joinToString("; ")
 
                 val sections = d.sections
 
                 // upsert : if details already exist : update
-                val existing = CourseDetails.find { CourseDetailsTable.course eq course.id }.firstOrNull()
+                val existing = CourseDetails.find { CourseDetailsTable.courseCode eq course.code }.firstOrNull()
+
+                val updater: CourseDetails.() -> Unit = {
+                    courseCode = course.code
+                    responsable = d.responsable
+                    teachersRaw = teachersRawStr
+                    contribution = sections?.contribution
+                    learningOutcomes = sections?.learningOutcomes
+                    content = sections?.content
+                    teachingMethods = sections?.teachingMethods
+                    evaluationMethods = sections?.evaluationMethods
+                    courseMaterial = sections?.courseMaterial
+                    bibliography = sections?.bibliography
+                    blocId = course.bloc
+                }
 
                 if (existing == null) {
-                    CourseDetails.new {
-                        this.course = course
-                        responsable = d.responsable
-                        this.teachersRaw = teachersRaw
-                        contribution = sections?.contribution
-                        learningOutcomes = sections?.learningOutcomes
-                        content = sections?.content
-                        teachingMethods = sections?.teachingMethods
-                        evaluationMethods = sections?.evaluationMethods
-                        courseMaterial = sections?.courseMaterial
-                        bibliography = sections?.bibliography
-                    }
+                    CourseDetails.new { updater() }
                 } else {
-                    existing.apply {
-                        responsable = d.responsable
-                        this.teachersRaw = teachersRaw
-                        contribution = sections?.contribution
-                        learningOutcomes = sections?.learningOutcomes
-                        content = sections?.content
-                        teachingMethods = sections?.teachingMethods
-                        evaluationMethods = sections?.evaluationMethods
-                        courseMaterial = sections?.courseMaterial
-                        bibliography = sections?.bibliography
-                    }
+                    existing.apply(updater)
                 }
             }
         }
@@ -452,9 +466,9 @@ object CatalogService {
     private fun CourseDetails.toDto(): CourseDetailsDTO =
         CourseDetailsDTO(
             id = id.value,
-            courseId = course.id.value,
-            courseCode = course.code,
-            titre = course.title,
+            courseId = Course.find { CourseTable.code eq courseCode }.firstOrNull()?.id?.value,
+            courseCode = courseCode,
+            titre = Course.find { CourseTable.code eq courseCode }.firstOrNull()?.title,
             responsable = responsable,
             teachers = teachersList(),
             contribution = contribution,
@@ -470,19 +484,29 @@ object CatalogService {
 
     // for course code
     fun getCourseDetailsByCode(code: String): CourseDetailsDTO? = transaction {
-        val course = Course.find { CourseTable.code eq code }.firstOrNull() ?: return@transaction null
         CourseDetails
-            .find { CourseDetailsTable.course eq course.id }
+            .find { CourseDetailsTable.courseCode eq code }
             .firstOrNull()
             ?.toDto()
+            ?: run {
+                warn("Course details not found for code=$code")
+                null
+            }
     }
 
     // for course ID (used by your route /api/courses/{id}/details)
     fun getCourseDetailsByCourseId(courseId: Int): CourseDetailsDTO? = transaction {
-        val course = Course.findById(courseId) ?: return@transaction null
+        val course = Course.findById(courseId) ?: return@transaction run {
+            warn("Course not found for id=$courseId when fetching details")
+            null
+        }
         CourseDetails
-            .find { CourseDetailsTable.course eq course.id }
+            .find { CourseDetailsTable.courseCode eq course.code }
             .firstOrNull()
             ?.toDto()
+            ?: run {
+                warn("Course details not found for course code=${course.code}")
+                null
+            }
     }
 }
