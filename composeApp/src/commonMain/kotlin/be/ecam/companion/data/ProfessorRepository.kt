@@ -29,8 +29,13 @@ data class Professor(
 data class ProfessorCourse(
     val code: String,
     val title: String,
-    @SerialName("details_url") val detailsUrl: String? = null
+    @SerialName("details_url") val detailsUrl: String? = null,
+
+    // Champs ajoutés automatiquement par ton script d’enrichissement
+    val bloc: String? = null,
+    val mandatory: Boolean = false
 )
+
 
 object EcamProfessorsRepository {
     private val json = Json { ignoreUnknownKeys = true }

@@ -1,0 +1,1871 @@
+{
+  "professors": [
+    {
+      "id": 1,
+      "professor_id": "dkp",
+      "first_name": "Philippe",
+      "last_name": "DEKIMPE",
+      "email": "dkp@ecam.be",
+      "speciality": "ECAM",
+      "office": "2E31",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/DKP.jpg",
+      "role_title": "Directeur",
+      "role_details": [],
+      "diplomas": [
+        "Ingénieur industriel (ECAM)",
+        "Diplôme en Gestion et Administration des Entreprises (UCL)"
+      ]
+    },
+    {
+      "id": 2,
+      "professor_id": "lfv",
+      "first_name": "Marie-Francoise",
+      "last_name": "LEFEBVRE",
+      "email": "lfv@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2E25",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/LFV.jpg",
+      "role_title": "Directrice des Etudes",
+      "role_details": [],
+      "diplomas": [
+        "Master Ingénieur industriel finalité Construction"
+      ]
+    },
+    {
+      "id": 3,
+      "professor_id": "lah",
+      "first_name": "Jean-Philippe",
+      "last_name": "LAHAYE",
+      "email": "lah@ecam.be",
+      "speciality": "ECAM",
+      "office": "2E25",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/03/LAH.jpg",
+      "role_title": "Directeur administratif et organisation académique",
+      "role_details": [],
+      "diplomas": [
+        "Master en Sciences Industrielles, Finalité Construction (ECAM)",
+        "Spécialisations : Acoustique du bâtiment, Marchés publics"
+      ]
+    },
+    {
+      "id": 4,
+      "professor_id": "aan",
+      "first_name": "Anissa",
+      "last_name": "AANAN",
+      "email": "aan@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2E23",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2022/11/thumbnail_image001.jpg",
+      "role_title": "Personnel administratif",
+      "role_details": [
+        "Appui à la gestion de certains éléments des PAE",
+        "Membre de l’équipe horaires",
+        "Conseillère SAR"
+      ],
+      "diplomas": []
+    },
+    {
+      "id": 5,
+      "professor_id": "adn",
+      "first_name": "Anais",
+      "last_name": "DENIS",
+      "email": "adn@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2E15",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/ADN.jpg",
+      "role_title": "Personnel Administratif",
+      "role_details": [
+        "Équipe délibérations",
+        "Bibliothèque",
+        "Supports de cours"
+      ],
+      "diplomas": []
+    },
+    {
+      "id": 6,
+      "professor_id": "mva",
+      "first_name": "Marianne",
+      "last_name": "VAN AKEN",
+      "email": "mva@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2E15",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/pages-personnelles/photo/inconnu.jpg",
+      "role_title": "Personnel administratif",
+      "role_details": [
+        "Gestion des inscriptions et des dossiers administratifs des étudiants – lien avec la CF – base de données étudiants",
+        "Gestion de la repro des examens"
+      ],
+      "diplomas": []
+    },
+    {
+      "id": 7,
+      "professor_id": "bvv",
+      "first_name": "Bernadette",
+      "last_name": "VAN DE VENNE",
+      "email": "bvv@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2D03",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/BVV.jpg",
+      "role_title": "Personnel administratif",
+      "role_details": [
+        "Accueil, i nformations, téléphone",
+        "Administration stages des 3Ba et 5Ma + TFE",
+        "Evènements"
+      ],
+      "diplomas": []
+    },
+    {
+      "id": 8,
+      "professor_id": "vri",
+      "first_name": "Isabelle",
+      "last_name": "VAN ROY",
+      "email": "vri@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2E26",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/VRI.jpg",
+      "role_title": "Personnel administratif",
+      "role_details": [
+        "Gestion des horaires",
+        "TFE"
+      ],
+      "diplomas": []
+    },
+    {
+      "id": 9,
+      "professor_id": "sas",
+      "first_name": "Sophie",
+      "last_name": "ALSTEENS",
+      "email": "sas@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2E23",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/SAS.jpg",
+      "role_title": "Personnel Administratif :",
+      "role_details": [
+        "Responsable des relations internationales"
+      ],
+      "diplomas": []
+    },
+    {
+      "id": 10,
+      "professor_id": "png",
+      "first_name": "Pauline",
+      "last_name": "NOGUAIS",
+      "email": "png@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2E23",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Personnel Administratif",
+      "role_details": [
+        "Chargée de Communication"
+      ],
+      "diplomas": []
+    },
+    {
+      "id": 11,
+      "professor_id": "cbr",
+      "first_name": "Clemence",
+      "last_name": "BRUYERE",
+      "email": "cbr@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2E27",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Personnel Administratif",
+      "role_details": [
+        "Ressources Humaines"
+      ],
+      "diplomas": []
+    },
+    {
+      "id": 12,
+      "professor_id": "gko",
+      "first_name": "Gabriel",
+      "last_name": "KOOLS",
+      "email": "gko@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2E23",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Personnel administratif",
+      "role_details": [
+        "Comptabilité"
+      ],
+      "diplomas": []
+    },
+    {
+      "id": 13,
+      "professor_id": "blp",
+      "first_name": "Brigitte",
+      "last_name": "LEPOIVRE",
+      "email": "blp@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2E26",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/BLP.jpg",
+      "role_title": "Personnel administratif",
+      "role_details": [
+        "Gestion comptabilité générale",
+        "Organisation TFE"
+      ],
+      "diplomas": []
+    },
+    {
+      "id": 14,
+      "professor_id": "ecl",
+      "first_name": "Elise",
+      "last_name": "CLIN",
+      "email": "ecl@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2F03",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2025/08/IMG_3571.jpg",
+      "role_title": "Personnel Administratif",
+      "role_details": [
+        "Responsable du Service d’Aide à la Réussite",
+        "Responsable de l’Évaluation des Enseignements par les Étudiant·es",
+        "Membre de la Cellule Développement Durable"
+      ],
+      "diplomas": []
+    },
+    {
+      "id": 15,
+      "professor_id": "mcl",
+      "first_name": "Magali",
+      "last_name": "LECOQ",
+      "email": "mcl@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2E23",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2022/11/MLC.jpeg",
+      "role_title": "Personnel Administratif",
+      "role_details": [
+        "Gestionnaire administratif en Business Analyst"
+      ],
+      "diplomas": []
+    },
+    {
+      "id": 16,
+      "professor_id": "gns",
+      "first_name": "Gaelle",
+      "last_name": "JANSSENS",
+      "email": "gns@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2E27",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2025/10/178-VDS_6716-Gaelle.jpg",
+      "role_title": "Personnel Administratif",
+      "role_details": [
+        "Coordinatrice Développement Durable"
+      ],
+      "diplomas": []
+    },
+    {
+      "id": 17,
+      "professor_id": "jfd",
+      "first_name": "Jeremy",
+      "last_name": "FIDELAK",
+      "email": "jfd@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2E27",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Personnel Administratif",
+      "role_details": [
+        "Coordinateur Recherche et Développement"
+      ],
+      "diplomas": []
+    },
+    {
+      "id": 18,
+      "professor_id": "eco",
+      "first_name": "Etienne",
+      "last_name": "COGELS",
+      "email": "eco@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2F43",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Personnel administratif",
+      "role_details": [
+        "Service IT",
+        "Développement"
+      ],
+      "diplomas": []
+    },
+    {
+      "id": 19,
+      "professor_id": "ghg",
+      "first_name": "Gregory",
+      "last_name": "HOUGARDY",
+      "email": "ghg@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "1E07",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/05/Hougardy.jpg",
+      "role_title": "Personnel administratif",
+      "role_details": [
+        "Service informatique",
+        "Consultant IT"
+      ],
+      "diplomas": []
+    },
+    {
+      "id": 20,
+      "professor_id": "cbs",
+      "first_name": "Chahid",
+      "last_name": "BESTRIOUI",
+      "email": "cbs@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "2B28",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/CBS.jpg",
+      "role_title": "Personnel technique",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 21,
+      "professor_id": "mzr",
+      "first_name": "Majida",
+      "last_name": "ZERROUAL",
+      "email": "mzr@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/MZR.jpg",
+      "role_title": "Personnel technique",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 22,
+      "professor_id": "auv",
+      "first_name": "Edouard",
+      "last_name": "AUVINET",
+      "email": "auv@ecam.be",
+      "speciality": "FGS",
+      "office": "1H05",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/pages-personnelles/photo/inconnu.jpg",
+      "role_title": "Enseignant (FGS)",
+      "role_details": [
+        "Cours d’imagerie médicale, de biomecanique et de technologies digitales pour la santé"
+      ],
+      "diplomas": [
+        "Doctorat en génie biomédical (Université de Montréal)",
+        "Doctorat en sciences et techniques des activités physiques et sportive (STAPS) (Université de Rennes 2)",
+        "Master en électronique, option télédétection (Université de Rennes 1)",
+        "Ingénieur industriel (ECAM)"
+      ]
+    },
+    {
+      "id": 23,
+      "professor_id": "bst",
+      "first_name": "Bst",
+      "last_name": "BST",
+      "email": "bst@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "Non renseigné",
+      "photo_url": "",
+      "role_title": "",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 24,
+      "professor_id": "bor",
+      "first_name": "Edoardo",
+      "last_name": "BORI",
+      "email": "bor@ecam.be",
+      "speciality": "FGS",
+      "office": "2F44",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2025/11/BOR-PP.jpg",
+      "role_title": "Enseignant (FGS)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 25,
+      "professor_id": "crt",
+      "first_name": "Olivier",
+      "last_name": "CARTIAUX",
+      "email": "crt@ecam.be",
+      "speciality": "FGS",
+      "office": "2E27",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/CRT.jpg",
+      "role_title": "Enseignant (FGS)",
+      "role_details": [
+        "Chef du Département Ingénierie de la Santé",
+        "Coordinateur d’années 3BS et 4IS",
+        "Responsable des laboratoires d’analyse du mouvement humain pathologique et de robotique chirurgicale"
+      ],
+      "diplomas": [
+        "Master complémentaire en pédagogie universitaire et des Hautes Ecoles (UCL)",
+        "Certificat de formation postdoctoral en technologies biomédicales (Polytech Montréal)",
+        "Doctorat en sciences de l’ingénieur (UCL) (évaluation de technologies d’assistance à la chirurgie orthopédique)",
+        "Master en sciences de l’ingénieur, orientation ingénieur civil électromécanicien, option mécatronique (UCL)"
+      ]
+    },
+    {
+      "id": 26,
+      "professor_id": "crd",
+      "first_name": "Emmanuel",
+      "last_name": "CORDIER",
+      "email": "crd@ecam.be",
+      "speciality": "FGS",
+      "office": "2F28",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2025/10/CRD-pp.jpg",
+      "role_title": "Enseignant (FGS)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 27,
+      "professor_id": "dhn",
+      "first_name": "Mikael",
+      "last_name": "DHEN",
+      "email": "dhn@ecam.be",
+      "speciality": "FGS",
+      "office": "2F28",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/DHN.jpg",
+      "role_title": "Enseignant (FGS)",
+      "role_details": [
+        "Responsable du laboratoire de physique"
+      ],
+      "diplomas": [
+        "Master en sciences industrielles (ECAM), finalité électromécanique",
+        "Master en sciences physiques (ULB), finalité approfondie",
+        "Doctorat en sciences (ULB)",
+        "Spécialisations : physique des particules, cosmologie."
+      ]
+    },
+    {
+      "id": 28,
+      "professor_id": "brg",
+      "first_name": "Benjamin",
+      "last_name": "BERGER",
+      "email": "brg@ecam.be",
+      "speciality": "GMT",
+      "office": "2D29",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/BRG.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [
+        "Responsable de l’unité GMT",
+        "Membre du comité d’édition de la Revue Scientifiques des ISILF",
+        "Projets R&D : TTCogen, Destore, Plasticod et ECAM’RGO"
+      ],
+      "diplomas": [
+        "Doctorat en Sciences de l’Ingénieur (UCL)",
+        "Master en Sciences de l’Ingénieur, orientation ingénieur civil mécanicien, option Energies (UCL)",
+        "Domaines de compétence : thermodynamique, biomasse, énergie"
+      ]
+    },
+    {
+      "id": 29,
+      "professor_id": "r5g",
+      "first_name": "Rolando",
+      "last_name": "GUERRIERI",
+      "email": "r5g@ecam.be",
+      "speciality": "FGS",
+      "office": "2F44",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignant (FGS)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 30,
+      "professor_id": "hnt",
+      "first_name": "Virginie",
+      "last_name": "HENROTTE",
+      "email": "hnt@ecam.be",
+      "speciality": "FGS",
+      "office": "2F22",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/HNT.jpg",
+      "role_title": "Enseignante (FGS)",
+      "role_details": [
+        "Coordinatrice du bloc 1"
+      ],
+      "diplomas": [
+        "Master en chimie",
+        "Doctorat en sciences"
+      ]
+    },
+    {
+      "id": 31,
+      "professor_id": "hil",
+      "first_name": "Ruben",
+      "last_name": "HILLEWAERE",
+      "email": "hil@ecam.be",
+      "speciality": "FGS",
+      "office": "2F28",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/HIL.jpg",
+      "role_title": "Enseignant (FGS)",
+      "role_details": [
+        "Chef de Département Sciences Industrielles"
+      ],
+      "diplomas": [
+        "Master en mathématique (VUB)",
+        "Doctorat en sciences (VUB)",
+        "Domaines d’intérêt: machine learning pour la classification de musique"
+      ]
+    },
+    {
+      "id": 32,
+      "professor_id": "mj5",
+      "first_name": "Marius",
+      "last_name": "JOLY",
+      "email": "mj5@ecam.be",
+      "speciality": "FGS",
+      "office": "2F44",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignant (FGS)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 33,
+      "professor_id": "jsz",
+      "first_name": "Jacek",
+      "last_name": "JONAS-SZATANSKI",
+      "email": "jsz@ecam.be",
+      "speciality": "FGS",
+      "office": "2F28",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/JSZ.jpg",
+      "role_title": "Enseignant (FGS)",
+      "role_details": [],
+      "diplomas": [
+        "Master en physique, finalité approfondie (ULB)",
+        "Master en ingénieur civil physicien (ULB)",
+        "Spécialisations : théorie de l’information quantique, imagerie médicale."
+      ]
+    },
+    {
+      "id": 34,
+      "professor_id": "sbr",
+      "first_name": "Nathalie",
+      "last_name": "SIEBERT",
+      "email": "sbr@ecam.be",
+      "speciality": "FGS",
+      "office": "2F44",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/SBR.jpg",
+      "role_title": "Enseignante (FGS)",
+      "role_details": [
+        "Responsable de l’unité FGS",
+        "Responsable du laboratoire de chimie"
+      ],
+      "diplomas": [
+        "Master en chimie (ULB)"
+      ]
+    },
+    {
+      "id": 35,
+      "professor_id": "spr",
+      "first_name": "Geraldine",
+      "last_name": "SPRINGUEL",
+      "email": "spr@ecam.be",
+      "speciality": "FGS",
+      "office": "2F22",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/SPR.jpg",
+      "role_title": "Enseignante (FGS)",
+      "role_details": [
+        "Coordinatrice 3BS"
+      ],
+      "diplomas": [
+        "Master en ingénieur civil biomédical (UCL)",
+        "Doctorat en sciences de l’ingénieur (UCL)"
+      ]
+    },
+    {
+      "id": 36,
+      "professor_id": "b5w",
+      "first_name": "Barbara",
+      "last_name": "WEIS",
+      "email": "b5w@ecam.be",
+      "speciality": "FGS",
+      "office": "2F22",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2025/11/WEIS-PP.jpg",
+      "role_title": "Enseignante (FGS)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 37,
+      "professor_id": "d5b",
+      "first_name": "David",
+      "last_name": "BOUCHEZ",
+      "email": "d5b@ecam.be",
+      "speciality": "FGS",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignant (FGS)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 38,
+      "professor_id": "c5c",
+      "first_name": "Carlo",
+      "last_name": "CORONATO",
+      "email": "c5c@ecam.be",
+      "speciality": "FGS",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignant (FGS)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 39,
+      "professor_id": "b5c",
+      "first_name": "Bernard",
+      "last_name": "COUVREUR",
+      "email": "b5c@ecam.be",
+      "speciality": "FGS",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignant (FGS)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 40,
+      "professor_id": "brk",
+      "first_name": "Patrick",
+      "last_name": "MIQUEU",
+      "email": "brk@ecam.be",
+      "speciality": "FGS",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2025/10/1671028562589-002.jpeg",
+      "role_title": "Enseignant (FGS)",
+      "role_details": [
+        "Ethique de la Santé"
+      ],
+      "diplomas": [
+        "Master en Bioéthique (KU Leuven)",
+        "Doctorat en Biostatistiques (Université de Nantes)",
+        "Ingénieur – Génie Biologique (Polytech Marseille)"
+      ]
+    },
+    {
+      "id": 41,
+      "professor_id": "aif",
+      "first_name": "Antoine",
+      "last_name": "AIFA",
+      "email": "aif@ecam.be",
+      "speciality": "GEA",
+      "office": "2E43",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/AIF.jpg",
+      "role_title": "Enseignant (GEA)",
+      "role_details": [],
+      "diplomas": [
+        "Master en sciences industrielles finalité automatisation (ECAM)"
+      ]
+    },
+    {
+      "id": 42,
+      "professor_id": "bjt",
+      "first_name": "Bertrand",
+      "last_name": "BAIJOT",
+      "email": "bjt@ecam.be",
+      "speciality": "GEA",
+      "office": "2D27",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/BJT.jpg",
+      "role_title": "Enseignant (GEA)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 43,
+      "professor_id": "cms",
+      "first_name": "Joseph",
+      "last_name": "DESIRE CHAMASSI TOWO",
+      "email": "cms@ecam.be",
+      "speciality": "GEA",
+      "office": "2E43",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/01/inconnu.jpeg",
+      "role_title": "Enseignant (GEA)",
+      "role_details": [],
+      "diplomas": [
+        "Master en sciences industrielles, finalité électromécanique (ECAM)"
+      ]
+    },
+    {
+      "id": 44,
+      "professor_id": "chv",
+      "first_name": "Claire",
+      "last_name": "CHEVALIER",
+      "email": "chv@ecam.be",
+      "speciality": "GEA",
+      "office": "2D27",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignante (GEA)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 45,
+      "professor_id": "dbr",
+      "first_name": "Franky",
+      "last_name": "DE BRUYNE",
+      "email": "dbr@ecam.be",
+      "speciality": "GEA",
+      "office": "2D27",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/DBR.jpg",
+      "role_title": "Enseignant (GEA)",
+      "role_details": [
+        "Régulation",
+        "Contrôle avancé",
+        "Modélisation et identification des systèmes"
+      ],
+      "diplomas": [
+        "Doctorat en Sciences Appliquées, Sciences de l’Automatique (UCL)",
+        "Master en Sciences Appliquées, Orientation Ingénieur Civil Electricien (UCL)",
+        "Domaines d’intérêts: modélisation, régulation, condition monitoring"
+      ]
+    },
+    {
+      "id": 46,
+      "professor_id": "kpr",
+      "first_name": "David",
+      "last_name": "KIMPLAIRE",
+      "email": "kpr@ecam.be",
+      "speciality": "GEA",
+      "office": "2E43",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignant (GEA)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 47,
+      "professor_id": "mol",
+      "first_name": "Yves",
+      "last_name": "MOLLET",
+      "email": "mol@ecam.be",
+      "speciality": "GEA",
+      "office": "2E43",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/MOL.jpg",
+      "role_title": "Enseignant (GEA)",
+      "role_details": [],
+      "diplomas": [
+        "Master en Sciences industrielles, Finalité Electromécanique (ECAM)",
+        "Doctorat en Sciences de l’Ingénieur (ULB)",
+        "Domaine de compétences : électricité, électromagnétisme, machines électriques, électronique de puissance"
+      ]
+    },
+    {
+      "id": 48,
+      "professor_id": "mus",
+      "first_name": "Thomas",
+      "last_name": "MUSEUR",
+      "email": "mus@ecam.be",
+      "speciality": "GEA",
+      "office": "2D27",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignant (GEA)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 49,
+      "professor_id": "rch",
+      "first_name": "David",
+      "last_name": "ROUCHARD",
+      "email": "rch@ecam.be",
+      "speciality": "GEA",
+      "office": "2D27",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/RCH.jpg",
+      "role_title": "Enseignant (GEA)",
+      "role_details": [
+        "Coordinateur du diplôme Automatisation"
+      ],
+      "diplomas": [
+        "Master en siences industrielles, finalité automatique (ECAM)",
+        "Domaine de compétence : Automatisation industriell e"
+      ]
+    },
+    {
+      "id": 50,
+      "professor_id": "rou",
+      "first_name": "Jean-Michel",
+      "last_name": "ROUSSEAU",
+      "email": "rou@ecam.be",
+      "speciality": "GEA",
+      "office": "2D40",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/ROU.jpg",
+      "role_title": "Enseignant (GEA)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 51,
+      "professor_id": "thn",
+      "first_name": "Denis",
+      "last_name": "TIHON",
+      "email": "thn@ecam.be",
+      "speciality": "GEA",
+      "office": "2D43",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2025/11/THN-PP.jpg",
+      "role_title": "Enseignant (GEA)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 52,
+      "professor_id": "t2b",
+      "first_name": "Thierry",
+      "last_name": "BAUERFELD",
+      "email": "t2b@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignant (GEA)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 53,
+      "professor_id": "l2e",
+      "first_name": "Louis",
+      "last_name": "ENGELEN",
+      "email": "l2e@ecam.be",
+      "speciality": "GEA",
+      "office": "2E43",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignant (GEA)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 54,
+      "professor_id": "p2g",
+      "first_name": "Philippe",
+      "last_name": "GONZE",
+      "email": "p2g@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/pages-personnelles/photo/inconnu.jpg",
+      "role_title": "Enseignant (GEA)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 55,
+      "professor_id": "a2m",
+      "first_name": "Arnaud",
+      "last_name": "MASURE",
+      "email": "a2m@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignant (GEA)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 56,
+      "professor_id": "j2r",
+      "first_name": "Jean-Jacques",
+      "last_name": "RENAUX",
+      "email": "j2r@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/pages-personnelles/photo/inconnu.jpg",
+      "role_title": "Enseignant (GEA)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 57,
+      "professor_id": "var",
+      "first_name": "Eric",
+      "last_name": "VAN VAERENBERG",
+      "email": "var@ecam.be",
+      "speciality": "GEA",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/pages-personnelles/photo/inconnu.jpg",
+      "role_title": "Enseignant (GEA)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 58,
+      "professor_id": "bch",
+      "first_name": "Nathalie",
+      "last_name": "BAUCHE",
+      "email": "bch@ecam.be",
+      "speciality": "GMT",
+      "office": "2E34",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/BCH.jpg",
+      "role_title": "Enseignante (GMT)",
+      "role_details": [],
+      "diplomas": [
+        "Master en sciences industrielles (ECAM), finalité électromécanique",
+        "Domaine de compétences : matériaux métalliques",
+        "International Welding Engineer (IWE)"
+      ]
+    },
+    {
+      "id": 59,
+      "professor_id": "bcq",
+      "first_name": "Antoine",
+      "last_name": "BOUCQUEY",
+      "email": "bcq@ecam.be",
+      "speciality": "GMT",
+      "office": "2C04",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/BCQ.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [],
+      "diplomas": [
+        "Master en sciences industrielles, finalité électromécanique (ECAM)"
+      ]
+    },
+    {
+      "id": 60,
+      "professor_id": "dgy",
+      "first_name": "Quentin",
+      "last_name": "DE GRADY DE HORION",
+      "email": "dgy@ecam.be",
+      "speciality": "GMT",
+      "office": "2D29",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/DGY.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [
+        "Responsable infrastructures / Facilities manager",
+        "Coordinateur BLOC 3 Coordinateur Stage/TFE BLOC 5 EM"
+      ],
+      "diplomas": [
+        "Master en sciences de l’ingénieur industriel, finalité industrie"
+      ]
+    },
+    {
+      "id": 61,
+      "professor_id": "crt",
+      "first_name": "Etienne",
+      "last_name": "DENIS",
+      "email": "crt@ecam.be",
+      "speciality": "GMT",
+      "office": "2C04",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/DEN.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [
+        "Responsable Equipement Audiovisuel",
+        "Responsable UE 3M « Conception et Production 1 »",
+        "Responsable UE 4EM « Conception et Production 2 »"
+      ],
+      "diplomas": [
+        "Master en science Industrielle, Finalité Electromécanique, option Automatique"
+      ]
+    },
+    {
+      "id": 62,
+      "professor_id": "glh",
+      "first_name": "Daniel",
+      "last_name": "GALHAUT",
+      "email": "glh@ecam.be",
+      "speciality": "GMT",
+      "office": "2C04",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/GLH.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [
+        "Co -responsable Atelier"
+      ],
+      "diplomas": [
+        "Master Master en Sciences Industrielles, Finalité Electromécanique (ECAM)"
+      ]
+    },
+    {
+      "id": 63,
+      "professor_id": "kis",
+      "first_name": "William",
+      "last_name": "KIES",
+      "email": "kis@ecam.be",
+      "speciality": "GMT",
+      "office": "2C04",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2025/10/KIS-pp.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 64,
+      "professor_id": "mrf",
+      "first_name": "Bechir",
+      "last_name": "MAAREF",
+      "email": "mrf@ecam.be",
+      "speciality": "GMT",
+      "office": "2C04",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/MRF.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [],
+      "diplomas": [
+        "Master en Sciences Industrielles, Finalité Electromécanique (ECAM)"
+      ]
+    },
+    {
+      "id": 65,
+      "professor_id": "mgn",
+      "first_name": "Mgn",
+      "last_name": "MGN",
+      "email": "mgn@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "Non renseigné",
+      "photo_url": "",
+      "role_title": "",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 66,
+      "professor_id": "mat",
+      "first_name": "Pierre",
+      "last_name": "MATHIEU",
+      "email": "mat@ecam.be",
+      "speciality": "GMT",
+      "office": "2E34",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2025/11/MAT-PP.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [],
+      "diplomas": [
+        "Master en Sciences Industrielles, Finalité Electromécanique (ECAM)",
+        "Master en Sciences de l’Ingénieur, orientation ingénieur civil électromécanicien, option Mécatronique (UCL)",
+        "International Welding Engineer (IWE)"
+      ]
+    },
+    {
+      "id": 67,
+      "professor_id": "nth",
+      "first_name": "Diego",
+      "last_name": "NOTHOMB",
+      "email": "nth@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 68,
+      "professor_id": "otj",
+      "first_name": "Quentin",
+      "last_name": "OTJACQUES",
+      "email": "otj@ecam.be",
+      "speciality": "GMT",
+      "office": "2C04",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/OTJ.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [
+        "Coordinateur de diplôme électromécanique",
+        "Atelier mécanique (tournage-fraisage) et Fablab"
+      ],
+      "diplomas": [
+        "Master en Sciences de l’Ingénieur, orientation ingénieur civil mécanicien, option aéronautique (UCL)"
+      ]
+    },
+    {
+      "id": 69,
+      "professor_id": "pch",
+      "first_name": "Maxime",
+      "last_name": "POCHET",
+      "email": "pch@ecam.be",
+      "speciality": "GMT",
+      "office": "2D29",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/pages-personnelles/photo/PCH.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [
+        "Responsable team mécanique du Shell Eco Marathon"
+      ],
+      "diplomas": [
+        "Doctorat en Sciences de l’Ingénieur (UCL-VUB)",
+        "Master en Sciences de l’Ingénieur, orientation ingénieur civil mécanicien, option Energies (UCL)",
+        "Domaines de compétence : recherche expérimentale, analyses énergétiques, thermodynamique"
+      ]
+    },
+    {
+      "id": 70,
+      "professor_id": "vdd",
+      "first_name": "Xavier",
+      "last_name": "VAN DEN DOOREN",
+      "email": "vdd@ecam.be",
+      "speciality": "GMT",
+      "office": "2D29",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/pages-personnelles/photo/VDD.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [],
+      "diplomas": [
+        "Ingénieur Civil en Mécanique, orientation Energie"
+      ]
+    },
+    {
+      "id": 71,
+      "professor_id": "j4b",
+      "first_name": "Jeremy",
+      "last_name": "BAUDET",
+      "email": "j4b@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 72,
+      "professor_id": "bri-3",
+      "first_name": "Laurent",
+      "last_name": "BRICTEUX",
+      "email": "bri-3@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 73,
+      "professor_id": "p4c",
+      "first_name": "Pierre",
+      "last_name": "COLON",
+      "email": "p4c@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/pages-personnelles/photo/inconnu.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 74,
+      "professor_id": "d4d",
+      "first_name": "Dario",
+      "last_name": "DALLA RIVA",
+      "email": "d4d@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/D4D.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [],
+      "diplomas": [
+        "Ingénieur Industriel en Construction option Génie Civil et Bâtiment – Finalité Techniques Spéciales du Bâtiment Master en Gestion et Informatique orientation Stratégies Décisionnelles en Entreprise"
+      ]
+    },
+    {
+      "id": 75,
+      "professor_id": "g4z",
+      "first_name": "Gregory",
+      "last_name": "ZAMBELLI",
+      "email": "g4z@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 76,
+      "professor_id": "s4s",
+      "first_name": "Sebastien",
+      "last_name": "SCHRURS",
+      "email": "s4s@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 77,
+      "professor_id": "c4m",
+      "first_name": "Chance",
+      "last_name": "J.J MWISENEZA",
+      "email": "c4m@ecam.be",
+      "speciality": "GMT",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignant (GMT)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 78,
+      "professor_id": "brn",
+      "first_name": "Nicolas",
+      "last_name": "BURNY",
+      "email": "brn@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 79,
+      "professor_id": "dfr",
+      "first_name": "Francois",
+      "last_name": "DEFRANCE",
+      "email": "dfr@ecam.be",
+      "speciality": "GEI",
+      "office": "1E07",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/pages-personnelles/photo/inconnu.jpg",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [
+        "Coordinateur du diplôme Ingénieur Industriel en Electronique"
+      ],
+      "diplomas": [
+        "Ingénieur Industriel en Electricité option Electronique (ECAM)",
+        "Spécialités : électronique analogique, CAO PCB, électronique de puissance, CEM"
+      ]
+    },
+    {
+      "id": 80,
+      "professor_id": "dlh-2",
+      "first_name": "Quentin",
+      "last_name": "DELHAYE",
+      "email": "dlh-2@ecam.be",
+      "speciality": "GEI",
+      "office": "1E07",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2023/09/DLH.jpg",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [
+        "Membre de la cellule Développement durable"
+      ],
+      "diplomas": [
+        "Doctorat en sciences de l’ingénieur et technologie (ULB)",
+        "Master en ingénieur civil en informatique (ULB)",
+        "Agrégation à l’enseignement secondaire supérieur, sciences physiques (ULB)"
+      ]
+    },
+    {
+      "id": 81,
+      "professor_id": "fle",
+      "first_name": "Clemence",
+      "last_name": "FLEMAL",
+      "email": "fle@ecam.be",
+      "speciality": "GEI",
+      "office": "1E07",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/FLE.jpg",
+      "role_title": "Enseignante (GEI)",
+      "role_details": [
+        "Responsable de l’unité génie électrique et informatique"
+      ],
+      "diplomas": [
+        "Master en Sciences Industrielles, finalité électronique (ECAM)",
+        "Spécialisation: Electronique numérique"
+      ]
+    },
+    {
+      "id": 82,
+      "professor_id": "fky",
+      "first_name": "Martin",
+      "last_name": "FOCKEDEY",
+      "email": "fky@ecam.be",
+      "speciality": "GEI",
+      "office": "1E07",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2025/10/FKY-pp.jpg",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [],
+      "diplomas": [
+        "Ingénieur civil en électricité (UCL)",
+        "Spécialisations : développement logiciel, cybersécurité et intelligence artificielle"
+      ]
+    },
+    {
+      "id": 83,
+      "professor_id": "lrg",
+      "first_name": "Andre",
+      "last_name": "LORGE",
+      "email": "lrg@ecam.be",
+      "speciality": "GEI",
+      "office": "1E07",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/01/inconnu.jpeg",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 84,
+      "professor_id": "n3l",
+      "first_name": "Nicolas",
+      "last_name": "LORIAU",
+      "email": "n3l@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2024/06/Nicolas-Loriau-Tresorier-Plateforme-SlowHeat-_-LinkedIn.jpg",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [],
+      "diplomas": [
+        "Master en sciences de l’ingénieur industriel – Electrictié, Réseaux informatiques (ISIB)",
+        "Spécalités : Réseaux informatiques et sécurité, systèmes d’exploitation"
+      ]
+    },
+    {
+      "id": 85,
+      "professor_id": "lur",
+      "first_name": "Quentin",
+      "last_name": "LURKIN",
+      "email": "lur@ecam.be",
+      "speciality": "GEI",
+      "office": "1E07",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/LUR.jpg",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [
+        "Coordinateur de diplôme ingénieur informatique"
+      ],
+      "diplomas": [
+        "Master en Sciences de l’Ingénieur, orientation ingénieur civil informaticien (ULB)",
+        "Agrégation en Mathématiques"
+      ]
+    },
+    {
+      "id": 86,
+      "professor_id": "mar",
+      "first_name": "Cedric",
+      "last_name": "MARCHAND",
+      "email": "mar@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/MAR.jpg",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [
+        "Membre de la cellule Recherche"
+      ],
+      "diplomas": [
+        "Master en Sciences de l’Ingénieur, orientation ingénieur civil électromécanicien, option Mécatronique (UCL)",
+        "Spécialisation en robotique et systèmes embarqués"
+      ]
+    },
+    {
+      "id": 87,
+      "professor_id": "mch",
+      "first_name": "Nicolas",
+      "last_name": "MARCHAND",
+      "email": "mch@ecam.be",
+      "speciality": "GEI",
+      "office": "1E07",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/MCH.jpg",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [
+        "Memble de la cellule Recherche"
+      ],
+      "diplomas": [
+        "Master en ingénieur civil éléctronicien, finalité micro/nano-électronique (UCL)"
+      ]
+    },
+    {
+      "id": 88,
+      "professor_id": "ngy",
+      "first_name": "Khoi",
+      "last_name": "NGUYEN",
+      "email": "ngy@ecam.be",
+      "speciality": "GEI",
+      "office": "1E07",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [],
+      "diplomas": [
+        "Doctorat en mathématiques (Imperial College)",
+        "Master en mathématiques (Cambridge)",
+        "Agrégation de l’enseignement secondaire (Oxford)"
+      ]
+    },
+    {
+      "id": 89,
+      "professor_id": "dsm",
+      "first_name": "Renaud",
+      "last_name": "DE SAINT MOULIN",
+      "email": "dsm@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2025/10/de-saint-moulin-pp.jpeg",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 90,
+      "professor_id": "jsp",
+      "first_name": "Thierry",
+      "last_name": "JESUPRET",
+      "email": "jsp@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2024/06/JSP-Photo.bmp",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 91,
+      "professor_id": "lfr",
+      "first_name": "Nicolas",
+      "last_name": "LE FEVERE",
+      "email": "lfr@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 92,
+      "professor_id": "j3l",
+      "first_name": "Jean-Guillaume",
+      "last_name": "LOUIS",
+      "email": "j3l@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 93,
+      "professor_id": "n3s",
+      "first_name": "Nicolas",
+      "last_name": "SCAUT",
+      "email": "n3s@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 94,
+      "professor_id": "l3s",
+      "first_name": "Luleta",
+      "last_name": "SHABANI",
+      "email": "l3s@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignante (GEI)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 95,
+      "professor_id": "s3v",
+      "first_name": "Sebastien",
+      "last_name": "VAN CAUWENBERGHE",
+      "email": "s3v@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 96,
+      "professor_id": "e3v",
+      "first_name": "Emilio",
+      "last_name": "VILLANO",
+      "email": "e3v@ecam.be",
+      "speciality": "GEI",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2025/09/Villano-Emilio.png",
+      "role_title": "Enseignant (GEI)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 97,
+      "professor_id": "frn",
+      "first_name": "Hannah",
+      "last_name": "FRANZ",
+      "email": "frn@ecam.be",
+      "speciality": "GCG",
+      "office": "2B15",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2025/11/FRN-PP.jpg",
+      "role_title": "Enseignante (GCG)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 98,
+      "professor_id": "gls",
+      "first_name": "William",
+      "last_name": "GILSON",
+      "email": "gls@ecam.be",
+      "speciality": "GCG",
+      "office": "2B15",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/pages-personnelles/photo/inconnu.jpg",
+      "role_title": "Enseignant (GCG)",
+      "role_details": [
+        "Responsable du laboratoire construction"
+      ],
+      "diplomas": [
+        "Master en Sciences Industrielles, Finalité Construction"
+      ]
+    },
+    {
+      "id": 99,
+      "professor_id": "gbr",
+      "first_name": "Yves",
+      "last_name": "GOBERT",
+      "email": "gbr@ecam.be",
+      "speciality": "GCG",
+      "office": "2B15",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2025/11/Yves-PP.jpg",
+      "role_title": "Enseignant (GCG)",
+      "role_details": [],
+      "diplomas": [
+        "Master Ingénieur industriel finalité construction (ISIC)",
+        "Certificat post-universitaire « Le bois dans la construction » (UCL)"
+      ]
+    },
+    {
+      "id": 100,
+      "professor_id": "hri",
+      "first_name": "Pierre",
+      "last_name": "HENRIET",
+      "email": "hri@ecam.be",
+      "speciality": "GCG",
+      "office": "2B15",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/HRI.jpg",
+      "role_title": "Enseignant (GCG)",
+      "role_details": [
+        "Coordinateur bloc 3BC"
+      ],
+      "diplomas": [
+        "Ingénieur civil des constructions (UCLouvain)"
+      ]
+    },
+    {
+      "id": 101,
+      "professor_id": "hnr",
+      "first_name": "Christelle",
+      "last_name": "HUENAERTS",
+      "email": "hnr@ecam.be",
+      "speciality": "GCG",
+      "office": "2B15",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/HNR.jpg",
+      "role_title": "Enseignante (GCG)",
+      "role_details": [
+        "Coordinatrice du diplôme en géomètre"
+      ],
+      "diplomas": [
+        "Master en sciences industrielles, construction, finalité géomètre (ECAM)",
+        "Spécialisation: Topographie & DAO"
+      ]
+    },
+    {
+      "id": 102,
+      "professor_id": "ran",
+      "first_name": "Madeleine",
+      "last_name": "RANWEZ",
+      "email": "ran@ecam.be",
+      "speciality": "GCG",
+      "office": "2B15",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignante (GCG)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 103,
+      "professor_id": "sts",
+      "first_name": "Maxime",
+      "last_name": "STEISEL",
+      "email": "sts@ecam.be",
+      "speciality": "GCG",
+      "office": "2B15",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/STS.jpg",
+      "role_title": "Enseignant (GCG)",
+      "role_details": [
+        "Coordinateur Stage-TFE 5MCO"
+      ],
+      "diplomas": [
+        "Ingénieur civil des constructions"
+      ]
+    },
+    {
+      "id": 104,
+      "professor_id": "vml",
+      "first_name": "Sylvie",
+      "last_name": "VAN EMELEN",
+      "email": "vml@ecam.be",
+      "speciality": "GCG",
+      "office": "2B15",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/VML.jpg",
+      "role_title": "Enseignante (GCG)",
+      "role_details": [
+        "Coordinatrice diplôme Construction"
+      ],
+      "diplomas": [
+        "Doctorat en sciences de l’ingénieur, dans le domaine de l’hydraulique fluviale (UCL)"
+      ]
+    },
+    {
+      "id": 105,
+      "professor_id": "vrs",
+      "first_name": "Jerome",
+      "last_name": "VERSLYPE",
+      "email": "vrs@ecam.be",
+      "speciality": "GCG",
+      "office": "2B15",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/01/inconnu.jpeg",
+      "role_title": "Enseignant (GCG)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 106,
+      "professor_id": "vlo",
+      "first_name": "Luigi",
+      "last_name": "VULLO",
+      "email": "vlo@ecam.be",
+      "speciality": "GCG",
+      "office": "2B15",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/VLO.jpg",
+      "role_title": "Enseignant (GCG)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 107,
+      "professor_id": "lpy",
+      "first_name": "Mohamed",
+      "last_name": "ANSRIOU",
+      "email": "lpy@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2025/09/Capture-decran-2025-09-30-a-10.45.38.jpg",
+      "role_title": "Enseignant (GCG)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 108,
+      "professor_id": "a1b",
+      "first_name": "Alain",
+      "last_name": "BELLAY",
+      "email": "a1b@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignant (GCG)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 109,
+      "professor_id": "lpy",
+      "first_name": "Renaud",
+      "last_name": "BERTIN",
+      "email": "lpy@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignant (GCG)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 110,
+      "professor_id": "dry",
+      "first_name": "Francoise",
+      "last_name": "DE ROY",
+      "email": "dry@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/pages-personnelles/photo/inconnu.jpg",
+      "role_title": "Enseignante (GCG)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 111,
+      "professor_id": "t1d",
+      "first_name": "Thomas",
+      "last_name": "DEVILLE",
+      "email": "t1d@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignant (GCG)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 112,
+      "professor_id": "han",
+      "first_name": "Yves",
+      "last_name": "HANIN",
+      "email": "han@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignant (GCG)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 113,
+      "professor_id": "lpy",
+      "first_name": "Francois",
+      "last_name": "LAPY",
+      "email": "lpy@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/LPY.jpg",
+      "role_title": "Enseignant (GCG)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 114,
+      "professor_id": "bch",
+      "first_name": "Rose",
+      "last_name": "MASANGA",
+      "email": "bch@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignante (GCG)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 115,
+      "professor_id": "lpy",
+      "first_name": "Frederic",
+      "last_name": "OLEKSANDROW",
+      "email": "lpy@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignant (GCG)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 116,
+      "professor_id": "m1o",
+      "first_name": "Oualmakran",
+      "last_name": "MOHAMED",
+      "email": "m1o@ecam.be",
+      "speciality": "Non renseigné",
+      "office": "Non renseigné",
+      "photo_url": "",
+      "role_title": "",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 117,
+      "professor_id": "x1r",
+      "first_name": "Xavier",
+      "last_name": "RAUCROIX",
+      "email": "x1r@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/pages-personnelles/photo/inconnu.jpg",
+      "role_title": "Enseignant (GCG)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 118,
+      "professor_id": "vdv",
+      "first_name": "Philippe",
+      "last_name": "VANDEVONDELE",
+      "email": "vdv@ecam.be",
+      "speciality": "GCG",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/pages-personnelles/photo/inconnu.jpg",
+      "role_title": "Enseignant (GCG)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 119,
+      "professor_id": "mlt",
+      "first_name": "Philippe",
+      "last_name": "MELOTTE",
+      "email": "mlt@ecam.be",
+      "speciality": "FGS",
+      "office": "2E34",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignant (FGS)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 120,
+      "professor_id": "stv",
+      "first_name": "Thibaud",
+      "last_name": "STEVENS",
+      "email": "stv@ecam.be",
+      "speciality": "GLA",
+      "office": "2F44",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2025/09/Photo-portrait-Thibaud-Stevens.jpg",
+      "role_title": "Enseignant (GLA)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 121,
+      "professor_id": "j5d",
+      "first_name": "Julie",
+      "last_name": "DEGOSSELY",
+      "email": "j5d@ecam.be",
+      "speciality": "FGS",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/pages-personnelles/photo/inconnu.jpg",
+      "role_title": "Enseignante (FGS)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 122,
+      "professor_id": "r6j",
+      "first_name": "Ruw",
+      "last_name": "JAYASURIYA",
+      "email": "r6j@ecam.be",
+      "speciality": "GLA",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignante (GLA)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 123,
+      "professor_id": "i6m",
+      "first_name": "Ivan",
+      "last_name": "MATILLA",
+      "email": "i6m@ecam.be",
+      "speciality": "GLA",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignant (GLA)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 124,
+      "professor_id": "brk",
+      "first_name": "Gael",
+      "last_name": "N’GOM",
+      "email": "brk@ecam.be",
+      "speciality": "FGS",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu-1.jpg",
+      "role_title": "Enseignante (FGS)",
+      "role_details": [],
+      "diplomas": []
+    },
+    {
+      "id": 125,
+      "professor_id": "p6s",
+      "first_name": "Pascale",
+      "last_name": "SINNAEVE",
+      "email": "p6s@ecam.be",
+      "speciality": "GLA",
+      "office": "Non renseigné",
+      "photo_url": "https://www.ecam.be/wp-content/uploads/2021/10/inconnu.jpg",
+      "role_title": "Enseignante (GLA)",
+      "role_details": [],
+      "diplomas": []
+    }
+  ]
+}

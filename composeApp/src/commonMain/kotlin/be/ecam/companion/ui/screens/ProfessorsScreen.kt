@@ -1,25 +1,34 @@
 package be.ecam.companion.ui.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.platform.LocalUriHandler
 import be.ecam.companion.data.EcamProfessorsRepository
 import be.ecam.companion.data.Professor
 import be.ecam.companion.data.ProfessorDatabase
 import kotlinx.coroutines.launch
+import kotlin.math.absoluteValue
+
+/* --------------------------- SCREEN CONTAINER --------------------------- */
 
 @Composable
 fun ProfessorsScreen(
@@ -29,183 +38,251 @@ fun ProfessorsScreen(
 ) {
     val scope = rememberCoroutineScope()
     var database by remember { mutableStateOf<ProfessorDatabase?>(null) }
-    var uiState by remember { mutableStateOf<ProfessorUiState>(ProfessorUiState.List) }
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
+    var selectedSpeciality by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(Unit) {
-        scope.launch {
-            database = EcamProfessorsRepository.load()
-        }
-    }
-
-    LaunchedEffect(uiState) {
-        when (val state = uiState) {
-            ProfessorUiState.List -> onContextChange(null)
-            is ProfessorUiState.Detail -> onContextChange("${state.professor.firstName} ${state.professor.lastName}")
-        }
+        scope.launch { database = EcamProfessorsRepository.load() }
     }
 
     Surface(modifier = modifier.fillMaxSize()) {
-        when (val state = uiState) {
-            ProfessorUiState.List -> ProfessorListScreen(
-                database = database,
+        if (database == null) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        } else {
+            ProfessorsMainScreen(
+                database = database!!,
                 searchQuery = searchQuery,
-                onSearchChange = { searchQuery = it },
-                onSelectProfessor = { uiState = ProfessorUiState.Detail(it) }
-            )
-            is ProfessorUiState.Detail -> ProfessorDetailScreen(
-                professor = state.professor,
-                onBack = { uiState = ProfessorUiState.List }
+                selectedSpeciality = selectedSpeciality,
+                onSearch = { searchQuery = it },
+                onFilterChange = { selectedSpeciality = it }
             )
         }
     }
 }
 
-private sealed interface ProfessorUiState {
-    data object List : ProfessorUiState
-    data class Detail(val professor: Professor) : ProfessorUiState
-}
+/* --------------------------- SPECIALITY METADATA --------------------------- */
+
+private val specialityLabels = mapOf(
+    "FGS" to "Formation Générale et Santé",
+    "GEA" to "Génie Électrique et Automatique",
+    "GMT" to "Génie Mécanique et Thermique",
+    "GEI" to "Génie Électronique et Informatique",
+    "GCG" to "Génie Construction et Géomètre",
+    "GLA" to "Gestion et Langues"
+)
+
+private val specialityIcons = mapOf(
+    "FGS" to Icons.Filled.LocalHospital,
+    "GEA" to Icons.Filled.Bolt,
+    "GMT" to Icons.Filled.Build,
+    "GEI" to Icons.Filled.Memory,
+    "GCG" to Icons.Filled.LocationCity,
+    "GLA" to Icons.Filled.Language
+)
+
+/* --------------------------- MAIN PAGE (FILTERS + GRID) --------------------------- */
 
 @Composable
-private fun ProfessorListScreen(
-    database: ProfessorDatabase?,
+private fun ProfessorsMainScreen(
+    database: ProfessorDatabase,
     searchQuery: TextFieldValue,
-    onSearchChange: (TextFieldValue) -> Unit,
-    onSelectProfessor: (Professor) -> Unit
+    selectedSpeciality: String?,
+    onSearch: (TextFieldValue) -> Unit,
+    onFilterChange: (String?) -> Unit
 ) {
-    val scrollState = rememberScrollState()
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(scrollState),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Professeurs",
-            style = MaterialTheme.typography.displayLarge
-        )
-        Spacer(Modifier.height(8.dp))
+        /* -------- SEARCH -------- */
         OutlinedTextField(
             value = searchQuery,
-            onValueChange = onSearchChange,
-            label = { Text("Recherche par nom ou cours") },
-            modifier = Modifier.fillMaxWidth()
+            onValueChange = onSearch,
+            label = { Text("Rechercher un professeur") },
+            modifier = Modifier.fillMaxWidth(),
+            leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) }
         )
+
+        Spacer(Modifier.height(12.dp))
+
+        /* -------- FILTERS -------- */
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            FilterChip(
+                selected = selectedSpeciality == null,
+                onClick = { onFilterChange(null) },
+                label = { Text("Tous") }
+            )
+
+            specialityLabels.forEach { (code, label) ->
+                FilterChip(
+                    selected = selectedSpeciality == code,
+                    onClick = { onFilterChange(code) },
+                    label = { Text(code) }
+                )
+            }
+        }
+
         Spacer(Modifier.height(16.dp))
 
-        if (database == null) {
-            CircularProgressIndicator()
-            return@Column
+        /* -------- FILTER LOGIC -------- */
+        val q = searchQuery.text.lowercase()
+        val filtered = database.professors.filter { prof ->
+            (selectedSpeciality == null || prof.speciality == selectedSpeciality) &&
+                    (q.isBlank() ||
+                            prof.firstName.lowercase().contains(q) ||
+                            prof.lastName.lowercase().contains(q))
         }
 
-        val filtered = database.professors.filter {
-            val query = searchQuery.text.trim().lowercase()
-            query.isBlank() ||
-                    it.firstName.lowercase().contains(query) ||
-                    it.lastName.lowercase().contains(query)
-        }
-
-        val grouped = filtered.groupBy { it.speciality }
-
-        grouped.forEach { (speciality, professors) ->
-            Text(
-                text = speciality,
-                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(Modifier.height(8.dp))
-
-            professors.forEach { prof ->
-                ProfessorCard(prof, onClick = { onSelectProfessor(prof) })
-                Spacer(Modifier.height(8.dp))
-            }
-            Spacer(Modifier.height(16.dp))
-        }
-    }
-}
-
-@Composable
-private fun ProfessorCard(professor: Professor, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
-    ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+        /* -------- RESPONSIVE GRID -------- */
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = 260.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.fillMaxSize()
         ) {
-            Column(Modifier.weight(1f)) {
-                Text(
-                    text = "${professor.firstName} ${professor.lastName}",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Text(
-                    text = "Email : ${professor.email}",
-                    style = MaterialTheme.typography.bodySmall
-                )
-                Text(
-                    text = "Bureau : ${professor.office ?: "Non renseigné"}",
-                    style = MaterialTheme.typography.bodySmall
-                )
+            items(filtered) { prof ->
+                ProfessorCard(professor = prof)
             }
         }
     }
 }
 
+/* --------------------------- PROFESSOR CARD --------------------------- */
+
 @Composable
-private fun ProfessorDetailScreen(professor: Professor, onBack: () -> Unit) {
+private fun ProfessorCard(professor: Professor) {
+    var expanded by remember { mutableStateOf(false) }
     val uriHandler = LocalUriHandler.current
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState())
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+        elevation = CardDefaults.cardElevation(4.dp)
     ) {
-        Button(onClick = onBack) {
-            Text("← Retour")
-        }
-        Spacer(Modifier.height(16.dp))
-        Text(
-            text = "${professor.firstName} ${professor.lastName}",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(Modifier.height(8.dp))
-        Text("Spécialité : ${professor.speciality}")
-        Text("Email : ${professor.email}")
-        Text("Bureau : ${professor.office ?: "Non renseigné"}")
-        Spacer(Modifier.height(16.dp))
+        Column(modifier = Modifier.padding(16.dp)) {
 
-        Text(
-            text = "Cours donnés :",
-            style = MaterialTheme.typography.titleLarge
-        )
-        Spacer(Modifier.height(8.dp))
+            /* -------- AVATAR + NAME -------- */
+            Row(verticalAlignment = Alignment.CenterVertically) {
 
-        if (professor.courses.isEmpty()) {
-            Text("Aucun cours enregistré pour l’instant.")
-        } else {
-            professor.courses.forEach { course ->
-                Row(
+                /* Avatar dynamique (initiales) */
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                        .size(48.dp)
+                        .clip(CircleShape)
+                        .background(randomColorFor(professor.id)),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text(course.title)
-                    course.detailsUrl?.let { url ->
-                        TextButton(onClick = { uriHandler.openUri(url) }) {
-                            Text("Fiche")
+                    Text(
+                        text = "${professor.firstName.first()}${professor.lastName.first()}",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Spacer(Modifier.width(12.dp))
+
+                Column {
+                    Text(
+                        "${professor.firstName} ${professor.lastName}",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        specialityLabels[professor.speciality] ?: professor.speciality,
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            /* -------- EMAIL -------- */
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Default.Email, null, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.width(6.dp))
+                Text(professor.email)
+            }
+
+            /* -------- OFFICE -------- */
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Default.Room, null, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.width(6.dp))
+                Text(professor.office ?: "Non renseigné")
+            }
+
+            /* -------- COURSES SUMMARY -------- */
+            Spacer(Modifier.height(6.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.clickable { expanded = !expanded }
+            ) {
+                Icon(Icons.Default.School, null, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.width(6.dp))
+                Text("${professor.courses.size} cours enseignés")
+            }
+
+            if (professor.courses.isNotEmpty()) {
+                Spacer(Modifier.height(8.dp))
+
+                /* -------- HIDE/SHOW BUTTON -------- */
+                TextButton(onClick = { expanded = !expanded }) {
+                    Text(if (expanded) "Masquer les cours" else "Voir les cours")
+                }
+            }
+
+            /* -------- COURSE LIST -------- */
+            if (expanded) {
+                val sorted = professor.courses.sortedBy { it.code.firstOrNull()?.digitToIntOrNull() ?: 9 }
+
+                sorted.forEach { course ->
+
+                    Spacer(Modifier.height(8.dp))
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                course.detailsUrl?.let { uriHandler.openUri(it) }
+                            },
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(Icons.Default.Book, null, modifier = Modifier.size(18.dp))
+                            Spacer(Modifier.width(12.dp))
+
+                            Column(Modifier.weight(1f)) {
+                                Text(
+                                    "${course.code.uppercase()} – ${course.title}",
+                                    fontWeight = FontWeight.Medium
+                                )
+                            }
+
+                            Icon(Icons.Default.ArrowForward, null)
                         }
                     }
                 }
             }
         }
     }
+}
+
+/* --------------------------- RANDOM COLOR FOR AVATARS --------------------------- */
+
+private fun randomColorFor(seed: Int): Color {
+    val colors = listOf(
+        Color(0xFF3F51B5),
+        Color(0xFF009688),
+        Color(0xFF9C27B0),
+        Color(0xFFFF9800),
+        Color(0xFF4CAF50),
+        Color(0xFFE91E63)
+    )
+    return colors[seed.absoluteValue % colors.size]
 }

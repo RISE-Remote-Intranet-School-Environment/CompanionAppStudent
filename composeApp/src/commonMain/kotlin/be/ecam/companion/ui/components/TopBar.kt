@@ -1,11 +1,17 @@
 package be.ecam.companion.ui.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.FormatSize
+import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.ZoomIn
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import be.ecam.companion.ui.components.BottomItem
+import androidx.compose.runtime.*
+import be.ecam.companion.ui.theme.ScreenSizeMode
+import be.ecam.companion.ui.theme.TextScaleMode
+import be.ecam.companion.ui.theme.ThemeMode
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -16,6 +22,12 @@ fun TopBar(
     showPaePage: Boolean,
     coursesTitleSuffix: String?,
     paeTitleSuffix: String?,
+    screenSizeMode: ScreenSizeMode,
+    onZoomChange: () -> Unit,
+    textScaleMode: TextScaleMode,
+    onToggleTextScale: () -> Unit,
+    themeMode: ThemeMode,
+    onToggleTheme: () -> Unit,
     onMenuClick: () -> Unit
 ) {
     TopAppBar(
@@ -37,6 +49,32 @@ fun TopBar(
         navigationIcon = {
             IconButton(onClick = onMenuClick) {
                 Icon(Icons.Filled.Menu, contentDescription = "Open drawer")
+            }
+        },
+        actions = {
+            IconButton(onClick = onZoomChange) {
+                Icon(
+                    Icons.Filled.ZoomIn,
+                    contentDescription = screenSizeMode.description()
+                )
+            }
+            IconButton(onClick = onToggleTextScale) {
+                Icon(
+                    Icons.Filled.FormatSize,
+                    contentDescription = textScaleMode.description()
+                )
+            }
+            IconToggleButton(
+                checked = themeMode.isDark,
+                onCheckedChange = { onToggleTheme() }
+            ) {
+                Icon(
+                    if (themeMode.isDark) Icons.Filled.LightMode else Icons.Filled.DarkMode,
+                    contentDescription = if (themeMode.isDark) "Passer en mode clair" else "Passer en mode sombre"
+                )
+            }
+            IconButton(onClick = { /* TODO: message mode action */ }) {
+                Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = "Message mode")
             }
         }
     )

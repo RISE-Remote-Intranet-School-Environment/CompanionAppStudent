@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 enum class BottomItem {
     HOME,
     COURSECALENDAR,
-    EVENTCALENDAR,
     SETTINGS,
     DASHBOARD;
 
@@ -19,7 +18,6 @@ enum class BottomItem {
         when (this) {
             HOME -> "Accueil"
             COURSECALENDAR -> "Cours"
-            EVENTCALENDAR -> "Événements"
             SETTINGS -> "Paramètres"
             DASHBOARD -> "Dashboard"
         }
@@ -27,7 +25,6 @@ enum class BottomItem {
     fun getIconRes() =
         when (this) {
             HOME -> Icons.Filled.Home
-            EVENTCALENDAR -> Icons.Filled.CalendarMonth
             COURSECALENDAR -> Icons.Filled.CalendarMonth
             SETTINGS -> Icons.Filled.Settings
             DASHBOARD -> Icons.Filled.Dashboard
