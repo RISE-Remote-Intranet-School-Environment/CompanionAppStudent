@@ -56,6 +56,7 @@ import be.ecam.companion.data.FormationBlock
 import be.ecam.companion.data.FormationCourse
 import be.ecam.companion.ui.CourseRef
 import be.ecam.companion.ui.rememberCoursesDetails
+import be.ecam.companion.ui.CourseDetail
 import kotlin.math.roundToInt
 
 @Composable
@@ -202,7 +203,6 @@ private fun FilterPanel(
     ) {
         Column(modifier = Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(1.dp)) {
             Text("Filtres et Tri", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-            Spacer(Modifier.height(2.dp))
             Spacer(Modifier.height(14.dp))
             Text("Formation", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(Modifier.height(4.dp))
@@ -231,20 +231,20 @@ private fun FilterPanel(
                 Spacer(Modifier.height(10.dp))
                 Text("Bloc", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Spacer(Modifier.height(4.dp))
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(1.dp)
-            ) {
-                val blockColor = formationAccentColor(selectedFormation.formation.id, MaterialTheme.colorScheme.primary)
-                blocks.forEach { block ->
-                    val blockLabel = block.name.toBlocDisplayName()
-                    AssistChip(
-                        onClick = { onBlockSelected(block) },
-                        label = {
-                            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                                BlocAvatar(block.name, size = 16.dp, color = blockColor)
-                                Text(blockLabel)
-                            }
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(1.dp)
+                ) {
+                    val blockColor = formationAccentColor(selectedFormation.formation.id, MaterialTheme.colorScheme.primary)
+                    blocks.forEach { block ->
+                        val blockLabel = block.name.toBlocDisplayName()
+                        AssistChip(
+                            onClick = { onBlockSelected(block) },
+                            label = {
+                                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                    BlocAvatar(block.name, size = 16.dp, color = blockColor)
+                                    Text(blockLabel)
+                                }
                             },
                             colors = if (block == selectedBlock) {
                                 AssistChipDefaults.assistChipColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
@@ -308,13 +308,18 @@ private fun BlockDetails(
     modifier: Modifier = Modifier
 ) {
     BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
-        val courseDetails = rememberCoursesDetails()
+        // Explicitly typed list to avoid inference errors
+        val courseDetails: List<CourseDetail> = rememberCoursesDetails()
+
         val teacherByCode = remember(courseDetails) {
-            courseDetails.associate { detail ->
-                normalizeCourseCode(detail.code) to (detail.responsable?.takeIf { it.isNotBlank() }
+            // Explicitly typing 'detail: CourseDetail' fixes the inference issues
+            courseDetails.associate { detail: CourseDetail ->
+                val teacherName = detail.responsable?.takeIf { it.isNotBlank() }
                     ?: detail.organized_activities.firstOrNull()?.teachers?.firstOrNull()
                     ?: detail.evaluated_activities.firstOrNull()?.teachers?.firstOrNull()
-                    ?: "")
+                    ?: ""
+
+                normalizeCourseCode(detail.code) to teacherName
             }
         }
         val creditWidth = remember(maxWidth) {

@@ -3,44 +3,34 @@
 package be.ecam.companion.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import companion.composeapp.generated.resources.Res
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 
 
-@Composable
-fun isWideScreen(): Boolean {
-    var wide by remember { mutableStateOf(false) }
 
-    BoxWithConstraints {
-        val maxWidthDp = maxWidth
-        wide = maxWidthDp > 900.dp
-    }
-
-    return wide
-}
 @Serializable
 data class OrganizedActivity(
     val code: String,
@@ -83,6 +73,9 @@ data class CourseDetail(
 data class CourseRef(val code: String, val detailsUrl: String?)
 
 
+
+
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun loadCourses(): List<CourseDetail> {
     val state = produceState(initialValue = emptyList<CourseDetail>()) {
@@ -100,6 +93,9 @@ fun loadCourses(): List<CourseDetail> {
     return state.value
 }
 
+
+@Composable
+fun rememberCoursesDetails(): List<CourseDetail> = loadCourses()
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CoursesFicheScreen(
@@ -116,14 +112,26 @@ fun CoursesFicheScreen(
     }
 
     Scaffold(
+        modifier = modifier,
         topBar = {
             CenterAlignedTopAppBar(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Retour")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
                     }
                 },
-                title = { Text(course?.title ?: "Fiche de cours") }
+                title = {
+                    Text(
+                        text = course?.title ?: courseRef.code,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                    )
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
             )
         }
     ) { padding ->
@@ -132,7 +140,11 @@ fun CoursesFicheScreen(
                 modifier = Modifier.fillMaxSize().padding(padding),
                 contentAlignment = Alignment.Center
             ) {
-                Text("Aucune fiche trouvée pour '${courseRef.code}'.")
+                if (allCourses.isEmpty()) {
+                    CircularProgressIndicator()
+                } else {
+                    Text("Aucune fiche trouvée pour '${courseRef.code}'.")
+                }
             }
         } else {
             CourseDetailScreen(
@@ -153,8 +165,6 @@ fun CourseDetailScreen(course: CourseDetail, modifier: Modifier = Modifier) {
             .verticalScroll(scroll)
             .padding(16.dp)
     ) {
-
-
         Card(
             shape = RoundedCornerShape(20.dp),
             colors = CardDefaults.cardColors(
@@ -195,15 +205,12 @@ fun CourseDetailScreen(course: CourseDetail, modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(20.dp))
 
-
-
         if (course.organized_activities.isNotEmpty()) {
             SectionTitle("Activités organisées", Icons.Default.List)
             OrganizedActivitiesTable(course.organized_activities)
         }
 
         Spacer(Modifier.height(16.dp))
-
 
         if (course.evaluated_activities.isNotEmpty()) {
             SectionTitle("Activités évaluées", Icons.Default.Info)
@@ -212,14 +219,13 @@ fun CourseDetailScreen(course: CourseDetail, modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(16.dp))
 
-
         if (course.sections.isNotEmpty()) {
             SectionsResponsiveLayout(course.sections)
         }
 
+        Spacer(Modifier.height(40.dp))
     }
 }
-
 
 @Composable
 fun SectionTitle(title: String, icon: androidx.compose.ui.graphics.vector.ImageVector) {
@@ -238,151 +244,76 @@ fun SectionTitle(title: String, icon: androidx.compose.ui.graphics.vector.ImageV
 }
 
 @Composable
-fun SectionCard(
-    title: String,
-    content: @Composable ColumnScope.() -> Unit
-) {
-    Card(
-        shape = RoundedCornerShape(18.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 12.dp)
-            .then(
-                if (true) Modifier else Modifier // (placeholder for responsiveness if you want later)
-            ),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        )
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(24.dp)
-                .fillMaxWidth()
-                .widthIn(max = 900.dp)
-                .align(Alignment.CenterHorizontally)
-        ) {
-            Text(
-                title,
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                ),
-                modifier = Modifier.padding(bottom = 12.dp)
-            )
-
-            ProvideTextStyle(
-                MaterialTheme.typography.bodyLarge.copy(
-                    lineHeight = 26.sp
-                )
-            ) {
-                content()
-            }
-        }
-    }
-}
-
-
-@Composable
-fun ActivityCard(activity: OrganizedActivity) {
-    Card(
-        shape = RoundedCornerShape(14.dp),
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surface),
-        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
-    ) {
-        Column(Modifier.padding(12.dp)) {
-            Text(activity.title, fontWeight = FontWeight.Bold)
-            Text("Code : ${activity.code}")
-            Text("Q1 : ${activity.hours_Q1 ?: "-"} | Q2 : ${activity.hours_Q2 ?: "-"}")
-            if (activity.teachers.isNotEmpty())
-                Text("Enseignants : ${activity.teachers.joinToString(", ")}")
-            Text("Langue : ${activity.language ?: "-"}")
-        }
-    }
-}
-
-@Composable
-fun EvaluationCard(eval: EvaluatedActivity) {
-    Card(
-        shape = RoundedCornerShape(14.dp),
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surface),
-        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
-    ) {
-        Column(Modifier.padding(12.dp)) {
-            Text(eval.title, fontWeight = FontWeight.Bold)
-            Text("Code : ${eval.code}")
-            eval.weight?.let { Text("Pondération : $it%") }
-            eval.type_Q1?.let { Text("Évaluation Q1 : $it") }
-            eval.type_Q2?.let { Text("Évaluation Q2 : $it") }
-            eval.type_Q3?.let { Text("Évaluation Q3 : $it") }
-            if (eval.teachers.isNotEmpty())
-                Text("Enseignants : ${eval.teachers.joinToString(", ")}")
-            if (eval.linked_activities.isNotEmpty())
-                Text("Activités liées : ${eval.linked_activities.joinToString(" / ")}")
-        }
-    }
-}
-
-@Composable
-fun rememberCoursesDetails(): List<CourseDetail> = loadCourses()
-@Composable
 fun OrganizedActivitiesTable(activities: List<OrganizedActivity>) {
-
-    Column(Modifier.fillMaxWidth()) {
-
-        Row(Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
-            Text("Code", Modifier.weight(1f), fontWeight = FontWeight.Bold)
-            Text("Activité", Modifier.weight(2f), fontWeight = FontWeight.Bold)
-            Text("Heures \n Q1/Q2", Modifier.weight(1f), fontWeight = FontWeight.Bold)
-            Text("Enseignants", Modifier.weight(2f), fontWeight = FontWeight.Bold)
-        }
-
-        HorizontalDivider()
-
-        activities.forEach { act ->
-            Row(
-                Modifier.fillMaxWidth().padding(vertical = 6.dp)
-            ) {
-                Text(act.code, Modifier.weight(1f))
-                Text(act.title, Modifier.weight(2f))
-                Text("${act.hours_Q1 ?: "-"} / ${act.hours_Q2 ?: "-"}", Modifier.weight(1f))
-                Text(act.teachers.joinToString(", "), Modifier.weight(2f))
+    Card(
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(1.dp)
+    ) {
+        Column(Modifier.fillMaxWidth().padding(8.dp)) {
+            Row(Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+                Text("Code", Modifier.weight(0.8f), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge)
+                Text("Activité", Modifier.weight(2f), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge)
+                Text("Heures\n Q1/ Q2", Modifier.weight(1f), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge, textAlign = TextAlign.Center)
+                Text("Prof.", Modifier.weight(1.5f), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge)
             }
+
             HorizontalDivider()
+
+            activities.forEach { act ->
+                Row(
+                    Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(act.code, Modifier.weight(0.8f), style = MaterialTheme.typography.bodySmall)
+                    Text(act.title, Modifier.weight(2f), style = MaterialTheme.typography.bodySmall)
+                    val q1 = act.hours_Q1 ?: "-"
+                    val q2 = act.hours_Q2 ?: "-"
+                    Text("$q1 / $q2   ", Modifier.weight(1f), style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center)
+                    Text(act.teachers.joinToString(", "), Modifier.weight(1.5f), style = MaterialTheme.typography.bodySmall)
+                }
+                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+            }
         }
     }
 }
 
 @Composable
 fun EvaluatedActivitiesTable(list: List<EvaluatedActivity>) {
-
-    Column(Modifier.fillMaxWidth()) {
-
-        Row(Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
-            Text("Code", Modifier.weight(1f), fontWeight = FontWeight.Bold)
-            Text("Activité", Modifier.weight(2f), fontWeight = FontWeight.Bold)
-            Text("%", Modifier.weight(1f), fontWeight = FontWeight.Bold)
-            Text("Q1", Modifier.weight(1f), fontWeight = FontWeight.Bold)
-            Text("Q2", Modifier.weight(1f), fontWeight = FontWeight.Bold)
-            Text("Q3", Modifier.weight(1f), fontWeight = FontWeight.Bold)
-            Text("Enseignants", Modifier.weight(2f), fontWeight = FontWeight.Bold)
-        }
-
-        HorizontalDivider()
-
-        list.forEach { eval ->
-            Row(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
-                Text(eval.code, Modifier.weight(1f))
-                Text(eval.title, Modifier.weight(2f))
-                Text(eval.weight ?: "-", Modifier.weight(1f))
-                Text(eval.type_Q1 ?: "-", Modifier.weight(1f))
-                Text(eval.type_Q2 ?: "-", Modifier.weight(1f))
-                Text(eval.type_Q3 ?: "-", Modifier.weight(1f))
-                Text(eval.teachers.joinToString(", "), Modifier.weight(2f))
+    Card(
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(1.dp)
+    ) {
+        Column(Modifier.fillMaxWidth().padding(8.dp)) {
+            Row(Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+                Text("Activité", Modifier.weight(2f), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge)
+                Text("Ponderation", Modifier.weight(0.8f), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge, textAlign = TextAlign.Center)
+                Text("Q1/Q2/Q3", Modifier.weight(1.2f), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge, textAlign = TextAlign.Center)
             }
+
             HorizontalDivider()
+
+            list.forEach { eval ->
+                Row(Modifier.fillMaxWidth().padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(2f)) {
+                        Text(eval.title, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold)
+                        Text(eval.code, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.secondary)
+                    }
+                    Text(if(eval.weight != null) "${eval.weight}%" else "-", Modifier.weight(0.8f), style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center)
+                    val q1 = eval.type_Q1 ?: "-"
+                    val q2 = eval.type_Q2 ?: "-"
+                    val q3 = eval.type_Q3 ?: "-"
+                    Text("$q1  /  $q2   /  $q3", Modifier.weight(1.8f), style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center)
+                }
+                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+            }
         }
     }
 }
+
 @Composable
 fun ExpandableSectionCard(
     title: String,
@@ -393,12 +324,11 @@ fun ExpandableSectionCard(
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        shape = RoundedCornerShape(16.dp)
+            .padding(vertical = 4.dp),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
-        Column(Modifier.padding(16.dp)) {
-
-
+        Column(Modifier.clickable { expanded = !expanded }.padding(16.dp)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
@@ -406,32 +336,42 @@ fun ExpandableSectionCard(
                 Text(
                     title,
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    color = MaterialTheme.colorScheme.primary
                 )
 
-                IconButton(onClick = { expanded = !expanded }) {
-                    Icon(
-                        imageVector = if (expanded)
-                            Icons.Default.KeyboardArrowUp
-                        else
-                            Icons.Default.KeyboardArrowDown,
-                        contentDescription = null
-                    )
-                }
+                Icon(
+                    imageVector = if (expanded)
+                        Icons.Default.KeyboardArrowUp
+                    else
+                        Icons.Default.KeyboardArrowDown,
+                    contentDescription = null
+                )
             }
 
-
             AnimatedVisibility(visible = expanded) {
-                Text(
-                    text = content,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(top = 8.dp),
-                    textAlign = TextAlign.Justify
-                )
+                Column {
+                    HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                    Text(
+                        text = content,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Justify
+                    )
+                }
             }
         }
     }
 }
+
+@Composable
+fun isWideScreen(): Boolean {
+    var wide by remember { mutableStateOf(false) }
+    BoxWithConstraints {
+        wide = maxWidth > 900.dp
+    }
+    return wide
+}
+
 @Composable
 fun SectionsResponsiveLayout(sections: Map<String, String>) {
     val wide = isWideScreen()
@@ -443,7 +383,7 @@ fun SectionsResponsiveLayout(sections: Map<String, String>) {
         ) {
             Column(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 sections.entries.filterIndexed { index, _ -> index % 2 == 0 }
                     .forEach { (title, content) ->
@@ -453,7 +393,7 @@ fun SectionsResponsiveLayout(sections: Map<String, String>) {
 
             Column(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 sections.entries.filterIndexed { index, _ -> index % 2 == 1 }
                     .forEach { (title, content) ->
@@ -462,10 +402,12 @@ fun SectionsResponsiveLayout(sections: Map<String, String>) {
             }
         }
     } else {
-        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             sections.forEach { (title, content) ->
                 ExpandableSectionCard(title, content)
             }
         }
     }
 }
+
+

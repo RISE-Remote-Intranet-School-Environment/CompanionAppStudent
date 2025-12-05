@@ -1,5 +1,11 @@
 package be.ecam.companion.ui.screens
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -13,6 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import be.ecam.companion.data.PaeCourse
 import androidx.compose.foundation.shape.RoundedCornerShape
+// Assurez-vous que ces imports pointent vers le fichier CoursesFicheScreen.kt
+import be.ecam.companion.ui.CourseRef
+import be.ecam.companion.ui.CoursesFicheScreen
 import be.ecam.companion.viewmodel.HomeViewModel
 
 @Composable
@@ -22,39 +31,63 @@ fun HomeScreen(
     currentUser: String
 ) {
 
+    var selectedCourseRef by remember { mutableStateOf<CourseRef?>(null) }
+
     LaunchedEffect(currentUser) {
         vm.load(currentUser)
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp), // Marge globale
-        verticalArrangement = Arrangement.Top
-    ) {
 
-        Text(
-            text = "Bonjour, ${vm.student?.studentName ?: currentUser}",
-            style = MaterialTheme.typography.headlineSmall
-        )
+    AnimatedContent(
+        targetState = selectedCourseRef,
+        transitionSpec = { fadeIn(tween(300)) togetherWith fadeOut(tween(300)) },
+        label = "HomeNavigation"
+    ) { currentSelection ->
 
-        Spacer(Modifier.height(16.dp))
-
-        if (vm.lastErrorMessage.isNotEmpty()) {
-            Text(vm.lastErrorMessage, color = MaterialTheme.colorScheme.error)
-        } else if (vm.courses.isEmpty()) {
-            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                if(vm.student == null) CircularProgressIndicator() else Text("Aucun cours trouvé pour 2025-2026")
-            }
+        if (currentSelection != null) {
+            CoursesFicheScreen(
+                courseRef = currentSelection,
+                onBack = { selectedCourseRef = null },
+                modifier = modifier
+            )
         } else {
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 180.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxSize()
+
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Top
             ) {
-                items(vm.courses) { course ->
-                    CourseCard(course)
+                Text(
+                    text = "Bonjour, ${vm.student?.studentName ?: currentUser}",
+                    style = MaterialTheme.typography.headlineSmall
+                )
+
+                Spacer(Modifier.height(16.dp))
+
+                if (vm.lastErrorMessage.isNotEmpty()) {
+                    Text(vm.lastErrorMessage, color = MaterialTheme.colorScheme.error)
+                } else if (vm.courses.isEmpty()) {
+                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                        if (vm.student == null) CircularProgressIndicator() else Text("Aucun cours trouvé pour 2025-2026")
+                    }
+                } else {
+                    LazyVerticalGrid(
+                        columns = GridCells.Adaptive(minSize = 180.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        items(vm.courses) { course ->
+                            CourseCard(
+                                course = course,
+                                onClick = {
+                                    val code = course.code ?: ""
+                                    selectedCourseRef = CourseRef(code = code, detailsUrl = null)
+                                }
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -62,11 +95,15 @@ fun HomeScreen(
 }
 
 @Composable
-fun CourseCard(course: PaeCourse) {
+fun CourseCard(
+    course: PaeCourse,
+    onClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp),
+            .height(150.dp)
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
@@ -93,13 +130,6 @@ fun CourseCard(course: PaeCourse) {
                 overflow = TextOverflow.Ellipsis
             )
 
-            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
-                Text(
-                    text = "${course.ects ?: 0} ECTS",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
-                )
-            }
         }
     }
 }
