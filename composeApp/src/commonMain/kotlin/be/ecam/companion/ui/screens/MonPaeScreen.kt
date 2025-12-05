@@ -73,10 +73,13 @@ private val SCORE_CELL_WIDTH = 50.dp
 @Composable
 fun MonPaeScreen(
     modifier: Modifier = Modifier,
+    userIdentifier: String,
     onContextChange: (String?) -> Unit = {}
 ) {
     val detailScrollState = rememberScrollState()
     var loadError by remember { mutableStateOf<String?>(null) }
+
+
     val paeDatabase by produceState<PaeDatabase?>(initialValue = null) {
         loadError = null
         value = try {
@@ -89,16 +92,27 @@ fun MonPaeScreen(
     val students = paeDatabase?.students.orEmpty()
 
     var selectedStudentId by remember { mutableStateOf<String?>(null) }
-    LaunchedEffect(students) {
-        if (selectedStudentId == null && students.isNotEmpty()) {
+
+
+    LaunchedEffect(students, userIdentifier) {
+        val targetStudent = students.find {
+            it.username == userIdentifier || it.email == userIdentifier
+        }
+
+        if (targetStudent != null) {
+            selectedStudentId = targetStudent.studentId ?: targetStudent.username
+        } else if (selectedStudentId == null && students.isNotEmpty()) {
             selectedStudentId = students.first().studentId ?: students.first().username
         }
     }
+
+
     val selectedStudent = students.firstOrNull { it.studentId == selectedStudentId || it.username == selectedStudentId }
         ?: students.firstOrNull()
 
     val sortedRecords = selectedStudent?.records?.sortedByDescending { it.catalogYear ?: it.academicYearLabel ?: "" }.orEmpty()
     var selectedCatalogYear by remember { mutableStateOf<String?>(null) }
+
     LaunchedEffect(selectedStudent) {
         selectedCatalogYear = sortedRecords.firstOrNull()?.catalogYear ?: sortedRecords.firstOrNull()?.academicYearLabel
     }
@@ -409,7 +423,7 @@ private fun PaeDetailPane(
                     PaeMetaRow(
                         modifier = Modifier.weight(1f),
                         label = "Bloc",
-                        value = record.block ?: "Ã¢ÂÂ"
+                        value = record.block ?: "Ã¢Â€Â”"
                     )
                 }
                 StatsStrip(record)

@@ -32,11 +32,6 @@ class HomeViewModel(
     var lastErrorMessage by mutableStateOf("")
         private set
 
-    /**
-     * Charge les données.
-     * @param userIdentifier : L'email ou le username de l'étudiant à charger.
-     * Valeur par défaut mise à "nicolas.schell" pour que l'app fonctionne même sans login préalable lors des tests.
-     */
     fun load(userIdentifier: String = "nicolas.schell") {
         // 1. Hello Message (API)
         viewModelScope.launch {

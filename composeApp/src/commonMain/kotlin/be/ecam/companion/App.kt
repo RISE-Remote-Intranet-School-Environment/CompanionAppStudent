@@ -3,11 +3,10 @@ package be.ecam.companion
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.di.appModule
@@ -15,6 +14,7 @@ import be.ecam.companion.di.appModule
 import be.ecam.companion.ui.components.*
 import be.ecam.companion.ui.theme.TextScaleMode
 import be.ecam.companion.ui.theme.ThemeMode
+import be.ecam.companion.ui.theme.ScreenSizeMode
 
 import be.ecam.companion.ui.screens.CalendarScreen
 import be.ecam.companion.ui.screens.CoursesFormationScreen
@@ -29,29 +29,10 @@ import be.ecam.companion.ui.screens.MonPaeScreen
 
 import be.ecam.companion.viewmodel.HomeViewModel
 import be.ecam.companion.viewmodel.LoginViewModel
-import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.nicolas
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.module.Module
-import androidx.compose.foundation.background
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.Dashboard
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Density
-import be.ecam.companion.ui.theme.ScreenSizeMode
-import companion.composeapp.generated.resources.compose_multiplatform
-import org.jetbrains.compose.resources.painterResource
-import companion.composeapp.generated.resources.nicolas
-
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,7 +41,9 @@ fun App(extraModules: List<Module> = emptyList()) {
     KoinApplication(application = { modules(appModule + extraModules) }) {
 
         val vm = koinInject<HomeViewModel>()
+        // Initialize LoginViewModel here so it survives across screens
         val loginViewModel = remember { LoginViewModel() }
+
         var themeMode by remember { mutableStateOf(ThemeMode.LIGHT) }
         var textScaleMode by remember { mutableStateOf(TextScaleMode.NORMAL) }
         var screenSizeMode by remember { mutableStateOf(ScreenSizeMode.Default) }
@@ -95,6 +78,10 @@ fun App(extraModules: List<Module> = emptyList()) {
                     return@MaterialTheme
                 }
 
+                // --- KEY STEP: Retrieve the connected username ---
+                // We use "nschell" as a fallback safety if username is null
+                val connectedUser = loginViewModel.currentUser?.username ?: "nschell"
+
                 val drawerState = rememberDrawerState(DrawerValue.Closed)
                 val scope = rememberCoroutineScope()
 
@@ -110,7 +97,6 @@ fun App(extraModules: List<Module> = emptyList()) {
 
                 ModalNavigationDrawer(
                     drawerState = drawerState,
-                    // Allow swipe/edge gestures to open/close the drawer on every screen
                     gesturesEnabled = true,
                     drawerContent = {
                         AppDrawer(
@@ -159,17 +145,17 @@ fun App(extraModules: List<Module> = emptyList()) {
                             TopBar(
                                 selectedScreen = selectedScreen,
                                 showCoursesPage = showCoursesPage,
-                            showProfessorsPage = showProfessorsPage,
-                            showPaePage = showPaePage,
-                            coursesTitleSuffix = coursesTitleSuffix,
-                            paeTitleSuffix = paeTitleSuffix,
-                            screenSizeMode = screenSizeMode,
-                            onZoomChange = { screenSizeMode = screenSizeMode.next() },
-                            textScaleMode = textScaleMode,
-                            onToggleTextScale = { textScaleMode = textScaleMode.next() },
-                            themeMode = themeMode,
-                            onToggleTheme = { themeMode = themeMode.toggle() },
-                            onMenuClick = { scope.launch { drawerState.open() } }
+                                showProfessorsPage = showProfessorsPage,
+                                showPaePage = showPaePage,
+                                coursesTitleSuffix = coursesTitleSuffix,
+                                paeTitleSuffix = paeTitleSuffix,
+                                screenSizeMode = screenSizeMode,
+                                onZoomChange = { screenSizeMode = screenSizeMode.next() },
+                                textScaleMode = textScaleMode,
+                                onToggleTextScale = { textScaleMode = textScaleMode.next() },
+                                themeMode = themeMode,
+                                onToggleTheme = { themeMode = themeMode.toggle() },
+                                onMenuClick = { scope.launch { drawerState.open() } }
                             )
                         },
                         bottomBar = {
@@ -214,13 +200,20 @@ fun App(extraModules: List<Module> = emptyList()) {
 
                             showPaePage -> MonPaeScreen(
                                 modifier = baseModifier,
+                                userIdentifier = connectedUser,
                                 onContextChange = { paeTitleSuffix = it }
                             )
 
                             else -> when (selectedScreen) {
                                 BottomItem.HOME -> {
-                                    LaunchedEffect(Unit) { vm.load() }
-                                    HomeScreen(modifier = baseModifier, vm = vm)
+                                    // Remove the manual vm.load() call here
+                                    // HomeScreen now handles loading internally via its LaunchedEffect
+                                    HomeScreen(
+                                        modifier = baseModifier,
+                                        vm = vm,
+                                        // Pass the connected user's ID to HomeScreen
+                                        currentUser = connectedUser
+                                    )
                                 }
 
                                 BottomItem.COURSECALENDAR -> {
@@ -236,7 +229,7 @@ fun App(extraModules: List<Module> = emptyList()) {
                                     SettingsScreen(
                                         repo = settingsRepo,
                                         modifier = baseModifier,
-                                        onSaved = { scope.launch { vm.load() } }
+                                        onSaved = { scope.launch { vm.load(connectedUser) } }
                                     )
                                 }
 
