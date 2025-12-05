@@ -12,7 +12,7 @@ import be.ecam.companion.data.PaeStudent
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
-// Assurez-vous d'avoir MockApiRepository ou NetworkApiRepository disponible
+
 class HomeViewModel(
     private val repository: ApiRepository
 ) : ViewModel() {
