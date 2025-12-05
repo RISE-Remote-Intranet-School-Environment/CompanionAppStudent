@@ -179,7 +179,8 @@ object CalendarService {
             courseCode = courseCode,
             courseName = courseName,
             teachers = teachersJson.split(","),
-            rooms = roomsJson.split(",")
+            rooms = roomsJson.split(","),
+            sousCourseId = sousCourseId
         )
 
 

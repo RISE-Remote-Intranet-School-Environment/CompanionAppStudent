@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import be.ecam.companion.data.FormationBlock
 import be.ecam.companion.data.FormationCourse
 import be.ecam.companion.ui.CourseRef
+import be.ecam.companion.ui.rememberCoursesDetails
 import kotlin.math.roundToInt
 
 @Composable
@@ -236,12 +237,13 @@ private fun FilterPanel(
             ) {
                 val blockColor = formationAccentColor(selectedFormation.formation.id, MaterialTheme.colorScheme.primary)
                 blocks.forEach { block ->
+                    val blockLabel = block.name.toBlocDisplayName()
                     AssistChip(
                         onClick = { onBlockSelected(block) },
                         label = {
                             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                                 BlocAvatar(block.name, size = 16.dp, color = blockColor)
-                                Text(block.name)
+                                Text(blockLabel)
                             }
                             },
                             colors = if (block == selectedBlock) {
@@ -306,6 +308,15 @@ private fun BlockDetails(
     modifier: Modifier = Modifier
 ) {
     BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
+        val courseDetails = rememberCoursesDetails()
+        val teacherByCode = remember(courseDetails) {
+            courseDetails.associate { detail ->
+                normalizeCourseCode(detail.code) to (detail.responsable?.takeIf { it.isNotBlank() }
+                    ?: detail.organized_activities.firstOrNull()?.teachers?.firstOrNull()
+                    ?: detail.evaluated_activities.firstOrNull()?.teachers?.firstOrNull()
+                    ?: "")
+            }
+        }
         val creditWidth = remember(maxWidth) {
             when {
                 maxWidth < 400.dp -> 48.dp
@@ -322,6 +333,7 @@ private fun BlockDetails(
         }
         val tableWidth = remember(maxWidth) { maxWidth }
         val accentColor = formationAccentColor(program.formation.id, MaterialTheme.colorScheme.primary)
+        val blockLabel = remember(block.name) { block.name.toBlocDisplayName() }
 
         Card(
             modifier = Modifier
@@ -333,6 +345,7 @@ private fun BlockDetails(
                 TableHeader(
                     program = program,
                     block = block,
+                    blockLabel = blockLabel,
                     courseCount = courses.size,
                     creditWidth = creditWidth,
                     periodWidth = periodWidth,
@@ -346,7 +359,7 @@ private fun BlockDetails(
                         striped = index % 2 == 0,
                         creditWidth = creditWidth,
                         periodWidth = periodWidth,
-                        blockName = block.name,
+                        teacherName = teacherByCode[normalizeCourseCode(course.code)],
                         accentColor = accentColor,
                         onCourseSelected = onCourseSelected
                     )
@@ -360,6 +373,7 @@ private fun BlockDetails(
 private fun TableHeader(
     program: ProgramCardData,
     block: FormationBlock,
+    blockLabel: String,
     courseCount: Int,
     creditWidth: Dp,
     periodWidth: Dp,
@@ -392,7 +406,7 @@ private fun TableHeader(
                 BlocAvatar(block.name, size = 32.dp, color = accentColor)
                 Column {
                     Text(
-                        text = "${block.name}",
+                        text = blockLabel,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -486,7 +500,7 @@ private fun CourseRow(
     striped: Boolean,
     creditWidth: Dp,
     periodWidth: Dp,
-    blockName: String,
+    teacherName: String?,
     accentColor: Color,
     onCourseSelected: (CourseRef) -> Unit
 ) {
@@ -537,12 +551,11 @@ private fun CourseRow(
                 .joinToString(" - ")
             val metaLine = buildString {
                 append(course.code)
-                if (periodsLabel != "-") {
+                val teacher = teacherName?.takeIf { it.isNotBlank() }
+                if (teacher != null) {
                     append(" - ")
-                    append(periodsLabel)
+                    append(teacher)
                 }
-                append(" - ")
-                append(blockName)
             }
             Text(
                 text = metaLine,
@@ -675,6 +688,21 @@ private fun blockAccentColor(blockName: String, fallback: Color): Color {
         else -> fallback
     }
 }
+
+private fun String.toBlocDisplayName(): String {
+    val cleaned = replace('_', ' ').replace('-', ' ').trim()
+    if (cleaned.isEmpty()) return this
+    return cleaned
+        .split(Regex("\\s+"))
+        .joinToString(" ") { part ->
+            part.replaceFirstChar { ch ->
+                if (ch.isLowerCase()) ch.titlecase() else ch.toString()
+            }
+        }
+}
+
+private fun normalizeCourseCode(code: String): String =
+    code.lowercase().replace(" ", "")
 
 private fun formationAccentColor(formationId: String, fallback: Color): Color =
     when (formationId) {

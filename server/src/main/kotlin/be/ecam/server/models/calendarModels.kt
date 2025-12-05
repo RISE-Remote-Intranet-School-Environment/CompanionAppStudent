@@ -82,19 +82,20 @@ data class CalendarEventWriteRequest(
 // table
 object CourseScheduleTable : IntIdTable("course_schedule") {
     val week = integer("week")
-    val yearOption = varchar("year_option", 20)
+    val yearOption = varchar("year_option_id", 50)
     val groupNo = integer("group_no")
 
     val seriesJson = text("series_json")
-    val date = varchar("date", 10)
+    val date = varchar("date", 20)
     val dayName = varchar("day_name", 20)
-    val startTime = varchar("start_time", 5)
-    val endTime = varchar("end_time", 5)
+    val startTime = varchar("start_time", 10)
+    val endTime = varchar("end_time", 10)
 
-    val courseCode = varchar("course_code", 20)
+    val courseCode = varchar("course_raccourci_id", 50).nullable()
     val teachersJson = text("teachers_json")
-    val roomsJson = text("rooms_json")
-    val courseName = varchar("course_name", 255)
+    val roomsJson = text("room_ids")
+    val courseName = varchar("title", 255)
+    val sousCourseId = varchar("sous_course_id", 255).nullable()
 }
 
 class CourseSchedule(id: EntityID<Int>) : IntEntity(id) {
@@ -114,6 +115,7 @@ class CourseSchedule(id: EntityID<Int>) : IntEntity(id) {
     var teachersJson by CourseScheduleTable.teachersJson
     var roomsJson by CourseScheduleTable.roomsJson
     var courseName by CourseScheduleTable.courseName
+    var sousCourseId by CourseScheduleTable.sousCourseId
 }
 
 @Serializable
@@ -127,8 +129,9 @@ data class CourseScheduleDTO(
     val dayName: String,
     val startTime: String,
     val endTime: String,
-    val courseCode: String,
+    val courseCode: String?,
     val courseName: String,
     val teachers: List<String>,
-    val rooms: List<String>
+    val rooms: List<String>,
+    val sousCourseId: String?
 )
