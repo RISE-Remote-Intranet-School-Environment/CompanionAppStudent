@@ -1,30 +1,22 @@
 package be.ecam.server.db
 
-import be.ecam.server.models.AdminTable
-import be.ecam.server.models.FormationTable
-import be.ecam.server.models.BlockTable
-import be.ecam.server.models.CourseTable
-import be.ecam.server.models.CalendarEventsTable
-import be.ecam.server.models.CourseScheduleTable
-import be.ecam.server.models.CourseDetailsTable
-import be.ecam.server.models.ProfessorsTable
+import at.favre.lib.crypto.bcrypt.BCrypt
+import be.ecam.server.models.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.io.File
-import be.ecam.server.models.Admin
-import org.jetbrains.exposed.sql.selectAll
-import at.favre.lib.crypto.bcrypt.BCrypt
-
 
 object DatabaseFactory {
 
     fun connect() {
-        // we force the creation of a "data" folder in the working directory
+        // Dossier data
         val dbFolder = File("data")
         if (!dbFolder.exists()) {
             dbFolder.mkdirs()
-            println(" Created DB folder: ${dbFolder.absolutePath}")
+            println("Created DB folder: ${dbFolder.absolutePath}")
         }
 
         val dbFile = File(dbFolder, "app.db")
@@ -33,32 +25,66 @@ object DatabaseFactory {
         Database.connect(url, driver = "org.sqlite.JDBC")
         println("SQLite DB = $url")
 
-        // Create tables if not exists
         transaction {
+            // ====== CREATE TABLES ======
             SchemaUtils.create(
-                AdminTable,
-                FormationTable,
-                BlockTable,
-                CourseTable,
+                UsersTable,
+                StudentsTable,
+                ProfessorsTable,
+
+                FormationsTable,
+                BlocsTable,
+                YearsTable,
+                YearOptionsTable,
+                SeriesNameTable,
+
+                CoursesTable,
+                CourseDetailsTable,
+                CourseEvaluationTable,
+                SousCoursesTable,
+
                 CalendarEventsTable,
                 CourseScheduleTable,
-                CourseDetailsTable,
-                ProfessorsTable
+
+                RoomsTable,
+
+                PaeStudentsTable,
+                NotesStudentsTable,
             )
-            println("Schema synced (Admin, Formation, Block, Course, CalendarEvents, CourseSchedule, CourseDetails, Professors tables)")
 
+            println(
+                "Schema synced: " +
+                    "Users, Students, Professors, " +
+                    "Formations, Blocs, Years, YearOptions, SeriesName, " +
+                    "Courses, CourseDetails, CourseEvaluation, SousCourses, " +
+                    "CalendarEvents, CourseSchedule, Rooms, " +
+                    "PaeStudents, NotesStudents."
+            )
 
-        // autocreation admin 
-            val adminCount = AdminTable.selectAll().count()
-            if (adminCount == 0L) {
-                val a = Admin.new {
-                    username = "admin"
-                    email = "admin@example.com"
-                    password = BCrypt.withDefaults().hashToString(12, "1234".toCharArray())
+            // ====== USER ADMIN PAR DÉFAUT (OPTIONNEL) ======
+            // Décommente si tu veux un admin auto au premier lancement
+            /*
+            val userCount = UsersTable.selectAll().count()
+            if (userCount == 0L) {
+                val hashedPassword = BCrypt
+                    .withDefaults()
+                    .hashToString(12, "1234".toCharArray())
+
+                UsersTable.insert { row ->
+                    row[username] = "admin"
+                    row[email] = "admin@example.com"
+                    row[passwordHash] = hashedPassword
+                    row[firstName] = "Admin"
+                    row[lastName] = "ECAM"
+                    row[role] = UserRole.ADMIN       // ⚠️ enum direct, pas .name
+                    row[avatarUrl] = null
+                    row[professorId] = null
+                    row[studentId] = null
                 }
-                println("Default admin created with id=${a.id.value}")
+
+                println("Default admin user created (email=admin@example.com, pwd=1234)")
+            }
+            */
         }
     }
-}
-
 }

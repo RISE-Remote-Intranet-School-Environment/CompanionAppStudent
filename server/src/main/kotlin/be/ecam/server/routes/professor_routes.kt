@@ -10,80 +10,79 @@ import io.ktor.server.routing.*
 
 fun Route.professorRoutes() {
 
-    // get all professors
-    get("/professors") {
-        call.respond(ProfessorService.getAllProfessors())
-    }
+    route("/professors") {
 
-    // get professor by id
-    // GET by id
-    get("/professors/{id}") {
-        val id = call.parameters["id"]?.toIntOrNull()
-            ?: return@get call.respond(HttpStatusCode.BadRequest, "IInvalid ID")
+        // 🔹 GET /api/professors
+        get {
+            call.respond(ProfessorService.getAllProfessors())
+        }
 
-        val prof = ProfessorService.getProfessorById(id)
-            ?: return@get call.respond(HttpStatusCode.NotFound, "Professor not found")
+        // 🔹 GET /api/professors/{id}
+        get("{id}") {
+            val id = call.parameters["id"]?.toIntOrNull()
+                ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid id")
 
-        call.respond(prof)
-    }
+            val prof = ProfessorService.getProfessorById(id)
+                ?: return@get call.respond(HttpStatusCode.NotFound, "Professor not found")
 
-    // GET by email
-    get("/professors/email/{email}") {
-        val email = call.parameters["email"]
-            ?: return@get call.respond(HttpStatusCode.BadRequest, "Missing email")
+            call.respond(prof)
+        }
 
-        val prof = ProfessorService.getProfessorByEmail(email)
-            ?: return@get call.respond(HttpStatusCode.NotFound, "Professeur introuvable")
+        // 🔹 GET /api/professors/by-professor-id/{professorId}
+        get("by-professor-id/{professorId}") {
+            val professorId = call.parameters["professorId"]
+                ?: return@get call.respond(HttpStatusCode.BadRequest, "professorId missing")
 
-        call.respond(prof)
-    }
+            val prof = ProfessorService.getProfessorByProfessorId(professorId)
+            if (prof == null) call.respond(HttpStatusCode.NotFound, "Professor not found")
+            else call.respond(prof)
+        }
 
-    // get professors by speciality
-    get("/professors/speciality/{spec}") {
-        val speciality = call.parameters["spec"]
-            ?: return@get call.respond(HttpStatusCode.BadRequest, "Missing speciality")
+        // 🔹 GET /api/professors/by-email/{email}
+        get("by-email/{email}") {
+            val email = call.parameters["email"]
+                ?: return@get call.respond(HttpStatusCode.BadRequest, "email missing")
 
-        val list = ProfessorService.getProfessorsBySpeciality(speciality)
-        call.respond(list)
-    }
-    // create professor
-    post("/professors") {
-        val req = call.receive<ProfessorWriteRequest>()
-        val created = ProfessorService.createProfessor(req)
-        call.respond(HttpStatusCode.Created, created)
-    }
-    // update professor
-    put("/professors/{id}") {
-        val id = call.parameters["id"]?.toIntOrNull()
-            ?: return@put call.respond(HttpStatusCode.BadRequest, "IInvalid ID")
+            val prof = ProfessorService.getProfessorByEmail(email)
+            if (prof == null) call.respond(HttpStatusCode.NotFound, "Professor not found")
+            else call.respond(prof)
+        }
 
-        val req = call.receive<ProfessorWriteRequest>()
-        val updated = ProfessorService.updateProfessor(id, req)
-            ?: return@put call.respond(HttpStatusCode.NotFound, "Prof not found")
+        // 🔹 GET /api/professors/by-speciality/{speciality}
+        get("by-speciality/{speciality}") {
+            val speciality = call.parameters["speciality"]
+                ?: return@get call.respond(HttpStatusCode.BadRequest, "speciality missing")
 
-        call.respond(updated)
-    }
+            call.respond(ProfessorService.getProfessorsBySpeciality(speciality))
+        }
 
-    // delete professor
-    delete("/professors/{id}") {
-        val id = call.parameters["id"]?.toIntOrNull()
-            ?: return@delete call.respond(HttpStatusCode.BadRequest, "IInvalid ID")
+        // 🔹 POST /api/professors
+        post {
+            val req = call.receive<ProfessorWriteRequest>()
+            val created = ProfessorService.createProfessor(req)
+            call.respond(HttpStatusCode.Created, created)
+        }
 
-        val ok = ProfessorService.deleteProfessor(id)
-        if (ok) call.respond(HttpStatusCode.NoContent)
-        else call.respond(HttpStatusCode.NotFound, "Prof not found")
-    }
+        // 🔹 PUT /api/professors/{id}
+        put("{id}") {
+            val id = call.parameters["id"]?.toIntOrNull()
+                ?: return@put call.respond(HttpStatusCode.BadRequest, "Invalid id")
 
-    // debug route to seed professors from JSON file
-    get("/debug/seed/professors") {
-        try {
-            ProfessorService.seedProfessorsFromJson()
-            call.respondText("Professors imported from ecam_professors_2025.json")
-        } catch (e: Throwable) {
-            call.respond(
-                HttpStatusCode.InternalServerError,
-                "Error during import: ${e.message}"
-            )
+            val req = call.receive<ProfessorWriteRequest>()
+            val updated = ProfessorService.updateProfessor(id, req)
+                ?: return@put call.respond(HttpStatusCode.NotFound, "Professor not found")
+
+            call.respond(updated)
+        }
+
+        // 🔹 DELETE /api/professors/{id}
+        delete("{id}") {
+            val id = call.parameters["id"]?.toIntOrNull()
+                ?: return@delete call.respond(HttpStatusCode.BadRequest, "Invalid id")
+
+            val ok = ProfessorService.deleteProfessor(id)
+            if (ok) call.respond(HttpStatusCode.NoContent)
+            else call.respond(HttpStatusCode.NotFound, "Professor not found")
         }
     }
 }
