@@ -18,7 +18,7 @@ object JwtService {
             .withIssuer(JwtConfig.issuer)
             .withAudience(JwtConfig.audience)
 
-            // Sujet du token (identifiant unique dans ton système)
+            // Sujet du token 
             .withSubject(user.id.toString())
 
             // Claims usuels

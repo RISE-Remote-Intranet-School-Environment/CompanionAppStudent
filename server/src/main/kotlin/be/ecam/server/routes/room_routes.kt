@@ -12,12 +12,12 @@ fun Route.roomRoutes() {
 
     route("/rooms") {
 
-        // 🔹 GET /api/rooms
+
         get {
             call.respond(RoomService.getAllRooms())
         }
 
-        // 🔹 GET /api/rooms/{id}  (id DB)
+
         get("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid id")
@@ -28,7 +28,7 @@ fun Route.roomRoutes() {
             call.respond(room)
         }
 
-        // 🔹 GET /api/rooms/by-code/{roomId}
+
         get("by-code/{roomId}") {
             val roomId = call.parameters["roomId"]
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "roomId missing")
@@ -36,14 +36,14 @@ fun Route.roomRoutes() {
             call.respond(RoomService.getRoomsByRoomId(roomId))
         }
 
-        // 🔹 POST /api/rooms
+
         post {
             val req = call.receive<RoomWriteRequest>()
             val created = RoomService.createRoom(req)
             call.respond(HttpStatusCode.Created, created)
         }
 
-        // 🔹 PUT /api/rooms/{id}
+
         put("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@put call.respond(HttpStatusCode.BadRequest, "Invalid id")
@@ -55,7 +55,7 @@ fun Route.roomRoutes() {
             call.respond(updated)
         }
 
-        // 🔹 DELETE /api/rooms/{id}
+
         delete("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@delete call.respond(HttpStatusCode.BadRequest, "Invalid id")

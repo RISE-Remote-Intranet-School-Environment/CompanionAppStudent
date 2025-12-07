@@ -7,14 +7,14 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object PaeStudentService {
 
-    // 🔹 GET all PAE students
+    //  GET all PAE students
     fun getAllPaeStudents(): List<PaeStudentDTO> = transaction {
         PaeStudentsTable
             .selectAll()
             .map { it.toPaeStudentDTO() }
     }
 
-    // 🔹 GET by DB id
+    //  GET by DB id
     fun getPaeStudentById(id: Int): PaeStudentDTO? = transaction {
         PaeStudentsTable
             .selectAll()
@@ -23,7 +23,7 @@ object PaeStudentService {
             ?.toPaeStudentDTO()
     }
 
-    // 🔹 GET by studentId (numéro ECAM)
+    //  GET by studentId (numéro ECAM)
     fun getPaeStudentsByStudentId(studentId: Int): List<PaeStudentDTO> = transaction {
         PaeStudentsTable
             .selectAll()
@@ -31,7 +31,7 @@ object PaeStudentService {
             .map { it.toPaeStudentDTO() }
     }
 
-    // 🔹 GET by formation
+    //  GET by formation
     fun getPaeStudentsByFormation(formationId: String): List<PaeStudentDTO> = transaction {
         PaeStudentsTable
             .selectAll()
@@ -39,7 +39,7 @@ object PaeStudentService {
             .map { it.toPaeStudentDTO() }
     }
 
-    // 🔹 GET by bloc
+    //  GET by bloc
     fun getPaeStudentsByBloc(blocId: String): List<PaeStudentDTO> = transaction {
         PaeStudentsTable
             .selectAll()
@@ -47,7 +47,7 @@ object PaeStudentService {
             .map { it.toPaeStudentDTO() }
     }
 
-    // 🔹 CREATE
+    //  CREATE
     fun createPaeStudent(req: PaeStudentWriteRequest): PaeStudentDTO = transaction {
         val newId = PaeStudentsTable.insertAndGetId { row ->
             row[PaeStudentsTable.studentId] = req.studentId
@@ -68,7 +68,7 @@ object PaeStudentService {
             .toPaeStudentDTO()
     }
 
-    // 🔹 UPDATE
+    //  UPDATE
     fun updatePaeStudent(id: Int, req: PaeStudentWriteRequest): PaeStudentDTO? = transaction {
         val updated = PaeStudentsTable.update({ PaeStudentsTable.id eq id }) { row ->
             row[PaeStudentsTable.studentId] = req.studentId
@@ -91,7 +91,7 @@ object PaeStudentService {
             ?.toPaeStudentDTO()
     }
 
-    // 🔹 DELETE
+    //  DELETE
     fun deletePaeStudent(id: Int): Boolean = transaction {
         PaeStudentsTable.deleteWhere { PaeStudentsTable.id eq id } > 0
     }

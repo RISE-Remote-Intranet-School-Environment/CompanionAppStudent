@@ -10,8 +10,8 @@ object StudentsTable : IntIdTable("students") {
     val firstName = varchar("first_name", 100)
     val lastName = varchar("last_name", 100)
     val ecamEmail = varchar("ecam_email", 255).uniqueIndex()
-    val studentNumber = varchar("student_number", 50).uniqueIndex() // ex: 21252
-    val groupCode = varchar("group_code", 50).nullable()            // ex: 3BE, 4IT, etc.
+    val studentNumber = varchar("student_number", 50).uniqueIndex() 
+    val groupCode = varchar("group_code", 50).nullable()            
 }
 
 // DTO pour exposer les étudiants au front

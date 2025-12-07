@@ -7,14 +7,14 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object BlocService {
 
-    // 🔹 Lire tous les blocs
+    //  Lire tous les blocs
     fun getAllBlocs(): List<BlocDTO> = transaction {
         BlocsTable
             .selectAll()
             .map { it.toBlocDTO() }
     }
 
-    // 🔹 Lire un bloc par ID (clé primaire)
+    //  Lire un bloc par ID (clé primaire)
     fun getBlocById(id: Int): BlocDTO? = transaction {
         BlocsTable
             .selectAll()
@@ -23,7 +23,7 @@ object BlocService {
             ?.toBlocDTO()
     }
 
-    // 🔹 Lire les blocs par blocId logique (ex: "B1")
+    //  Lire les blocs par blocId logique (ex: "B1")
     fun getBlocByBlocId(blocId: String): List<BlocDTO> = transaction {
         BlocsTable
             .selectAll()
@@ -31,7 +31,7 @@ object BlocService {
             .map { it.toBlocDTO() }
     }
 
-    // 🔹 Créer un bloc
+    //  Créer un bloc
     fun createBloc(req: BlocWriteRequest): BlocDTO = transaction {
         val newId = BlocsTable.insertAndGetId { row ->
             row[blocId] = req.blocId
@@ -46,7 +46,7 @@ object BlocService {
             .toBlocDTO()
     }
 
-    // 🔹 Mettre à jour un bloc
+    //  Mettre à jour un bloc
     fun updateBloc(id: Int, req: BlocWriteRequest): BlocDTO? = transaction {
         val updatedCount = BlocsTable.update({ BlocsTable.id eq id }) { row ->
             row[blocId] = req.blocId
@@ -63,7 +63,7 @@ object BlocService {
             ?.toBlocDTO()
     }
 
-    // 🔹 Supprimer un bloc
+    //  Supprimer un bloc
     fun deleteBloc(id: Int): Boolean = transaction {
         val deleted = BlocsTable.deleteWhere { BlocsTable.id eq id }
         deleted > 0

@@ -7,14 +7,14 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object StudentService {
 
-    // 🔹 GET all students
+    //  GET all students
     fun getAllStudents(): List<StudentDTO> = transaction {
         StudentsTable
             .selectAll()
             .map { it.toStudentDTO() }
     }
 
-    // 🔹 GET by DB id
+    //  GET by DB id
     fun getStudentById(id: Int): StudentDTO? = transaction {
         StudentsTable
             .selectAll()
@@ -23,7 +23,7 @@ object StudentService {
             ?.toStudentDTO()
     }
 
-    // 🔹 GET by student number (ex: "21252")
+    //  GET by student number 
     fun getStudentByNumber(studentNumber: String): StudentDTO? = transaction {
         StudentsTable
             .selectAll()
@@ -32,7 +32,7 @@ object StudentService {
             ?.toStudentDTO()
     }
 
-    // 🔹 GET by ECAM email
+    //  GET by ECAM email
     fun getStudentByEmail(email: String): StudentDTO? = transaction {
         StudentsTable
             .selectAll()
@@ -41,7 +41,7 @@ object StudentService {
             ?.toStudentDTO()
     }
 
-    // 🔹 GET by group code (ex: 3BE, 4IT)
+    //  GET by group code 
     fun getStudentsByGroup(groupCode: String): List<StudentDTO> = transaction {
         StudentsTable
             .selectAll()
@@ -49,7 +49,7 @@ object StudentService {
             .map { it.toStudentDTO() }
     }
 
-    // 🔹 CREATE
+    //  CREATE
     fun createStudent(req: StudentWriteRequest): StudentDTO = transaction {
         val newId = StudentsTable.insertAndGetId { row ->
             row[StudentsTable.firstName] = req.firstName
@@ -66,7 +66,7 @@ object StudentService {
             .toStudentDTO()
     }
 
-    // 🔹 UPDATE
+    // UPDATE
     fun updateStudent(id: Int, req: StudentWriteRequest): StudentDTO? = transaction {
         val updated = StudentsTable.update({ StudentsTable.id eq id }) { row ->
             row[StudentsTable.firstName] = req.firstName
@@ -85,7 +85,7 @@ object StudentService {
             ?.toStudentDTO()
     }
 
-    // 🔹 DELETE
+    // DELETE
     fun deleteStudent(id: Int): Boolean = transaction {
         StudentsTable.deleteWhere { StudentsTable.id eq id } > 0
     }

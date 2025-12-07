@@ -7,14 +7,14 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object NotesStudentService {
 
-    // 🔹 GET all notes
+    //  GET all notes
     fun getAllNotes(): List<NotesStudentDTO> = transaction {
         NotesStudentsTable
             .selectAll()
             .map { it.toNotesStudentDTO() }
     }
 
-    // 🔹 GET by DB id
+    //  GET by DB id
     fun getNoteById(id: Int): NotesStudentDTO? = transaction {
         NotesStudentsTable
             .selectAll()
@@ -23,7 +23,7 @@ object NotesStudentService {
             ?.toNotesStudentDTO()
     }
 
-    // 🔹 GET by studentId
+    //  GET by studentId
     fun getNotesByStudentId(studentId: Int): List<NotesStudentDTO> = transaction {
         NotesStudentsTable
             .selectAll()
@@ -31,7 +31,7 @@ object NotesStudentService {
             .map { it.toNotesStudentDTO() }
     }
 
-    // 🔹 GET by studentId + academicYear
+    //  GET by studentId + academicYear
     fun getNotesByStudentAndYear(studentId: Int, academicYear: String): List<NotesStudentDTO> = transaction {
         NotesStudentsTable
             .selectAll()
@@ -42,7 +42,7 @@ object NotesStudentService {
             .map { it.toNotesStudentDTO() }
     }
 
-    // 🔹 GET by courseId
+    //  GET by courseId
     fun getNotesByCourseId(courseId: String): List<NotesStudentDTO> = transaction {
         NotesStudentsTable
             .selectAll()
@@ -50,7 +50,7 @@ object NotesStudentService {
             .map { it.toNotesStudentDTO() }
     }
 
-    // 🔹 CREATE
+    //  CREATE
     fun createNote(req: NotesStudentWriteRequest): NotesStudentDTO = transaction {
         val newId = NotesStudentsTable.insertAndGetId { row ->
             row[NotesStudentsTable.studentId] = req.studentId
@@ -80,7 +80,7 @@ object NotesStudentService {
             .toNotesStudentDTO()
     }
 
-    // 🔹 UPDATE
+    //  UPDATE
     fun updateNote(id: Int, req: NotesStudentWriteRequest): NotesStudentDTO? = transaction {
         val updated = NotesStudentsTable.update({ NotesStudentsTable.id eq id }) { row ->
             row[NotesStudentsTable.studentId] = req.studentId
@@ -112,7 +112,7 @@ object NotesStudentService {
             ?.toNotesStudentDTO()
     }
 
-    // 🔹 DELETE
+    //  DELETE
     fun deleteNote(id: Int): Boolean = transaction {
         NotesStudentsTable.deleteWhere { NotesStudentsTable.id eq id } > 0
     }

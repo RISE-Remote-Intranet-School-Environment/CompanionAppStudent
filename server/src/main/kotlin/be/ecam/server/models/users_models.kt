@@ -4,10 +4,8 @@ import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ResultRow
 
-// =======================
-//       ENUM ROLE
-// =======================
 
+// enum pour les rôles utilisateurs
 @Serializable
 enum class UserRole {
     ADMIN,
@@ -15,36 +13,25 @@ enum class UserRole {
     STUDENT
 }
 
-// =======================
-//        TABLE USERS
-// =======================
 
-// Table "users" (compte de connexion)
-// On utilise IntIdTable pour être cohérent avec les autres tables (id auto-incrémenté)
+
+// Table users
 object UsersTable : IntIdTable("users") {
 
-    // id hérité de IntIdTable : "id" (Int, auto-incrément)
+
     val username = varchar("username", 100).uniqueIndex()
     val email = varchar("email", 255).uniqueIndex()
     val passwordHash = varchar("password_hash", 255)
-
     val firstName = varchar("first_name", 100)
     val lastName = varchar("last_name", 100)
-
-    // On stocke directement l'enum UserRole via enumerationByName
     val role = enumerationByName("role", 20, UserRole::class)
-
     val avatarUrl = varchar("avatar_url", 512).nullable()
-
-    // Liens optionnels vers prof / étudiant (IntIdTable tous les deux)
     val professorId = reference("professor_id", ProfessorsTable).nullable()
     val studentId = reference("student_id", StudentsTable).nullable()
 }
 
-// =======================
-//   MODÈLE INTERNE USER
-// =======================
 
+// model interne User
 data class User(
     val id: Int,
     val username: String,
@@ -58,10 +45,8 @@ data class User(
     val studentId: Int?
 )
 
-// =======================
-//      DTO PUBLIC USER
-// =======================
 
+// DTO public User sans le passwordHash
 @Serializable
 data class UserPublicDTO(
     val id: Int,
@@ -75,9 +60,7 @@ data class UserPublicDTO(
     val studentId: Int?
 )
 
-// =======================
-//      MAPPINGS
-// =======================
+
 
 // Mapping DB -> User interne
 fun ResultRow.toUser(): User =
@@ -108,9 +91,6 @@ fun User.toPublicDTO(): UserPublicDTO =
         studentId = studentId
     )
 
-// =======================
-//    DTOs REQUÊTES/REP.
-// =======================
 
 // DTO pour création complète (ADMIN)
 @Serializable
@@ -158,10 +138,8 @@ data class UpdateAvatarRequest(
     val avatarUrl: String
 )
 
-// =======================
-//   WRAPPERS DE RÉPONSE
-// =======================
 
+// wrappers de réponses avec DTO public
 @Serializable
 data class UserPublicResponse(
     val user: UserPublicDTO

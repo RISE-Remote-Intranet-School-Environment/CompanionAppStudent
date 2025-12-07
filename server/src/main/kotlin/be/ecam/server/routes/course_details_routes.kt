@@ -12,12 +12,12 @@ fun Route.courseDetailsRoutes() {
 
     route("/course-details") {
 
-        // GET /api/course-details
+        
         get {
             call.respond(CourseDetailsService.getAllCourseDetails())
         }
 
-        // GET /api/course-details/{id}
+        
         get("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid id")
@@ -28,7 +28,7 @@ fun Route.courseDetailsRoutes() {
             call.respond(details)
         }
 
-        // GET /api/course-details/by-course/{courseId}
+        
         get("by-course/{courseId}") {
             val courseId = call.parameters["courseId"]
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "courseId missing")
@@ -36,7 +36,7 @@ fun Route.courseDetailsRoutes() {
             call.respond(CourseDetailsService.getCourseDetailsByCourseId(courseId))
         }
 
-        // GET /api/course-details/by-sous-course/{sousCourseId}
+        
         get("by-sous-course/{sousCourseId}") {
             val sousCourseId = call.parameters["sousCourseId"]
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "sousCourseId missing")
@@ -44,7 +44,7 @@ fun Route.courseDetailsRoutes() {
             call.respond(CourseDetailsService.getCourseDetailsBySousCourseId(sousCourseId))
         }
 
-        // GET /api/course-details/by-bloc/{blocId}
+        
         get("by-bloc/{blocId}") {
             val blocId = call.parameters["blocId"]?.toIntOrNull()
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "blocId invalid")
@@ -52,14 +52,14 @@ fun Route.courseDetailsRoutes() {
             call.respond(CourseDetailsService.getCourseDetailsByBlocId(blocId))
         }
 
-        // POST /api/course-details
+        
         post {
             val req = call.receive<CourseDetailsWriteRequest>()
             val created = CourseDetailsService.createCourseDetails(req)
             call.respond(HttpStatusCode.Created, created)
         }
 
-        // PUT /api/course-details/{id}
+        
         put("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@put call.respond(HttpStatusCode.BadRequest, "Invalid id")
@@ -71,7 +71,7 @@ fun Route.courseDetailsRoutes() {
             call.respond(updated)
         }
 
-        // DELETE /api/course-details/{id}
+        
         delete("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@delete call.respond(HttpStatusCode.BadRequest, "Invalid id")

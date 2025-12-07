@@ -8,24 +8,22 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 // import io.ktor.server.auth.*
-// import io.ktor.server.auth.jwt.*  // selon ton système d'auth
+// import io.ktor.server.auth.jwt.*  
 
 fun Route.userRoutes() {
 
-    // ============================
-    //        ADMIN ENDPOINTS
-    // ============================
+    // admin peut CRUD les users
+
     route("/users") {
 
-        // ⚠️ À protéger avec authenticate("admin") { ... } dans configureRouting
+        
 
-        // GET /api/users
+  
         get {
             val users = UserService.getAllUsers()
             call.respond(users)
         }
 
-        // GET /api/users/{id}
         get("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid ID")
@@ -36,7 +34,7 @@ fun Route.userRoutes() {
             call.respond(user)
         }
 
-        // POST /api/users  (création d’un user par un admin)
+     
         post {
             val body = runCatching { call.receive<UserWriteRequest>() }.getOrElse {
                 return@post call.respond(HttpStatusCode.BadRequest, "Invalid JSON")
@@ -46,7 +44,7 @@ fun Route.userRoutes() {
             call.respond(HttpStatusCode.Created, created)
         }
 
-        // PATCH /api/users/{id} (update partiel)
+  
         patch("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@patch call.respond(HttpStatusCode.BadRequest, "Invalid ID")
@@ -105,22 +103,13 @@ fun Route.userRoutes() {
         }
     }
 
-    // ============================
-    //      STUDENT – SELF UPDATE
-    // ============================
-    // Exemple : l'étudiant connecté peut mettre à jour uniquement son avatar (image)
-    //
-    // Tu mettras cette route dans un bloc `authenticate { ... }` et tu récupéreras
-    // l’ID du user courant via ton principal (JWT, session, etc.)
-    //
-    // Exemple pseudo-code pour récupérer l’ID utilisateur :
-    // val principal = call.principal<JWTPrincipal>()
-    // val userId = principal!!.getClaim("userId", Int::class)
-    //
+
+    // student peut changer son avatar
+     route("/users") {
+
+
     post("/users/me/avatar") {
-        // TODO : adapter à ton système d'auth.
         // Ici je mets un placeholder pour userId.
-        // Remplace par ton propre mécanisme (JWT, session, etc.)
         val userIdHeader = call.request.headers["X-User-Id"]
         val userId = userIdHeader?.toIntOrNull()
             ?: return@post call.respond(HttpStatusCode.Unauthorized, "Missing or invalid user id (adapt this to your auth)")

@@ -9,9 +9,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object UserService {
 
-    // ==============
-    // CREATE (ADMIN)
-    // ==============
+
     fun createUser(req: UserWriteRequest): UserPublicDTO = transaction {
         val hashed = BCrypt
             .withDefaults()
@@ -37,9 +35,7 @@ object UserService {
             .toPublicDTO()
     }
 
-    // ==============
-    // READ ALL
-    // ==============
+
     fun getAllUsers(): List<UserPublicDTO> = transaction {
         UsersTable
             .selectAll()
@@ -47,9 +43,6 @@ object UserService {
             .map { row -> row.toUser().toPublicDTO() }
     }
 
-    // ==============
-    // READ ONE
-    // ==============
     fun getUserById(id: Int): UserPublicDTO? = transaction {
         UsersTable
             .selectAll()
@@ -59,18 +52,16 @@ object UserService {
             ?.toPublicDTO()
     }
 
-    // =========================
-    // UPDATE (PATCH /users/{id})
-    // =========================
+    // partial update user
     fun updateUser(id: Int, req: UpdateUserRequest): UserPublicDTO? = transaction {
-        // 1) Vérifier que le user existe
+        // Vérifier que le user existe
         val existingRow = UsersTable
             .selectAll()
             .where { UsersTable.id eq id }
             .singleOrNull()
             ?: return@transaction null
 
-        // 2) Si aucune info à modifier → renvoyer l’existant
+        // Si aucune info à modifier → renvoyer l’existant
         val hasAnyChange =
             req.username != null ||
             req.email != null ||
@@ -86,7 +77,7 @@ object UserService {
             return@transaction existingRow.toUser().toPublicDTO()
         }
 
-        // 3) Effectuer l’UPDATE via Exposed
+        // Effectuer l’UPDATE via Exposed
         UsersTable.update({ UsersTable.id eq id }) { row ->
             req.username?.let { row[UsersTable.username] = it.trim() }
             req.email?.let { row[UsersTable.email] = it.trim() }
@@ -111,7 +102,7 @@ object UserService {
             }
         }
 
-        // 4) Relire après update
+        // Relire après update
         UsersTable
             .selectAll()
             .where { UsersTable.id eq id }
@@ -120,18 +111,14 @@ object UserService {
             ?.toPublicDTO()
     }
 
-    // ==============
-    // DELETE
-    // ==============
+    // delete user
     fun deleteUser(id: Int): Boolean = transaction {
         UsersTable.deleteWhere { UsersTable.id eq id } > 0
     }
 
-    // ===========================
-    // ATTACH STUDENT TO USER
-    // ===========================
+    // attach student to user
     fun attachStudent(userId: Int, studentId: Int): UserPublicDTO? = transaction {
-        // 1) Vérifier que le student existe
+        // Vérifier que le student existe
         val studentExists = StudentsTable
             .selectAll()
             .where { StudentsTable.id eq studentId }
@@ -147,14 +134,13 @@ object UserService {
 
         if (!userExists) return@transaction null
 
-        // 3) Mettre à jour l’utilisateur
+        // Mettre à jour l’utilisateur
         UsersTable.update({ UsersTable.id eq userId }) { row ->
             row[UsersTable.studentId] = EntityID(studentId, StudentsTable)
             row[UsersTable.role] = UserRole.STUDENT
-            // (optionnel) row[UsersTable.professorId] = null
         }
 
-        // 4) Relire le user
+        // Relire le user
         UsersTable
             .selectAll()
             .where { UsersTable.id eq userId }
@@ -163,11 +149,9 @@ object UserService {
             ?.toPublicDTO()
     }
 
-    // ==============================
-    // ATTACH PROFESSOR TO USER
-    // ==============================
+    // attach professor to user
     fun attachProfessor(userId: Int, professorId: Int): UserPublicDTO? = transaction {
-        // 1) Vérifier que le prof existe
+        // Vérifier que le prof existe
         val profExists = ProfessorsTable
             .selectAll()
             .where { ProfessorsTable.id eq professorId }
@@ -175,7 +159,7 @@ object UserService {
 
         if (!profExists) return@transaction null
 
-        // 2) Vérifier que le user existe
+        // Vérifier que le user existe
         val userExists = UsersTable
             .selectAll()
             .where { UsersTable.id eq userId }
@@ -183,14 +167,14 @@ object UserService {
 
         if (!userExists) return@transaction null
 
-        // 3) Mettre à jour l’utilisateur
+        // Mettre à jour l’utilisateur
         UsersTable.update({ UsersTable.id eq userId }) { row ->
             row[UsersTable.professorId] = EntityID(professorId, ProfessorsTable)
             row[UsersTable.role] = UserRole.PROF
-            // (optionnel) row[UsersTable.studentId] = null
+            
         }
 
-        // 4) Relire le user
+        // Relire le user
         UsersTable
             .selectAll()
             .where { UsersTable.id eq userId }
@@ -199,9 +183,7 @@ object UserService {
             ?.toPublicDTO()
     }
 
-    // ======================================
-    // UPDATE AVATAR (pour un user donné)
-    // ======================================
+    // modify avatar URL
     fun updateAvatar(userId: Int, avatarUrl: String): UserPublicDTO? = transaction {
         val exists = UsersTable
             .selectAll()

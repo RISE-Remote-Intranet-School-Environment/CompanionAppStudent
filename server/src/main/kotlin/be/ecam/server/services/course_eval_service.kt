@@ -7,14 +7,14 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object CourseEvaluationService {
 
-    // 🔹 GET all
+    // GET all
     fun getAllEvaluations(): List<CourseEvaluationDTO> = transaction {
         CourseEvaluationTable
             .selectAll()
             .map { it.toCourseEvaluationDTO() }
     }
 
-    // 🔹 GET by DB id
+    // GET by DB id
     fun getEvaluationById(id: Int): CourseEvaluationDTO? = transaction {
         CourseEvaluationTable
             .selectAll()
@@ -23,7 +23,7 @@ object CourseEvaluationService {
             ?.toCourseEvaluationDTO()
     }
 
-    // 🔹 GET by evaluatedActivityId (logique, ex: "EXAM-JANV", "PROJ1", etc.)
+    // GET by evaluatedActivityId 
     fun getEvaluationsByActivityId(activityId: String): List<CourseEvaluationDTO> = transaction {
         CourseEvaluationTable
             .selectAll()
@@ -31,7 +31,7 @@ object CourseEvaluationService {
             .map { it.toCourseEvaluationDTO() }
     }
 
-    // 🔹 GET by courseId
+    // GET by courseId
     fun getEvaluationsByCourseId(courseId: String): List<CourseEvaluationDTO> = transaction {
         CourseEvaluationTable
             .selectAll()
@@ -39,7 +39,7 @@ object CourseEvaluationService {
             .map { it.toCourseEvaluationDTO() }
     }
 
-    // 🔹 CREATE
+    // CREATE
     fun createEvaluation(req: CourseEvaluationWriteRequest): CourseEvaluationDTO = transaction {
         val newId = CourseEvaluationTable.insertAndGetId { row ->
             row[CourseEvaluationTable.evaluatedActivityId] = req.evaluatedActivityId
@@ -59,7 +59,7 @@ object CourseEvaluationService {
             .toCourseEvaluationDTO()
     }
 
-    // 🔹 UPDATE
+    //  UPDATE
     fun updateEvaluation(id: Int, req: CourseEvaluationWriteRequest): CourseEvaluationDTO? = transaction {
         val updated = CourseEvaluationTable.update({ CourseEvaluationTable.id eq id }) { row ->
             row[CourseEvaluationTable.evaluatedActivityId] = req.evaluatedActivityId
@@ -81,7 +81,7 @@ object CourseEvaluationService {
             ?.toCourseEvaluationDTO()
     }
 
-    // 🔹 DELETE
+    //  DELETE
     fun deleteEvaluation(id: Int): Boolean = transaction {
         CourseEvaluationTable.deleteWhere { CourseEvaluationTable.id eq id } > 0
     }

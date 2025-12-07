@@ -9,7 +9,7 @@ import org.jetbrains.exposed.sql.ResultRow
 object CalendarEventsTable : IntIdTable("calendar_events") {
     val code = varchar("code", 50)
     val title = varchar("title", 255)
-    val date = varchar("date", 20)          // si stocké en texte "YYYY-MM-DD"
+    val date = varchar("date", 20)          
     val startTime = varchar("start_time", 20)
     val endTime = varchar("end_time", 20)
     val groupCode = varchar("group_code", 50).nullable()

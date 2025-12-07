@@ -12,12 +12,12 @@ fun Route.yearRoutes() {
 
     route("/years") {
 
-        // 🔹 GET /api/years
+
         get {
             call.respond(YearService.getAllYears())
         }
 
-        // 🔹 GET /api/years/{id}  (id DB)
+
         get("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid id")
@@ -28,7 +28,7 @@ fun Route.yearRoutes() {
             call.respond(year)
         }
 
-        // 🔹 GET /api/years/by-code/{yearId}  (id logique "Y1")
+
         get("by-code/{yearId}") {
             val yearId = call.parameters["yearId"]
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "yearId missing")
@@ -36,14 +36,13 @@ fun Route.yearRoutes() {
             call.respond(YearService.getYearByYearId(yearId))
         }
 
-        // 🔹 POST /api/years
         post {
             val req = call.receive<YearWriteRequest>()
             val created = YearService.createYear(req)
             call.respond(HttpStatusCode.Created, created)
         }
 
-        // 🔹 PUT /api/years/{id}
+
         put("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@put call.respond(HttpStatusCode.BadRequest, "Invalid id")
@@ -55,7 +54,6 @@ fun Route.yearRoutes() {
             call.respond(updated)
         }
 
-        // 🔹 DELETE /api/years/{id}
         delete("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@delete call.respond(HttpStatusCode.BadRequest, "Invalid id")

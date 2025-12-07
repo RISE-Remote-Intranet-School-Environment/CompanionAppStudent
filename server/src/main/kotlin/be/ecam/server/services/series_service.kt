@@ -7,14 +7,14 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object SeriesNameService {
 
-    // 🔹 GET all
+    //  GET all
     fun getAllSeries(): List<SeriesNameDTO> = transaction {
         SeriesNameTable
             .selectAll()
             .map { it.toSeriesNameDTO() }
     }
 
-    // 🔹 GET by DB id
+    // GET by DB id
     fun getSeriesById(id: Int): SeriesNameDTO? = transaction {
         SeriesNameTable
             .selectAll()
@@ -23,7 +23,7 @@ object SeriesNameService {
             ?.toSeriesNameDTO()
     }
 
-    // 🔹 GET by logical id "S1", "G1", etc.
+    //  GET by logical id 
     fun getSeriesBySeriesId(seriesId: String): List<SeriesNameDTO> = transaction {
         SeriesNameTable
             .selectAll()
@@ -31,7 +31,7 @@ object SeriesNameService {
             .map { it.toSeriesNameDTO() }
     }
 
-    // 🔹 CREATE
+    //  CREATE
     fun createSeries(req: SeriesNameWriteRequest): SeriesNameDTO = transaction {
         val newId = SeriesNameTable.insertAndGetId { row ->
             row[SeriesNameTable.seriesId] = req.seriesId
@@ -46,7 +46,7 @@ object SeriesNameService {
             .toSeriesNameDTO()
     }
 
-    // 🔹 UPDATE
+    //  UPDATE
     fun updateSeries(id: Int, req: SeriesNameWriteRequest): SeriesNameDTO? = transaction {
         val updated = SeriesNameTable.update({ SeriesNameTable.id eq id }) { row ->
             row[SeriesNameTable.seriesId] = req.seriesId
@@ -63,7 +63,7 @@ object SeriesNameService {
             ?.toSeriesNameDTO()
     }
 
-    // 🔹 DELETE
+    //  DELETE
     fun deleteSeries(id: Int): Boolean = transaction {
         SeriesNameTable.deleteWhere { SeriesNameTable.id eq id } > 0
     }

@@ -13,7 +13,7 @@ import io.ktor.server.routing.*
 
 fun Route.authRoutes() {
 
-    // POST /auth/register
+   
     post("/auth/register") {
         val body = runCatching { call.receive<RegisterRequest>() }.getOrElse {
             call.respond(HttpStatusCode.BadRequest, "JSON invalide")
@@ -44,7 +44,7 @@ fun Route.authRoutes() {
         }
     }
 
-    // POST /auth/login
+    
     post("/auth/login") {
         val body = runCatching { call.receive<LoginRequest>() }.getOrElse {
             call.respond(HttpStatusCode.BadRequest, "JSON invalide")

@@ -7,14 +7,14 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object CourseScheduleService {
 
-    // 🔹 GET all schedules
+    //  GET all schedules
     fun getAllSchedules(): List<CourseScheduleDTO> = transaction {
         CourseScheduleTable
             .selectAll()
             .map { it.toCourseScheduleDTO() }
     }
 
-    // 🔹 GET by DB id
+    //  GET by DB id
     fun getScheduleById(id: Int): CourseScheduleDTO? = transaction {
         CourseScheduleTable
             .selectAll()
@@ -23,7 +23,7 @@ object CourseScheduleService {
             ?.toCourseScheduleDTO()
     }
 
-    // 🔹 GET by week number
+    
     fun getSchedulesByWeek(week: Int): List<CourseScheduleDTO> = transaction {
         CourseScheduleTable
             .selectAll()
@@ -31,7 +31,7 @@ object CourseScheduleService {
             .map { it.toCourseScheduleDTO() }
     }
 
-    // 🔹 GET by date (ex: "2025-03-14")
+    
     fun getSchedulesByDate(date: String): List<CourseScheduleDTO> = transaction {
         CourseScheduleTable
             .selectAll()
@@ -39,7 +39,7 @@ object CourseScheduleService {
             .map { it.toCourseScheduleDTO() }
     }
 
-    // 🔹 GET by year option (ex: "Y4INFOSEC")
+
     fun getSchedulesByYearOption(yearOptionId: String): List<CourseScheduleDTO> = transaction {
         CourseScheduleTable
             .selectAll()
@@ -47,7 +47,7 @@ object CourseScheduleService {
             .map { it.toCourseScheduleDTO() }
     }
 
-    // 🔹 GET by group number (ex: "G1", "A", "B")
+    
     fun getSchedulesByGroup(groupNo: String): List<CourseScheduleDTO> = transaction {
         CourseScheduleTable
             .selectAll()
@@ -55,7 +55,7 @@ object CourseScheduleService {
             .map { it.toCourseScheduleDTO() }
     }
 
-    // 🔹 GET by course raccourci id (ex: "DB", "SOC")
+
     fun getSchedulesByRaccourci(courseRaccourciId: String): List<CourseScheduleDTO> = transaction {
         CourseScheduleTable
             .selectAll()
@@ -63,7 +63,7 @@ object CourseScheduleService {
             .map { it.toCourseScheduleDTO() }
     }
 
-    // 🔹 CREATE
+    //  CREATE
     fun createSchedule(req: CourseScheduleWriteRequest): CourseScheduleDTO = transaction {
         val newId = CourseScheduleTable.insertAndGetId { row ->
             row[CourseScheduleTable.week] = req.week
@@ -88,11 +88,10 @@ object CourseScheduleService {
             .toCourseScheduleDTO()
     }
 
-    // 🔹 UPDATE
+    //  UPDATE
     fun updateSchedule(id: Int, req: CourseScheduleWriteRequest): CourseScheduleDTO? = transaction {
         val updated = CourseScheduleTable.update({ CourseScheduleTable.id eq id }) { row ->
             row[CourseScheduleTable.week] = req.week
-            // 🔧 ici j’ai corrigé `req.year.yearOptionId` → `req.yearOptionId`
             row[CourseScheduleTable.yearOptionId] = req.yearOptionId
             row[CourseScheduleTable.groupNo] = req.groupNo
             row[CourseScheduleTable.seriesJson] = req.seriesJson
@@ -116,7 +115,7 @@ object CourseScheduleService {
             ?.toCourseScheduleDTO()
     }
 
-    // 🔹 DELETE
+    //  DELETE
     fun deleteSchedule(id: Int): Boolean = transaction {
         CourseScheduleTable.deleteWhere { CourseScheduleTable.id eq id } > 0
     }

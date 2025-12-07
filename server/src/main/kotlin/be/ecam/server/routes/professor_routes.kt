@@ -12,12 +12,12 @@ fun Route.professorRoutes() {
 
     route("/professors") {
 
-        // 🔹 GET /api/professors
+
         get {
             call.respond(ProfessorService.getAllProfessors())
         }
 
-        // 🔹 GET /api/professors/{id}
+
         get("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid id")
@@ -28,7 +28,6 @@ fun Route.professorRoutes() {
             call.respond(prof)
         }
 
-        // 🔹 GET /api/professors/by-professor-id/{professorId}
         get("by-professor-id/{professorId}") {
             val professorId = call.parameters["professorId"]
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "professorId missing")
@@ -38,7 +37,7 @@ fun Route.professorRoutes() {
             else call.respond(prof)
         }
 
-        // 🔹 GET /api/professors/by-email/{email}
+
         get("by-email/{email}") {
             val email = call.parameters["email"]
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "email missing")
@@ -48,7 +47,6 @@ fun Route.professorRoutes() {
             else call.respond(prof)
         }
 
-        // 🔹 GET /api/professors/by-speciality/{speciality}
         get("by-speciality/{speciality}") {
             val speciality = call.parameters["speciality"]
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "speciality missing")
@@ -56,14 +54,14 @@ fun Route.professorRoutes() {
             call.respond(ProfessorService.getProfessorsBySpeciality(speciality))
         }
 
-        // 🔹 POST /api/professors
+
         post {
             val req = call.receive<ProfessorWriteRequest>()
             val created = ProfessorService.createProfessor(req)
             call.respond(HttpStatusCode.Created, created)
         }
 
-        // 🔹 PUT /api/professors/{id}
+
         put("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@put call.respond(HttpStatusCode.BadRequest, "Invalid id")
@@ -75,7 +73,7 @@ fun Route.professorRoutes() {
             call.respond(updated)
         }
 
-        // 🔹 DELETE /api/professors/{id}
+
         delete("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@delete call.respond(HttpStatusCode.BadRequest, "Invalid id")

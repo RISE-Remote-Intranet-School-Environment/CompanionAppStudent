@@ -7,14 +7,14 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object ProfessorService {
 
-    // 🔹 GET all professors
+    //  GET all professors
     fun getAllProfessors(): List<ProfessorDTO> = transaction {
         ProfessorsTable
             .selectAll()
             .map { it.toProfessorDTO() }
     }
 
-    // 🔹 GET by DB id
+    //  GET by DB id
     fun getProfessorById(id: Int): ProfessorDTO? = transaction {
         ProfessorsTable
             .selectAll()
@@ -23,7 +23,7 @@ object ProfessorService {
             ?.toProfessorDTO()
     }
 
-    // 🔹 GET by logical professorId (ex: "P123")
+    //  GET by logical professorId (ex: "P123")
     fun getProfessorByProfessorId(professorId: String): ProfessorDTO? = transaction {
         ProfessorsTable
             .selectAll()
@@ -32,7 +32,7 @@ object ProfessorService {
             ?.toProfessorDTO()
     }
 
-    // 🔹 GET by email
+    //  GET by email
     fun getProfessorByEmail(email: String): ProfessorDTO? = transaction {
         ProfessorsTable
             .selectAll()
@@ -41,7 +41,7 @@ object ProfessorService {
             ?.toProfessorDTO()
     }
 
-    // 🔹 GET by speciality (tous les profs d’un domaine)
+    //  GET by speciality (tous les profs d’un domaine)
     fun getProfessorsBySpeciality(speciality: String): List<ProfessorDTO> = transaction {
         ProfessorsTable
             .selectAll()
@@ -49,7 +49,7 @@ object ProfessorService {
             .map { it.toProfessorDTO() }
     }
 
-    // 🔹 CREATE
+    //  CREATE
     fun createProfessor(req: ProfessorWriteRequest): ProfessorDTO = transaction {
         val newId = ProfessorsTable.insertAndGetId { row ->
             row[ProfessorsTable.professorId] = req.professorId
@@ -69,7 +69,7 @@ object ProfessorService {
             .toProfessorDTO()
     }
 
-    // 🔹 UPDATE
+    //  UPDATE
     fun updateProfessor(id: Int, req: ProfessorWriteRequest): ProfessorDTO? = transaction {
         val updated = ProfessorsTable.update({ ProfessorsTable.id eq id }) { row ->
             row[ProfessorsTable.professorId] = req.professorId
@@ -91,7 +91,7 @@ object ProfessorService {
             ?.toProfessorDTO()
     }
 
-    // 🔹 DELETE
+    //  DELETE
     fun deleteProfessor(id: Int): Boolean = transaction {
         ProfessorsTable.deleteWhere { ProfessorsTable.id eq id } > 0
     }

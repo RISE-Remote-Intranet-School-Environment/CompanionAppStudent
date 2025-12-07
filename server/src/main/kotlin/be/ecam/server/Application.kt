@@ -24,24 +24,18 @@ fun main(args: Array<String>) {
 
 fun Application.module() {
 
-    // ====================
-    //       LOGGING
-    // ====================
+    // logging
     install(CallLogging) {
         level = Level.INFO
         filter { true }
     }
 
-    // ====================
-    //        JSON
-    // ====================
+    // json serialization
     install(ContentNegotiation) {
         json()
     }
 
-    // ====================
-    //        CORS
-    // ====================
+    // cors
     install(CORS) {
         anyHost()
         allowHeader(HttpHeaders.ContentType)
@@ -55,9 +49,7 @@ fun Application.module() {
         allowMethod(HttpMethod.Options)
     }
 
-    // ====================
-    //     AUTH / JWT
-    // ====================
+    // jwt authentication
     install(Authentication) {
         jwt("auth-jwt") {
             realm = JwtConfig.realm
@@ -83,9 +75,7 @@ fun Application.module() {
         }
     }
 
-    // ====================
-    //    DATABASE INIT
-    // ====================
+    // Database connection
     DatabaseFactory.connect()
 
     // (optionnel) Seeds désactivés pour l’instant
@@ -95,12 +85,10 @@ fun Application.module() {
     // CatalogService.seedCourseDetailsFromJson()
     // ProfessorService.seedProfessorsFromJson()
 
-    // ====================
-    //        ROUTING
-    // ====================
+    // routes
     routing {
 
-        // --- Routes publiques simples ---
+        // Routes publiques simples
         get("/") {
             call.respondText(
                 "Backend CompanionAppStudent is running.",
@@ -112,12 +100,10 @@ fun Application.module() {
             call.respond(HttpStatusCode.OK, "OK")
         }
 
-        // ================================
-        //           API / AUTH
-        // ================================
+        // routes API
         route("/api") {
 
-            // --- Auth : public (register + login) ---
+            // Routes publiques
             authRoutes()
             formationRoutes()
             blocRoutes()
@@ -140,17 +126,17 @@ fun Application.module() {
 
             
 
-            // --- Tout le reste : protégé JWT ---
+            //  Routes protégées (JWT) 
             authenticate("auth-jwt") {
 
-                // Users + profils
+                
                 userRoutes()
                 studentRoutes()
                 professorRoutes()
                 paeStudentRoutes()
                 notesStudentRoutes()
 
-                // Catalogue ECAM
+                
                 formationRoutes()
                 blocRoutes()
                 yearRoutes()
@@ -162,10 +148,8 @@ fun Application.module() {
                 courseEvaluationRoutes()
                 courseScheduleRoutes()
                 sousCourseRoutes()
-
-                // Si tu as aussi des routes calendrier / annonces :
                 calendarRoutes()
-                //announcementsRoutes()
+                
             }
         }
     }

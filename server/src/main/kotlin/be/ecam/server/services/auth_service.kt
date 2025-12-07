@@ -9,16 +9,14 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object AuthService {
 
-    // ==================
-    // REGISTER
-    // ==================
+
     // Crée un user dans UsersTable et renvoie un AuthUserDTO
     fun register(req: RegisterRequest): AuthUserDTO = transaction {
 
         val trimmedUsername = req.username.trim()
         val trimmedEmail = req.email.trim()
 
-        // 1) vérifier unicité username / email
+        // verifier que username et email sont uniques
         val exists = UsersTable
             .selectAll()
             .where {
@@ -29,7 +27,7 @@ object AuthService {
 
         require(exists == null) { "Utilisateur déjà existant" }
 
-        // 2) hash du mot de passe
+        // hash du mot de passe
         val hashed = BCrypt
             .withDefaults()
             .hashToString(12, req.password.toCharArray())
@@ -37,14 +35,14 @@ object AuthService {
         // Pour l’instant on force tous les nouveaux comptes en STUDENT
         val role = UserRole.STUDENT
 
-        // 3) insert + récupération de l'id (IntIdTable -> EntityID<Int>.value)
+        // insert + récupération de l'id (IntIdTable -> EntityID<Int>.value)
         val newId = UsersTable.insertAndGetId { row ->
             row[UsersTable.username] = trimmedUsername
             row[UsersTable.email] = trimmedEmail
             row[UsersTable.passwordHash] = hashed
-            row[UsersTable.firstName] = ""      // à remplir plus tard via /users PATCH
+            row[UsersTable.firstName] = ""      
             row[UsersTable.lastName] = ""
-            row[UsersTable.role] = role         // enum UserRole
+            row[UsersTable.role] = role        
             row[UsersTable.avatarUrl] = null
             row[UsersTable.professorId] = null
             row[UsersTable.studentId] = null
@@ -59,9 +57,7 @@ object AuthService {
         )
     }
 
-    // ==================
-    // LOGIN
-    // ==================
+    // Login
     // email ou username + password → AuthUserDTO
     fun login(req: LoginRequest): AuthUserDTO = transaction {
 
@@ -83,10 +79,10 @@ object AuthService {
 
         require(ok) { "Mot de passe incorrect" }
 
-        val roleEnum: UserRole = row[UsersTable.role]  // enum direct grâce à enumerationByName
+        val roleEnum: UserRole = row[UsersTable.role]  
 
         AuthUserDTO(
-            id = row[UsersTable.id].value,          // IntIdTable -> .value
+            id = row[UsersTable.id].value,          
             username = row[UsersTable.username],
             email = row[UsersTable.email],
             role = roleEnum,

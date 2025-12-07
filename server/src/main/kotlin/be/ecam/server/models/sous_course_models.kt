@@ -11,7 +11,7 @@ object SousCoursesTable : IntIdTable("sous_course") {
     val title = varchar("title", 255)
     val hoursQ1 = integer("hours_Q1")
     val hoursQ2 = integer("hours_Q2")
-    val teachersIds = text("teachers_ids")       // JSON/liste
+    val teachersIds = text("teachers_ids")       
     val language = varchar("language", 10)
 }
 

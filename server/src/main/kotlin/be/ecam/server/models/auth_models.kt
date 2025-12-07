@@ -2,7 +2,7 @@ package be.ecam.server.models
 
 import kotlinx.serialization.Serializable
 
-// ========= Requêtes d'auth =========
+
 
 // /auth/register
 @Serializable
@@ -19,15 +19,15 @@ data class LoginRequest(
     val password: String
 )
 
-// ========= Réponses d'auth =========
 
-// Infos de l'utilisateur authentifié (ce qu'on renvoie au front)
+
+// ce qu'on renvoie au front concernant l'utilisateur authentifié
 @Serializable
 data class AuthUserDTO(
     val id: Int,
     val username: String,
     val email: String,
-    val role: UserRole,       // <-- enum UserRole @Serializable
+    val role: UserRole,       
     val avatarUrl: String? = null
 )
 

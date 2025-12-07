@@ -12,12 +12,11 @@ fun Route.paeStudentRoutes() {
 
     route("/pae-students") {
 
-        // 🔹 GET /api/pae-students
+
         get {
             call.respond(PaeStudentService.getAllPaeStudents())
         }
 
-        // 🔹 GET /api/pae-students/{id}  (id DB)
         get("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid id")
@@ -28,7 +27,7 @@ fun Route.paeStudentRoutes() {
             call.respond(student)
         }
 
-        // 🔹 GET /api/pae-students/by-student-id/{studentId}
+
         get("by-student-id/{studentId}") {
             val studentId = call.parameters["studentId"]?.toIntOrNull()
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid studentId")
@@ -36,7 +35,6 @@ fun Route.paeStudentRoutes() {
             call.respond(PaeStudentService.getPaeStudentsByStudentId(studentId))
         }
 
-        // 🔹 GET /api/pae-students/by-formation/{formationId}
         get("by-formation/{formationId}") {
             val formationId = call.parameters["formationId"]
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "formationId missing")
@@ -44,7 +42,7 @@ fun Route.paeStudentRoutes() {
             call.respond(PaeStudentService.getPaeStudentsByFormation(formationId))
         }
 
-        // 🔹 GET /api/pae-students/by-bloc/{blocId}
+
         get("by-bloc/{blocId}") {
             val blocId = call.parameters["blocId"]
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "blocId missing")
@@ -52,14 +50,14 @@ fun Route.paeStudentRoutes() {
             call.respond(PaeStudentService.getPaeStudentsByBloc(blocId))
         }
 
-        // 🔹 POST /api/pae-students
+
         post {
             val req = call.receive<PaeStudentWriteRequest>()
             val created = PaeStudentService.createPaeStudent(req)
             call.respond(HttpStatusCode.Created, created)
         }
 
-        // 🔹 PUT /api/pae-students/{id}
+
         put("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@put call.respond(HttpStatusCode.BadRequest, "Invalid id")
@@ -71,7 +69,7 @@ fun Route.paeStudentRoutes() {
             call.respond(updated)
         }
 
-        // 🔹 DELETE /api/pae-students/{id}
+
         delete("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@delete call.respond(HttpStatusCode.BadRequest, "Invalid id")

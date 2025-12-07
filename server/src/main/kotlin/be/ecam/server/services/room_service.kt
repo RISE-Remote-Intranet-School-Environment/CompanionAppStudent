@@ -7,14 +7,14 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object RoomService {
 
-    // 🔹 GET all rooms
+    //  GET all rooms
     fun getAllRooms(): List<RoomDTO> = transaction {
         RoomsTable
             .selectAll()
             .map { it.toRoomDTO() }
     }
 
-    // 🔹 GET by DB id
+    //  GET by DB id
     fun getRoomById(id: Int): RoomDTO? = transaction {
         RoomsTable
             .selectAll()
@@ -23,7 +23,7 @@ object RoomService {
             ?.toRoomDTO()
     }
 
-    // 🔹 GET by logical roomId (ex: "B01", "A3-05")
+    //  GET by logical roomId (ex: "B01", "A3-05")
     fun getRoomsByRoomId(roomId: String): List<RoomDTO> = transaction {
         RoomsTable
             .selectAll()
@@ -31,7 +31,7 @@ object RoomService {
             .map { it.toRoomDTO() }
     }
 
-    // 🔹 CREATE
+    //  CREATE
     fun createRoom(req: RoomWriteRequest): RoomDTO = transaction {
         val newId = RoomsTable.insertAndGetId { row ->
             row[RoomsTable.roomId] = req.roomId
@@ -47,7 +47,7 @@ object RoomService {
             .toRoomDTO()
     }
 
-    // 🔹 UPDATE
+    //  UPDATE
     fun updateRoom(id: Int, req: RoomWriteRequest): RoomDTO? = transaction {
         val updated = RoomsTable.update({ RoomsTable.id eq id }) { row ->
             row[RoomsTable.roomId] = req.roomId
@@ -65,7 +65,7 @@ object RoomService {
             ?.toRoomDTO()
     }
 
-    // 🔹 DELETE
+    //  DELETE
     fun deleteRoom(id: Int): Boolean = transaction {
         RoomsTable.deleteWhere { RoomsTable.id eq id } > 0
     }

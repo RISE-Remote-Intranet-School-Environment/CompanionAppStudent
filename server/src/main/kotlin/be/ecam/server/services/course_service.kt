@@ -7,14 +7,14 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object CourseService {
 
-    // 🔹 GET all courses
+    //  GET all courses
     fun getAllCourses(): List<CourseDTO> = transaction {
         CoursesTable
             .selectAll()
             .map { it.toCourseDTO() }
     }
 
-    // 🔹 GET by DB id
+    //  GET by DB id
     fun getCourseById(id: Int): CourseDTO? = transaction {
         CoursesTable
             .selectAll()
@@ -23,7 +23,7 @@ object CourseService {
             ?.toCourseDTO()
     }
 
-    // 🔹 GET by logical courseId (ex: "4EIDB40")
+    //  GET by logical courseId 
     fun getCoursesByCourseId(courseId: String): List<CourseDTO> = transaction {
         CoursesTable
             .selectAll()
@@ -31,7 +31,7 @@ object CourseService {
             .map { it.toCourseDTO() }
     }
 
-    // 🔹 GET by raccourci id (ex: "DB", "SOC", etc.)
+    //  GET by raccourci id 
     fun getCoursesByShortId(shortId: String): List<CourseDTO> = transaction {
         CoursesTable
             .selectAll()
@@ -39,7 +39,7 @@ object CourseService {
             .map { it.toCourseDTO() }
     }
 
-    // 🔹 GET by blocId
+    //  GET by blocId
     fun getCoursesByBlocId(blocId: Int): List<CourseDTO> = transaction {
         CoursesTable
             .selectAll()
@@ -47,7 +47,7 @@ object CourseService {
             .map { it.toCourseDTO() }
     }
 
-    // 🔹 GET by formationId
+    //  GET by formationId
     fun getCoursesByFormationId(formationId: Int): List<CourseDTO> = transaction {
         CoursesTable
             .selectAll()
@@ -55,7 +55,7 @@ object CourseService {
             .map { it.toCourseDTO() }
     }
 
-    // 🔹 CREATE
+    //  CREATE
     fun createCourse(req: CourseWriteRequest): CourseDTO = transaction {
         val newId = CoursesTable.insertAndGetId { row ->
             row[CoursesTable.courseId] = req.courseId
@@ -77,7 +77,7 @@ object CourseService {
             .toCourseDTO()
     }
 
-    // 🔹 UPDATE
+    //  UPDATE
     fun updateCourse(id: Int, req: CourseWriteRequest): CourseDTO? = transaction {
         val updated = CoursesTable.update({ CoursesTable.id eq id }) { row ->
             row[CoursesTable.courseId] = req.courseId
@@ -101,7 +101,7 @@ object CourseService {
             ?.toCourseDTO()
     }
 
-    // 🔹 DELETE
+    //  DELETE
     fun deleteCourse(id: Int): Boolean = transaction {
         CoursesTable.deleteWhere { CoursesTable.id eq id } > 0
     }

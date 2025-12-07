@@ -26,7 +26,7 @@ object DatabaseFactory {
         println("SQLite DB = $url")
 
         transaction {
-            // ====== CREATE TABLES ======
+            //  CREATE TABLES IF NOT EXISTS
             SchemaUtils.create(
                 UsersTable,
                 StudentsTable,
@@ -61,8 +61,7 @@ object DatabaseFactory {
                     "PaeStudents, NotesStudents."
             )
 
-            // ====== USER ADMIN PAR DÉFAUT (OPTIONNEL) ======
-            // Décommente si tu veux un admin auto au premier lancement
+            //  DEFAULT ADMIN USER  
             /*
             val userCount = UsersTable.selectAll().count()
             if (userCount == 0L) {
@@ -76,7 +75,7 @@ object DatabaseFactory {
                     row[passwordHash] = hashedPassword
                     row[firstName] = "Admin"
                     row[lastName] = "ECAM"
-                    row[role] = UserRole.ADMIN       // ⚠️ enum direct, pas .name
+                    row[role] = UserRole.ADMIN       
                     row[avatarUrl] = null
                     row[professorId] = null
                     row[studentId] = null

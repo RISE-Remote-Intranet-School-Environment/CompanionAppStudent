@@ -7,14 +7,14 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object FormationService {
 
-    // 🔹 GET all formations
+    //  GET all formations
     fun getAllFormations(): List<FormationDTO> = transaction {
         FormationsTable
             .selectAll()
             .map { it.toFormationDTO() }
     }
 
-    // 🔹 GET by DB id
+    //  GET by DB id
     fun getFormationById(id: Int): FormationDTO? = transaction {
         FormationsTable
             .selectAll()
@@ -23,7 +23,7 @@ object FormationService {
             ?.toFormationDTO()
     }
 
-    // 🔹 GET by logical formationId (ex: "3BE", "4IT")
+    //  GET by logical formationId (ex: "3BE", "4IT")
     fun getFormationByFormationId(formationId: String): List<FormationDTO> = transaction {
         FormationsTable
             .selectAll()
@@ -31,7 +31,7 @@ object FormationService {
             .map { it.toFormationDTO() }
     }
 
-    // 🔹 CREATE
+    //  CREATE
     fun createFormation(req: FormationWriteRequest): FormationDTO = transaction {
         val newId = FormationsTable.insertAndGetId { row ->
             row[FormationsTable.formationId] = req.formationId
@@ -47,9 +47,9 @@ object FormationService {
             .toFormationDTO()
     }
 
-    // 🔹 UPDATE
+    //  UPDATE
     fun updateFormation(id: Int, req: FormationWriteRequest): FormationDTO? = transaction {
-        // ⚠️ ici il faut passer UN LAMBDA pour le where
+    
         val updated = FormationsTable.update({ FormationsTable.id eq id }) { row ->
             row[FormationsTable.formationId] = req.formationId
             row[FormationsTable.name] = req.name
@@ -65,10 +65,8 @@ object FormationService {
             .singleOrNull()
             ?.toFormationDTO()
     }
-
-    // 🔹 DELETE
+    //  DELETE
     fun deleteFormation(id: Int): Boolean = transaction {
-        // ⚠️ En Exposed, on utilise deleteWhere sur une Table
         val deleted = FormationsTable.deleteWhere { FormationsTable.id eq id }
         deleted != 0
     }
