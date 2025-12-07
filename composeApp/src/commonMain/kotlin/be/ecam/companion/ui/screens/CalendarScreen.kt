@@ -14,14 +14,14 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
@@ -59,15 +59,200 @@ fun CalendarScreen(
     val eventsByDate = remember(localEventsByDate, scheduledByDate) {
         mergeCalendarEvents(localEventsByDate, scheduledByDate)
     }
-    val scrollState = rememberScrollState()
+    val calendarScrollState = rememberScrollState()
 
     Column(
         modifier = modifier
-            .fillMaxWidth()
-            .verticalScroll(scrollState)
-            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surface)
     ) {
-        // Header with month/year and navigation
+        CalendarControls(
+            anchorDate = anchorDate,
+            onTodayClick = {
+                slideDirection = 0
+                anchorDate = today
+                dialogDate = today
+            },
+            onPreviousClick = {
+                slideDirection = 1
+                anchorDate = mode.prev(anchorDate)
+            },
+            onNextClick = {
+                slideDirection = -1
+                anchorDate = mode.next(anchorDate)
+            },
+            mode = mode,
+            onModeChange = { newMode ->
+                slideDirection = 0
+                mode = newMode
+            }
+        )
+
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(calendarScrollState)
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+        ) {
+            // Week day headers
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                val days = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+                for (d in days) {
+                    Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                        Text(
+                            d,
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                        )
+                    }
+                }
+            }
+
+            Spacer(Modifier.height(4.dp))
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .pointerInput(mode, anchorDate) {
+                        var triggered = false
+                        var totalDx = 0f
+                        val threshold = 60f
+                        detectHorizontalDragGestures(
+                            onHorizontalDrag = { _, dragAmount ->
+                                if (triggered) return@detectHorizontalDragGestures
+                                totalDx += dragAmount
+                                if (totalDx <= -threshold) {
+                                    slideDirection = -1
+                                    anchorDate = mode.next(anchorDate)
+                                    triggered = true
+                                } else if (totalDx >= threshold) {
+                                    slideDirection = 1
+                                    anchorDate = mode.prev(anchorDate)
+                                    triggered = true
+                                }
+                            },
+                            onDragEnd = {
+                                triggered = false
+                                totalDx = 0f
+                            },
+                            onDragCancel = {
+                                triggered = false
+                                totalDx = 0f
+                            }
+                        )
+                    }
+            ) {
+                AnimatedContent(
+                    targetState = Pair(mode, anchorDate),
+                    transitionSpec = {
+                        val dir = slideDirection
+                        if (dir < 0) {
+                            slideIntoContainer(
+                                AnimatedContentTransitionScope.SlideDirection.Left,
+                                animationSpec = tween(SLIDE_DURATION_MS)
+                            ) + fadeIn(animationSpec = tween(SLIDE_DURATION_MS)) togetherWith
+                                    slideOutOfContainer(
+                                        AnimatedContentTransitionScope.SlideDirection.Left,
+                                        animationSpec = tween(SLIDE_DURATION_MS)
+                                    ) + fadeOut(animationSpec = tween(SLIDE_DURATION_MS))
+                        } else if (dir > 0) {
+                            slideIntoContainer(
+                                AnimatedContentTransitionScope.SlideDirection.Right,
+                                animationSpec = tween(SLIDE_DURATION_MS)
+                            ) + fadeIn(animationSpec = tween(SLIDE_DURATION_MS)) togetherWith
+                                    slideOutOfContainer(
+                                        AnimatedContentTransitionScope.SlideDirection.Right,
+                                        animationSpec = tween(SLIDE_DURATION_MS)
+                                    ) + fadeOut(animationSpec = tween(SLIDE_DURATION_MS))
+                        } else {
+                            fadeIn(animationSpec = tween(FADE_DURATION_MS)) togetherWith fadeOut(
+                                animationSpec = tween(FADE_DURATION_MS)
+                            )
+                        }
+                    }, label = "calendarPager"
+                ) { (calendarMode, aDate) ->
+                    when (calendarMode) {
+                        CalendarMode.Month -> MonthGrid(
+                            anchorDate = aDate,
+                            today = today,
+                            eventsByDate = eventsByDate,
+                            onDateClick = { date -> dialogDate = date }
+                        )
+
+                        CalendarMode.Week -> WeekRow(
+                            anchorDate = aDate,
+                            today = today,
+                            eventsByDate = eventsByDate,
+                            onDateClick = { date -> dialogDate = date }
+                        )
+                    }
+                }
+            }
+            Spacer(Modifier.height(12.dp))
+            if (dialogDate != null) {
+                val items = eventsByDate[dialogDate] ?: emptyList()
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    val header = dialogDate!!.toEuropeanString()
+                    Text(text = "Events on $header", style = MaterialTheme.typography.titleSmall)
+                    Spacer(Modifier.height(6.dp))
+                    if (items.isEmpty()) {
+                        Text("No events", color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+                    } else {
+                        for (event in items) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 2.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(10.dp)
+                                        .background(
+                                            color = event.category.color,
+                                            shape = CircleShape
+                                        )
+                                )
+                                Spacer(Modifier.width(8.dp))
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = event.title,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                    if (event.description.isNotBlank() && event.description != event.title) {
+                                        Text(
+                                            text = event.description,
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                                            maxLines = 2,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CalendarControls(
+    anchorDate: LocalDate,
+    onTodayClick: () -> Unit,
+    onPreviousClick: () -> Unit,
+    onNextClick: () -> Unit,
+    mode: CalendarMode,
+    onModeChange: (CalendarMode) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 12.dp)
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -88,11 +273,7 @@ fun CalendarScreen(
                     text = "Today",
                     modifier = Modifier
                         .padding(end = 8.dp)
-                        .clickable {
-                            slideDirection = 0
-                            anchorDate = today
-                            dialogDate = today
-                        },
+                        .clickable { onTodayClick() },
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -101,179 +282,34 @@ fun CalendarScreen(
                     contentDescription = "Previous",
                     modifier = Modifier
                         .size(28.dp)
-                        .clickable { slideDirection = 1; anchorDate = mode.prev(anchorDate) }
+                        .clickable { onPreviousClick() }
                 )
                 Icon(
                     Icons.Filled.ChevronRight,
                     contentDescription = "Next",
                     modifier = Modifier
                         .size(28.dp)
-                        .clickable { slideDirection = -1; anchorDate = mode.next(anchorDate) }
+                        .clickable { onNextClick() }
                 )
             }
         }
 
         Spacer(Modifier.height(8.dp))
 
-        // Mode switcher
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             FilterChip(
                 selected = mode == CalendarMode.Week,
-                onClick = { slideDirection = 0; mode = CalendarMode.Week },
+                onClick = { onModeChange(CalendarMode.Week) },
                 label = { Text("Week") }
             )
             FilterChip(
                 selected = mode == CalendarMode.Month,
-                onClick = { slideDirection = 0; mode = CalendarMode.Month },
+                onClick = { onModeChange(CalendarMode.Month) },
                 label = { Text("Month") }
             )
-        }
-
-        Spacer(Modifier.height(8.dp))
-
-        // Week day headers
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            val days = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
-            for (d in days) {
-                Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                    Text(
-                        d,
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                    )
-                }
-            }
-        }
-
-        Spacer(Modifier.height(4.dp))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .pointerInput(mode, anchorDate) {
-                    var triggered = false
-                    var totalDx = 0f
-                    val threshold = 60f
-                    detectHorizontalDragGestures(
-                        onHorizontalDrag = { _, dragAmount ->
-                            if (triggered) return@detectHorizontalDragGestures
-                            totalDx += dragAmount
-                            if (totalDx <= -threshold) {
-                                slideDirection = -1
-                                anchorDate = mode.next(anchorDate)
-                                triggered = true
-                            } else if (totalDx >= threshold) {
-                                slideDirection = 1
-                                anchorDate = mode.prev(anchorDate)
-                                triggered = true
-                            }
-                        },
-                        onDragEnd = {
-                            triggered = false
-                            totalDx = 0f
-                        },
-                        onDragCancel = {
-                            triggered = false
-                            totalDx = 0f
-                        }
-                    )
-                }
-        ) {
-            AnimatedContent(
-                targetState = Pair(mode, anchorDate),
-                transitionSpec = {
-                    val dir = slideDirection
-                    if (dir < 0) {
-                        slideIntoContainer(
-                            AnimatedContentTransitionScope.SlideDirection.Left,
-                            animationSpec = tween(SLIDE_DURATION_MS)
-                        ) + fadeIn(animationSpec = tween(SLIDE_DURATION_MS)) togetherWith
-                                slideOutOfContainer(
-                                    AnimatedContentTransitionScope.SlideDirection.Left,
-                                    animationSpec = tween(SLIDE_DURATION_MS)
-                                ) + fadeOut(animationSpec = tween(SLIDE_DURATION_MS))
-                    } else if (dir > 0) {
-                        slideIntoContainer(
-                            AnimatedContentTransitionScope.SlideDirection.Right,
-                            animationSpec = tween(SLIDE_DURATION_MS)
-                        ) + fadeIn(animationSpec = tween(SLIDE_DURATION_MS)) togetherWith
-                                slideOutOfContainer(
-                                    AnimatedContentTransitionScope.SlideDirection.Right,
-                                    animationSpec = tween(SLIDE_DURATION_MS)
-                                ) + fadeOut(animationSpec = tween(SLIDE_DURATION_MS))
-                    } else {
-                        fadeIn(animationSpec = tween(FADE_DURATION_MS)) togetherWith fadeOut(
-                            animationSpec = tween(FADE_DURATION_MS)
-                        )
-                    }
-                }, label = "calendarPager"
-            ) { (calendarMode, aDate) ->
-                when (calendarMode) {
-                    CalendarMode.Month -> MonthGrid(
-                        anchorDate = aDate,
-                        today = today,
-                        eventsByDate = eventsByDate,
-                        onDateClick = { date -> dialogDate = date }
-                    )
-
-                    CalendarMode.Week -> WeekRow(
-                        anchorDate = aDate,
-                        today = today,
-                        eventsByDate = eventsByDate,
-                        onDateClick = { date -> dialogDate = date }
-                    )
-                }
-            }
-        }
-        Spacer(Modifier.height(12.dp))
-        if (dialogDate != null) {
-            val items = eventsByDate[dialogDate] ?: emptyList()
-            Column(modifier = Modifier.fillMaxWidth()) {
-                val header = dialogDate!!.toEuropeanString()
-                Text(text = "Events on $header", style = MaterialTheme.typography.titleSmall)
-                Spacer(Modifier.height(6.dp))
-                if (items.isEmpty()) {
-                    Text("No events", color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
-                } else {
-                    for (event in items) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 2.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .size(10.dp)
-                                    .background(
-                                        color = event.category.color,
-                                        shape = CircleShape
-                                    )
-                            )
-                            Spacer(Modifier.width(8.dp))
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(
-                                    text = event.title,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    fontWeight = FontWeight.Medium
-                                )
-                                if (event.description.isNotBlank() && event.description != event.title) {
-                                    Text(
-                                        text = event.description,
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                                        maxLines = 2,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }

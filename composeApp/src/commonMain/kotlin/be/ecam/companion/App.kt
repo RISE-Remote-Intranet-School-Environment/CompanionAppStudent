@@ -79,8 +79,8 @@ fun App(extraModules: List<Module> = emptyList()) {
                 }
 
                 // --- KEY STEP: Retrieve the connected username ---
-                // We use "nschell" as a fallback safety if username is null
-                val connectedUser = loginViewModel.currentUser?.username ?: "nschell"
+                // Use Nirina Crépin as the default fallback
+                val connectedUser = loginViewModel.currentUser?.username ?: "ncrepin"
 
                 val drawerState = rememberDrawerState(DrawerValue.Closed)
                 val scope = rememberCoroutineScope()
@@ -220,7 +220,8 @@ fun App(extraModules: List<Module> = emptyList()) {
                                     StudentCourseCalendar(
                                         modifier = baseModifier,
                                         initialYearOption = courseCalendarInitialYearOption,
-                                        initialSeries = courseCalendarInitialSeries
+                                        initialSeries = courseCalendarInitialSeries,
+                                        username = connectedUser
                                     )
                                 }
 
