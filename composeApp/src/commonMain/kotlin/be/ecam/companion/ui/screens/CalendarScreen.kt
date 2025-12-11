@@ -6,6 +6,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.CalendarMonth
@@ -65,6 +67,12 @@ fun CalendarScreen(
         mergeCalendarEvents(localEventsByDate, scheduledByDate)
     }
     val calendarScrollState = rememberScrollState()
+    val bringIntoViewRequester = remember { BringIntoViewRequester() }
+    LaunchedEffect(dialogDate) {
+        if (dialogDate != null) {
+            bringIntoViewRequester.bringIntoView()
+        }
+    }
 
     Column(
         modifier = modifier
@@ -196,10 +204,16 @@ fun CalendarScreen(
             Spacer(Modifier.height(12.dp))
             if (dialogDate != null) {
                 val items = eventsByDate[dialogDate] ?: emptyList()
-                SelectedDayEvents(
-                    date = dialogDate!!,
-                    events = items
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .bringIntoViewRequester(bringIntoViewRequester)
+                ) {
+                    SelectedDayEvents(
+                        date = dialogDate!!,
+                        events = items
+                    )
+                }
             }
         }
     }
