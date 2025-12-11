@@ -7,12 +7,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -24,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -191,49 +196,10 @@ fun CalendarScreen(
             Spacer(Modifier.height(12.dp))
             if (dialogDate != null) {
                 val items = eventsByDate[dialogDate] ?: emptyList()
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    val header = dialogDate!!.toEuropeanString()
-                    Text(text = "Events on $header", style = MaterialTheme.typography.titleSmall)
-                    Spacer(Modifier.height(6.dp))
-                    if (items.isEmpty()) {
-                        Text("No events", color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
-                    } else {
-                        for (event in items) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 2.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(10.dp)
-                                        .background(
-                                            color = event.category.color,
-                                            shape = CircleShape
-                                        )
-                                )
-                                Spacer(Modifier.width(8.dp))
-                                Column(modifier = Modifier.weight(1f)) {
-                                    Text(
-                                        text = event.title,
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        fontWeight = FontWeight.Medium
-                                    )
-                                    if (event.description.isNotBlank() && event.description != event.title) {
-                                        Text(
-                                            text = event.description,
-                                            style = MaterialTheme.typography.bodySmall,
-                                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                                            maxLines = 2,
-                                            overflow = TextOverflow.Ellipsis
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                SelectedDayEvents(
+                    date = dialogDate!!,
+                    events = items
+                )
             }
         }
     }
@@ -312,6 +278,199 @@ private fun CalendarControls(
             )
         }
     }
+}
+
+@Composable
+private fun SelectedDayEvents(date: LocalDate, events: List<CalendarEvent>) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        tonalElevation = 1.dp,
+        shadowElevation = 1.dp,
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(14.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Events on ${date.toEuropeanString()}",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+                if (events.isNotEmpty()) {
+                    Text(
+                        text = "${events.size} ${if (events.size == 1) "event" else "events"}",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                    )
+                }
+            }
+
+            if (events.isEmpty()) {
+                Text("No events", color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+            } else {
+                val enriched = events.map { it to it.extractEventMeta() }
+                    .sortedWith(
+                        compareBy(
+                            { it.second.startMinutes ?: Int.MAX_VALUE },
+                            { it.first.title }
+                        )
+                    )
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    enriched.forEach { (event, meta) ->
+                        CalendarEventDetailCard(event = event, meta = meta)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CalendarEventDetailCard(event: CalendarEvent, meta: EventDisplayMeta) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(10.dp),
+        tonalElevation = 0.dp,
+        shadowElevation = 0.dp,
+        color = event.category.color.copy(alpha = 0.08f)
+    ) {
+        Row(
+            modifier = Modifier.padding(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .height(42.dp)
+                    .width(6.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(event.category.color.copy(alpha = 0.95f))
+            )
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                Text(
+                    text = event.displayTitle(meta),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                meta.timeRange?.let {
+                    LabeledMeta(icon = Icons.Filled.AccessTime, text = it)
+                }
+                meta.location?.let {
+                    LabeledMeta(icon = Icons.Filled.LocationOn, text = it)
+                }
+                meta.teacher?.let {
+                    LabeledMeta(icon = Icons.Filled.Person, text = it)
+                }
+                meta.extra?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun LabeledMeta(icon: ImageVector, text: String) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Icon(
+            icon,
+            contentDescription = null,
+            modifier = Modifier.size(16.dp),
+            tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)
+        )
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
+
+private data class EventDisplayMeta(
+    val timeRange: String? = null,
+    val startMinutes: Int? = null,
+    val endMinutes: Int? = null,
+    val startLabel: String? = null,
+    val teacher: String? = null,
+    val location: String? = null,
+    val extra: String? = null
+)
+
+private fun CalendarEvent.displayTitle(meta: EventDisplayMeta): String {
+    val start = meta.startLabel?.takeIf { it.isNotBlank() }
+    val cleanedTitle = title
+        .replace(Regex("\\s*-\\s*(\\d{1,2}[:h]\\d{2}.*)$"), "")
+        .replace(Regex("\\s+Prof:.*", RegexOption.IGNORE_CASE), "")
+        .trim()
+        .trimEnd('-', '•')
+    val base = cleanedTitle.ifBlank { title }
+    return if (start != null) "$start - $base" else base
+}
+
+private fun CalendarEvent.extractEventMeta(): EventDisplayMeta {
+    val text = description.ifBlank { title }
+    val timeRegex = Regex("(\\d{1,2}[:h]\\d{2})\\s*-\\s*(\\d{1,2}[:h]\\d{2})")
+    val timeMatch = timeRegex.find(text)
+    val startMinutes = timeMatch?.groupValues?.getOrNull(1)?.let(::parseTimeToMinutes)
+    val endMinutes = timeMatch?.groupValues?.getOrNull(2)?.let(::parseTimeToMinutes)
+    val profMatch = Regex("Prof\\s*:?\\s*([^\\n\\r,;\\-]+)", RegexOption.IGNORE_CASE).find(text)
+    val roomMatch = Regex("(Salle|Local|Room)\\s*:?\\s*([A-Za-z0-9\\s-]+)", RegexOption.IGNORE_CASE).find(text)
+    val timeRange = timeMatch?.let {
+        val start = it.groupValues.getOrNull(1)?.replace('h', ':')
+        val end = it.groupValues.getOrNull(2)?.replace('h', ':')
+        if (start != null && end != null) "$start - $end" else null
+    }
+    val startLabel = timeMatch?.groupValues?.getOrNull(1)?.replace('h', ':')
+    val extra = when {
+        description.isNotBlank() && description != title -> description
+        else -> null
+    }
+    val teacherClean = profMatch
+        ?.groupValues
+        ?.getOrNull(1)
+        ?.replace(Regex("(?i)salle.*"), "")
+        ?.trim()
+        ?.ifBlank { null }
+    return EventDisplayMeta(
+        timeRange = timeRange,
+        startMinutes = startMinutes,
+        endMinutes = endMinutes,
+        startLabel = startLabel,
+        teacher = teacherClean,
+        location = roomMatch?.groupValues?.getOrNull(2)?.trim(),
+        extra = extra
+    )
+}
+
+private fun parseTimeToMinutes(raw: String): Int? {
+    val normalized = raw.replace("h", ":").trim()
+    val match = Regex("(\\d{1,2}):(\\d{2})").find(normalized) ?: return null
+    val hours = match.groupValues.getOrNull(1)?.toIntOrNull() ?: return null
+    val minutes = match.groupValues.getOrNull(2)?.toIntOrNull() ?: return null
+    return hours * 60 + minutes
 }
 
 private fun mergeCalendarEvents(
@@ -461,7 +620,9 @@ private fun DayCell(
 
 @Composable
 private fun CalendarEventBadge(event: CalendarEvent) {
+    val meta = event.extractEventMeta()
     val baseColor = event.category.color
+    val displayText = event.displayTitle(meta)
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -469,7 +630,7 @@ private fun CalendarEventBadge(event: CalendarEvent) {
             .background(baseColor.copy(alpha = 0.2f))
     ) {
         Text(
-            text = event.title,
+            text = displayText,
             modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
             style = MaterialTheme.typography.labelSmall,
             color = baseColor,
