@@ -9,10 +9,14 @@ import be.ecam.companion.data.ApiRepository
 import be.ecam.companion.data.PaeCourse
 import be.ecam.companion.data.PaeRepository
 import be.ecam.companion.data.PaeStudent
+// 👇 IMPORTANT : Importez la classe CourseDetail qui est dans votre package UI
+import be.ecam.companion.ui.CourseDetail
+import companion.composeapp.generated.resources.Res
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
+import kotlinx.serialization.json.Json
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 
-// Assurez-vous d'avoir MockApiRepository ou NetworkApiRepository disponible
 class HomeViewModel(
     private val repository: ApiRepository
 ) : ViewModel() {
@@ -23,7 +27,12 @@ class HomeViewModel(
     var scheduledByDate by mutableStateOf<Map<LocalDate, List<String>>>(emptyMap())
         private set
 
+    // Vos cours inscrits (PAE)
     var courses by mutableStateOf<List<PaeCourse>>(emptyList())
+        private set
+
+    // 👇 AJOUT : Le catalogue complet pour la recherche
+    var catalogCourses by mutableStateOf<List<CourseDetail>>(emptyList())
         private set
 
     var student by mutableStateOf<PaeStudent?>(null)
@@ -32,8 +41,10 @@ class HomeViewModel(
     var lastErrorMessage by mutableStateOf("")
         private set
 
+    @OptIn(ExperimentalResourceApi::class) // Nécessaire pour Res.readBytes
     fun load(userIdentifier: String = "nicolas.schell") {
-        // 1. Hello Message (API)
+
+        // 1. Hello Message
         viewModelScope.launch {
             try {
                 val hello = repository.fetchHello()
@@ -43,7 +54,7 @@ class HomeViewModel(
             }
         }
 
-        // 2. Schedule (API)
+        // 2. Schedule
         viewModelScope.launch {
             try {
                 val schedule = repository.fetchSchedule()
@@ -61,28 +72,35 @@ class HomeViewModel(
             }
         }
 
-        // 3. PAE (Local JSON) - Filtrage par utilisateur et année
+        // 3. PAE (Vos cours)
         viewModelScope.launch {
             try {
                 val db = PaeRepository.load()
-
-                // --- CORRECTION DE L'ERREUR ICI ---
-                // On utilise le paramètre 'userIdentifier' passé à la fonction
                 val targetStudent = db.students.find { student ->
                     student.username == userIdentifier || student.email == userIdentifier
-                } ?: db.students.firstOrNull() // Fallback : premier étudiant si non trouvé
+                } ?: db.students.firstOrNull()
 
                 student = targetStudent
 
-                // Filtrage année 2025-2026
                 val targetRecord = targetStudent?.records?.find { record ->
                     record.academicYearLabel == "2025-2026" || record.catalogYear == "2025-2026"
                 }
-
                 courses = targetRecord?.courses ?: emptyList()
-
             } catch (t: Throwable) {
-                lastErrorMessage = t.message ?: "Erreur lors du chargement du PAE"
+                lastErrorMessage = t.message ?: "Erreur chargement PAE"
+            }
+        }
+
+        // 👇 4. AJOUT : Chargement du catalogue complet pour la recherche
+        viewModelScope.launch {
+            if (catalogCourses.isEmpty()) { // On charge une seule fois
+                try {
+                    val bytes = Res.readBytes("files/ecam_courses_details_2025.json")
+                    val json = Json { ignoreUnknownKeys = true; isLenient = true }
+                    catalogCourses = json.decodeFromString(bytes.decodeToString())
+                } catch (e: Exception) {
+                    println("Erreur chargement catalogue: ${e.message}")
+                }
             }
         }
     }
@@ -90,9 +108,9 @@ class HomeViewModel(
     private fun friendlyErrorMessage(t: Throwable): String {
         val msg = t.message ?: ""
         val simple = t::class.simpleName ?: "Error"
-        return "Cannot reach the server. Please check Settings and your connection. ($simple: $msg)"
+        return "Cannot reach the server. ($simple: $msg)"
     }
 }
 
-// Classe Mock temporaire si vous n'avez pas encore la vraie implémentation réseau accessible ici
+
 
