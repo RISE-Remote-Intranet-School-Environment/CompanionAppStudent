@@ -46,7 +46,7 @@ fun Route.courseDetailsRoutes() {
 
         
         get("by-bloc/{blocId}") {
-            val blocId = call.parameters["blocId"]?.toIntOrNull()
+            val blocId = call.parameters["blocId"]?.toString()
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "blocId invalid")
 
             call.respond(CourseDetailsService.getCourseDetailsByBlocId(blocId))

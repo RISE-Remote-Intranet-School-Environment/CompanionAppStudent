@@ -9,7 +9,7 @@ object RoomsTable : IntIdTable("rooms") {
     val roomId = varchar("room_id", 50)
     val type = varchar("type", 50)
     val batiment = varchar("batiment", 50).nullable()
-    val etage = varchar("étage", 50).nullable()
+    val etage = varchar("etage", 50).nullable()
 }
 
 // DTO pour exposer les salles au front

@@ -61,8 +61,11 @@ object DatabaseFactory {
                     "PaeStudents, NotesStudents."
             )
 
+            // Seed initial data
+            //DatabaseSeeder.seedAll()
+
             //  DEFAULT ADMIN USER  
-            /*
+            
             val userCount = UsersTable.selectAll().count()
             if (userCount == 0L) {
                 val hashedPassword = BCrypt
@@ -83,7 +86,7 @@ object DatabaseFactory {
 
                 println("Default admin user created (email=admin@example.com, pwd=1234)")
             }
-            */
+            
         }
     }
 }

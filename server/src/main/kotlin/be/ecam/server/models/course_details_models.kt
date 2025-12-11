@@ -11,9 +11,9 @@ object CourseDetailsTable : IntIdTable("course_details") {
     val sousCourseId = varchar("sous_course_id", 50).nullable()
     val teachersRawId = varchar("teachers_raw_id", 255).nullable()
     val formationIds = text("formation_ids").nullable()
-    val periods = integer("periods").nullable()
-    val hoursQ1 = integer("hours_q1").nullable()
-    val hoursQ2 = integer("hours_q2").nullable()
+    val periods = varchar("periods", 50).nullable()
+    val hoursQ1 = varchar("hours_q1", 50).nullable()
+    val hoursQ2 = varchar("hours_q2", 50).nullable()
     val contribution = text("contribution").nullable()
     val learningOutcomes = text("learning_outcomes").nullable()
     val content = text("content").nullable()
@@ -21,7 +21,7 @@ object CourseDetailsTable : IntIdTable("course_details") {
     val evaluationMethods = text("evaluation_methods").nullable()
     val courseMaterial = text("course_material").nullable()
     val bibliography = text("bibliography").nullable()
-    val blocId = integer("bloc_id").nullable()
+    val blocId = varchar("bloc_id", 255).nullable()
 }
 
 // DTO pour exposer les détails des cours au front
@@ -33,9 +33,9 @@ data class CourseDetailsDTO(
     val sousCourseId: String?,
     val teachersRawId: String?,
     val formationIds: String?,
-    val periods: Int?,
-    val hoursQ1: Int?,
-    val hoursQ2: Int?,
+    val periods: String?,
+    val hoursQ1: String?,
+    val hoursQ2: String?,
     val contribution: String?,
     val learningOutcomes: String?,
     val content: String?,
@@ -43,7 +43,7 @@ data class CourseDetailsDTO(
     val evaluationMethods: String?,
     val courseMaterial: String?,
     val bibliography: String?,
-    val blocId: Int?
+    val blocId: String?
 )
 
 // mapper ResultRow -> DTO
@@ -75,9 +75,9 @@ data class CourseDetailsWriteRequest(
     val sousCourseId: String? = null,
     val teachersRawId: String? = null,
     val formationIds: String? = null,
-    val periods: Int? = null,
-    val hoursQ1: Int? = null,
-    val hoursQ2: Int? = null,
+    val periods: String? = null,
+    val hoursQ1: String? = null,
+    val hoursQ2: String? = null,
     val contribution: String? = null,
     val learningOutcomes: String? = null,
     val content: String? = null,
@@ -85,6 +85,6 @@ data class CourseDetailsWriteRequest(
     val evaluationMethods: String? = null,
     val courseMaterial: String? = null,
     val bibliography: String? = null,
-    val blocId: Int? = null
+    val blocId: String? = null
 )
 

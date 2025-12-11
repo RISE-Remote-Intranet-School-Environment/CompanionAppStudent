@@ -55,7 +55,7 @@ object ProfessorService {
             row[ProfessorsTable.professorId] = req.professorId
             row[ProfessorsTable.firstName] = req.firstName
             row[ProfessorsTable.lastName] = req.lastName
-            row[ProfessorsTable.email] = req.email
+            row[ProfessorsTable.email] = req.email !!
             row[ProfessorsTable.roomIds] = req.roomIds
             row[ProfessorsTable.phone] = req.phone
             row[ProfessorsTable.speciality] = req.speciality
@@ -75,7 +75,7 @@ object ProfessorService {
             row[ProfessorsTable.professorId] = req.professorId
             row[ProfessorsTable.firstName] = req.firstName
             row[ProfessorsTable.lastName] = req.lastName
-            row[ProfessorsTable.email] = req.email
+            row[ProfessorsTable.email] = req.email !!
             row[ProfessorsTable.roomIds] = req.roomIds
             row[ProfessorsTable.phone] = req.phone
             row[ProfessorsTable.speciality] = req.speciality

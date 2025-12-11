@@ -46,7 +46,7 @@ fun Route.courseRoutes() {
 
        
         get("by-bloc/{blocId}") {
-            val blocId = call.parameters["blocId"]?.toIntOrNull()
+            val blocId = call.parameters["blocId"]?.toString()
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid blocId")
 
             call.respond(CourseService.getCoursesByBlocId(blocId))
@@ -54,7 +54,7 @@ fun Route.courseRoutes() {
 
         
         get("by-formation/{formationId}") {
-            val formationId = call.parameters["formationId"]?.toIntOrNull()
+            val formationId = call.parameters["formationId"]?.toString()
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid formationId")
 
             call.respond(CourseService.getCoursesByFormationId(formationId))

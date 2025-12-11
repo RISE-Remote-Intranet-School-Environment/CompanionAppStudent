@@ -1,0 +1,132 @@
+﻿id,professor_id,first_name,last_name,email,room_ids,phone,speciality,full name
+1,dkp,Philippe,DEKIMPE,dkp@ecam.be,2.00E+31,1,ECAM,DEKIMPE Philippe
+2,lfv,Marie-Francoise,LEFEBVRE,lfv@ecam.be,2.00E+25,1,Non renseigné,LEFEBVRE Marie-Francoise
+3,lah,Jean-Philippe,LAHAYE,lah@ecam.be,2.00E+26,1,ECAM,LAHAYE Jean-Philippe
+4,aan,Anissa,AANAN,aan@ecam.be,2.00E+27,1,Non renseigné,AANAN Anissa
+5,adn,Anais,DENIS,adn@ecam.be,2.00E+28,1,Non renseigné,DENIS Anais
+6,mva,Marianne,VAN AKEN,mva@ecam.be,2.00E+29,1,Non renseigné,VAN AKEN Marianne
+7,bvv,Bernadette,VAN DE VENNE,bvv@ecam.be,2.00E+30,1,Non renseigné,VAN DE VENNE Bernadette
+8,vri,Isabelle,VAN ROY,vri@ecam.be,2.00E+31,1,Non renseigné,VAN ROY Isabelle
+9,sas,Sophie,ALSTEENS,sas@ecam.be,2.00E+32,1,Non renseigné,ALSTEENS Sophie
+10,png,Pauline,NOGUAIS,png@ecam.be,2.00E+33,1,Non renseigné,NOGUAIS Pauline
+11,cbr,Clemence,BRUYERE,cbr@ecam.be,2.00E+34,1,Non renseigné,BRUYERE Clemence
+12,gko,Gabriel,KOOLS,gko@ecam.be,2.00E+35,1,Non renseigné,KOOLS Gabriel
+13,blp,Brigitte,LEPOIVRE,blp@ecam.be,2.00E+36,1,Non renseigné,LEPOIVRE Brigitte
+14,ecl,Elise,CLIN,ecl@ecam.be,2.00E+37,1,Non renseigné,CLIN Elise
+15,mcl,Magali,LECOQ,mcl@ecam.be,2.00E+38,1,Non renseigné,LECOQ Magali
+16,gns,Gaelle,JANSSENS,gns@ecam.be,2.00E+39,1,Non renseigné,JANSSENS Gaelle
+17,jfd,Jeremy,FIDELAK,jfd@ecam.be,2.00E+40,1,Non renseigné,FIDELAK Jeremy
+18,eco,Etienne,COGELS,eco@ecam.be,2F43,1,Non renseigné,COGELS Etienne
+19,ghg,Gregory,HOUGARDY,ghg@ecam.be,2F44,1,Non renseigné,HOUGARDY Gregory
+20,cbs,Chahid,BESTRIOUI,cbs@ecam.be,2F45,1,Non renseigné,BESTRIOUI Chahid
+21,mzr,Majida,ZERROUAL,mzr@ecam.be,2F46,1,Non renseigné,ZERROUAL Majida
+22,auv,Edouard,AUVINET,auv@ecam.be,2F47,1,FGS,AUVINET Edouard
+23,bst,Bst,BST,bst@ecam.be,2F48,1,Non renseigné,BST Bst
+24,bor,Edoardo,BORI,bor@ecam.be,2F44,1,FGS,BORI Edoardo
+25,crt,Olivier,CARTIAUX,crt@ecam.be,2.00E+27,1,FGS,CARTIAUX Olivier
+26,crd,Emmanuel,CORDIER,crd@ecam.be,2F28,1,FGS,CORDIER Emmanuel
+27,dhn,Mikaël,DHEN,dhn@ecam.be,2F28,1,FGS,DHEN Mikaël
+28,brg,Benjamin,BERGER,brg@ecam.be,2D29,1,GMT,BERGER Benjamin
+29,r5g,Rolando,GUERRIERI,r5g@ecam.be,2F44,1,FGS,GUERRIERI Rolando
+30,hnt,Virginie,HENROTTE,hnt@ecam.be,2F22,1,FGS,HENROTTE Virginie
+31,hil,Ruben,HILLEWAERE,hil@ecam.be,2F28,1,FGS,HILLEWAERE Ruben
+32,mj5,Marius,JOLY,mj5@ecam.be,2F44,1,FGS,JOLY Marius
+33,jsz,Jacek,JONAS-SZATANSKI,jsz@ecam.be,2F28,1,FGS,JONAS-SZATANSKI Jacek
+34,sbr,Nathalie,SIEBERT,sbr@ecam.be,2F44,1,FGS,SIEBERT Nathalie
+35,spr,Géraldine,SPRINGUEL,spr@ecam.be,2F22,1,FGS,SPRINGUEL Géraldine
+36,b5w,Barbara,WEIS,b5w@ecam.be,2F22,1,FGS,WEIS Barbara
+37,d5b,David,BOUCHEZ,d5b@ecam.be,Non renseigné,1,FGS,BOUCHEZ David
+38,c5c,Carlo,CORONATO,c5c@ecam.be,Non renseigné,1,FGS,CORONATO Carlo
+39,b5c,Bernard,COUVREUR,b5c@ecam.be,Non renseigné,1,FGS,COUVREUR Bernard
+40,brk,Patrick,MIQUEU,brk@ecam.be,Non renseigné,1,FGS,MIQUEU Patrick
+41,aif,Antoine,AIFA,aif@ecam.be,2.00E+43,1,GEA,AIFA Antoine
+42,bjt,Bertrand,BAIJOT,bjt@ecam.be,2D27,1,GEA,BAIJOT Bertrand
+43,cms,Joseph,DESIRE CHAMASSI TOWO,cms@ecam.be,2.00E+43,1,GEA,DESIRE CHAMASSI TOWO Joseph
+44,chv,Claire,CHEVALIER,chv@ecam.be,2D27,1,GEA,CHEVALIER Claire
+45,dbr,Franky,DE BRUYNE,dbr@ecam.be,2D27,1,GEA,DE BRUYNE Franky
+46,kpr,David,KIMPLAIRE,kpr@ecam.be,2.00E+43,1,GEA,KIMPLAIRE David
+47,mol,Yves,MOLLET,mol@ecam.be,2.00E+43,1,GEA,MOLLET Yves
+48,mus,Thomas,MUSEUR,mus@ecam.be,2D27,1,GEA,MUSEUR Thomas
+49,rch,David,ROUCHARD,rch@ecam.be,2D27,1,GEA,ROUCHARD David
+50,rou,Jean-Michel,ROUSSEAU,rou@ecam.be,2D40,1,GEA,ROUSSEAU Jean-Michel
+51,thn,Denis,TIHON,thn@ecam.be,2D43,1,GEA,TIHON Denis
+52,t2b,Thierry,BAUERFELD,t2b@ecam.be,Non renseigné,1,GEA,BAUERFELD Thierry
+53,l2e,Louis,ENGELEN,l2e@ecam.be,2.00E+43,1,GEA,ENGELEN Louis
+54,p2g,Philippe,GONZE,p2g@ecam.be,Non renseigné,1,GEA,GONZE Philippe
+55,a2m,Arnaud,MASURE,a2m@ecam.be,Non renseigné,1,GEA,MASURE Arnaud
+56,j2r,Jean-Jacques,RENAUX,j2r@ecam.be,Non renseigné,1,GEA,RENAUX Jean-Jacques
+57,var,Eric,VAN VAERENBERG,var@ecam.be,Non renseigné,1,GEA,VAN VAERENBERG Eric
+58,bch,Nathalie,BAUCHE,bch@ecam.be,2.00E+34,1,GMT,BAUCHE Nathalie
+59,bcq,Antoine,BOUCQUEY,bcq@ecam.be,2C04,1,GMT,BOUCQUEY Antoine
+60,dgy,Quentin,DE GRADY DE HORION,dgy@ecam.be,2D29,1,GMT,DE GRADY DE HORION Quentin
+61,crt,Etienne,DENIS,crt@ecam.be,2C04,1,GMT,DENIS Etienne
+62,glh,Daniel,GALHAUT,glh@ecam.be,2C04,1,GMT,GALHAUT Daniel
+63,kis,William,KIES,kis@ecam.be,2C04,1,GMT,KIES William
+64,mrf,Bechir,MAAREF,mrf@ecam.be,2C04,1,GMT,MAAREF Bechir
+65,mgn,Mgn,MGN,mgn@ecam.be,Non renseigné,1,Non renseigné,MGN Mgn
+66,mat,Pierre,MATHIEU,mat@ecam.be,2.00E+34,1,GMT,MATHIEU Pierre
+67,nth,Diego,NOTHOMB,nth@ecam.be,Non renseigné,1,GMT,NOTHOMB Diego
+68,otj,Quentin,OTJACQUES,otj@ecam.be,2C04,1,GMT,OTJACQUES Quentin
+69,pch,Maxime,POCHET,pch@ecam.be,2D29,1,GMT,POCHET Maxime
+70,vdd,Xavier,VAN DEN DOOREN,vdd@ecam.be,2D29,1,GMT,VAN DEN DOOREN Xavier
+71,j4b,Jeremy,BAUDET,j4b@ecam.be,Non renseigné,1,GMT,BAUDET Jeremy
+72,bri-3,Laurent,BRICTEUX,bri-3@ecam.be,Non renseigné,1,GMT,BRICTEUX Laurent
+73,p4c,Pierre,COLON,p4c@ecam.be,Non renseigné,1,GMT,COLON Pierre
+74,d4d,Dario,DALLA RIVA,d4d@ecam.be,Non renseigné,1,GMT,DALLA RIVA Dario
+75,g4z,Gregory,ZAMBELLI,g4z@ecam.be,Non renseigné,1,GMT,ZAMBELLI Gregory
+76,s4s,Sebastien,SCHRURS,s4s@ecam.be,Non renseigné,1,GMT,SCHRURS Sebastien
+77,c4m,Chance,J.J MWISENEZA,c4m@ecam.be,Non renseigné,1,GMT,J.J MWISENEZA Chance
+78,brn,Nicolas,BURNY,brn@ecam.be,Non renseigné,1,GEI,BURNY Nicolas
+79,dfr,Francois,DEFRANCE,dfr@ecam.be,Non renseigné,1,GEI,DEFRANCE Francois
+80,dlh-2,Quentin,DELHAYE,dlh-2@ecam.be,Non renseigné,1,GEI,DELHAYE Quentin
+81,fle,Clémence,FLEMAL,fle@ecam.be,Non renseigné,1,GEI,FLEMAL Clémence
+82,fky,Martin,FOCKEDEY,fky@ecam.be,Non renseigné,1,GEI,FOCKEDEY Martin
+83,lrg,Andre,LORGE,lrg@ecam.be,Non renseigné,1,GEI,LORGE Andre
+84,n3l,Nicolas,LORIAU,n3l@ecam.be,Non renseigné,1,GEI,LORIAU Nicolas
+85,lur,Quentin,LURKIN,lur@ecam.be,Non renseigné,1,GEI,LURKIN Quentin
+86,mar,Cédric,MARCHAND,mar@ecam.be,Non renseigné,1,GEI,MARCHAND Cédric
+87,mch,Nicolas,MARCHAND,mch@ecam.be,Non renseigné,1,GEI,MARCHAND Nicolas
+88,ngy,Khôi,NGUYEN,ngy@ecam.be,Non renseigné,1,GEI,NGUYEN Khôi
+89,dsm,Renaud,DE SAINT MOULIN,dsm@ecam.be,Non renseigné,1,GEI,DE SAINT MOULIN Renaud
+90,jsp,Thierry,JESUPRET,jsp@ecam.be,Non renseigné,1,GEI,JESUPRET Thierry
+91,lfr,Nicolas,LE FEVERE,lfr@ecam.be,Non renseigné,1,GEI,LE FEVERE Nicolas
+92,j3l,Jean-Guillaume,LOUIS,j3l@ecam.be,Non renseigné,1,GEI,LOUIS Jean-Guillaume
+93,n3s,Nicolas,SCAUT,n3s@ecam.be,Non renseigné,1,GEI,SCAUT Nicolas
+94,l3s,Luleta,SHABANI,l3s@ecam.be,Non renseigné,1,GEI,SHABANI Luleta
+95,s3v,Sebastien,VAN CAUWENBERGHE,s3v@ecam.be,Non renseigné,1,GEI,VAN CAUWENBERGHE Sebastien
+96,e3v,Emilio,VILLANO,e3v@ecam.be,Non renseigné,1,GEI,VILLANO Emilio
+97,frn,Hannah,FRANZ,frn@ecam.be,2B15,1,GCG,FRANZ Hannah
+98,gls,William,GILSON,gls@ecam.be,2B15,1,GCG,GILSON William
+99,gbr,Yves,GOBERT,gbr@ecam.be,2B15,1,GCG,GOBERT Yves
+100,hri,Pierre,HENRIET,hri@ecam.be,2B15,1,GCG,HENRIET Pierre
+101,hnr,Christelle,HUENAERTS,hnr@ecam.be,2B15,1,GCG,HUENAERTS Christelle
+102,ran,Madeleine,RANWEZ,ran@ecam.be,2B15,1,GCG,RANWEZ Madeleine
+103,sts,Maxime,STEISEL,sts@ecam.be,2B15,1,GCG,STEISEL Maxime
+104,vml,Sylvie,VAN EMELEN,vml@ecam.be,2B15,1,GCG,VAN EMELEN Sylvie
+105,vrs,Jérôme,VERSLYPE,vrs@ecam.be,2B15,1,GCG,VERSLYPE Jérôme
+106,vlo,Luigi,VULLO,vlo@ecam.be,2B15,1,GCG,VULLO Luigi
+107,lpy,Mohamed,ANSRIOU,lpy@ecam.be,Non renseigné,1,GCG,ANSRIOU Mohamed
+108,a1b,Alain,BELLAY,a1b@ecam.be,Non renseigné,1,GCG,BELLAY Alain
+109,lpy,Renaud,BERTIN,lpy@ecam.be,Non renseigné,1,GCG,BERTIN Renaud
+110,dry,Francoise,DE ROY,dry@ecam.be,Non renseigné,1,GCG,DE ROY Francoise
+111,t1d,Thomas,DEVILLE,t1d@ecam.be,Non renseigné,1,GCG,DEVILLE Thomas
+112,han,Yves,HANIN,han@ecam.be,Non renseigné,1,GCG,HANIN Yves
+113,lpy,Francois,LAPY,lpy@ecam.be,Non renseigné,1,GCG,LAPY Francois
+114,bch,Rose,MASANGA,bch@ecam.be,Non renseigné,1,GCG,MASANGA Rose
+115,lpy,Frederic,OLEKSANDROW,lpy@ecam.be,Non renseigné,1,GCG,OLEKSANDROW Frederic
+116,m1o,Oualmakran,MOHAMED,m1o@ecam.be,Non renseigné,1,Non renseigné,MOHAMED Oualmakran
+117,x1r,Xavier,RAUCROIX,x1r@ecam.be,Non renseigné,1,GCG,RAUCROIX Xavier
+118,vdv,Philippe,VANDEVONDELE,vdv@ecam.be,Non renseigné,1,GCG,VANDEVONDELE Philippe
+119,mlt,Philippe,MELOTTE,mlt@ecam.be,2.00E+34,1,FGS,MELOTTE Philippe
+120,stv,Thibaud,STEVENS,stv@ecam.be,2F44,1,GLA,STEVENS Thibaud
+121,j5d,Julie,DEGOSSELY,j5d@ecam.be,Non renseigné,1,FGS,DEGOSSELY Julie
+122,r6j,Ruw,JAYASURIYA,r6j@ecam.be,Non renseigné,1,GLA,JAYASURIYA Ruw
+123,i6m,Ivan,MATILLA,i6m@ecam.be,Non renseigné,1,GLA,MATILLA Ivan
+124,brk,Gaël,N’GOM,brk@ecam.be,Non renseigné,1,FGS,N’GOM Gaël
+125,p6s,Pascale,SINNAEVE,p6s@ecam.be,Non renseigné,1,GLA,SINNAEVE Pascale
+126,y3b,Youcef,BOUHARAOUA,y3b@ecam.be,Non renseigné,1,Non renseigné,BOUHARAOUA Youcef
+127,ah5,Antonin,HALUT,ah5@ecam.be,Non renseigné,1,Non renseigné,HALUT Antonin
+128,lfr,Nicolas,LEFEVERE,lfr@ecam.be,Non renseigné,1,Non renseigné,LEFEVERE Nicolas
+129,c4m,Chance,MWISENEZA,c4m@ecam.be,Non renseigné,1,Non renseigné,MWISENEZA Chance
+130,ir4,Isaline,ROELENS,ir4@ecam.be,Non renseigné,1,Non renseigné,ROELENS Isaline
+130,val,Eliott,VALLÉE,val@ecam.be,Non renseigné,1,Non renseigné,VALLÉE Eliott

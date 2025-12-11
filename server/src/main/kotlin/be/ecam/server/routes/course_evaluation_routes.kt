@@ -17,7 +17,7 @@ fun Route.courseEvaluationRoutes() {
             call.respond(CourseEvaluationService.getAllEvaluations())
         }
 
-        )
+        
         get("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid id")

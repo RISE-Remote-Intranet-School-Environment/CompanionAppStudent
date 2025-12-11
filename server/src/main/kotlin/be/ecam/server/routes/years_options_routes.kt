@@ -12,12 +12,12 @@ fun Route.yearOptionRoutes() {
 
     route("/year-options") {
 
-        // 🔹 GET /api/year-options
+        //  GET /api/year-options
         get {
             call.respond(YearOptionService.getAllYearOptions())
         }
 
-        // 🔹 GET /api/year-options/{id}  (id DB)
+        //  GET /api/year-options/{id}  (id DB)
         get("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid id")
@@ -28,7 +28,7 @@ fun Route.yearOptionRoutes() {
             call.respond(opt)
         }
 
-        // 🔹 GET /api/year-options/by-code/{yearOptionId}
+        //  GET /api/year-options/by-code/{yearOptionId}
         get("by-code/{yearOptionId}") {
             val yearOptionId = call.parameters["yearOptionId"]
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "yearOptionId missing")
@@ -36,22 +36,22 @@ fun Route.yearOptionRoutes() {
             call.respond(YearOptionService.getYearOptionsByYearOptionId(yearOptionId))
         }
 
-        // 🔹 GET /api/year-options/by-bloc/{blocId}
+        //  GET /api/year-options/by-bloc/{blocId}
         get("by-bloc/{blocId}") {
-            val blocId = call.parameters["blocId"]?.toIntOrNull()
+            val blocId = call.parameters["blocId"]?.toString()
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid blocId")
 
             call.respond(YearOptionService.getYearOptionsByBlocId(blocId))
         }
 
-        // 🔹 POST /api/year-options
+        //  POST /api/year-options
         post {
             val req = call.receive<YearOptionWriteRequest>()
             val created = YearOptionService.createYearOption(req)
             call.respond(HttpStatusCode.Created, created)
         }
 
-        // 🔹 PUT /api/year-options/{id}
+        //  PUT /api/year-options/{id}
         put("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@put call.respond(HttpStatusCode.BadRequest, "Invalid id")
@@ -63,7 +63,7 @@ fun Route.yearOptionRoutes() {
             call.respond(updated)
         }
 
-        // 🔹 DELETE /api/year-options/{id}
+        //  DELETE /api/year-options/{id}
         delete("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: return@delete call.respond(HttpStatusCode.BadRequest, "Invalid id")
@@ -72,4 +72,8 @@ fun Route.yearOptionRoutes() {
             if (ok) call.respond(HttpStatusCode.NoContent)
             else call.respond(HttpStatusCode.NotFound, "Year option not found")
         }
+
+
+    }
+}
     

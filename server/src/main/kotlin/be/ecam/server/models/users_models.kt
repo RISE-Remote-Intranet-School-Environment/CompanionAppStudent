@@ -25,7 +25,7 @@ object UsersTable : IntIdTable("users") {
     val firstName = varchar("first_name", 100)
     val lastName = varchar("last_name", 100)
     val role = enumerationByName("role", 20, UserRole::class)
-    val avatarUrl = varchar("avatar_url", 512).nullable()
+    val avatarUrl = varchar("avatar_url", 512).nullable() 
     val professorId = reference("professor_id", ProfessorsTable).nullable()
     val studentId = reference("student_id", StudentsTable).nullable()
 }

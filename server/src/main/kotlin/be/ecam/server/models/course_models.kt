@@ -10,11 +10,11 @@ object CoursesTable : IntIdTable("courses") {
     val courseRaccourciId = varchar("course_raccourci_id", 50)
     val title = varchar("title", 255)
     val credits = integer("credits")
-    val periods = integer("periods")
+    val periods = varchar("periods", 50)
     val detailsUrl = varchar("details_url", 512).nullable()
     val mandatory = bool("mandatory")
-    val blocId = integer("bloc_id").nullable()        // FK logique vers blocs.id
-    val formationId = integer("formation_id").nullable() // FK logique vers formations.id
+    val blocId = varchar("bloc_id", 255).nullable()        // FK logique vers blocs.id
+    val formationId = varchar("formation_id", 255).nullable() // FK logique vers formations.id
     val language = varchar("language", 10)
 }
 
@@ -26,11 +26,11 @@ data class CourseDTO(
     val courseRaccourciId: String,
     val title: String,
     val credits: Int,
-    val periods: Int,
+    val periods: String,
     val detailsUrl: String?,
     val mandatory: Boolean,
-    val blocId: Int?,
-    val formationId: Int?,
+    val blocId: String?,
+    val formationId: String?,
     val language: String
 )
 
@@ -56,10 +56,10 @@ data class CourseWriteRequest(
     val courseRaccourciId: String,
     val title: String,
     val credits: Int,
-    val periods: Int,
+    val periods: String,
     val detailsUrl: String? = null,
     val mandatory: Boolean,
-    val blocId: Int? = null,
-    val formationId: Int? = null,
+    val blocId: String? = null,
+    val formationId: String? = null,
     val language: String
 )

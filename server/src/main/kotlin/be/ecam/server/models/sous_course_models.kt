@@ -9,8 +9,8 @@ object SousCoursesTable : IntIdTable("sous_course") {
     val sousCourseId = varchar("sous_course_id", 50)
     val courseId = varchar("course_id", 50)
     val title = varchar("title", 255)
-    val hoursQ1 = integer("hours_Q1")
-    val hoursQ2 = integer("hours_Q2")
+    val hoursQ1 = varchar("hours_Q1", 50)
+    val hoursQ2 = varchar("hours_Q2", 50)
     val teachersIds = text("teachers_ids")       
     val language = varchar("language", 10)
 }
@@ -22,8 +22,8 @@ data class SousCourseDTO(
     val sousCourseId: String,
     val courseId: String,
     val title: String,
-    val hoursQ1: Int,
-    val hoursQ2: Int,
+    val hoursQ1: String,
+    val hoursQ2: String,
     val teachersIds: String,
     val language: String
 )
@@ -46,8 +46,8 @@ data class SousCourseWriteRequest(
     val sousCourseId: String,
     val courseId: String,
     val title: String,
-    val hoursQ1: Int,
-    val hoursQ2: Int,
+    val hoursQ1: String,
+    val hoursQ2: String,
     val teachersIds: String,
     val language: String
 )

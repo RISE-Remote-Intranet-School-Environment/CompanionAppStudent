@@ -40,7 +40,7 @@ object CourseDetailsService {
     }
 
     // GET by blocId
-    fun getCourseDetailsByBlocId(blocId: Int): List<CourseDetailsDTO> = transaction {
+    fun getCourseDetailsByBlocId(blocId: String): List<CourseDetailsDTO> = transaction {
         CourseDetailsTable
             .selectAll()
             .where { CourseDetailsTable.blocId eq blocId }

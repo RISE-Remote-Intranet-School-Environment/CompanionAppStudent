@@ -97,7 +97,7 @@ object YearOptionService {
     }
 
     // GET by blocId
-    fun getYearOptionsByBlocId(blocId: Int): List<YearOptionDTO> = transaction {
+    fun getYearOptionsByBlocId(blocId: String?): List<YearOptionDTO> = transaction {
         YearOptionsTable
             .selectAll()
             .where { YearOptionsTable.blocId eq blocId }

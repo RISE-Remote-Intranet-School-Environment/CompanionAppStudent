@@ -52,7 +52,7 @@ fun Route.courseScheduleRoutes() {
             call.respond(CourseScheduleService.getSchedulesByYearOption(yo))
         }
 
-        }
+        
         get("by-group/{groupNo}") {
             val group = call.parameters["groupNo"]
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "groupNo missing")
@@ -60,7 +60,8 @@ fun Route.courseScheduleRoutes() {
             call.respond(CourseScheduleService.getSchedulesByGroup(group))
         }
 
-        }
+        
+        
         get("by-raccourci/{shortId}") {
             val shortId = call.parameters["shortId"]
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "shortId missing")
