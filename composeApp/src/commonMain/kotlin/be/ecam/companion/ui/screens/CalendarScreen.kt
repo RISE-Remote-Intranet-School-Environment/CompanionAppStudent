@@ -13,10 +13,12 @@ import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -34,6 +36,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import kotlinx.datetime.*
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.number
@@ -202,7 +206,7 @@ fun CalendarScreen(
                 }
             }
             Spacer(Modifier.height(12.dp))
-            if (dialogDate != null) {
+            if (dialogDate != null && mode == CalendarMode.Week) {
                 val items = eventsByDate[dialogDate] ?: emptyList()
                 Box(
                     modifier = Modifier
@@ -211,9 +215,28 @@ fun CalendarScreen(
                 ) {
                     SelectedDayEvents(
                         date = dialogDate!!,
-                        events = items
+                        events = items,
+                        onClose = { dialogDate = null }
                     )
                 }
+            }
+        }
+    }
+
+    if (dialogDate != null && mode == CalendarMode.Month) {
+        val items = eventsByDate[dialogDate] ?: emptyList()
+        Dialog(
+            onDismissRequest = { dialogDate = null },
+            properties = DialogProperties(dismissOnClickOutside = true, usePlatformDefaultWidth = true)
+        ) {
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)) {
+                SelectedDayEvents(
+                    date = dialogDate!!,
+                    events = items,
+                    onClose = { dialogDate = null }
+                )
             }
         }
     }
@@ -295,13 +318,17 @@ private fun CalendarControls(
 }
 
 @Composable
-private fun SelectedDayEvents(date: LocalDate, events: List<CalendarEvent>) {
+private fun SelectedDayEvents(
+    date: LocalDate,
+    events: List<CalendarEvent>,
+    onClose: (() -> Unit)? = null
+) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         tonalElevation = 1.dp,
         shadowElevation = 1.dp,
-        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f)
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.92f)
     ) {
         Column(
             modifier = Modifier
@@ -319,12 +346,28 @@ private fun SelectedDayEvents(date: LocalDate, events: List<CalendarEvent>) {
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold
                 )
-                if (events.isNotEmpty()) {
-                    Text(
-                        text = "${events.size} ${if (events.size == 1) "event" else "events"}",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-                    )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    if (events.isNotEmpty()) {
+                        Surface(
+                            shape = RoundedCornerShape(50),
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.05f)
+                        ) {
+                            Text(
+                                text = "${events.size} ${if (events.size == 1) "event" else "events"}",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                            )
+                        }
+                    }
+                    if (onClose != null) {
+                        IconButton(onClick = onClose, modifier = Modifier.size(28.dp)) {
+                            Icon(Icons.Filled.Close, contentDescription = "Close events")
+                        }
+                    }
                 }
             }
 
@@ -355,7 +398,7 @@ private fun CalendarEventDetailCard(event: CalendarEvent, meta: EventDisplayMeta
         shape = RoundedCornerShape(10.dp),
         tonalElevation = 0.dp,
         shadowElevation = 0.dp,
-        color = event.category.color.copy(alpha = 0.08f)
+        color = event.category.color.copy(alpha = 0.12f)
     ) {
         Row(
             modifier = Modifier.padding(12.dp),
