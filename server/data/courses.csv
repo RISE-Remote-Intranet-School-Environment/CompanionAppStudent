@@ -1,0 +1,455 @@
+﻿id,course_id,course_raccourci_id,title,credits,periods,details_url,mandatory,bloc_id,formation_id,language
+1,1bach10,CH1C,Chimie,5,Q1,https://plus.ecam.be/public/fiche/2025/1bach10,1,bloc_1,automatisation,FR
+2,1baci10,CI1C,Circuits électriques,4,Q1,https://plus.ecam.be/public/fiche/2025/1baci10,1,bloc_1,automatisation,FR
+3,1baem10,EM1C,Electricité et outils mathématiques,5,Q2,https://plus.ecam.be/public/fiche/2025/1baem10,1,bloc_1,automatisation,FR
+4,1baic10,IC1L,Informatique et communication,4,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/1baic10,1,bloc_1,automatisation,FR
+5,1bamc10,MC1C,Sciences du mouvement - cinématique,3,Q2,https://plus.ecam.be/public/fiche/2025/1bamc10,1,bloc_1,automatisation,FR
+6,1bamd10,MD1C,Sciences du mouvement - dynamique,7,Q2,https://plus.ecam.be/public/fiche/2025/1bamd10,1,bloc_1,automatisation,FR
+7,1bame10,ME1C,Méthodologie scientifique,3,Q1,https://plus.ecam.be/public/fiche/2025/1bame10,1,bloc_1,automatisation,FR
+8,1bamm10,CM1C,Sciences des matériaux,5,Q2,https://plus.ecam.be/public/fiche/2025/1bamm10,1,bloc_1,automatisation,FR
+9,1baph10,CP1C,Physique et fluides,3,Q1,https://plus.ecam.be/public/fiche/2025/1baph10,1,bloc_1,automatisation,FR
+10,1bapi10,PI1B,Projet intégrateur,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/1bapi10,1,bloc_1,automatisation,FR
+11,1bapm10,PM1C,Pont vers le supérieur: mathématiques,6,Q1,https://plus.ecam.be/public/fiche/2025/1bapm10,1,bloc_1,automatisation,FR
+12,1bast10,ST1C,Stabilité,5,Q1,https://plus.ecam.be/public/fiche/2025/1bast10,1,bloc_1,automatisation,FR
+13,1bate10,TC1C,Technologie,5,Q1,https://plus.ecam.be/public/fiche/2025/1bate10,1,bloc_1,automatisation,FR
+14,2bach20,CH2C,Chimie du vivant et environnement,6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bach20,1,bloc_2,automatisation,FR
+15,2badt20,DT2L,Dessin technique,2,Q1,https://plus.ecam.be/public/fiche/2025/2badt20,1,bloc_2,automatisation,FR
+16,2bael20,EL2C,Electricité,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bael20,1,bloc_2,automatisation,FR
+17,2baeo20,EO2L,Electronique,4,Q1,https://plus.ecam.be/public/fiche/2025/2baeo20,1,bloc_2,automatisation,FR
+18,2bain20,IN2L,Informatique,4,Q1,https://plus.ecam.be/public/fiche/2025/2bain20,1,bloc_2,automatisation,FR
+19,2bala20,LA2T,Langues,3,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bala20,1,bloc_2,automatisation,FR
+20,2bamf20,MF2C,Mécanique des fluides et transfert de chaleur,4,Q2,https://plus.ecam.be/public/fiche/2025/2bamf20,1,bloc_2,automatisation,FR
+21,2baom20,OM2C,Outils mathématiques,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2baom20,1,bloc_2,automatisation,FR
+22,2baph20,PH2C,Ondes. optique et physique moderne,5,Q1,https://plus.ecam.be/public/fiche/2025/2baph20,1,bloc_2,automatisation,FR
+23,2barm20,RM2C,"Stabilité, déformation et résistance des structures",6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2barm20,1,bloc_2,automatisation,FR
+24,2bath20,TH2C,Thermodynamique,5,Q1,https://plus.ecam.be/public/fiche/2025/2bath20,1,bloc_2,automatisation,FR
+25,2batm20,TM2L,Mesures,3,Q2,https://plus.ecam.be/public/fiche/2025/2batm20,1,bloc_2,automatisation,FR
+26,2bmpm20,PM2B,Projet EM,4,Q2,https://plus.ecam.be/public/fiche/2025/2bmpm20,1,bloc_2,automatisation,FR
+27,2bmto20,TE2C,Technologie EM,4,Q2,https://plus.ecam.be/public/fiche/2025/2bmto20,1,bloc_2,automatisation,FR
+28,3base30,EN3T,Comptabilité et entrepreneuriat,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3base30,1,bloc_3,automatisation,FR
+29,3basg30,SG3B,Stage,10,Q2,https://plus.ecam.be/public/fiche/2025/3basg30,1,bloc_3,automatisation,FR
+30,3bmcp30,PM3B,Projet machine industrielle,7,Q1,https://plus.ecam.be/public/fiche/2025/3bmcp30,1,bloc_3,automatisation,FR
+31,3bmcv30,CV3B,HVAC,8,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bmcv30,1,bloc_3,automatisation,FR
+32,3bmea30,EA3C,Electrotechnique,7,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bmea30,1,bloc_3,automatisation,FR
+33,3bmel30,AE3T,Electronique et applications,3,Q2,https://plus.ecam.be/public/fiche/2025/3bmel30,1,bloc_3,automatisation,FR
+34,3bmet30,ET3B,"Réseaux, appareillages et schématiques électriques",3,Q1,https://plus.ecam.be/public/fiche/2025/3bmet30,1,bloc_3,automatisation,FR
+35,3bmis30,RP3L,Instrumentation,3,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bmis30,1,bloc_3,automatisation,FR
+36,3bmra30,RA3L,"Signals, systems and tools",5,Q1,https://plus.ecam.be/public/fiche/2025/3bmra30,1,bloc_3,automatisation,FR
+37,3bmrg30,RG3L,Régulation,6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bmrg30,1,bloc_3,automatisation,FR
+38,3bmsi30,SI3B,Système d’information,3,Q2,https://plus.ecam.be/public/fiche/2025/3bmsi30,1,bloc_3,automatisation,FR
+39,4auat40,AI4L,Applied automation,6,Q2,https://plus.ecam.be/public/fiche/2025/4auat40,1,bloc_4,automatisation,FR
+40,4auds40,DS4T,Dynamics of mechanical and thermal systems,3,Q2,https://plus.ecam.be/public/fiche/2025/4auds40,1,bloc_4,automatisation,FR
+41,4auet40,ET4L,Electrical Drives,6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/4auet40,1,bloc_4,automatisation,FR
+42,4aumd40,MD4L,Modelling and Simulation of dynamical systems,4,Q1,https://plus.ecam.be/public/fiche/2025/4aumd40,1,bloc_4,automatisation,FR
+43,4aure40,RE4L,Digital control,4,Q1,https://plus.ecam.be/public/fiche/2025/4aure40,1,bloc_4,automatisation,FR
+44,4aurg40,RG4C,Advanced control 1,4,Q1,https://plus.ecam.be/public/fiche/2025/4aurg40,1,bloc_4,automatisation,FR
+45,4aurl40,OP4T,Advanced control 2,6,Q2,https://plus.ecam.be/public/fiche/2025/4aurl40,1,bloc_4,automatisation,FR
+46,4auta40,MM4T,Power cycles,3,Q2,https://plus.ecam.be/public/fiche/2025/4auta40,1,bloc_4,automatisation,FR
+47,4emau40,AU4T,Practical process control,4,Q2,https://plus.ecam.be/public/fiche/2025/4emau40,1,bloc_4,automatisation,FR
+48,4emen40,EN4T,Sustainable energy,4,Q2,https://plus.ecam.be/public/fiche/2025/4emen40,1,bloc_4,automatisation,FR
+49,4emeo40,EN3C,Electronique numérique,3,Q1,https://plus.ecam.be/public/fiche/2025/4emeo40,1,bloc_4,automatisation,FR
+50,4emio40,IO4L,Installations opératrices,4,Q1,https://plus.ecam.be/public/fiche/2025/4emio40,1,bloc_4,automatisation,FR
+51,4emra40,AE4T,Electrical installations,3,Q2,https://plus.ecam.be/public/fiche/2025/4emra40,1,bloc_4,automatisation,FR
+52,4mage40,GA4T,Gestion,6,Q1,https://plus.ecam.be/public/fiche/2025/4mage40,1,bloc_4,automatisation,FR
+53,5auin50,IN5C,Industrie 4.0,4,Q1,https://plus.ecam.be/public/fiche/2025/5auin50,1,bloc_5,automatisation,FR
+54,5aumd50,MD5L,System identification Project,4,Q1,https://plus.ecam.be/public/fiche/2025/5aumd50,1,bloc_5,automatisation,FR
+55,5autf50,TF5B,Travail de fin d'études,20,Q2,https://plus.ecam.be/public/fiche/2025/5autf50,1,bloc_5,automatisation,FR
+56,5emaa50,AA5C,Projet d'architectures d'automatisation,4,Q1,https://plus.ecam.be/public/fiche/2025/5emaa50,1,bloc_5,automatisation,FR
+57,5emai50,AI5C,Projet de dimensionnement des entrainements électriques,4,Q1,https://plus.ecam.be/public/fiche/2025/5emai50,1,bloc_5,automatisation,FR
+58,5emdi50,DI5C,Projet de dimensionnement des installations électriques,4,Q1,https://plus.ecam.be/public/fiche/2025/5emdi50,1,bloc_5,automatisation,FR
+59,5magf50,GF5T,Gestion et stratégie financière,4,Q2,https://plus.ecam.be/public/fiche/2025/5magf50,1,bloc_5,automatisation,FR
+60,5magi50,GI5T,Economie,4,Q2,https://plus.ecam.be/public/fiche/2025/5magi50,1,bloc_5,automatisation,FR
+61,5mala50,LA5T,Langues,2,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/5mala50,1,bloc_5,automatisation,FR
+62,5masg50,SG5B,Insertion professionnelle,10,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/5masg50,1,bloc_5,automatisation,FR
+63,1bach10,CH1C,Chimie,5,Q1,https://plus.ecam.be/public/fiche/2025/1bach10,1,bloc_1,construction,FR
+64,1baci10,CI1C,Circuits électriques,4,Q1,https://plus.ecam.be/public/fiche/2025/1baci10,1,bloc_1,construction,FR
+65,1baem10,EM1C,Electricité et outils mathématiques,5,Q2,https://plus.ecam.be/public/fiche/2025/1baem10,1,bloc_1,construction,FR
+66,1baic10,IC1L,Informatique et communication,4,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/1baic10,1,bloc_1,construction,FR
+67,1bamc10,MC1C,Sciences du mouvement - cinématique,3,Q2,https://plus.ecam.be/public/fiche/2025/1bamc10,1,bloc_1,construction,FR
+68,1bamd10,MD1C,Sciences du mouvement - dynamique,7,Q2,https://plus.ecam.be/public/fiche/2025/1bamd10,1,bloc_1,construction,FR
+69,1bame10,ME1C,Méthodologie scientifique,3,Q1,https://plus.ecam.be/public/fiche/2025/1bame10,1,bloc_1,construction,FR
+70,1bamm10,CM1C,Sciences des matériaux,5,Q2,https://plus.ecam.be/public/fiche/2025/1bamm10,1,bloc_1,construction,FR
+71,1baph10,CP1C,Physique et fluides,3,Q1,https://plus.ecam.be/public/fiche/2025/1baph10,1,bloc_1,construction,FR
+72,1bapi10,PI1B,Projet intégrateur,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/1bapi10,1,bloc_1,construction,FR
+73,1bapm10,PM1C,Pont vers le supérieur: mathématiques,6,Q1,https://plus.ecam.be/public/fiche/2025/1bapm10,1,bloc_1,construction,FR
+74,1bast10,ST1C,Stabilité,5,Q1,https://plus.ecam.be/public/fiche/2025/1bast10,1,bloc_1,construction,FR
+75,1bate10,TC1C,Technologie,5,Q1,https://plus.ecam.be/public/fiche/2025/1bate10,1,bloc_1,construction,FR
+76,2bach20,CH2C,Chimie du vivant et environnement,6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bach20,1,bloc_2,construction,FR
+77,2badt20,DT2L,Dessin technique,2,Q1,https://plus.ecam.be/public/fiche/2025/2badt20,1,bloc_2,construction,FR
+78,2bael20,EL2C,Electricité,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bael20,1,bloc_2,construction,FR
+79,2baeo20,EO2L,Electronique,4,Q1,https://plus.ecam.be/public/fiche/2025/2baeo20,1,bloc_2,construction,FR
+80,2bain20,IN2L,Informatique,4,Q1,https://plus.ecam.be/public/fiche/2025/2bain20,1,bloc_2,construction,FR
+81,2bala20,LA2T,Langues,3,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bala20,1,bloc_2,construction,FR
+82,2bamf20,MF2C,Mécanique des fluides et transfert de chaleur,4,Q2,https://plus.ecam.be/public/fiche/2025/2bamf20,1,bloc_2,construction,FR
+83,2baom20,OM2C,Outils mathématiques,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2baom20,1,bloc_2,construction,FR
+84,2baph20,PH2C,Ondes. optique et physique moderne,5,Q1,https://plus.ecam.be/public/fiche/2025/2baph20,1,bloc_2,construction,FR
+85,2barm20,RM2C,"Stabilité, déformation et résistance des structures",6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2barm20,1,bloc_2,construction,FR
+86,2bath20,TH2C,Thermodynamique,5,Q1,https://plus.ecam.be/public/fiche/2025/2bath20,1,bloc_2,construction,FR
+87,2batm20,TM2L,Mesures,3,Q2,https://plus.ecam.be/public/fiche/2025/2batm20,1,bloc_2,construction,FR
+88,2bcpc20,PC2B,Projet construction,4,Q2,https://plus.ecam.be/public/fiche/2025/2bcpc20,1,bloc_2,construction,FR
+89,2bctc20,TB2T,Technologie des matériaux,4,Q2,https://plus.ecam.be/public/fiche/2025/2bctc20,1,bloc_2,construction,FR
+90,3base30,EN3T,Comptabilité et entrepreneuriat,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3base30,1,bloc_3,construction,FR
+91,3basg30,SG3B,Stage,10,Q2,https://plus.ecam.be/public/fiche/2025/3basg30,1,bloc_3,construction,FR
+92,3bcba30,BA3C,Béton armé,4,Q1,https://plus.ecam.be/public/fiche/2025/3bcba30,1,bloc_3,construction,FR
+93,3bcbe30,BE3B,Bureau d'études,7,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bcbe30,1,bloc_3,construction,FR
+94,3bcbo30,BO3C,Construction bois,4,Q2,https://plus.ecam.be/public/fiche/2025/3bcbo30,1,bloc_3,construction,FR
+95,3bccm30,CM3C,Constructions métalliques,4,Q1,https://plus.ecam.be/public/fiche/2025/3bccm30,1,bloc_3,construction,FR
+96,3bcfo30,FO3T,Fondations superficielles,3,Q2,https://plus.ecam.be/public/fiche/2025/3bcfo30,1,bloc_3,construction,FR
+97,3bcgc30,GC3T,Gestion et technique de chantier,3,Q2,https://plus.ecam.be/public/fiche/2025/3bcgc30,1,bloc_3,construction,FR
+98,3bcgo30,GO3C,Projet de physique et gros-oeuvre du bâtiment,4,Q1,https://plus.ecam.be/public/fiche/2025/3bcgo30,1,bloc_3,construction,FR
+99,3bcms30,MS3C,Mécanique des sols,4,Q1,https://plus.ecam.be/public/fiche/2025/3bcms30,1,bloc_3,construction,FR
+100,3bcod30,OD3T,Eléments de structures,5,Q1,https://plus.ecam.be/public/fiche/2025/3bcod30,1,bloc_3,construction,FR
+101,3bctp30,TP3C,Topographie,4,Q1,https://plus.ecam.be/public/fiche/2025/3bctp30,1,bloc_3,construction,FR
+102,3bmsi30,SI3B,Système d’information,3,Q2,https://plus.ecam.be/public/fiche/2025/3bmsi30,1,bloc_3,construction,FR
+103,4cobe40,BE4B,Bureau d'études- bâtiments,4,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/4cobe40,1,bloc_4,construction,FR
+104,4cobp40,BP4L,Béton précontraint,4,Q1,https://plus.ecam.be/public/fiche/2025/4cobp40,1,bloc_4,construction,FR
+105,4cocs40,CH4T,Complément de structure,7,Q1,https://plus.ecam.be/public/fiche/2025/4cocs40,1,bloc_4,construction,FR
+106,4coct40,CT4T,Conception et assemblages de charpentes,4,Q1,https://plus.ecam.be/public/fiche/2025/4coct40,1,bloc_4,construction,FR
+107,4cogc40,GH4T,Génie civil,5,Q2,https://plus.ecam.be/public/fiche/2025/4cogc40,1,bloc_4,construction,FR
+108,4cogo40,GF4T,Géotechnique,3,Q1,https://plus.ecam.be/public/fiche/2025/4cogo40,1,bloc_4,construction,FR
+109,4cohy40,HU4T,Hydraulique,5,Q2,https://plus.ecam.be/public/fiche/2025/4cohy40,1,bloc_4,construction,FR
+110,4cons40,DA4T,Modélisation numérique des structures,5,Q2,https://plus.ecam.be/public/fiche/2025/4cons40,1,bloc_4,construction,FR
+111,4copf40,PF4T,Préfabrication béton,3,Q1,https://plus.ecam.be/public/fiche/2025/4copf40,1,bloc_4,construction,FR
+112,4coph40,PH4C,Physique du bâtiment et techniques spéciales,5,Q2,https://plus.ecam.be/public/fiche/2025/4coph40,1,bloc_4,construction,FR
+113,4copr40,PR4B,Projet - défi structure,5,Q2,https://plus.ecam.be/public/fiche/2025/4copr40,1,bloc_4,construction,FR
+114,4cops40,PS4T,Procédés d'exécution sols,4,Q2,https://plus.ecam.be/public/fiche/2025/4cops40,1,bloc_4,construction,FR
+115,4mage40,GA4T,Gestion,6,Q1,https://plus.ecam.be/public/fiche/2025/4mage40,1,bloc_4,construction,FR
+116,5cogc50,GC5B,Projet de génie civil,5,Q1,https://plus.ecam.be/public/fiche/2025/5cogc50,1,bloc_5,construction,FR
+117,5coin50,IN5B,Innovation,3,Q1,https://plus.ecam.be/public/fiche/2025/5coin50,1,bloc_5,construction,FR
+118,5come50,ME5L,Modélisation et essais,3,Q1,https://plus.ecam.be/public/fiche/2025/5come50,1,bloc_5,construction,FR
+119,5copc50,PC5B,Gestion de projets de construction,4,Q1,https://plus.ecam.be/public/fiche/2025/5copc50,1,bloc_5,construction,FR
+120,5corn50,RN5B,Projet de rénovation des bâtiments,5,Q1,https://plus.ecam.be/public/fiche/2025/5corn50,1,bloc_5,construction,FR
+121,5cotf50,TF5B,Travail de fin d'études,20,Q2,https://plus.ecam.be/public/fiche/2025/5cotf50,1,bloc_5,construction,FR
+122,5magf50,GF5T,Gestion et stratégie financière,4,Q2,https://plus.ecam.be/public/fiche/2025/5magf50,1,bloc_5,construction,FR
+123,5magi50,GI5T,Economie,4,Q2,https://plus.ecam.be/public/fiche/2025/5magi50,1,bloc_5,construction,FR
+124,5mala50,LA5T,Langues,2,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/5mala50,1,bloc_5,construction,FR
+125,5masg50,SG5B,Insertion professionnelle,10,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/5masg50,1,bloc_5,construction,FR
+126,1bach10,CH1C,Chimie,5,Q1,https://plus.ecam.be/public/fiche/2025/1bach10,1,bloc_1,electromecanique,FR
+127,1baci10,CI1C,Circuits électriques,4,Q1,https://plus.ecam.be/public/fiche/2025/1baci10,1,bloc_1,electromecanique,FR
+128,1baem10,EM1C,Electricité et outils mathématiques,5,Q2,https://plus.ecam.be/public/fiche/2025/1baem10,1,bloc_1,electromecanique,FR
+129,1baic10,IC1L,Informatique et communication,4,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/1baic10,1,bloc_1,electromecanique,FR
+130,1bamc10,MC1C,Sciences du mouvement - cinématique,3,Q2,https://plus.ecam.be/public/fiche/2025/1bamc10,1,bloc_1,electromecanique,FR
+131,1bamd10,MD1C,Sciences du mouvement - dynamique,7,Q2,https://plus.ecam.be/public/fiche/2025/1bamd10,1,bloc_1,electromecanique,FR
+132,1bame10,ME1C,Méthodologie scientifique,3,Q1,https://plus.ecam.be/public/fiche/2025/1bame10,1,bloc_1,electromecanique,FR
+133,1bamm10,CM1C,Sciences des matériaux,5,Q2,https://plus.ecam.be/public/fiche/2025/1bamm10,1,bloc_1,electromecanique,FR
+134,1baph10,CP1C,Physique et fluides,3,Q1,https://plus.ecam.be/public/fiche/2025/1baph10,1,bloc_1,electromecanique,FR
+135,1bapi10,PI1B,Projet intégrateur,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/1bapi10,1,bloc_1,electromecanique,FR
+136,1bapm10,PM1C,Pont vers le supérieur: mathématiques,6,Q1,https://plus.ecam.be/public/fiche/2025/1bapm10,1,bloc_1,electromecanique,FR
+137,1bast10,ST1C,Stabilité,5,Q1,https://plus.ecam.be/public/fiche/2025/1bast10,1,bloc_1,electromecanique,FR
+138,1bate10,TC1C,Technologie,5,Q1,https://plus.ecam.be/public/fiche/2025/1bate10,1,bloc_1,electromecanique,FR
+139,2bach20,CH2C,Chimie du vivant et environnement,6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bach20,1,bloc_2,electromecanique,FR
+140,2badt20,DT2L,Dessin technique,2,Q1,https://plus.ecam.be/public/fiche/2025/2badt20,1,bloc_2,electromecanique,FR
+141,2bael20,EL2C,Electricité,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bael20,1,bloc_2,electromecanique,FR
+142,2baeo20,EO2L,Electronique,4,Q1,https://plus.ecam.be/public/fiche/2025/2baeo20,1,bloc_2,electromecanique,FR
+143,2bain20,IN2L,Informatique,4,Q1,https://plus.ecam.be/public/fiche/2025/2bain20,1,bloc_2,electromecanique,FR
+144,2bala20,LA2T,Langues,3,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bala20,1,bloc_2,electromecanique,FR
+145,2bamf20,MF2C,Mécanique des fluides et transfert de chaleur,4,Q2,https://plus.ecam.be/public/fiche/2025/2bamf20,1,bloc_2,electromecanique,FR
+146,2baom20,OM2C,Outils mathématiques,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2baom20,1,bloc_2,electromecanique,FR
+147,2baph20,PH2C,Ondes. optique et physique moderne,5,Q1,https://plus.ecam.be/public/fiche/2025/2baph20,1,bloc_2,electromecanique,FR
+148,2barm20,RM2C,"Stabilité, déformation et résistance des structures",6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2barm20,1,bloc_2,electromecanique,FR
+149,2bath20,TH2C,Thermodynamique,5,Q1,https://plus.ecam.be/public/fiche/2025/2bath20,1,bloc_2,electromecanique,FR
+150,2batm20,TM2L,Mesures,3,Q2,https://plus.ecam.be/public/fiche/2025/2batm20,1,bloc_2,electromecanique,FR
+151,2bmpm20,PM2B,Projet EM,4,Q2,https://plus.ecam.be/public/fiche/2025/2bmpm20,1,bloc_2,electromecanique,FR
+152,2bmto20,TE2C,Technologie EM,4,Q2,https://plus.ecam.be/public/fiche/2025/2bmto20,1,bloc_2,electromecanique,FR
+153,3base30,EN3T,Comptabilité et entrepreneuriat,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3base30,1,bloc_3,electromecanique,FR
+154,3basg30,SG3B,Stage,10,Q2,https://plus.ecam.be/public/fiche/2025/3basg30,1,bloc_3,electromecanique,FR
+155,3bmcp30,PM3B,Projet machine industrielle,7,Q1,https://plus.ecam.be/public/fiche/2025/3bmcp30,1,bloc_3,electromecanique,FR
+156,3bmcv30,CV3B,HVAC,8,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bmcv30,1,bloc_3,electromecanique,FR
+157,3bmea30,EA3C,Electrotechnique,7,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bmea30,1,bloc_3,electromecanique,FR
+158,3bmel30,AE3T,Electronique et applications,3,Q2,https://plus.ecam.be/public/fiche/2025/3bmel30,1,bloc_3,electromecanique,FR
+159,3bmet30,ET3B,"Réseaux, appareillages et schématiques électriques",3,Q1,https://plus.ecam.be/public/fiche/2025/3bmet30,1,bloc_3,electromecanique,FR
+160,3bmis30,RP3L,Instrumentation,3,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bmis30,1,bloc_3,electromecanique,FR
+161,3bmra30,RA3L,"Signals, systems and tools",5,Q1,https://plus.ecam.be/public/fiche/2025/3bmra30,1,bloc_3,electromecanique,FR
+162,3bmrg30,RG3L,Régulation,6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bmrg30,1,bloc_3,electromecanique,FR
+163,3bmsi30,SI3B,Système d’information,3,Q2,https://plus.ecam.be/public/fiche/2025/3bmsi30,1,bloc_3,electromecanique,FR
+164,4emat40,AT4L,Sequential automation,4,Q2,https://plus.ecam.be/public/fiche/2025/4emat40,1,bloc_4,electromecanique,FR
+165,4emau40,AU4T,Practical process control,4,Q2,https://plus.ecam.be/public/fiche/2025/4emau40,1,bloc_4,electromecanique,FR
+166,4emcm40,CM4B,Elements de structure et de mécanique,5,Q1,https://plus.ecam.be/public/fiche/2025/4emcm40,1,bloc_4,electromecanique,FR
+167,4emcp40,ST4L,Méthodes CNC,2,Q1,https://plus.ecam.be/public/fiche/2025/4emcp40,1,bloc_4,electromecanique,FR
+168,4emen40,EN4T,Sustainable energy,4,Q2,https://plus.ecam.be/public/fiche/2025/4emen40,1,bloc_4,electromecanique,FR
+169,4emeo40,EN3C,Electronique numérique,3,Q1,https://plus.ecam.be/public/fiche/2025/4emeo40,1,bloc_4,electromecanique,FR
+170,4emet40,ET4L,Electrical drives,4,Q1,https://plus.ecam.be/public/fiche/2025/4emet40,1,bloc_4,electromecanique,FR
+171,4emfe40,FE4L,Finite element method,2,Q2,https://plus.ecam.be/public/fiche/2025/4emfe40,1,bloc_4,electromecanique,FR
+172,4emio40,IO4L,Installations opératrices,4,Q1,https://plus.ecam.be/public/fiche/2025/4emio40,1,bloc_4,electromecanique,FR
+173,4emma40,MA4L,Metallic materials and welding,6,Q2,https://plus.ecam.be/public/fiche/2025/4emma40,1,bloc_4,electromecanique,FR
+174,4emmm40,MM4T,Power cycles,5,Q2,https://plus.ecam.be/public/fiche/2025/4emmm40,1,bloc_4,electromecanique,FR
+175,4emmn40,MN4C,Advanced maintenance technologies,3,Q2,https://plus.ecam.be/public/fiche/2025/4emmn40,1,bloc_4,electromecanique,FR
+176,4emmt40,MT4L,Matériaux et technologie de mise en oeuvre,5,Q1,https://plus.ecam.be/public/fiche/2025/4emmt40,1,bloc_4,electromecanique,FR
+177,4emra40,AE4T,Electrical installations,3,Q2,https://plus.ecam.be/public/fiche/2025/4emra40,1,bloc_4,electromecanique,FR
+178,4mage40,GA4T,Gestion,6,Q1,https://plus.ecam.be/public/fiche/2025/4mage40,1,bloc_4,electromecanique,FR
+179,5emaa50,AA5C,Projet d'architectures d'automatisation,4,Q1,https://plus.ecam.be/public/fiche/2025/5emaa50,1,bloc_5,electromecanique,FR
+180,5emai50,AI5C,Projet de dimensionnement des entrainements électriques,4,Q1,https://plus.ecam.be/public/fiche/2025/5emai50,1,bloc_5,electromecanique,FR
+181,5emcm50,CM5C,Bureau d'étude mécanique,4,Q1,https://plus.ecam.be/public/fiche/2025/5emcm50,1,bloc_5,electromecanique,FR
+182,5emdi50,DI5C,Projet de dimensionnement des installations électriques,4,Q1,https://plus.ecam.be/public/fiche/2025/5emdi50,1,bloc_5,electromecanique,FR
+183,5emin50,IN5C,Projet industrie 4.0,4,Q1,https://plus.ecam.be/public/fiche/2025/5emin50,1,bloc_5,electromecanique,FR
+184,5emtf50,TF5B,Travail de fin d'études,20,Q2,https://plus.ecam.be/public/fiche/2025/5emtf50,1,bloc_5,electromecanique,FR
+185,5magf50,GF5T,Gestion et stratégie financière,4,Q2,https://plus.ecam.be/public/fiche/2025/5magf50,1,bloc_5,electromecanique,FR
+186,5magi50,GI5T,Economie,4,Q2,https://plus.ecam.be/public/fiche/2025/5magi50,1,bloc_5,electromecanique,FR
+187,5mala50,LA5T,Langues,2,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/5mala50,1,bloc_5,electromecanique,FR
+188,5masg50,SG5B,Insertion professionnelle,10,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/5masg50,1,bloc_5,electromecanique,FR
+189,1bach10,CH1C,Chimie,5,Q1,https://plus.ecam.be/public/fiche/2025/1bach10,1,bloc_1,electronique,FR
+190,1baci10,CI1C,Circuits électriques,4,Q1,https://plus.ecam.be/public/fiche/2025/1baci10,1,bloc_1,electronique,FR
+191,1baem10,EM1C,Electricité et outils mathématiques,5,Q2,https://plus.ecam.be/public/fiche/2025/1baem10,1,bloc_1,electronique,FR
+192,1baic10,IC1L,Informatique et communication,4,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/1baic10,1,bloc_1,electronique,FR
+193,1bamc10,MC1C,Sciences du mouvement - cinématique,3,Q2,https://plus.ecam.be/public/fiche/2025/1bamc10,1,bloc_1,electronique,FR
+194,1bamd10,MD1C,Sciences du mouvement - dynamique,7,Q2,https://plus.ecam.be/public/fiche/2025/1bamd10,1,bloc_1,electronique,FR
+195,1bame10,ME1C,Méthodologie scientifique,3,Q1,https://plus.ecam.be/public/fiche/2025/1bame10,1,bloc_1,electronique,FR
+196,1bamm10,CM1C,Sciences des matériaux,5,Q2,https://plus.ecam.be/public/fiche/2025/1bamm10,1,bloc_1,electronique,FR
+197,1baph10,CP1C,Physique et fluides,3,Q1,https://plus.ecam.be/public/fiche/2025/1baph10,1,bloc_1,electronique,FR
+198,1bapi10,PI1B,Projet intégrateur,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/1bapi10,1,bloc_1,electronique,FR
+199,1bapm10,PM1C,Pont vers le supérieur: mathématiques,6,Q1,https://plus.ecam.be/public/fiche/2025/1bapm10,1,bloc_1,electronique,FR
+200,1bast10,ST1C,Stabilité,5,Q1,https://plus.ecam.be/public/fiche/2025/1bast10,1,bloc_1,electronique,FR
+201,1bate10,TC1C,Technologie,5,Q1,https://plus.ecam.be/public/fiche/2025/1bate10,1,bloc_1,electronique,FR
+202,2bach20,CH2C,Chimie du vivant et environnement,6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bach20,1,bloc_2,electronique,FR
+203,2badt20,DT2L,Dessin technique,2,Q1,https://plus.ecam.be/public/fiche/2025/2badt20,1,bloc_2,electronique,FR
+204,2bael20,EL2C,Electricité,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bael20,1,bloc_2,electronique,FR
+205,2baeo20,EO2L,Electronique,4,Q1,https://plus.ecam.be/public/fiche/2025/2baeo20,1,bloc_2,electronique,FR
+206,2bain20,IN2L,Informatique,4,Q1,https://plus.ecam.be/public/fiche/2025/2bain20,1,bloc_2,electronique,FR
+207,2bala20,LA2T,Langues,3,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bala20,1,bloc_2,electronique,FR
+208,2bamf20,MF2C,Mécanique des fluides et transfert de chaleur,4,Q2,https://plus.ecam.be/public/fiche/2025/2bamf20,1,bloc_2,electronique,FR
+209,2baom20,OM2C,Outils mathématiques,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2baom20,1,bloc_2,electronique,FR
+210,2baph20,PH2C,Ondes. optique et physique moderne,5,Q1,https://plus.ecam.be/public/fiche/2025/2baph20,1,bloc_2,electronique,FR
+211,2barm20,RM2C,"Stabilité, déformation et résistance des structures",6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2barm20,1,bloc_2,electronique,FR
+212,2bath20,TH2C,Thermodynamique,5,Q1,https://plus.ecam.be/public/fiche/2025/2bath20,1,bloc_2,electronique,FR
+213,2batm20,TM2L,Mesures,3,Q2,https://plus.ecam.be/public/fiche/2025/2batm20,1,bloc_2,electronique,FR
+214,2beea20,EA2C,Electronique appliquée,4,Q2,https://plus.ecam.be/public/fiche/2025/2beea20,1,bloc_2,electronique,FR
+215,2bepi20,PI2C,Projet informatique,4,Q2,https://plus.ecam.be/public/fiche/2025/2bepi20,1,bloc_2,electronique,FR
+216,3base30,EN3T,Comptabilité et entrepreneuriat,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3base30,1,bloc_3,electronique,FR
+217,3basg30,SG3B,Stage,10,Q2,https://plus.ecam.be/public/fiche/2025/3basg30,1,bloc_3,electronique,FR
+218,3beal30,AL3L,Electronic design,5,Q1,https://plus.ecam.be/public/fiche/2025/3beal30,1,bloc_3,electronique,FR
+219,3bect30,AU3C,Control Theory and applications,3,Q2,https://plus.ecam.be/public/fiche/2025/3bect30,1,bloc_3,electronique,FR
+220,3beee30,EE3C,Embedded systems,4,Q2,https://plus.ecam.be/public/fiche/2025/3beee30,1,bloc_3,electronique,FR
+221,3been30,EN3C,Microcontroller and logic design,6,Q1,https://plus.ecam.be/public/fiche/2025/3been30,1,bloc_3,electronique,FR
+222,3befe30,BE3T,Fundamentals of electrical engineering,3,Q2,https://plus.ecam.be/public/fiche/2025/3befe30,1,bloc_3,electronique,FR
+223,3bepe30,PE3C,PCB design,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bepe30,1,bloc_3,electronique,FR
+224,3bepi30,PG3L,Software engineering 2,3,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bepi30,1,bloc_3,electronique,FR
+225,3bepo30,DB3T,Software engineering 1,7,Q1,https://plus.ecam.be/public/fiche/2025/3bepo30,1,bloc_3,electronique,FR
+226,3bess30,RA3T,"Signals, systems and telecommunications",5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bess30,1,bloc_3,electronique,FR
+227,3betw30,LW3L,Network and web technologies,4,Q1,https://plus.ecam.be/public/fiche/2025/3betw30,1,bloc_3,electronique,FR
+228,4eios40,OS4T,Operating Systems,3,Q2,https://plus.ecam.be/public/fiche/2025/4eios40,1,bloc_4,electronique,FR
+229,4eoai40,IA4L,Artificial Intelligence,5,Q2,https://plus.ecam.be/public/fiche/2025/4eoai40,1,bloc_4,electronique,FR
+230,4eodd40,AL4T,Architecture and software quality,2,Q1,https://plus.ecam.be/public/fiche/2025/4eodd40,1,bloc_4,electronique,FR
+231,4eoee40,EE4L,Power Electronics,7,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/4eoee40,1,bloc_4,electronique,FR
+232,4eoep40,EG4L,Advanced PCB design,4,Q1,https://plus.ecam.be/public/fiche/2025/4eoep40,1,bloc_4,electronique,FR
+233,4eome40,ME4T,Microelectronics,4,Q2,https://plus.ecam.be/public/fiche/2025/4eome40,1,bloc_4,electronique,FR
+234,4eope40,EP4L,Embedded Project,9,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/4eope40,1,bloc_4,electronique,FR
+235,4eore40,BS4T,Computer Networks,5,Q1,https://plus.ecam.be/public/fiche/2025/4eore40,1,bloc_4,electronique,FR
+236,4eosd40,SD4L,System on Chip,5,Q2,https://plus.ecam.be/public/fiche/2025/4eosd40,1,bloc_4,electronique,FR
+237,4eosi40,SI4C,Hardware Testing Processes,2,Q1,https://plus.ecam.be/public/fiche/2025/4eosi40,1,bloc_4,electronique,FR
+238,4eote40,TC4T,Telecommunications,5,Q2,https://plus.ecam.be/public/fiche/2025/4eote40,1,bloc_4,electronique,FR
+239,4eoti40,TI4L,Computer vision,3,Q1,https://plus.ecam.be/public/fiche/2025/4eoti40,1,bloc_4,electronique,FR
+240,4mage40,GA4T,Gestion,6,Q1,https://plus.ecam.be/public/fiche/2025/4mage40,1,bloc_4,electronique,FR
+241,5eobm50,BM5T,Biodiversity Monitoring Project,4,Q1,https://plus.ecam.be/public/fiche/2025/5eobm50,1,bloc_5,electronique,FR
+242,5eoee50,EE5T,Ethical Electronics & Informatics,3,Q1,https://plus.ecam.be/public/fiche/2025/5eoee50,1,bloc_5,electronique,FR
+243,5eoes50,ES5T,Embedded Security Project,4,Q1,https://plus.ecam.be/public/fiche/2025/5eoes50,1,bloc_5,electronique,FR
+244,5eohf50,HF5B,High Frequency Circuit Design,9,Q1,https://plus.ecam.be/public/fiche/2025/5eohf50,1,bloc_5,electronique,FR
+245,5eotf50,TF5B,Travail de fin d'études,20,Q2,https://plus.ecam.be/public/fiche/2025/5eotf50,1,bloc_5,electronique,FR
+246,5magf50,GF5T,Gestion et stratégie financière,4,Q2,https://plus.ecam.be/public/fiche/2025/5magf50,1,bloc_5,electronique,FR
+247,5magi50,GI5T,Economie,4,Q2,https://plus.ecam.be/public/fiche/2025/5magi50,1,bloc_5,electronique,FR
+248,5mala50,LA5T,Langues,2,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/5mala50,1,bloc_5,electronique,FR
+249,5masg50,SG5B,Insertion professionnelle,10,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/5masg50,1,bloc_5,electronique,FR
+250,1bach10,CH1C,Chimie,5,Q1,https://plus.ecam.be/public/fiche/2025/1bach10,1,bloc_1,geometre,FR
+251,1baci10,CI1C,Circuits électriques,4,Q1,https://plus.ecam.be/public/fiche/2025/1baci10,1,bloc_1,geometre,FR
+252,1baem10,EM1C,Electricité et outils mathématiques,5,Q2,https://plus.ecam.be/public/fiche/2025/1baem10,1,bloc_1,geometre,FR
+253,1baic10,IC1L,Informatique et communication,4,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/1baic10,1,bloc_1,geometre,FR
+254,1bamc10,MC1C,Sciences du mouvement - cinématique,3,Q2,https://plus.ecam.be/public/fiche/2025/1bamc10,1,bloc_1,geometre,FR
+255,1bamd10,MD1C,Sciences du mouvement - dynamique,7,Q2,https://plus.ecam.be/public/fiche/2025/1bamd10,1,bloc_1,geometre,FR
+256,1bame10,ME1C,Méthodologie scientifique,3,Q1,https://plus.ecam.be/public/fiche/2025/1bame10,1,bloc_1,geometre,FR
+257,1bamm10,CM1C,Sciences des matériaux,5,Q2,https://plus.ecam.be/public/fiche/2025/1bamm10,1,bloc_1,geometre,FR
+258,1baph10,CP1C,Physique et fluides,3,Q1,https://plus.ecam.be/public/fiche/2025/1baph10,1,bloc_1,geometre,FR
+259,1bapi10,PI1B,Projet intégrateur,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/1bapi10,1,bloc_1,geometre,FR
+260,1bapm10,PM1C,Pont vers le supérieur: mathématiques,6,Q1,https://plus.ecam.be/public/fiche/2025/1bapm10,1,bloc_1,geometre,FR
+261,1bast10,ST1C,Stabilité,5,Q1,https://plus.ecam.be/public/fiche/2025/1bast10,1,bloc_1,geometre,FR
+262,1bate10,TC1C,Technologie,5,Q1,https://plus.ecam.be/public/fiche/2025/1bate10,1,bloc_1,geometre,FR
+263,2bach20,CH2C,Chimie du vivant et environnement,6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bach20,1,bloc_2,geometre,FR
+264,2badt20,DT2L,Dessin technique,2,Q1,https://plus.ecam.be/public/fiche/2025/2badt20,1,bloc_2,geometre,FR
+265,2bael20,EL2C,Electricité,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bael20,1,bloc_2,geometre,FR
+266,2baeo20,EO2L,Electronique,4,Q1,https://plus.ecam.be/public/fiche/2025/2baeo20,1,bloc_2,geometre,FR
+267,2bain20,IN2L,Informatique,4,Q1,https://plus.ecam.be/public/fiche/2025/2bain20,1,bloc_2,geometre,FR
+268,2bala20,LA2T,Langues,3,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bala20,1,bloc_2,geometre,FR
+269,2bamf20,MF2C,Mécanique des fluides et transfert de chaleur,4,Q2,https://plus.ecam.be/public/fiche/2025/2bamf20,1,bloc_2,geometre,FR
+270,2baom20,OM2C,Outils mathématiques,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2baom20,1,bloc_2,geometre,FR
+271,2baph20,PH2C,Ondes. optique et physique moderne,5,Q1,https://plus.ecam.be/public/fiche/2025/2baph20,1,bloc_2,geometre,FR
+272,2barm20,RM2C,"Stabilité, déformation et résistance des structures",6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2barm20,1,bloc_2,geometre,FR
+273,2bath20,TH2C,Thermodynamique,5,Q1,https://plus.ecam.be/public/fiche/2025/2bath20,1,bloc_2,geometre,FR
+274,2batm20,TM2L,Mesures,3,Q2,https://plus.ecam.be/public/fiche/2025/2batm20,1,bloc_2,geometre,FR
+275,2bcpc20,PC2B,Projet construction,4,Q2,https://plus.ecam.be/public/fiche/2025/2bcpc20,1,bloc_2,geometre,FR
+276,2bctc20,TB2T,Technologie des matériaux,4,Q2,https://plus.ecam.be/public/fiche/2025/2bctc20,1,bloc_2,geometre,FR
+277,3base30,EN3T,Comptabilité et entrepreneuriat,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3base30,1,bloc_3,geometre,FR
+278,3basg30,SG3B,Stage,10,Q2,https://plus.ecam.be/public/fiche/2025/3basg30,1,bloc_3,geometre,FR
+279,3bcba30,BA3C,Béton armé,4,Q1,https://plus.ecam.be/public/fiche/2025/3bcba30,1,bloc_3,geometre,FR
+280,3bcbe30,BE3B,Bureau d'études,7,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bcbe30,1,bloc_3,geometre,FR
+281,3bcbo30,BO3C,Construction bois,4,Q2,https://plus.ecam.be/public/fiche/2025/3bcbo30,1,bloc_3,geometre,FR
+282,3bccm30,CM3C,Constructions métalliques,4,Q1,https://plus.ecam.be/public/fiche/2025/3bccm30,1,bloc_3,geometre,FR
+283,3bcfo30,FO3T,Fondations superficielles,3,Q2,https://plus.ecam.be/public/fiche/2025/3bcfo30,1,bloc_3,geometre,FR
+284,3bcgc30,GC3T,Gestion et technique de chantier,3,Q2,https://plus.ecam.be/public/fiche/2025/3bcgc30,1,bloc_3,geometre,FR
+285,3bcgo30,GO3C,Projet de physique et gros-oeuvre du bâtiment,4,Q1,https://plus.ecam.be/public/fiche/2025/3bcgo30,1,bloc_3,geometre,FR
+286,3bcms30,MS3C,Mécanique des sols,4,Q1,https://plus.ecam.be/public/fiche/2025/3bcms30,1,bloc_3,geometre,FR
+287,3bcod30,OD3T,Eléments de structures,5,Q1,https://plus.ecam.be/public/fiche/2025/3bcod30,1,bloc_3,geometre,FR
+288,3bctp30,TP3C,Topographie,4,Q1,https://plus.ecam.be/public/fiche/2025/3bctp30,1,bloc_3,geometre,FR
+289,3bmsi30,SI3B,Système d’information,3,Q2,https://plus.ecam.be/public/fiche/2025/3bmsi30,1,bloc_3,geometre,FR
+290,1bach10,CH1C,Chimie,5,Q1,https://plus.ecam.be/public/fiche/2025/1bach10,1,bloc_1,informatique,FR
+291,1baci10,CI1C,Circuits électriques,4,Q1,https://plus.ecam.be/public/fiche/2025/1baci10,1,bloc_1,informatique,FR
+292,1baem10,EM1C,Electricité et outils mathématiques,5,Q2,https://plus.ecam.be/public/fiche/2025/1baem10,1,bloc_1,informatique,FR
+293,1baic10,IC1L,Informatique et communication,4,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/1baic10,1,bloc_1,informatique,FR
+294,1bamc10,MC1C,Sciences du mouvement - cinématique,3,Q2,https://plus.ecam.be/public/fiche/2025/1bamc10,1,bloc_1,informatique,FR
+295,1bamd10,MD1C,Sciences du mouvement - dynamique,7,Q2,https://plus.ecam.be/public/fiche/2025/1bamd10,1,bloc_1,informatique,FR
+296,1bame10,ME1C,Méthodologie scientifique,3,Q1,https://plus.ecam.be/public/fiche/2025/1bame10,1,bloc_1,informatique,FR
+297,1bamm10,CM1C,Sciences des matériaux,5,Q2,https://plus.ecam.be/public/fiche/2025/1bamm10,1,bloc_1,informatique,FR
+298,1baph10,CP1C,Physique et fluides,3,Q1,https://plus.ecam.be/public/fiche/2025/1baph10,1,bloc_1,informatique,FR
+299,1bapi10,PI1B,Projet intégrateur,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/1bapi10,1,bloc_1,informatique,FR
+300,1bapm10,PM1C,Pont vers le supérieur: mathématiques,6,Q1,https://plus.ecam.be/public/fiche/2025/1bapm10,1,bloc_1,informatique,FR
+301,1bast10,ST1C,Stabilité,5,Q1,https://plus.ecam.be/public/fiche/2025/1bast10,1,bloc_1,informatique,FR
+302,1bate10,TC1C,Technologie,5,Q1,https://plus.ecam.be/public/fiche/2025/1bate10,1,bloc_1,informatique,FR
+303,2bach20,CH2C,Chimie du vivant et environnement,6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bach20,1,bloc_2,informatique,FR
+304,2badt20,DT2L,Dessin technique,2,Q1,https://plus.ecam.be/public/fiche/2025/2badt20,1,bloc_2,informatique,FR
+305,2bael20,EL2C,Electricité,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bael20,1,bloc_2,informatique,FR
+306,2baeo20,EO2L,Electronique,4,Q1,https://plus.ecam.be/public/fiche/2025/2baeo20,1,bloc_2,informatique,FR
+307,2bain20,IN2L,Informatique,4,Q1,https://plus.ecam.be/public/fiche/2025/2bain20,1,bloc_2,informatique,FR
+308,2bala20,LA2T,Langues,3,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bala20,1,bloc_2,informatique,FR
+309,2bamf20,MF2C,Mécanique des fluides et transfert de chaleur,4,Q2,https://plus.ecam.be/public/fiche/2025/2bamf20,1,bloc_2,informatique,FR
+310,2baom20,OM2C,Outils mathématiques,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2baom20,1,bloc_2,informatique,FR
+311,2baph20,PH2C,Ondes. optique et physique moderne,5,Q1,https://plus.ecam.be/public/fiche/2025/2baph20,1,bloc_2,informatique,FR
+312,2barm20,RM2C,"Stabilité, déformation et résistance des structures",6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2barm20,1,bloc_2,informatique,FR
+313,2bath20,TH2C,Thermodynamique,5,Q1,https://plus.ecam.be/public/fiche/2025/2bath20,1,bloc_2,informatique,FR
+314,2batm20,TM2L,Mesures,3,Q2,https://plus.ecam.be/public/fiche/2025/2batm20,1,bloc_2,informatique,FR
+315,2beea20,EA2C,Electronique appliquée,4,Q2,https://plus.ecam.be/public/fiche/2025/2beea20,1,bloc_2,informatique,FR
+316,2bepi20,PI2C,Projet informatique,4,Q2,https://plus.ecam.be/public/fiche/2025/2bepi20,1,bloc_2,informatique,FR
+317,3base30,EN3T,Comptabilité et entrepreneuriat,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3base30,1,bloc_3,informatique,FR
+318,3basg30,SG3B,Stage,10,Q2,https://plus.ecam.be/public/fiche/2025/3basg30,1,bloc_3,informatique,FR
+319,3beal30,AL3L,Electronic design,5,Q1,https://plus.ecam.be/public/fiche/2025/3beal30,1,bloc_3,informatique,FR
+320,3bect30,AU3C,Control Theory and applications,3,Q2,https://plus.ecam.be/public/fiche/2025/3bect30,1,bloc_3,informatique,FR
+321,3beee30,EE3C,Embedded systems,4,Q2,https://plus.ecam.be/public/fiche/2025/3beee30,1,bloc_3,informatique,FR
+322,3been30,EN3C,Microcontroller and logic design,6,Q1,https://plus.ecam.be/public/fiche/2025/3been30,1,bloc_3,informatique,FR
+323,3befe30,BE3T,Fundamentals of electrical engineering,3,Q2,https://plus.ecam.be/public/fiche/2025/3befe30,1,bloc_3,informatique,FR
+324,3bepe30,PE3C,PCB design,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bepe30,1,bloc_3,informatique,FR
+325,3bepi30,PG3L,Software engineering 2,3,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bepi30,1,bloc_3,informatique,FR
+326,3bepo30,DB3T,Software engineering 1,7,Q1,https://plus.ecam.be/public/fiche/2025/3bepo30,1,bloc_3,informatique,FR
+327,3bess30,RA3T,"Signals, systems and telecommunications",5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bess30,1,bloc_3,informatique,FR
+328,3betw30,LW3L,Network and web technologies,4,Q1,https://plus.ecam.be/public/fiche/2025/3betw30,1,bloc_3,informatique,FR
+329,4eiai40,IA4L,Artificial Intelligence,6,Q2,https://plus.ecam.be/public/fiche/2025/4eiai40,1,bloc_4,informatique,FR
+330,4eial40,AL4T,Architecture and software quality,4,Q1,https://plus.ecam.be/public/fiche/2025/4eial40,1,bloc_4,informatique,FR
+331,4eiam40,AM4L,Mobile development,3,Q2,https://plus.ecam.be/public/fiche/2025/4eiam40,1,bloc_4,informatique,FR
+332,4eiaw40,AW4L,Web Architecture,4,Q2,https://plus.ecam.be/public/fiche/2025/4eiaw40,1,bloc_4,informatique,FR
+333,4eidb40,DB4L,Database management system,4,Q1,https://plus.ecam.be/public/fiche/2025/4eidb40,1,bloc_4,informatique,FR
+334,4einm40,IR4C,Network management,5,Q2,https://plus.ecam.be/public/fiche/2025/4einm40,1,bloc_4,informatique,FR
+335,4eios40,OS4T,Operating Systems,3,Q2,https://plus.ecam.be/public/fiche/2025/4eios40,1,bloc_4,informatique,FR
+336,4eisa40,SA4L,GPU computing,6,Q1,https://plus.ecam.be/public/fiche/2025/4eisa40,1,bloc_4,informatique,FR
+337,4eisd40,SD4L,System on chip,3,Q2,https://plus.ecam.be/public/fiche/2025/4eisd40,1,bloc_4,informatique,FR
+338,4eope40,EP4L,Embedded Project,9,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/4eope40,1,bloc_4,informatique,FR
+339,4eore40,BS4T,Computer Networks,5,Q1,https://plus.ecam.be/public/fiche/2025/4eore40,1,bloc_4,informatique,FR
+340,4eosi40,SI4C,Hardware Testing Processes,2,Q1,https://plus.ecam.be/public/fiche/2025/4eosi40,1,bloc_4,informatique,FR
+341,4mage40,GA4T,Gestion,6,Q1,https://plus.ecam.be/public/fiche/2025/4mage40,1,bloc_4,informatique,FR
+342,5eiad50,AD5L,Distributed Systems Project,4,Q1,https://plus.ecam.be/public/fiche/2025/5eiad50,1,bloc_5,informatique,FR
+343,5eiai50,AI5C,Artificial Intelligence project,4,Q1,https://plus.ecam.be/public/fiche/2025/5eiai50,1,bloc_5,informatique,FR
+344,5eidc50,DC5C,Data center,3,Q1,https://plus.ecam.be/public/fiche/2025/5eidc50,1,bloc_5,informatique,FR
+345,5eilw50,LW5T,Software licences and GDPR,2,Q1,https://plus.ecam.be/public/fiche/2025/5eilw50,1,bloc_5,informatique,FR
+346,5eisd50,SD5T,Computer security,4,Q1,https://plus.ecam.be/public/fiche/2025/5eisd50,1,bloc_5,informatique,FR
+347,5eitf50,TF5B,Travail de fin d'études,20,Q2,https://plus.ecam.be/public/fiche/2025/5eitf50,1,bloc_5,informatique,FR
+348,5eoee50,EE5T,Ethical Electronics & Informatics,3,Q1,https://plus.ecam.be/public/fiche/2025/5eoee50,1,bloc_5,informatique,FR
+349,5magf50,GF5T,Gestion et stratégie financière,4,Q2,https://plus.ecam.be/public/fiche/2025/5magf50,1,bloc_5,informatique,FR
+350,5magi50,GI5T,Economie,4,Q2,https://plus.ecam.be/public/fiche/2025/5magi50,1,bloc_5,informatique,FR
+351,5mala50,LA5T,Langues,2,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/5mala50,1,bloc_5,informatique,FR
+352,5masg50,SG5B,Insertion professionnelle,10,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/5masg50,1,bloc_5,informatique,FR
+353,1bach10,CH1C,Chimie,5,Q1,https://plus.ecam.be/public/fiche/2025/1bach10,1,bloc_1,ingenierie_sante,FR
+354,1baci10,CI1C,Circuits électriques,4,Q1,https://plus.ecam.be/public/fiche/2025/1baci10,1,bloc_1,ingenierie_sante,FR
+355,1baem10,EM1C,Electricité et outils mathématiques,5,Q2,https://plus.ecam.be/public/fiche/2025/1baem10,1,bloc_1,ingenierie_sante,FR
+356,1baic10,IC1L,Informatique et communication,4,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/1baic10,1,bloc_1,ingenierie_sante,FR
+357,1bamc10,MC1C,Sciences du mouvement - cinématique,3,Q2,https://plus.ecam.be/public/fiche/2025/1bamc10,1,bloc_1,ingenierie_sante,FR
+358,1bamd10,MD1C,Sciences du mouvement - dynamique,7,Q2,https://plus.ecam.be/public/fiche/2025/1bamd10,1,bloc_1,ingenierie_sante,FR
+359,1bame10,ME1C,Méthodologie scientifique,3,Q1,https://plus.ecam.be/public/fiche/2025/1bame10,1,bloc_1,ingenierie_sante,FR
+360,1bamm10,CM1C,Sciences des matériaux,5,Q2,https://plus.ecam.be/public/fiche/2025/1bamm10,1,bloc_1,ingenierie_sante,FR
+361,1baph10,CP1C,Physique et fluides,3,Q1,https://plus.ecam.be/public/fiche/2025/1baph10,1,bloc_1,ingenierie_sante,FR
+362,1bapi10,PI1B,Projet intégrateur,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/1bapi10,1,bloc_1,ingenierie_sante,FR
+363,1bapm10,PM1C,Pont vers le supérieur: mathématiques,6,Q1,https://plus.ecam.be/public/fiche/2025/1bapm10,1,bloc_1,ingenierie_sante,FR
+364,1bast10,ST1C,Stabilité,5,Q1,https://plus.ecam.be/public/fiche/2025/1bast10,1,bloc_1,ingenierie_sante,FR
+365,1bate10,TC1C,Technologie,5,Q1,https://plus.ecam.be/public/fiche/2025/1bate10,1,bloc_1,ingenierie_sante,FR
+366,2bach20,CH2C,Chimie du vivant et environnement,6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bach20,1,bloc_2,ingenierie_sante,FR
+367,2badt20,DT2L,Dessin technique,2,Q1,https://plus.ecam.be/public/fiche/2025/2badt20,1,bloc_2,ingenierie_sante,FR
+368,2bael20,EL2C,Electricité,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bael20,1,bloc_2,ingenierie_sante,FR
+369,2baeo20,EO2L,Electronique,4,Q1,https://plus.ecam.be/public/fiche/2025/2baeo20,1,bloc_2,ingenierie_sante,FR
+370,2bain20,IN2L,Informatique,4,Q1,https://plus.ecam.be/public/fiche/2025/2bain20,1,bloc_2,ingenierie_sante,FR
+371,2bala20,LA2T,Langues,3,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2bala20,1,bloc_2,ingenierie_sante,FR
+372,2bamf20,MF2C,Mécanique des fluides et transfert de chaleur,4,Q2,https://plus.ecam.be/public/fiche/2025/2bamf20,1,bloc_2,ingenierie_sante,FR
+373,2baom20,OM2C,Outils mathématiques,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2baom20,1,bloc_2,ingenierie_sante,FR
+374,2baph20,PH2C,Ondes. optique et physique moderne,5,Q1,https://plus.ecam.be/public/fiche/2025/2baph20,1,bloc_2,ingenierie_sante,FR
+375,2barm20,RM2C,"Stabilité, déformation et résistance des structures",6,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/2barm20,1,bloc_2,ingenierie_sante,FR
+376,2bath20,TH2C,Thermodynamique,5,Q1,https://plus.ecam.be/public/fiche/2025/2bath20,1,bloc_2,ingenierie_sante,FR
+377,2batm20,TM2L,Mesures,3,Q2,https://plus.ecam.be/public/fiche/2025/2batm20,1,bloc_2,ingenierie_sante,FR
+378,2bsis20,IS2L,Technologie ingénierie santé,4,Q2,https://plus.ecam.be/public/fiche/2025/2bsis20,1,bloc_2,ingenierie_sante,FR
+379,2bsps20,PS2B,Projet en ingénierie de la santé,4,Q2,https://plus.ecam.be/public/fiche/2025/2bsps20,1,bloc_2,ingenierie_sante,FR
+380,3base30,EN3T,Comptabilité et entrepreneuriat,5,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3base30,1,bloc_3,ingenierie_sante,FR
+381,3basg30,SG3B,Stage,10,Q2,https://plus.ecam.be/public/fiche/2025/3basg30,1,bloc_3,ingenierie_sante,FR
+382,3bmel30,AE3T,Electronique et applications,3,Q2,https://plus.ecam.be/public/fiche/2025/3bmel30,1,bloc_3,ingenierie_sante,FR
+383,3bmra30,RA3L,"Signals, systems and tools",5,Q1,https://plus.ecam.be/public/fiche/2025/3bmra30,1,bloc_3,ingenierie_sante,FR
+384,3bmsi30,SI3B,Système d’information,3,Q2,https://plus.ecam.be/public/fiche/2025/3bmsi30,1,bloc_3,ingenierie_sante,FR
+385,3bsae30,AE3C,Mécatronique,5,Q2,https://plus.ecam.be/public/fiche/2025/3bsae30,1,bloc_3,ingenierie_sante,FR
+386,3bsan30,AN3C,Anatomie et physiologie humaines,5,Q1,https://plus.ecam.be/public/fiche/2025/3bsan30,1,bloc_3,ingenierie_sante,FR
+387,3bsau30,AU3C,Control theory and applications,3,Q2,https://plus.ecam.be/public/fiche/2025/3bsau30,1,bloc_3,ingenierie_sante,FR
+388,3bsbc30,BC3C,Biomécanique,5,Q1,https://plus.ecam.be/public/fiche/2025/3bsbc30,1,bloc_3,ingenierie_sante,FR
+389,3bsbm30,BM3C,Biomatériaux,5,Q1,https://plus.ecam.be/public/fiche/2025/3bsbm30,1,bloc_3,ingenierie_sante,FR
+390,3bsei30,EN3C,Electronique numérique,3,Q1,https://plus.ecam.be/public/fiche/2025/3bsei30,1,bloc_3,ingenierie_sante,FR
+391,3bsmd30,CM4T,Conception des machines,5,Q1,https://plus.ecam.be/public/fiche/2025/3bsmd30,1,bloc_3,ingenierie_sante,FR
+392,3bsrs30,QS3B,Méthodes de recherche scientifique,3,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/3bsrs30,1,bloc_3,ingenierie_sante,FR
+393,4isad40,AD4T,Active medical devices,5,Q2,https://plus.ecam.be/public/fiche/2025/4isad40,1,bloc_4,ingenierie_sante,FR
+394,4isgs40,ES4T,Gestion,4,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/4isgs40,1,bloc_4,ingenierie_sante,FR
+395,4ishm40,HM4C,Human motion analysis,3,Q1,https://plus.ecam.be/public/fiche/2025/4ishm40,1,bloc_4,ingenierie_sante,FR
+396,4ismd40,MD4C,Design of medical devices,4,Q1,https://plus.ecam.be/public/fiche/2025/4ismd40,1,bloc_4,ingenierie_sante,FR
+397,4isme40,ME4L,Prototyping of medical devices : electronics and IT,5,Q2,https://plus.ecam.be/public/fiche/2025/4isme40,1,bloc_4,ingenierie_sante,FR
+398,4ismi40,MI4C,Medical Imaging,5,Q1,https://plus.ecam.be/public/fiche/2025/4ismi40,1,bloc_4,ingenierie_sante,FR
+399,4ismr40,MR4C,Medical robotics,5,Q2,https://plus.ecam.be/public/fiche/2025/4ismr40,1,bloc_4,ingenierie_sante,FR
+400,4isnu40,NU4C,Prototyping of medical devices: mechanics,4,Q1,https://plus.ecam.be/public/fiche/2025/4isnu40,1,bloc_4,ingenierie_sante,FR
+401,4ispm40,PM4B,Project medical devices 1,10,Q2,https://plus.ecam.be/public/fiche/2025/4ispm40,1,bloc_4,ingenierie_sante,FR
+402,4isrm40,RM4C,Regulatory affairs for medical devices,5,Q2,https://plus.ecam.be/public/fiche/2025/4isrm40,1,bloc_4,ingenierie_sante,FR
+403,4issg40,SG4B,Internship in health engineering 1,10,Q1,https://plus.ecam.be/public/fiche/2025/4issg40,1,bloc_4,ingenierie_sante,FR
+404,5isce50,CE5C,Clinical evaluation of medical devices,5,Q1,https://plus.ecam.be/public/fiche/2025/5isce50,1,bloc_5,ingenierie_sante,FR
+405,5ishe50,EH5C,e-Health systems,4,Q1,https://plus.ecam.be/public/fiche/2025/5ishe50,1,bloc_5,ingenierie_sante,FR
+406,5isod50,OD5T,"Design of Orthopaedic Medical Devices : biomechanics, design and regulation",4,Q1,https://plus.ecam.be/public/fiche/2025/5isod50,1,bloc_5,ingenierie_sante,FR
+407,5ispm50,PM5C,Project medical devices 2,7,Q1,https://plus.ecam.be/public/fiche/2025/5ispm50,1,bloc_5,ingenierie_sante,FR
+408,5issg50,IN5B,Internship in health engineering 2,10,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/5issg50,1,bloc_5,ingenierie_sante,FR
+409,5istf50,MT5B,Master thesis in health engineering,20,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/5istf50,1,bloc_5,ingenierie_sante,FR
+410,5magf50,GF5T,Gestion et stratégie financière,4,Q2,https://plus.ecam.be/public/fiche/2025/5magf50,1,bloc_5,ingenierie_sante,FR
+411,5magi50,GI5T,Economie,4,Q2,https://plus.ecam.be/public/fiche/2025/5magi50,1,bloc_5,ingenierie_sante,FR
+412,5mala50,LA5T,Langues,2,"Q1,Q2",https://plus.ecam.be/public/fiche/2025/5mala50,1,bloc_5,ingenierie_sante,FR
+413,4eial40,AL4T,Architecture and software quality,4,Q1,https://plus.ecam.be/public/fiche/2025/4eial40,1,5MIC 2ème année de Master Sciences de l'Ingénieur Industriel - Orientation Informatique (2ème cycle),ingenieur_industriel_commercial,FR
+414,4eiam40,AM4L,Mobile development,3,Q2,https://plus.ecam.be/public/fiche/2025/4eiam40,1,5MIC 2ème année de Master Sciences de l'Ingénieur Industriel - Orientation Informatique (2ème cycle),ingenieur_industriel_commercial,FR
+415,4eiaw40,AW4L,Web Architecture,4,Q2,https://plus.ecam.be/public/fiche/2025/4eiaw40,1,5MIC 2ème année de Master Sciences de l'Ingénieur Industriel - Orientation Informatique (2ème cycle),ingenieur_industriel_commercial,FR
+416,4eidb40,DB4L,Database management system,4,Q1,https://plus.ecam.be/public/fiche/2025/4eidb40,1,5MIC 2ème année de Master Sciences de l'Ingénieur Industriel - Orientation Informatique (2ème cycle),ingenieur_industriel_commercial,FR
+417,4einm40,IR4C,Network management,5,Q2,https://plus.ecam.be/public/fiche/2025/4einm40,1,5MIC 2ème année de Master Sciences de l'Ingénieur Industriel - Orientation Informatique (2ème cycle),ingenieur_industriel_commercial,FR
+418,4eisa40,SA4L,GPU computing,6,Q1,https://plus.ecam.be/public/fiche/2025/4eisa40,1,5MIC 2ème année de Master Sciences de l'Ingénieur Industriel - Orientation Informatique (2ème cycle),ingenieur_industriel_commercial,FR
+419,4eoai40,IA4L,Artificial Intelligence,5,Q2,https://plus.ecam.be/public/fiche/2025/4eoai40,1,5MIC 2ème année de Master Sciences de l'Ingénieur Industriel - Orientation Informatique (2ème cycle),ingenieur_industriel_commercial,FR
+420,4eore40,BS4T,Computer Networks,5,Q1,https://plus.ecam.be/public/fiche/2025/4eore40,1,5MIC 2ème année de Master Sciences de l'Ingénieur Industriel - Orientation Informatique (2ème cycle),ingenieur_industriel_commercial,FR
+421,5eisd50,SD5T,Computer security,4,Q1,https://plus.ecam.be/public/fiche/2025/5eisd50,1,5MIC 2ème année de Master Sciences de l'Ingénieur Industriel - Orientation Informatique (2ème cycle),ingenieur_industriel_commercial,FR
+422,5eitf50,TF5B,Travail de fin d'études,20,Q2,https://plus.ecam.be/public/fiche/2025/5eitf50,1,5MIC 2ème année de Master Sciences de l'Ingénieur Industriel - Orientation Informatique (2ème cycle),ingenieur_industriel_commercial,FR
+423,21BA065,,Mathematiques pour Business Analysts,5,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_4,business_analyst,FR
+424,21BA080,,Nederlands voor Business Analyst 1,4,"Q1,Q2",https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_4,business_analyst,FR
+425,21BA092,,Projet en entreprise M1,16,"Q1,Q2",https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_4,business_analyst,FR
+426,21BA095,,Rapport de stage M1,3,Q2,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_4,business_analyst,FR
+427,21BA010,,Strategie digitale,5,Q2,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_4,business_analyst,FR
+428,21BA020,,Gestion de projets informatiques,5,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_4,business_analyst,FR
+429,21BA030,,Ingenierie des exigences,5,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_4,business_analyst,FR
+430,21BA040,,Architecture Web,6,Q2,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_4,business_analyst,FR
+431,21BA050,,Structure de donnees,5,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_4,business_analyst,FR
+432,21BA060,,Conception et developpement logiciel,6,Q2,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_4,business_analyst,FR
+433,22BA055,,Projet en entreprise M2,14,"Q1,Q2",https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_5,business_analyst,FR
+434,22BA056,,Rapport de stage M2,2,"Q1,Q2",https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_5,business_analyst,FR
+435,22BA032,,Intelligence artificielle,8,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_5,business_analyst,FR
+436,22BA040,,Strategie et gouvernance TIC,5,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_5,business_analyst,FR
+437,22BA042,,Memoire en Business Analyst,17,"Q1,Q2",https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_5,business_analyst,FR
+438,22BA012,,Reseau et securite,3,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_5,business_analyst,FR
+439,22BA020,,Projet integrateur,6,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_5,business_analyst,FR
+440,22BA090,,Neerlandais B2,5,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_5,business_analyst,FR
+441,BP5B,BP5B,Atelier intégr ation - topo,5,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_5,business_analyst,FR
+442,DI4T,DI4T,Droit immob ilier,5,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_5,business_analyst,FR
+443,EX4T,EX4T,Expertise,5,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_5,business_analyst,FR
+444,GD4T,GD4T,Géodésie,5,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_9,business_analyst,FR
+445,PA4L,PA4L,EXTR Pathologie appliquée,5,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_10,business_analyst,FR
+446,PA4T,PA4T,Pathologie des constructions,5,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_11,business_analyst,FR
+447,PH1C,PH1C,1BEV Examen Physique (sur inscriptions) Evaluation,5,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_12,business_analyst,FR
+448,PI5C,PI5C,Projet intégr ateur,5,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_13,business_analyst,FR
+449,PR4C,PR4C,Prérequis programmation,5,Q1,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_14,business_analyst,FR
+450,RS5C,RS5C,Réseau,5,Q2,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_15,business_analyst,FR
+451,ST4C,ST4C,Structure de données,5,Q2,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_16,business_analyst,FR
+452,TW4C,TW4C,Technologies web,5,Q2,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_17,business_analyst,FR
+453,UB4T,UB4T,Urbanisme,5,Q2,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_18,business_analyst,FR
+,,,,,,https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam,1,bloc_19,business_analyst,FR
