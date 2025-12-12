@@ -6,9 +6,11 @@ import org.jetbrains.exposed.sql.ResultRow
 
 // Table pour les options d'année
 object YearOptionsTable : IntIdTable("year_options") {
-    val yearOptionId = varchar("year_option_id", 50)
+    val yearOptionId = varchar("year_option_id", 50).uniqueIndex()
     val formationIds = text("formation_ids").nullable()
     val blocId = varchar("bloc_id", 50).nullable()
+    // lien vers la table Blocs via blocId
+    val blocDbRef = reference("bloc_db_ref", BlocsTable).nullable()
 }
 
 // DTO pour exposer les options d'année au front
@@ -17,7 +19,8 @@ data class YearOptionDTO(
     val id: Int,
     val yearOptionId: String,
     val formationIds: String?,
-    val blocId: String?
+    val blocId: String?,
+    val blocDbRef: Int?
 )
 
 // mapper ResultRow -> DTO
@@ -25,7 +28,8 @@ fun ResultRow.toYearOptionDTO() = YearOptionDTO(
     id = this[YearOptionsTable.id].value,
     yearOptionId = this[YearOptionsTable.yearOptionId],
     formationIds = this[YearOptionsTable.formationIds],
-    blocId = this[YearOptionsTable.blocId]
+    blocId = this[YearOptionsTable.blocId],
+    blocDbRef = this[YearOptionsTable.blocDbRef]?.value
 )
 
 // DTO pour écriture (création et update complet)

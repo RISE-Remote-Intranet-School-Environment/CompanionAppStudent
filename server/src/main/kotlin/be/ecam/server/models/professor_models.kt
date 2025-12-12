@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.ResultRow
 // Table
 object ProfessorsTable : IntIdTable("professors") {
 
-    val professorId = varchar("professor_id", 50)
+    val professorId = varchar("professor_id", 50).uniqueIndex()
     val firstName = varchar("first_name", 100)
     val lastName = varchar("last_name", 100)
     val email = varchar("email", 255).uniqueIndex()
@@ -52,7 +52,7 @@ data class ProfessorWriteRequest(
     val professorId: String,
     val firstName: String,
     val lastName: String,
-    val email: String? = null,
+    val email: String,
     val roomIds: String? = null,
     val phone: String? = null,
     val speciality: String? = null,

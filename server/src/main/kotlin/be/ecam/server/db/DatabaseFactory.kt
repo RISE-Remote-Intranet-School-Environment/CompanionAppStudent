@@ -50,6 +50,8 @@ object DatabaseFactory {
 
                 PaeStudentsTable,
                 NotesStudentsTable,
+                StudentSubmissionsTable,
+                CourseResourcesTable
             )
 
             println(
@@ -58,7 +60,7 @@ object DatabaseFactory {
                     "Formations, Blocs, Years, YearOptions, SeriesName, " +
                     "Courses, CourseDetails, CourseEvaluation, SousCourses, " +
                     "CalendarEvents, CourseSchedule, Rooms, " +
-                    "PaeStudents, NotesStudents."
+                    "PaeStudents, NotesStudents, StudentSubmissions, CourseResources"
             )
 
             // Seed initial data

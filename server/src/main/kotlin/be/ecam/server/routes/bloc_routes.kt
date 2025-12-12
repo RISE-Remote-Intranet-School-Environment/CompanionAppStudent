@@ -33,7 +33,10 @@ fun Route.blocRoutes() {
             val blocId = call.parameters["blocId"]
                 ?: return@get call.respond(HttpStatusCode.BadRequest, "blocId missing")
 
-            call.respond(BlocService.getBlocByBlocId(blocId))
+            val bloc = BlocService.getBlocByBlocId(blocId)
+                ?: return@get call.respond(HttpStatusCode.NotFound, "Bloc not found")
+
+            call.respond(bloc)
         }
 
         

@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.ResultRow
 
 // Table pour les formations
 object FormationsTable : IntIdTable("formations") {
-    val formationId = varchar("formation_id", 50)  
+    val formationId = varchar("formation_id", 50).uniqueIndex()  
     val name = varchar("name", 255)
     val sourceUrl = varchar("source_url", 512)
     val imageUrl = varchar("image_url", 512).nullable()

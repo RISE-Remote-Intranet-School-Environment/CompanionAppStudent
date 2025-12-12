@@ -24,11 +24,12 @@ object BlocService {
     }
 
     //  Lire les blocs par blocId logique (ex: "B1")
-    fun getBlocByBlocId(blocId: String): List<BlocDTO> = transaction {
+    fun getBlocByBlocId(blocId: String): BlocDTO? = transaction {
         BlocsTable
             .selectAll()
             .where { BlocsTable.blocId eq blocId }
-            .map { it.toBlocDTO() }
+            .singleOrNull()
+            ?.toBlocDTO()
     }
 
     //  Créer un bloc
@@ -38,6 +39,7 @@ object BlocService {
             row[name] = req.name
             row[formationIds] = req.formationIds
         }
+        
 
         BlocsTable
             .selectAll()

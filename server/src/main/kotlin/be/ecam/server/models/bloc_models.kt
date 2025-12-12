@@ -8,7 +8,7 @@ import org.jetbrains.exposed.sql.ResultRow
 // Table pour les blocs
 object BlocsTable : IntIdTable("blocs") {
     val blocId = varchar("bloc_id", 50)       
-    val name = varchar("name", 255)
+    val name = varchar("name", 255) // 
     val formationIds = text("formation_ids")   
 }
 

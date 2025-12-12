@@ -18,6 +18,8 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.event.Level
 
+
+
 fun main(args: Array<String>) {
     EngineMain.main(args)
 }
@@ -123,6 +125,9 @@ fun Application.module() {
             userRoutes()
             paeStudentRoutes()
             yearOptionRoutes()
+            studentSubmissionsRoutes()
+            courseResourcesRoutes() 
+            
             
 
             
@@ -150,6 +155,7 @@ fun Application.module() {
                 courseScheduleRoutes()
                 sousCourseRoutes()
                 calendarRoutes()
+               
                 
             }
         }
