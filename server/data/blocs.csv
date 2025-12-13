@@ -1,6 +1,0 @@
-id,bloc_id,name,formation_ids
-1,bloc_1,Bloc 1,automatisation;construction;electromecanique;electronique;geometre;informatique;ingenierie_sante
-2,bloc_2,Bloc 2,automatisation;construction;electromecanique;electronique;geometre;informatique;ingenierie_sante
-3,bloc_3,Bloc 3,automatisation;construction;electromecanique;electronique;geometre;informatique;ingenierie_sante
-4,bloc_4,Bloc 4,automatisation;business_analyst;construction;electromecanique;electronique;informatique;ingenierie_sante
-5,bloc_5,Bloc 5,automatisation;business_analyst;construction;electromecanique;electronique;informatique;ingenierie_sante;ingenieur_industriel_commercial

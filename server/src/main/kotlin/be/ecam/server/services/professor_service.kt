@@ -1,98 +1,148 @@
 package be.ecam.server.services
 
 import be.ecam.server.models.*
-import org.jetbrains.exposed.sql.*
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object ProfessorService {
 
-    //  GET all professors
+    // json professors format
+
+    @Serializable
+    private data class ProfessorsRootJson(
+        val year: String,
+        val generated_at: String,
+        val source: String,
+        val professors: List<ProfessorJson>
+    )
+
+    @Serializable
+    private data class ProfessorJson(
+        val id: Int,
+        val first_name: String,
+        val last_name: String,
+        val email: String,
+        val speciality: String,
+        val office: String? = null,
+        val phone: String? = null
+    )
+
+    fun seedProfessorsFromJson() {
+        val resource = ProfessorService::class.java.classLoader
+            .getResource("files/ecam_professors_2025.json")
+            ?: error("Resource 'files/ecam_professors_2025.json' not found in classpath")
+
+        val text = resource.readText()
+        val json = Json { ignoreUnknownKeys = true }
+
+        val root = json.decodeFromString<ProfessorsRootJson>(text)
+        val list = root.professors
+
+        transaction {
+            list.forEach { p ->
+
+                val existing = Professor.find { ProfessorsTable.email eq p.email }
+                    .firstOrNull()
+
+                if (existing == null) {
+                    // INSERT
+                    Professor.new {
+                        firstName = p.first_name
+                        lastName = p.last_name
+                        email = p.email
+                        speciality = p.speciality
+                        office = p.office
+                        phone = p.phone
+                    }
+                } else {
+                    // UPDATE
+                    existing.apply {
+                        firstName = p.first_name
+                        lastName = p.last_name
+                        speciality = p.speciality
+                        office = p.office
+                        phone = p.phone
+                    }
+                }
+            }
+        }
+    }
+
+    
+    // read professors
+   
     fun getAllProfessors(): List<ProfessorDTO> = transaction {
-        ProfessorsTable
-            .selectAll()
-            .map { it.toProfessorDTO() }
+        Professor.all().map { it.toDto() }
     }
 
-    //  GET by DB id
     fun getProfessorById(id: Int): ProfessorDTO? = transaction {
-        ProfessorsTable
-            .selectAll()
-            .where { ProfessorsTable.id eq id }
-            .singleOrNull()
-            ?.toProfessorDTO()
+        Professor.findById(id)?.toDto()
     }
 
-    //  GET by logical professorId (ex: "P123")
-    fun getProfessorByProfessorId(professorId: String): ProfessorDTO? = transaction {
-        ProfessorsTable
-            .selectAll()
-            .where { ProfessorsTable.professorId eq professorId }
-            .singleOrNull()
-            ?.toProfessorDTO()
-    }
-
-    //  GET by email
     fun getProfessorByEmail(email: String): ProfessorDTO? = transaction {
-        ProfessorsTable
-            .selectAll()
-            .where { ProfessorsTable.email eq email }
-            .singleOrNull()
-            ?.toProfessorDTO()
+        Professor.find { ProfessorsTable.email eq email }
+            .firstOrNull()
+            ?.toDto()
     }
 
-    //  GET by speciality (tous les profs d’un domaine)
-    fun getProfessorsBySpeciality(speciality: String): List<ProfessorDTO> = transaction {
-        ProfessorsTable
-            .selectAll()
-            .where { ProfessorsTable.speciality eq speciality }
-            .map { it.toProfessorDTO() }
+    fun getProfessorsBySpeciality(spec: String): List<ProfessorDTO> = transaction {
+        Professor.find { ProfessorsTable.speciality eq spec }
+            .map { it.toDto() }
     }
 
-    //  CREATE
+   // crearte professor
+
     fun createProfessor(req: ProfessorWriteRequest): ProfessorDTO = transaction {
-        val newId = ProfessorsTable.insertAndGetId { row ->
-            row[ProfessorsTable.professorId] = req.professorId
-            row[ProfessorsTable.firstName] = req.firstName
-            row[ProfessorsTable.lastName] = req.lastName
-            row[ProfessorsTable.email] = req.email !!
-            row[ProfessorsTable.roomIds] = req.roomIds
-            row[ProfessorsTable.phone] = req.phone
-            row[ProfessorsTable.speciality] = req.speciality
-            row[ProfessorsTable.fullName] = req.fullName
+        val existing = Professor.find { ProfessorsTable.email eq req.email }.firstOrNull()
+        if (existing != null) error("Email déjà utilisé")
+
+        val p = Professor.new {
+            firstName = req.firstName
+            lastName = req.lastName
+            email = req.email
+            office = req.office
+            phone = req.phone
+            speciality = req.speciality
         }
 
-        ProfessorsTable
-            .selectAll()
-            .where { ProfessorsTable.id eq newId }
-            .single()
-            .toProfessorDTO()
+        p.toDto()
     }
 
-    //  UPDATE
+    // update professor
+
     fun updateProfessor(id: Int, req: ProfessorWriteRequest): ProfessorDTO? = transaction {
-        val updated = ProfessorsTable.update({ ProfessorsTable.id eq id }) { row ->
-            row[ProfessorsTable.professorId] = req.professorId
-            row[ProfessorsTable.firstName] = req.firstName
-            row[ProfessorsTable.lastName] = req.lastName
-            row[ProfessorsTable.email] = req.email !!
-            row[ProfessorsTable.roomIds] = req.roomIds
-            row[ProfessorsTable.phone] = req.phone
-            row[ProfessorsTable.speciality] = req.speciality
-            row[ProfessorsTable.fullName] = req.fullName
-        }
+        val p = Professor.findById(id) ?: return@transaction null
 
-        if (updated == 0) return@transaction null
+        p.firstName = req.firstName
+        p.lastName = req.lastName
 
-        ProfessorsTable
-            .selectAll()
-            .where { ProfessorsTable.id eq id }
-            .singleOrNull()
-            ?.toProfessorDTO()
+        p.office = req.office
+        p.phone = req.phone
+        p.speciality = req.speciality
+
+        p.toDto()
     }
 
-    //  DELETE
+    // delete professor
+
     fun deleteProfessor(id: Int): Boolean = transaction {
-        ProfessorsTable.deleteWhere { ProfessorsTable.id eq id } > 0
+        val p = Professor.findById(id) ?: return@transaction false
+        p.delete()
+        true
     }
+
+    // mapper professor 
+
+    private fun Professor.toDto(): ProfessorDTO =
+        ProfessorDTO(
+            id = id.value,
+            firstName = firstName,
+            lastName = lastName,
+            email = email,
+            office = office,
+            phone = phone,
+            speciality = speciality
+        )
 }

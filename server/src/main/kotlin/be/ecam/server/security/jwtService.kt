@@ -9,30 +9,15 @@ object JwtService {
 
     private val algorithm = Algorithm.HMAC256(JwtConfig.secret)
 
-    private const val EXPIRATION_MS = 1000L * 60 * 60 * 24 // 24h
-
     fun generateToken(user: AuthUserDTO): String {
-        val now = Date()
+        val now = System.currentTimeMillis()
 
         return JWT.create()
             .withIssuer(JwtConfig.issuer)
             .withAudience(JwtConfig.audience)
-
-            // Sujet du token 
-            .withSubject(user.id.toString())
-
-            // Claims usuels
             .withClaim("id", user.id)
             .withClaim("username", user.username)
-            .withClaim("email", user.email)
-
-            // Claim CRUCIAL pour gérer les droits admin / prof / student
-            .withClaim("role", user.role.name)
-
-            // timestamps
-            .withIssuedAt(now)
-            .withExpiresAt(Date(now.time + EXPIRATION_MS))
-
+            .withExpiresAt(Date(now + 1000 * 60 * 60 * 24)) // token valid for 24 hours
             .sign(algorithm)
     }
 }
