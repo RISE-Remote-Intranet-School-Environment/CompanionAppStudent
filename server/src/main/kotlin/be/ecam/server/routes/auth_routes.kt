@@ -1,6 +1,8 @@
 package be.ecam.server.routes
 
-import be.ecam.server.models.*
+import be.ecam.server.models.AuthResponse
+import be.ecam.server.models.LoginRequest
+import be.ecam.server.models.RegisterRequest
 import be.ecam.server.security.JwtService
 import be.ecam.server.services.AuthService
 import be.ecam.server.services.AdminService
@@ -17,16 +19,15 @@ import io.ktor.server.auth.jwt.*
 
 fun Route.authRoutes() {
 
-    // POST /api/auth/register
+   
     post("/auth/register") {
-        // Parse JSON
         val body = runCatching { call.receive<RegisterRequest>() }.getOrElse {
             call.respond(HttpStatusCode.BadRequest, "JSON invalide")
             return@post
         }
 
         try {
-            val user: AuthUserDTO = AuthService.register(
+            val user = AuthService.register(
                 RegisterRequest(
                     username = body.username.trim(),
                     email = body.email.trim(),
@@ -49,7 +50,7 @@ fun Route.authRoutes() {
         }
     }
 
-    // POST /api/auth/login
+    
     post("/auth/login") {
         val body = runCatching { call.receive<LoginRequest>() }.getOrElse {
             call.respond(HttpStatusCode.BadRequest, "JSON invalide")
@@ -57,7 +58,7 @@ fun Route.authRoutes() {
         }
 
         try {
-            val user: AuthUserDTO = AuthService.login(
+            val user = AuthService.login(
                 LoginRequest(
                     emailOrUsername = body.emailOrUsername.trim(),
                     password = body.password
