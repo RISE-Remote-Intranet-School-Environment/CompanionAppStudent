@@ -107,40 +107,13 @@ fun Application.module() {
 
             // Routes publiques
             authRoutes()
-            formationRoutes()
-            blocRoutes()
-            yearRoutes()
-            yearOptionRoutes()
-            seriesNameRoutes()
-            roomRoutes()
-            courseRoutes()
-            courseDetailsRoutes()
-            courseEvaluationRoutes()
-            courseScheduleRoutes()
-            sousCourseRoutes()
-            calendarRoutes()
-            notesStudentRoutes()
-            professorRoutes()
-            studentRoutes()
-            userRoutes()
-            paeStudentRoutes()
-            yearOptionRoutes()
-            studentSubmissionsRoutes()
-            courseResourcesRoutes() 
-            
+
             
 
             
 
             //  Routes protégées (JWT) 
             authenticate("auth-jwt") {
-
-                
-                userRoutes()
-                studentRoutes()
-                professorRoutes()
-                paeStudentRoutes()
-                notesStudentRoutes()
 
                 
                 formationRoutes()
@@ -155,6 +128,13 @@ fun Application.module() {
                 courseScheduleRoutes()
                 sousCourseRoutes()
                 calendarRoutes()
+                notesStudentRoutes()
+                professorRoutes()
+                studentRoutes()
+                userRoutes()
+                paeStudentRoutes()
+                studentSubmissionsRoutes()
+                courseResourcesRoutes()
                
                 
             }

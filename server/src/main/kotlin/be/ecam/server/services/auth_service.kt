@@ -10,58 +10,60 @@ import org.jetbrains.exposed.sql.transactions.transaction
 object AuthService {
 
 
-    // Crée un user dans UsersTable et renvoie un AuthUserDTO
+    // register
     fun register(req: RegisterRequest): AuthUserDTO = transaction {
 
-        val trimmedUsername = req.username.trim()
-        val trimmedEmail = req.email.trim()
+        val username = req.username.trim()
+        val email = req.email.trim()
 
-        // verifier que username et email sont uniques
+        require(username.isNotBlank()) { "Username vide" }
+        require(email.isNotBlank()) { "Email vide" }
+        require(req.password.isNotBlank()) { "Mot de passe vide" }
+
         val exists = UsersTable
             .selectAll()
             .where {
-                (UsersTable.username eq trimmedUsername) or
-                (UsersTable.email eq trimmedEmail)
+                (UsersTable.username eq username) or
+                (UsersTable.email eq email)
             }
             .singleOrNull()
 
         require(exists == null) { "Utilisateur déjà existant" }
 
-        // hash du mot de passe
-        val hashed = BCrypt
+        val passwordHash = BCrypt
             .withDefaults()
             .hashToString(12, req.password.toCharArray())
 
-        // Pour l’instant on force tous les nouveaux comptes en STUDENT
         val role = UserRole.STUDENT
 
-        // insert + récupération de l'id (IntIdTable -> EntityID<Int>.value)
-        val newId = UsersTable.insertAndGetId { row ->
-            row[UsersTable.username] = trimmedUsername
-            row[UsersTable.email] = trimmedEmail
-            row[UsersTable.passwordHash] = hashed
-            row[UsersTable.firstName] = ""      
-            row[UsersTable.lastName] = ""
-            row[UsersTable.role] = role        
-            row[UsersTable.avatarUrl] = null
-            row[UsersTable.professorId] = null
-            row[UsersTable.studentId] = null
+        val id = UsersTable.insertAndGetId {
+            it[UsersTable.username] = username
+            it[UsersTable.email] = email
+            it[UsersTable.passwordHash] = passwordHash
+            it[firstName] = ""
+            it[lastName] = ""
+            it[UsersTable.role] = role
+            it[avatarUrl] = null
+            it[professorId] = null
+            it[studentId] = null
         }.value
 
         AuthUserDTO(
-            id = newId,
-            username = trimmedUsername,
-            email = trimmedEmail,
+            id = id,
+            username = username,
+            email = email,
             role = role,
             avatarUrl = null
         )
     }
 
-    // Login
-    // email ou username + password → AuthUserDTO
+
+    // login
     fun login(req: LoginRequest): AuthUserDTO = transaction {
 
         val identifier = req.emailOrUsername.trim()
+        require(identifier.isNotBlank()) { "Identifiant vide" }
+        require(req.password.isNotBlank()) { "Mot de passe vide" }
 
         val row = UsersTable
             .selectAll()
@@ -72,21 +74,76 @@ object AuthService {
             .singleOrNull()
             ?: error("Utilisateur introuvable")
 
-        val ok = BCrypt
+        val validPassword = BCrypt
             .verifyer()
             .verify(req.password.toCharArray(), row[UsersTable.passwordHash])
             .verified
 
-        require(ok) { "Mot de passe incorrect" }
-
-        val roleEnum: UserRole = row[UsersTable.role]  
+        require(validPassword) { "Mot de passe incorrect" }
 
         AuthUserDTO(
-            id = row[UsersTable.id].value,          
+            id = row[UsersTable.id].value,
             username = row[UsersTable.username],
             email = row[UsersTable.email],
-            role = roleEnum,
+            role = row[UsersTable.role],
             avatarUrl = row[UsersTable.avatarUrl]
+        )
+    }
+
+    // get/auth/me
+    fun getUserById(userId: Int): AuthUserDTO = transaction {
+
+        val row = UsersTable
+            .selectAll()
+            .where { UsersTable.id eq userId }
+            .singleOrNull()
+            ?: error("User not found")
+
+        AuthUserDTO(
+            id = row[UsersTable.id].value,
+            username = row[UsersTable.username],
+            email = row[UsersTable.email],
+            role = row[UsersTable.role],
+            avatarUrl = row[UsersTable.avatarUrl]
+        )
+    }
+
+    // put/auth/me
+    fun updateMe(userId: Int, newUsername: String, newEmail: String): AuthUserDTO = transaction {
+
+        val username = newUsername.trim()
+        val email = newEmail.trim()
+
+        require(username.isNotBlank()) { "Username vide" }
+        require(email.isNotBlank()) { "Email vide" }
+
+        val current = UsersTable
+            .selectAll()
+            .where { UsersTable.id eq userId }
+            .singleOrNull()
+            ?: error("User not found")
+
+        val conflict = UsersTable
+            .selectAll()
+            .where {
+                ((UsersTable.username eq username) or (UsersTable.email eq email)) and
+                (UsersTable.id neq userId)
+            }
+            .singleOrNull()
+
+        require(conflict == null) { "Username ou email déjà utilisé" }
+
+        UsersTable.update({ UsersTable.id eq userId }) {
+            it[UsersTable.username] = username
+            it[UsersTable.email] = email
+        }
+
+        AuthUserDTO(
+            id = userId,
+            username = username,
+            email = email,
+            role = current[UsersTable.role],
+            avatarUrl = current[UsersTable.avatarUrl]
         )
     }
 }
