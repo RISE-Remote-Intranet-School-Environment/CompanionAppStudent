@@ -3,19 +3,21 @@
   buildGradlePackage,
 }:
 
-# This derivation now only wraps the final JAR produced by buildGradlePackage
-# into a runnable script.
+# Ce wrapper prend le JAR construit par gradle2nix et crée un script de lancement
 pkgs.stdenv.mkDerivation (finalAttrs: {
   inherit (buildGradlePackage) pname version src;
 
   installPhase = ''
-    # The buildGradlePackage hook places the final JAR in a predictable location.
     mkdir -p $out/bin
+    # Lien symbolique vers le JAR
     ln -s ${buildGradlePackage}/share/java/*.jar $out/bin/companion-backend.jar
+
+    # Création du script de lancement
     cat > $out/bin/companion-backend <<EOF
     #!/bin/sh
     exec ${pkgs.jre}/bin/java -jar $out/bin/companion-backend.jar
     EOF
+
     chmod +x $out/bin/companion-backend
   '';
 })
