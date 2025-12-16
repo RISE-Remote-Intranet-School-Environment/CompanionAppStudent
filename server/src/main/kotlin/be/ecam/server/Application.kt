@@ -91,7 +91,7 @@ fun Application.module() {
     DatabaseFactory.connect()
 
     // (optionnel) Seeds désactivés pour l’instant
-    CatalogService.seedFormationsFromJson()
+    // CatalogService.seedFormationsFromJson()
     // CalendarService.seedCalendarEventsFromJson()
     // CalendarService.seedCourseScheduleFromJson()
     // CatalogService.seedCourseDetailsFromJson()
