@@ -231,10 +231,11 @@ fun CoursesFormationScreen(
                     CoursesState.ProgramList -> {
                         IntroText(database)
                         Spacer(Modifier.height(24.dp))
-                        if (database == null || programs.isEmpty()) {
+                        
+                        if (database == null) {
                             if (loadError != null) {
                                 Text(
-                                    text = "Aucune donnee n'a pu etre chargee.",
+                                    text = loadError ?: "Erreur inconnue",
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.error,
                                     textAlign = TextAlign.Center
@@ -242,6 +243,13 @@ fun CoursesFormationScreen(
                             } else {
                                 CircularProgressIndicator()
                             }
+                        } else if (programs.isEmpty()) {
+                            Text(
+                                text = "Aucune formation trouvée.\n",
+                                style = MaterialTheme.typography.bodyLarge,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.padding(20.dp)
+                            )
                         } else {
                             ProgramGrid(
                                 programs = programs,

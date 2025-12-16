@@ -5,6 +5,8 @@ import be.ecam.companion.data.KtorApiRepository
 import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.viewmodel.HomeViewModel
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.bind
@@ -13,8 +15,15 @@ import org.koin.dsl.module
 // Simple Koin setup for Multiplatform Compose
 val appModule = module {
 
-    // Provide Ktor HttpClient with JSON plugin (base URL includes port; client itself is engine + JSON only)
-    single { platformBuildHttpClient() }
+    // Provide Ktor HttpClient
+    single {
+        platformBuildHttpClient().config {
+            // On installe le plugin JSON sur le client global
+            install(ContentNegotiation) {
+                json(appJson)
+            }
+        }
+    }
 
     // Repository implementations
     single {
@@ -32,7 +41,7 @@ val appModule = module {
 fun buildBaseUrl(host: String, port: Int): String {
     val stripped = host.removePrefix("http://").removePrefix("https://")
         .substringBefore("/")
-        .substringBefore(":") // Enlève aussi un éventuel port déjà présent
+        .substringBefore(":") 
     
     // Si c'est le serveur de prod, utiliser HTTPS sans port explicite
     return if (stripped == "clacoxygen.msrl.be") {
