@@ -2,6 +2,7 @@ package be.ecam.companion.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import be.ecam.companion.data.defaultServerBaseUrl
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -14,6 +15,9 @@ import kotlinx.serialization.Serializable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import be.ecam.companion.utils.saveToken
+import be.ecam.companion.utils.loadToken
+import be.ecam.companion.utils.clearToken 
 
 
 
@@ -46,9 +50,10 @@ data class AuthUserDTO(
 
 @Serializable
 data class AuthResponse(
-    val user: AuthUserDTO? = null,
+    val user: AuthUserDTO,
     val message: String,
-    val token: String? = null
+    val accessToken: String,
+    val refreshToken: String
 )
 
 @Serializable
@@ -80,7 +85,7 @@ class LoginViewModel : ViewModel() {
         private set
 
 
-    fun register(username: String, email: String, password: String, baseUrl: String = "http://localhost:28088") {
+    fun register(username: String, email: String, password: String, baseUrl: String = defaultServerBaseUrl()) {
         viewModelScope.launch {
             isLoading = true
             errorMessage = ""
@@ -106,12 +111,22 @@ class LoginViewModel : ViewModel() {
         }
     }
 
+    init {
+        // Au démarrage, on essaie de récupérer le token
+        val savedToken = loadToken()
+        if (!savedToken.isNullOrBlank()) {
+            jwtToken = savedToken
+            loginSuccess = true
+            // Optionnel : Lancer un fetchMe() ici pour vérifier si le token est toujours valide
+            fetchMe() 
+        }
+    }
 
     /**
      * 🔐 Login via POST /api/auth/login
      */
     fun login(
-        baseUrl: String = "http://localhost:28088",
+        baseUrl: String = defaultServerBaseUrl(),
         emailOrUsername: String,
         password: String
     ) {
@@ -129,8 +144,11 @@ class LoginViewModel : ViewModel() {
                 if (response.status.isSuccess()) {
                     val authResponse: AuthResponse = response.body()
 
-                    jwtToken = authResponse.token
+                    jwtToken = authResponse.accessToken
                     currentUser = authResponse.user
+                    
+                    saveToken(authResponse.accessToken)
+                    
                     loginSuccess = true
                 } else {
                     errorMessage = "Erreur ${response.status.value}: ${response.bodyAsText()}"
@@ -144,8 +162,8 @@ class LoginViewModel : ViewModel() {
     }
 
 
-    fun fetchMe(baseUrl: String = "http://localhost:28088") {
-    viewModelScope.launch {
+    fun fetchMe(baseUrl: String = defaultServerBaseUrl()) {
+        viewModelScope.launch {
         if (jwtToken == null) {
             errorMessage = "Aucun token disponible"
             return@launch
@@ -172,7 +190,7 @@ class LoginViewModel : ViewModel() {
     fun updateMe(
         newUsername: String,
         newEmail: String,
-        baseUrl: String = "http://localhost:28088"
+        baseUrl: String = defaultServerBaseUrl()
     ) {
         viewModelScope.launch {
             val token = jwtToken?.trim()?.removeSurrounding("\"")
@@ -203,11 +221,12 @@ class LoginViewModel : ViewModel() {
 
 
     fun logout() {
-    jwtToken = null
-    currentUser = null
-    loginSuccess = false
-    errorMessage = ""
-    isLoading = false
+        jwtToken = null
+        currentUser = null
+        loginSuccess = false
+        errorMessage = ""
+        isLoading = false
+        clearToken()
     }
 
 }
