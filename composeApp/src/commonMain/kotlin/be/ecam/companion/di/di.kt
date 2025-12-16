@@ -31,8 +31,15 @@ val appModule = module {
 // Helper to build base URL from host and port (force HTTP scheme)
 fun buildBaseUrl(host: String, port: Int): String {
     val stripped = host.removePrefix("http://").removePrefix("https://")
-        .substringBefore("/") // ignore any path if pasted
-    return "http://$stripped:$port"
+        .substringBefore("/")
+        .substringBefore(":") // Enlève aussi un éventuel port déjà présent
+    
+    // Si c'est le serveur de prod, utiliser HTTPS sans port explicite
+    return if (stripped == "clacoxygen.msrl.be") {
+        "https://$stripped"
+    } else {
+        "http://$stripped:$port"
+    }
 }
 
 // Platform-specific client builder (Android adds Logging, others are minimal)
