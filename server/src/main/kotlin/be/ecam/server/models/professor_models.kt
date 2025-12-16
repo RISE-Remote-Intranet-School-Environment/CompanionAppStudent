@@ -15,6 +15,11 @@ object ProfessorsTable : IntIdTable("professors") {
     val phone = varchar("phone", 50).nullable()
     val speciality = varchar("speciality", 255).nullable()
     val fullName = varchar("full_name", 255).nullable()
+    val coursesId = text("courses_id").nullable()
+    val photoUrl = text("photo_url").nullable()
+    val roleTitle = text("role_title").nullable()
+    val roleDetail = text("role_detail").nullable()
+    val diplomas = text("diplomas").nullable()
 }
 
 // DTO pour exposer les professeurs au front
@@ -28,7 +33,12 @@ data class ProfessorDTO(
     val roomIds: String?,
     val phone: String?,
     val speciality: String?,
-    val fullName: String?   
+    val fullName: String?,
+    val coursesId: String?,
+    val photoUrl: String?,
+    val roleTitle: String?,
+    val roleDetail: String?,
+    val diplomas: String?
 )
 
 // mapper ResultRow -> DTO  
@@ -42,7 +52,12 @@ fun ResultRow.toProfessorDTO(): ProfessorDTO =
         roomIds = this[ProfessorsTable.roomIds],
         phone = this[ProfessorsTable.phone],
         speciality = this[ProfessorsTable.speciality],
-        fullName = this[ProfessorsTable.fullName]
+        fullName = this[ProfessorsTable.fullName],
+        coursesId = this[ProfessorsTable.coursesId],
+        photoUrl = this[ProfessorsTable.photoUrl],
+        roleTitle = this[ProfessorsTable.roleTitle],
+        roleDetail = this[ProfessorsTable.roleDetail],
+        diplomas = this[ProfessorsTable.diplomas]
     )
 
 
@@ -56,5 +71,10 @@ data class ProfessorWriteRequest(
     val roomIds: String? = null,
     val phone: String? = null,
     val speciality: String? = null,
-    val fullName: String? = null
+    val fullName: String? = null,
+    val coursesId: String? = null,
+    val photoUrl: String? = null,
+    val roleTitle: String? = null,
+    val roleDetail: String? = null,
+    val diplomas: String? = null
 )
