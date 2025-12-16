@@ -1,0 +1,10 @@
+﻿id,first_name,last_name,ecam_email,student_number,group_code
+1,exemple,ecam,test@ecam.be1,200211,G1
+2,test1,ecam1,test@ecam.be2,202113,G2
+3,test2,ecam2,test@ecam.be3,202112,G3
+4,test3,ecam3,test@ecam.be4,202114,G4
+5,test4,ecam4,test@ecam.be5,220232,G5
+6,test5,ecam5,test@ecam.be6,202112,G6
+7,test6,ecam6,test@ecam.be7,205112,G7
+8,test7,ecam7,test@ecam.be8,202612,G8
+9,test8,ecam8,test@ecam.be9,209112,G9

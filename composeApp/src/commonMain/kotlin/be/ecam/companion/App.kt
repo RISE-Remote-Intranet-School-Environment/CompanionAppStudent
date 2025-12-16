@@ -47,6 +47,7 @@ fun App(extraModules: List<Module> = emptyList()) {
         var themeMode by remember { mutableStateOf(ThemeMode.LIGHT) }
         var textScaleMode by remember { mutableStateOf(TextScaleMode.NORMAL) }
         var screenSizeMode by remember { mutableStateOf(ScreenSizeMode.Default) }
+        var showNotifications by remember { mutableStateOf(false) }
         val baseDensity = LocalDensity.current
 
         CompositionLocalProvider(
@@ -155,7 +156,9 @@ fun App(extraModules: List<Module> = emptyList()) {
                                 onToggleTextScale = { textScaleMode = textScaleMode.next() },
                                 themeMode = themeMode,
                                 onToggleTheme = { themeMode = themeMode.toggle() },
-                                onMenuClick = { scope.launch { drawerState.open() } }
+                                onMenuClick = { scope.launch { drawerState.open() } },
+                                showNotifications = showNotifications,
+                                onNotificationsClick = { showNotifications = !showNotifications }
                             )
                         },
                         bottomBar = {

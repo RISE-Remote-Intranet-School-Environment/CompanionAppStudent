@@ -14,17 +14,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Computer
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material.icons.filled.Public
-import androidx.compose.material.icons.filled.School
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -37,9 +27,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import be.ecam.companion.data.PaeCourse
-import be.ecam.companion.ui.CourseDetail
-import be.ecam.companion.ui.CourseRef
-import be.ecam.companion.ui.CoursesFicheScreen
+import be.ecam.companion.ui.components.BottomBar
+import be.ecam.companion.ui.components.BottomItem
 import be.ecam.companion.viewmodel.HomeViewModel
 
 @Composable
@@ -48,148 +37,130 @@ fun HomeScreen(
     vm: HomeViewModel = viewModel(),
     currentUser: String
 ) {
-    var selectedCourseRef by remember { mutableStateOf<CourseRef?>(null) }
     var searchQuery by remember { mutableStateOf("") }
+    var selectedBottomItem by remember { mutableStateOf(BottomItem.DASHBOARD) }
 
-    LaunchedEffect(currentUser) {
-        vm.load(currentUser)
-    }
+    LaunchedEffect(currentUser) { vm.load(currentUser) }
 
-    val displayName = remember(vm.student, currentUser) {
-        vm.student?.studentName?.takeIf { it.isNotBlank() } ?: currentUser
-    }
+    val displayName = vm.student?.studentName ?: currentUser
 
-    // --- LOGIQUE DE RECHERCHE GLOBALE ---
-    // Si recherche vide -> On affiche "vm.courses" (Mes cours inscrits)
-    // Si recherche active -> On cherche dans "vm.catalogCourses" (Tout le catalogue)
     val displayedCourses = remember(vm.courses, vm.catalogCourses, searchQuery) {
-        if (searchQuery.isBlank()) {
-            vm.courses
-        } else {
-            // Filtrage dans le catalogue complet
-            val results = vm.catalogCourses.filter { detail ->
-                detail.title.contains(searchQuery, ignoreCase = true) ||
-                        detail.code.contains(searchQuery, ignoreCase = true)
-            }
-            // Conversion CourseDetail -> PaeCourse pour l'affichage
-            results.map { detail ->
-                PaeCourse(
-                    code = detail.code,
-                    title = detail.title,
-                    ects = detail.credits?.toIntOrNull() ?: 0
-                )
-            }
+        if (searchQuery.isBlank()) vm.courses
+        else vm.catalogCourses.filter {
+            it.title.contains(searchQuery, true) || it.code.contains(searchQuery, true)
+        }.map {
+            PaeCourse(code = it.code, title = it.title, ects = it.credits?.toIntOrNull() ?: 0)
         }
     }
 
-    AnimatedContent(
-        targetState = selectedCourseRef,
-        transitionSpec = { fadeIn(tween(300)) togetherWith fadeOut(tween(300)) },
-        label = "HomeNavigation"
-    ) { currentSelection ->
+    Column(modifier = Modifier.fillMaxSize()) {
 
-        if (currentSelection != null) {
-            CoursesFicheScreen(
-                courseRef = currentSelection,
-                onBack = { selectedCourseRef = null },
-                modifier = modifier
-            )
-        } else {
-            Column(
-                modifier = modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Top
-            ) {
-                // TITRE (Change selon le mode)
-                Text(
-                    text = if (searchQuery.isBlank()) "Bonjour, $displayName" else "Recherche",
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold
+        AnimatedContent(
+            targetState = vm.selectedCourseForResources,
+            transitionSpec = { fadeIn(tween(200)) togetherWith fadeOut(tween(200)) },
+            label = "Navigation"
+        ) { selectedCourse ->
+
+            if (selectedCourse == null) {
+                // 🎯 ÉCRAN D’ACCUEIL
+                HomeMainScreen(
+                    displayName = displayName,
+                    searchQuery = searchQuery,
+                    onSearchChange = { searchQuery = it },
+                    displayedCourses = displayedCourses,
+                    onCourseClick = {
+                        vm.openCourseResources(it)
+                        selectedBottomItem = BottomItem.DASHBOARD
+                    }
                 )
 
-                Spacer(Modifier.height(16.dp))
-
-                // BARRE DE RECHERCHE
-                OutlinedTextField(
-                    value = searchQuery,
-                    onValueChange = { searchQuery = it },
-                    modifier = Modifier.fillMaxWidth(),
-                    placeholder = { Text("Rechercher dans tout le catalogue...") },
-                    leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-                    trailingIcon = {
-                        if (searchQuery.isNotEmpty()) {
-                            IconButton(onClick = { searchQuery = "" }) {
-                                Icon(Icons.Filled.Clear, contentDescription = "Effacer")
-                            }
-                        }
-                    },
-                    shape = RoundedCornerShape(24.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedContainerColor = MaterialTheme.colorScheme.surface,
-                        unfocusedContainerColor = MaterialTheme.colorScheme.surface
-                    ),
-                    singleLine = true
+            } else {
+                // 🎯 ÉCRAN RESSOURCES
+                CoursesResourcesScreen(
+                    courseCode = selectedCourse.code ?: "",
+                    courseTitle = selectedCourse.title ?: "",
+                    onBack = { vm.closeCourseResources() }
                 )
+            }
+        }
 
-                Spacer(Modifier.height(16.dp))
+        // 🎯 BOTTOM BAR
+        BottomBar(
+            selected = selectedBottomItem,
+            onSelect = { item ->
+                selectedBottomItem = item
 
-                // SOUS-TITRE
-                Text(
-                    text = if (searchQuery.isBlank()) "Mes espaces de cours" else "Résultats globaux (${displayedCourses.size})",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.secondary
-                )
+                when (item) {
+                    BottomItem.DASHBOARD -> vm.closeCourseResources()
+                    else -> {} // autres onglets si ajoutés plus tard
+                }
+            }
+        )
+    }
+}
 
-                Spacer(Modifier.height(8.dp))
+@Composable
+fun HomeMainScreen(
+    displayName: String,
+    searchQuery: String,
+    onSearchChange: (String) -> Unit,
+    displayedCourses: List<PaeCourse>,
+    onCourseClick: (PaeCourse) -> Unit
+) {
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
-                // GRILLE
-                Surface(
-                    modifier = Modifier.fillMaxWidth().weight(1f),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    if (searchQuery.isBlank() && vm.courses.isEmpty()) {
-                        Box(contentAlignment = Alignment.Center) {
-                            if (vm.student == null) CircularProgressIndicator()
-                            else Text("Aucun cours inscrit.")
-                        }
-                    } else if (searchQuery.isNotBlank() && displayedCourses.isEmpty()) {
-                        Box(contentAlignment = Alignment.Center) {
-                            Text("Aucun résultat trouvé dans le catalogue.")
-                        }
-                    } else {
-                        LazyVerticalGrid(
-                            // 280.dp pour garder les cartes larges (style Claco)
-                            columns = GridCells.Adaptive(minSize = 280.dp),
-                            horizontalArrangement = Arrangement.spacedBy(16.dp),
-                            verticalArrangement = Arrangement.spacedBy(16.dp),
-                            contentPadding = PaddingValues(bottom = 24.dp)
-                        ) {
-                            items(displayedCourses) { course ->
-                                CourseCard(
-                                    course = course,
-                                    onClick = {
-                                        val code = course.code ?: ""
-                                        selectedCourseRef = CourseRef(code = code, detailsUrl = null)
-                                    }
-                                )
-                            }
-                        }
+        Text(
+            text = if (searchQuery.isBlank()) "Bonjour, $displayName" else "Recherche",
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold
+        )
+
+        Spacer(Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = searchQuery,
+            onValueChange = onSearchChange,
+            modifier = Modifier.fillMaxWidth(),
+            placeholder = { Text("Rechercher dans tout le catalogue...") },
+            leadingIcon = { Icon(Icons.Filled.Search, null) },
+            trailingIcon = {
+                if (searchQuery.isNotEmpty()) {
+                    IconButton(onClick = { onSearchChange("") }) {
+                        Icon(Icons.Filled.Clear, "Effacer")
                     }
                 }
+            },
+            shape = RoundedCornerShape(24.dp),
+            singleLine = true
+        )
+
+        Spacer(Modifier.height(16.dp))
+
+        Text(
+            text = if (searchQuery.isBlank()) "Mes espaces de cours"
+            else "Résultats (${displayedCourses.size})",
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.secondary
+        )
+
+        Spacer(Modifier.height(8.dp))
+
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = 280.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.weight(1f)
+        ) {
+            items(displayedCourses) { course ->
+                CourseCard(course = course, onClick = { onCourseClick(course) })
             }
         }
     }
 }
 
 @Composable
-fun CourseCard(
-    course: PaeCourse,
-    onClick: () -> Unit
-) {
-    val theme = remember(course.title) { getCourseTheme(course.title ?: "") }
-    val cardColor = theme.first
-    val cardIcon = theme.second
+fun CourseCard(course: PaeCourse, onClick: () -> Unit) {
+    val (color, icon) = getCourseTheme(course.title ?: "")
 
     Card(
         modifier = Modifier
@@ -197,77 +168,41 @@ fun CourseCard(
             .height(200.dp)
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+        elevation = CardDefaults.cardElevation(3.dp)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
+
             Box(
                 modifier = Modifier
-                    .weight(0.65f)
+                    .weight(0.6f)
                     .fillMaxWidth()
                     .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(cardColor.copy(alpha = 0.15f), cardColor.copy(alpha = 0.05f))
+                        Brush.verticalGradient(
+                            listOf(color.copy(.15f), color.copy(.05f))
                         )
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = cardIcon,
-                    contentDescription = null,
-                    modifier = Modifier.size(64.dp),
-                    tint = cardColor
-                )
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(8.dp)
-                        .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(4.dp))
-                        .padding(horizontal = 6.dp, vertical = 2.dp)
-                ) {
-                    Text(
-                        text = "${course.ects ?: 0} ECTS",
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+                Icon(icon, null, tint = color, modifier = Modifier.size(60.dp))
             }
-            Column(
-                modifier = Modifier
-                    .weight(0.35f)
-                    .fillMaxWidth()
-                    .padding(12.dp),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = course.title ?: "Cours sans titre",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Spacer(Modifier.height(4.dp))
-                Text(
-                    text = course.code?.uppercase() ?: "----",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.secondary
-                )
+
+            Column(modifier = Modifier.padding(12.dp)) {
+                Text(course.title ?: "", fontWeight = FontWeight.Bold)
+                Text(course.code ?: "", color = MaterialTheme.colorScheme.secondary)
             }
         }
     }
 }
 
 private fun getCourseTheme(title: String): Pair<Color, ImageVector> {
-    val lower = title.lowercase()
+    val t = title.lowercase()
     return when {
-        "mobile" in lower || "android" in lower || "java" in lower -> Color(0xFF4CAF50) to Icons.Filled.Phone
-        "web" in lower || "architecture" in lower -> Color(0xFFE91E63) to Icons.Filled.Public
-        "data" in lower || "base" in lower -> Color(0xFF2196F3) to Icons.Filled.Star
-        "intelligence" in lower || "ai" in lower -> Color(0xFF9C27B0) to Icons.Filled.Person
-        "network" in lower || "réseau" in lower -> Color(0xFFFF9800) to Icons.Filled.Share
-        "security" in lower || "sécurité" in lower -> Color(0xFFF44336) to Icons.Filled.Lock
-        "gpu" in lower || "chip" in lower || "system" in lower -> Color(0xFF607D8B) to Icons.Filled.Build
+        "mobile" in t || "android" in t || "java" in t -> Color(0xFF4CAF50) to Icons.Filled.Phone
+        "web" in t || "architecture" in t -> Color(0xFFE91E63) to Icons.Filled.Public
+        "data" in t || "base" in t -> Color(0xFF2196F3) to Icons.Filled.Star
+        "network" in t -> Color(0xFFFF9800) to Icons.Filled.Share
+        "security" in t -> Color(0xFFF44336) to Icons.Filled.Lock
+        "gpu" in t -> Color(0xFF607D8B) to Icons.Filled.Build
         else -> Color(0xFF607D8B) to Icons.Filled.School
     }
 }

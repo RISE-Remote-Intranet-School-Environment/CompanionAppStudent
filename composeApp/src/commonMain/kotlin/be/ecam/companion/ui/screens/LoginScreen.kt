@@ -80,7 +80,7 @@ fun LoginScreen(
                 if (viewModel.errorMessage.isNotEmpty()) {
                     Spacer(Modifier.height(12.dp))
                     Text(
-                        text = viewModel.errorMessage,
+                        "Utilisateur introuvable",
                         color = Color.Red,
                         style = MaterialTheme.typography.bodyMedium
                     )

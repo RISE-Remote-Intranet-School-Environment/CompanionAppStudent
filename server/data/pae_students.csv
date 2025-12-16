@@ -1,0 +1,3 @@
+﻿id,student_id,student_name,email,role,program,enrol_year,formation_id,bloc_id,course_ids
+1,25363,Nirina Crépin,ncrepin@ecam.be,Etudiant,5MIN,2025,ingenieur_industriel_commercial,bloc_5,4eial40;4eiam40;4eiaw40;4eidb40;4einm40;4eisa40;4eoai40;4eore40;5eisd50;5eitf50
+18,21523,Nicolas Scheel,nschell@ecam.be,Etudiant,3BA,2021,informatique,bloc_3,4eiai40;4eial40;4eiam40;4eiaw40;4eidb40;4einm40;4eisa40;4eisd40;4eope40;4eore40;4eosi40

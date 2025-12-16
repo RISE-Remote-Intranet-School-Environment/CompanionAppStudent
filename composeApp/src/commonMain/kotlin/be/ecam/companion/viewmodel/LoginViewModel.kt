@@ -31,10 +31,17 @@ data class RegisterRequest(
 )
 
 @Serializable
+enum class UserRole { ADMIN, PROF, STUDENT }
+
+
+@Serializable
 data class AuthUserDTO(
     val id: Int,
     val username: String,
-    val email: String
+    val email: String,
+    val role: UserRole,
+    val avatarUrl: String? = null
+
 )
 
 @Serializable
@@ -42,6 +49,12 @@ data class AuthResponse(
     val user: AuthUserDTO? = null,
     val message: String,
     val token: String? = null
+)
+
+@Serializable
+data class UpdateMeResponse(
+    val user: AuthUserDTO,
+    val message: String
 )
 
 class LoginViewModel : ViewModel() {
@@ -140,7 +153,9 @@ class LoginViewModel : ViewModel() {
 
         try {
             val response: HttpResponse = client.get("$baseUrl/api/auth/me") {
-                header("Authorization", "Bearer $jwtToken")
+                val token = jwtToken?.trim()?.removeSurrounding("\"")
+                header(HttpHeaders.Authorization, "Bearer $token")
+                //header("Authorization", "Bearer $jwtToken")
             }
 
             if (response.status.isSuccess()) {
@@ -154,39 +169,50 @@ class LoginViewModel : ViewModel() {
     }
 }
 
-fun updateMe(
-    newUsername: String,
-    newEmail: String,
-    baseUrl: String = "http://localhost:28088"
-) {
-    viewModelScope.launch {
-        if (jwtToken == null) {
-            errorMessage = "Aucun token disponible"
-            return@launch
-        }
-
-        try {
-            val response: HttpResponse = client.put("$baseUrl/api/auth/me") {
-                header("Authorization", "Bearer $jwtToken")
-                contentType(ContentType.Application.Json)
-                setBody(
-                    mapOf(
-                        "username" to newUsername,
-                        "email" to newEmail
-                    )
-                )
+    fun updateMe(
+        newUsername: String,
+        newEmail: String,
+        baseUrl: String = "http://localhost:28088"
+    ) {
+        viewModelScope.launch {
+            val token = jwtToken?.trim()?.removeSurrounding("\"")
+            if (token.isNullOrBlank()) {
+                errorMessage = "Aucun token disponible"
+                return@launch
             }
 
-            if (response.status.isSuccess()) {
-                currentUser = response.body()
-            } else {
-                errorMessage = "Erreur updateMe : ${response.bodyAsText()}"
+            try {
+                val response: HttpResponse = client.put("$baseUrl/api/auth/me") {
+                    header(HttpHeaders.Authorization, "Bearer $token")
+                    contentType(ContentType.Application.Json)
+                    setBody(mapOf("username" to newUsername, "email" to newEmail))
+                }
+
+                if (response.status.isSuccess()) {
+                    val updated: UpdateMeResponse = response.body()
+                    currentUser = updated.user
+                    
+                } else {
+                    errorMessage = "Erreur updateMe (${response.status.value}) : ${response.bodyAsText()}"
+                }
+            } catch (e: Exception) {
+                errorMessage = "Erreur updateMe : ${e.message}"
             }
-        } catch (e: Exception) {
-            errorMessage = "Erreur updateMe : ${e.message}"
         }
     }
+
+
+    fun logout() {
+    jwtToken = null
+    currentUser = null
+    loginSuccess = false
+    errorMessage = ""
+    isLoading = false
+    }
+
 }
 
 
-}
+
+
+

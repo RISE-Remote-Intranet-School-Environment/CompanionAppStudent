@@ -9,7 +9,6 @@ import be.ecam.companion.data.ApiRepository
 import be.ecam.companion.data.PaeCourse
 import be.ecam.companion.data.PaeRepository
 import be.ecam.companion.data.PaeStudent
-// 👇 IMPORTANT : Importez la classe CourseDetail qui est dans votre package UI
 import be.ecam.companion.ui.CourseDetail
 import companion.composeapp.generated.resources.Res
 import kotlinx.coroutines.launch
@@ -31,7 +30,7 @@ class HomeViewModel(
     var courses by mutableStateOf<List<PaeCourse>>(emptyList())
         private set
 
-    // 👇 AJOUT : Le catalogue complet pour la recherche
+    // Catalogue complet (pour la recherche)
     var catalogCourses by mutableStateOf<List<CourseDetail>>(emptyList())
         private set
 
@@ -41,7 +40,11 @@ class HomeViewModel(
     var lastErrorMessage by mutableStateOf("")
         private set
 
-    @OptIn(ExperimentalResourceApi::class) // Nécessaire pour Res.readBytes
+    // 🔥 NOUVEAU : cours sélectionné pour afficher ses ressources
+    var selectedCourseForResources by mutableStateOf<PaeCourse?>(null)
+        private set
+
+    @OptIn(ExperimentalResourceApi::class)
     fun load(userIdentifier: String = "nicolas.schell") {
 
         // 1. Hello Message
@@ -91,9 +94,9 @@ class HomeViewModel(
             }
         }
 
-        // 👇 4. AJOUT : Chargement du catalogue complet pour la recherche
+        // 4. Chargement du catalogue complet
         viewModelScope.launch {
-            if (catalogCourses.isEmpty()) { // On charge une seule fois
+            if (catalogCourses.isEmpty()) {
                 try {
                     val bytes = Res.readBytes("files/ecam_courses_details_2025.json")
                     val json = Json { ignoreUnknownKeys = true; isLenient = true }
@@ -105,12 +108,19 @@ class HomeViewModel(
         }
     }
 
+    // 🔥 NOUVELLES FONCTIONS POUR LA NAVIGATION RESSOURCES
+
+    fun openCourseResources(course: PaeCourse) {
+        selectedCourseForResources = course
+    }
+
+    fun closeCourseResources() {
+        selectedCourseForResources = null
+    }
+
     private fun friendlyErrorMessage(t: Throwable): String {
         val msg = t.message ?: ""
         val simple = t::class.simpleName ?: "Error"
         return "Cannot reach the server. ($simple: $msg)"
     }
 }
-
-
-
