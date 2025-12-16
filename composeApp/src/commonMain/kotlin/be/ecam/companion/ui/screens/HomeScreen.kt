@@ -42,7 +42,12 @@ fun HomeScreen(
 
     LaunchedEffect(currentUser) { vm.load(currentUser) }
 
-    val displayName = vm.student?.studentName ?: currentUser
+    val displayName = remember(vm.student, currentUser) {
+        listOfNotNull(vm.student?.studentName, vm.student?.username, currentUser)
+            .firstOrNull { it.isNotBlank() }
+            ?.trim()
+            ?: "utilisateur"
+    }
 
     val displayedCourses = remember(vm.courses, vm.catalogCourses, searchQuery) {
         if (searchQuery.isBlank()) vm.courses
@@ -53,7 +58,7 @@ fun HomeScreen(
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = modifier.fillMaxSize()) {
 
         AnimatedContent(
             targetState = vm.selectedCourseForResources,
@@ -112,7 +117,8 @@ fun HomeMainScreen(
         Text(
             text = if (searchQuery.isBlank()) "Bonjour, $displayName" else "Recherche",
             style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface
         )
 
         Spacer(Modifier.height(16.dp))

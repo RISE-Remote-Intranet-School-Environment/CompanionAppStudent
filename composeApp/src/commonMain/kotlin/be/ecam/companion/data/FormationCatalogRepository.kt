@@ -3,6 +3,8 @@ package be.ecam.companion.data
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.request.header
+import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.sync.Mutex
@@ -22,7 +24,8 @@ data class FormationCatalogResult(
  */
 class FormationCatalogRepository(
     private val client: HttpClient,
-    private val baseUrlProvider: () -> String
+    private val baseUrlProvider: () -> String,
+    private val authTokenProvider: () -> String? = { null }
 ) {
     private val mutex = Mutex()
     private var cached: FormationCatalogResult? = null
@@ -53,22 +56,35 @@ class FormationCatalogRepository(
     }
 
     private suspend fun fetchFromServer(baseUrl: String): FormationDatabase = coroutineScope {
+        val token = authTokenProvider()
+            ?.trim()
+            ?.removeSurrounding("\"")
+            ?.takeIf { it.isNotBlank() }
+
         val formations: List<ServerFormationDto> = client
-            .get("$baseUrl/api/formations")
+            .get("$baseUrl/api/formations") {
+                token?.let { tokenValue ->
+                    header(HttpHeaders.Authorization, "Bearer $tokenValue")
+                }
+            }
             .body()
 
-        val coursesBySlug = formations.associate { formation ->
-            formation.slug to async {
+        val coursesByFormation = formations.associate { formation ->
+            formation.formationId to async {
                 client
-                    .get("$baseUrl/api/formations/${formation.slug}/courses")
+                    .get("$baseUrl/api/courses/by-formation/${formation.formationId}") {
+                        token?.let { tokenValue ->
+                            header(HttpHeaders.Authorization, "Bearer $tokenValue")
+                        }
+                    }
                     .body<List<ServerCourseDto>>()
             }
         }.mapValues { it.value.await() }
 
         val mappedFormations = formations.map { formation ->
-            val courses = coursesBySlug[formation.slug].orEmpty()
+            val courses = coursesByFormation[formation.formationId].orEmpty()
             val blocks = courses
-                .groupBy { course -> course.bloc?.takeIf { it.isNotBlank() } ?: "Bloc 1" }
+                .groupBy { course -> course.blocId?.takeIf { it.isNotBlank() } ?: "Bloc 1" }
                 .map { (blocName, blocCourses) ->
                     FormationBlock(
                         name = blocName,
@@ -77,12 +93,12 @@ class FormationCatalogRepository(
                 }
 
             Formation(
-                id = formation.slug,
+                id = formation.formationId,
                 name = formation.name,
                 sourceUrl = formation.sourceUrl,
                 notes = null,
                 blocks = blocks,
-                imageKey = formation.imageKey,
+                imageKey = null,
                 imageUrl = formation.imageUrl
             )
         }
@@ -99,22 +115,21 @@ class FormationCatalogRepository(
 @Serializable
 private data class ServerFormationDto(
     val id: Int? = null,
-    val slug: String,
+    @SerialName("formationId") val formationId: String,
     val name: String,
-    @SerialName("source_url") val sourceUrl: String? = null,
-    @SerialName("image_key") val imageKey: String? = null,
-    @SerialName("image_url") val imageUrl: String? = null
+    @SerialName("sourceUrl") val sourceUrl: String? = null,
+    @SerialName("imageUrl") val imageUrl: String? = null
 )
 
 @Serializable
 private data class ServerCourseDto(
     val id: Int? = null,
-    val code: String,
+    @SerialName("courseId") val courseId: String,
     val title: String,
     val credits: Int? = null,
-    val bloc: String? = null,
+    @SerialName("blocId") val blocId: String? = null,
     val periods: String? = null,
-    @SerialName("details_url") val detailsUrl: String? = null
+    @SerialName("detailsUrl") val detailsUrl: String? = null
 )
 
 private fun ServerCourseDto.toFormationCourse(): FormationCourse {
@@ -125,7 +140,7 @@ private fun ServerCourseDto.toFormationCourse(): FormationCourse {
         ?: emptyList()
 
     return FormationCourse(
-        code = code,
+        code = courseId,
         title = title,
         credits = credits?.toDouble() ?: 0.0,
         periods = periodsList,
