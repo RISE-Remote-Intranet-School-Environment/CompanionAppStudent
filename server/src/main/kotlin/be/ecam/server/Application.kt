@@ -106,16 +106,17 @@ fun Application.module() {
         route("/api") {
 
             // Routes publiques
+            get("/hello") {
+                call.respond(HttpStatusCode.OK, mapOf("message" to "Hello from Companion backend"))
+            }
+            get("/schedule") {
+                call.respond(HttpStatusCode.OK, emptyMap<String, List<String>>())
+            }
             authRoutes()
-
-            
-
-            
 
             //  Routes protégées (JWT) 
             authenticate("auth-jwt") {
 
-                
                 formationRoutes()
                 blocRoutes()
                 yearRoutes()
@@ -135,8 +136,6 @@ fun Application.module() {
                 paeStudentRoutes()
                 studentSubmissionsRoutes()
                 courseResourcesRoutes()
-               
-                
             }
         }
     }

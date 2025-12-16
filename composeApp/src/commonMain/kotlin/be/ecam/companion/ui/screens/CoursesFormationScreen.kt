@@ -71,6 +71,7 @@ import org.koin.compose.koinInject
 fun CoursesFormationScreen(
     modifier: Modifier = Modifier,
     resetTrigger: Int = 0,
+    authToken: String? = null,
     onContextChange: (String?) -> Unit = {},
     onCourseSelected: ((CourseRef) -> Unit)? = null,
     onOpenCourseCalendar: (String?, String?) -> Unit = { _, _ -> }
@@ -79,12 +80,25 @@ fun CoursesFormationScreen(
     val settingsRepo = koinInject<SettingsRepository>()
     val host by settingsRepo.serverHostFlow.collectAsState(settingsRepo.getServerHost())
     val port by settingsRepo.serverPortFlow.collectAsState(settingsRepo.getServerPort())
-    val formationsRepo = remember(httpClient, host, port) {
-        FormationCatalogRepository(httpClient) { buildBaseUrl(host, port) }
+    val bearerToken = remember(authToken) {
+        authToken?.trim()?.removeSurrounding("\"")?.takeIf { it.isNotBlank() }
+    }
+    val formationsRepo = remember(httpClient, host, port, bearerToken) {
+        FormationCatalogRepository(
+            client = httpClient,
+            baseUrlProvider = { buildBaseUrl(host, port) },
+            authTokenProvider = { bearerToken }
+        )
     }
 
     var loadError by remember { mutableStateOf<String?>(null) }
-    val catalogResult by produceState<FormationCatalogResult?>(initialValue = null, key1 = resetTrigger, key2 = host, key3 = port) {
+    val catalogResult by produceState<FormationCatalogResult?>(
+        initialValue = null,
+        resetTrigger,
+        host,
+        port,
+        bearerToken
+    ) {
         loadError = null
         value = try {
             formationsRepo.load()

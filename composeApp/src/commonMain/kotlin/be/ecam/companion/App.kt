@@ -187,6 +187,7 @@ fun App(extraModules: List<Module> = emptyList()) {
                             showCoursesPage -> CoursesFormationScreen(
                                 modifier = baseModifier,
                                 resetTrigger = coursesResetCounter,
+                                authToken = loginViewModel.jwtToken,
                                 onContextChange = { coursesTitleSuffix = it },
                                 onOpenCourseCalendar = { yearOption, series ->
                                     showCoursesPage = false
