@@ -39,9 +39,20 @@ fun Application.module() {
 
     // cors
     install(CORS) {
-        anyHost()
+        // Supprimez anyHost()
+        
+        // 1. Autoriser le développement local (Wasm/JS tourne souvent sur 8080 ou 3000)
+        allowHost("localhost:28088")
+        allowHost("127.0.0.1:28088")
+        
+        // 2. Autoriser votre domaine de production (OBLIGATOIRE pour le client Web)
+        allowHost("clacoxygen.msrl.be", schemes = listOf("https"))
+
         allowHeader(HttpHeaders.ContentType)
         allowHeader(HttpHeaders.Authorization)
+        
+        // Autoriser les headers personnalisés si vous en utilisez (ex: X-User-Id)
+        allowHeader("X-User-Id")
 
         allowMethod(HttpMethod.Get)
         allowMethod(HttpMethod.Post)
@@ -49,6 +60,9 @@ fun Application.module() {
         allowMethod(HttpMethod.Patch)
         allowMethod(HttpMethod.Delete)
         allowMethod(HttpMethod.Options)
+        
+        // Permet d'envoyer des cookies ou headers d'auth
+        allowCredentials = true 
     }
 
     // jwt authentication

@@ -35,33 +35,17 @@ fun Route.authRoutes() {
         }
 
         try {
-            val user = AuthService.register(
-                RegisterRequest(
-                    username = body.username.trim(),
-                    email = body.email.trim(),
-                    password = body.password
-                )
-            )
-
-            val token = JwtService.generateToken(user)
-
-            call.respond(
-                HttpStatusCode.Created,
-                AuthResponse(
-                    user = user,
-                    message = "Compte créé",
-                    token = token
-                )
-            )
+            // AuthService.register renvoie maintenant AuthResponse directement
+            val response = AuthService.register(body)
+            call.respond(HttpStatusCode.Created, response)
         } catch (e: IllegalArgumentException) {
             call.respond(HttpStatusCode.Conflict, e.message ?: "Conflit")
         } catch (e: IllegalStateException) {
-            call.respond(HttpStatusCode.Conflict, e.message ?: "Conflit")
+            call.respond(HttpStatusCode.Conflict, e.message ?: "Erreur serveur")
         }
     }
 
-
-    // login (PUBLIC)
+    // POST /api/auth/login
     post("/auth/login") {
         val body = runCatching { call.receive<LoginRequest>() }.getOrElse {
             call.respond(HttpStatusCode.BadRequest, "JSON invalide")
@@ -69,26 +53,30 @@ fun Route.authRoutes() {
         }
 
         try {
-            val user = AuthService.login(
-                LoginRequest(
-                    emailOrUsername = body.emailOrUsername.trim(),
-                    password = body.password
-                )
-            )
+            val response = AuthService.login(body)
+            call.respond(response)
+        } catch (e: Exception) {
+            call.respond(HttpStatusCode.Unauthorized, "Identifiants invalides")
+        }
+    }
 
-            val token = JwtService.generateToken(user)
+    // POST /api/auth/refresh (NOUVEAU)
+    post("/auth/refresh") {
+        // On attend { "refreshToken": "..." }
+        val body = call.receive<Map<String, String>>()
+        val refreshToken = body["refreshToken"]
 
-            call.respond(
-                AuthResponse(
-                    user = user,
-                    message = "Connexion OK",
-                    token = token
-                )
-            )
-        } catch (e: IllegalArgumentException) {
-            call.respond(HttpStatusCode.Unauthorized, e.message ?: "Identifiants invalides")
-        } catch (e: IllegalStateException) {
-            call.respond(HttpStatusCode.Unauthorized, e.message ?: "Identifiants invalides")
+        if (refreshToken.isNullOrBlank()) {
+            call.respond(HttpStatusCode.BadRequest, "Refresh token manquant")
+            return@post
+        }
+
+        val newAuthResponse = AuthService.refreshToken(refreshToken)
+
+        if (newAuthResponse != null) {
+            call.respond(newAuthResponse)
+        } else {
+            call.respond(HttpStatusCode.Unauthorized, "Refresh token invalide ou expiré")
         }
     }
 

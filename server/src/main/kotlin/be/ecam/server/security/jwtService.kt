@@ -6,33 +6,30 @@ import com.auth0.jwt.algorithms.Algorithm
 import java.util.*
 
 object JwtService {
-
     private val algorithm = Algorithm.HMAC256(JwtConfig.secret)
 
-    private const val EXPIRATION_MS = 1000L * 60 * 60 * 24 // 24h
-
-    fun generateToken(user: AuthUserDTO): String {
+    fun generateAccessToken(user: AuthUserDTO): String {
         val now = Date()
-
         return JWT.create()
             .withIssuer(JwtConfig.issuer)
             .withAudience(JwtConfig.audience)
-
-            // Sujet du token 
             .withSubject(user.id.toString())
-
-            // Claims usuels
             .withClaim("id", user.id)
-            .withClaim("username", user.username)
-            .withClaim("email", user.email)
-
-            // Claim CRUCIAL pour gérer les droits admin / prof / student
             .withClaim("role", user.role.name)
-
-            // timestamps
             .withIssuedAt(now)
-            .withExpiresAt(Date(now.time + EXPIRATION_MS))
+            .withExpiresAt(Date(now.time + JwtConfig.ACCESS_TOKEN_EXPIRATION))
+            .sign(algorithm)
+    }
 
+    fun generateRefreshToken(user: AuthUserDTO): String {
+        // Le refresh token est opaque ou simple, ici un JWT long pour simplifier la validation
+        val now = Date()
+        return JWT.create()
+            .withIssuer(JwtConfig.issuer)
+            .withAudience(JwtConfig.audience)
+            .withSubject(user.id.toString())
+            .withIssuedAt(now)
+            .withExpiresAt(Date(now.time + JwtConfig.REFRESH_TOKEN_EXPIRATION))
             .sign(algorithm)
     }
 }

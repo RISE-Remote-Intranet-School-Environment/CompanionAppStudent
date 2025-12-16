@@ -51,7 +51,9 @@ object DatabaseFactory {
                 PaeStudentsTable,
                 NotesStudentsTable,
                 StudentSubmissionsTable,
-                CourseResourcesTable
+                CourseResourcesTable, 
+
+                RefreshTokensTable
             )
 
             println(

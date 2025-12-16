@@ -36,5 +36,6 @@ data class AuthUserDTO(
 data class AuthResponse(
     val user: AuthUserDTO,
     val message: String,
-    val token: String
+    val accessToken: String,
+    val refreshToken: String
 )
