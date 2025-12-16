@@ -36,8 +36,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupProperties
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import kotlinx.datetime.*
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.number
@@ -225,16 +225,13 @@ fun CalendarScreen(
 
     if (dialogDate != null && mode == CalendarMode.Month) {
         val items = eventsByDate[dialogDate] ?: emptyList()
-        Popup(
-            alignment = Alignment.Center,
+        Dialog(
             onDismissRequest = { dialogDate = null },
-            properties = PopupProperties(focusable = true)
+            properties = DialogProperties(dismissOnClickOutside = true, usePlatformDefaultWidth = true)
         ) {
-            Box(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .widthIn(max = 520.dp)
-            ) {
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)) {
                 SelectedDayEvents(
                     date = dialogDate!!,
                     events = items,
@@ -331,7 +328,7 @@ private fun SelectedDayEvents(
         shape = RoundedCornerShape(12.dp),
         tonalElevation = 1.dp,
         shadowElevation = 1.dp,
-        color = MaterialTheme.colorScheme.surface
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.92f)
     ) {
         Column(
             modifier = Modifier
