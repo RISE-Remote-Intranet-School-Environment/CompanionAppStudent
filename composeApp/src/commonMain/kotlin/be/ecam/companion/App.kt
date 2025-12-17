@@ -203,7 +203,10 @@ fun App(extraModules: List<Module> = emptyList()) {
                                 }
                             )
 
-                            showProfessorsPage -> ProfessorsScreen(baseModifier)
+                            showProfessorsPage -> ProfessorsScreen(
+                                modifier = baseModifier,
+                                authToken = loginViewModel.jwtToken
+                            )
 
                             showPaePage -> MonPaeScreen(
                                 modifier = baseModifier,
