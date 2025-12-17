@@ -1919,6 +1919,40 @@
       "hash": "sha256-wuM+orbZsKFj1XjXctRN0h3KfXEXmCtBekOlFDTO5Mc="
     }
   },
+  "io.ktor:ktor-server-auto-head-response:3.3.0": {
+    "ktor-server-auto-head-response-3.3.0.module": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-server-auto-head-response/3.3.0/ktor-server-auto-head-response-3.3.0.module",
+      "hash": "sha256-KMPGzoAHlfufKPJ525GLpXrUuPu0IKXPi21Gk0byce8="
+    },
+    "ktor-server-auto-head-response-3.3.0.pom": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-server-auto-head-response/3.3.0/ktor-server-auto-head-response-3.3.0.pom",
+      "hash": "sha256-+ltf+7d19eYTRSSEfd6GatyKB7MKHGMKwO7nznZ8yFU="
+    }
+  },
+  "io.ktor:ktor-server-auto-head-response:2.3.6": {
+    "ktor-server-auto-head-response-2.3.6.module": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-server-auto-head-response/2.3.6/ktor-server-auto-head-response-2.3.6.module",
+      "hash": "sha256-t3/8s+TwtSpsdklxzOSpOpUCTK45iR+Jm9cOaVKXD/k="
+    },
+    "ktor-server-auto-head-response-2.3.6.pom": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-server-auto-head-response/2.3.6/ktor-server-auto-head-response-2.3.6.pom",
+      "hash": "sha256-wAdu+VTqqS3lJeJgaSLCoDBdm5V6d8bEgkYv2y2gW+Y="
+    }
+  },
+  "io.ktor:ktor-server-auto-head-response-jvm:3.3.0": {
+    "ktor-server-auto-head-response-jvm-3.3.0.jar": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-server-auto-head-response-jvm/3.3.0/ktor-server-auto-head-response-jvm-3.3.0.jar",
+      "hash": "sha256-2Nqw1nbgEcmcREgi4XhyLrovO/xfC57BgfUVN0I7Z70="
+    },
+    "ktor-server-auto-head-response-jvm-3.3.0.module": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-server-auto-head-response-jvm/3.3.0/ktor-server-auto-head-response-jvm-3.3.0.module",
+      "hash": "sha256-1HI138mve07/m5dgSYY7A81fjZEMoVj1smQMkMJKJL8="
+    },
+    "ktor-server-auto-head-response-jvm-3.3.0.pom": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-server-auto-head-response-jvm/3.3.0/ktor-server-auto-head-response-jvm-3.3.0.pom",
+      "hash": "sha256-1QOkrW7yCABhh+2L5NMhVNFaNune+gjaJXgcY3WPj5w="
+    }
+  },
   "io.ktor:ktor-server-call-logging:3.3.0": {
     "ktor-server-call-logging-3.3.0.module": {
       "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-server-call-logging/3.3.0/ktor-server-call-logging-3.3.0.module",

@@ -46,7 +46,6 @@ dependencies {
     implementation("io.ktor:ktor-server-auth-jwt:2.3.6")
     implementation("com.auth0:java-jwt:4.4.0")
 
-
-
+    implementation("io.ktor:ktor-server-auto-head-response:2.3.6")
 
 }
