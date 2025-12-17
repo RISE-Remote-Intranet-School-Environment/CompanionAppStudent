@@ -112,13 +112,25 @@ class LoginViewModel : ViewModel() {
     }
 
     init {
-        // Au démarrage, on essaie de récupérer le token
         val savedToken = loadToken()
         if (!savedToken.isNullOrBlank()) {
             jwtToken = savedToken
-            loginSuccess = true
-            // Optionnel : Lancer un fetchMe() ici pour vérifier si le token est toujours valide
-            fetchMe() 
+            viewModelScope.launch {
+                try {
+                    val response: HttpResponse = client.get("${defaultServerBaseUrl()}/api/auth/me") {
+                        val token = savedToken.trim().removeSurrounding("\"")
+                        header(HttpHeaders.Authorization, "Bearer $token")
+                    }
+                    if (response.status.isSuccess()) {
+                        currentUser = response.body()
+                        loginSuccess = true
+                    } else {
+                        logout()
+                    }
+                } catch (e: Exception) {
+                    logout()
+                }
+            }
         }
     }
 

@@ -61,28 +61,18 @@ class FormationCatalogRepository(
             ?.removeSurrounding("\"")
             ?.takeIf { it.isNotBlank() }
 
-        val formations: List<ServerFormationDto> = client
-            .get("$baseUrl/api/formations") {
+        val responseItems: List<FormationWithCoursesDto> = client
+            .get("$baseUrl/api/formations/with-courses") {
                 token?.let { tokenValue ->
                     header(HttpHeaders.Authorization, "Bearer $tokenValue")
                 }
             }
             .body()
 
-        val coursesByFormation = formations.associate { formation ->
-            formation.formationId to async {
-                client
-                    .get("$baseUrl/api/courses/by-formation/${formation.formationId}") {
-                        token?.let { tokenValue ->
-                            header(HttpHeaders.Authorization, "Bearer $tokenValue")
-                        }
-                    }
-                    .body<List<ServerCourseDto>>()
-            }
-        }.mapValues { it.value.await() }
+        val mappedFormations = responseItems.map { item ->
+            val formation = item.formation
+            val courses = item.courses
 
-        val mappedFormations = formations.map { formation ->
-            val courses = coursesByFormation[formation.formationId].orEmpty()
             val blocks = courses
                 .groupBy { course -> course.blocId?.takeIf { it.isNotBlank() } ?: "Bloc 1" }
                 .map { (blocName, blocCourses) ->
@@ -111,6 +101,12 @@ class FormationCatalogRepository(
         )
     }
 }
+
+@Serializable
+private data class FormationWithCoursesDto(
+    val formation: ServerFormationDto,
+    val courses: List<ServerCourseDto>
+)
 
 @Serializable
 private data class ServerFormationDto(

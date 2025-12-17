@@ -36,6 +36,20 @@ fun Route.formationRoutes() {
             call.respond(FormationService.getFormationByFormationId(formationId))
         }
 
+
+        get("/with-courses") {
+            val formations = FormationService.getAllFormations()
+            val allCourses = CourseService.getAllCourses()
+            
+            val result = formations.map { formation ->
+                mapOf(
+                    "formation" to formation,
+                    "courses" to allCourses.filter { it.formationId == formation.formationId }
+                )
+            }
+            call.respond(result)
+        }
+
         
         post {
             val req = call.receive<FormationWriteRequest>()
