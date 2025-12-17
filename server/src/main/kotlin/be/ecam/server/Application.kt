@@ -122,6 +122,7 @@ fun Application.module() {
             get("/schedule") {
                 call.respond(HttpStatusCode.OK, emptyMap<String, List<String>>())
             }
+            imageProxyRoutes()
             authRoutes()
 
             //  Routes protégées (JWT) 

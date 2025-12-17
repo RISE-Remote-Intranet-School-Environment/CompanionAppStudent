@@ -5,6 +5,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
+import io.ktor.http.encodeURLParameter
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.sync.Mutex
@@ -82,6 +83,13 @@ class FormationCatalogRepository(
                     )
                 }
 
+            val originalUrl = formation.imageUrl
+            val proxiedUrl = if (!originalUrl.isNullOrBlank() && originalUrl.startsWith("http")) {
+                "$baseUrl/api/image-proxy?url=${originalUrl.encodeURLParameter()}"
+            } else {
+                originalUrl
+            }
+
             Formation(
                 id = formation.formationId,
                 name = formation.name,
@@ -89,7 +97,7 @@ class FormationCatalogRepository(
                 notes = null,
                 blocks = blocks,
                 imageKey = null,
-                imageUrl = formation.imageUrl
+                imageUrl = proxiedUrl
             )
         }
 
