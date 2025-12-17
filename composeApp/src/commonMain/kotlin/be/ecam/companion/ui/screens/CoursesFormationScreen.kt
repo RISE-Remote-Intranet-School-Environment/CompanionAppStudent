@@ -444,27 +444,31 @@ private fun ProgramCard(
             
             if (program.imageUrl != null) {
                 KamelImage(
-                    resource = asyncPainterResource(data = Url(program.imageUrl)),
+                    resource = { asyncPainterResource(Url(program.imageUrl)) },
                     contentDescription = program.title,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(imageHeight)
                         .clip(imageShape),
-                    onLoading = {
-                        // Placeholder pendant le chargement
+                    onLoading = { progress ->
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(imageHeight)
+                                .clip(imageShape)
                                 .background(MaterialTheme.colorScheme.surfaceVariant),
                             contentAlignment = Alignment.Center
                         ) {
-                            CircularProgressIndicator(modifier = Modifier.size(24.dp))
+                            CircularProgressIndicator(
+                                progress = { progress },
+                                modifier = Modifier.size(24.dp)
+                            )
                         }
                     },
-                    onFailure = {
-                        // Fallback si l'image ne charge pas
+                    onFailure = { exception ->
+                        // Log pour debug
+                        println("Kamel image load failed: ${exception.message}")
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()

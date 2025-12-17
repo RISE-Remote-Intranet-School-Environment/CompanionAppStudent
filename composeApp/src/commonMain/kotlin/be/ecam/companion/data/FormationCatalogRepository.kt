@@ -85,7 +85,7 @@ class FormationCatalogRepository(
 
             val originalUrl = formation.imageUrl
             val proxiedUrl = if (!originalUrl.isNullOrBlank() && originalUrl.startsWith("http")) {
-                "$baseUrl/api/image-proxy?url=${originalUrl.encodeURLParameter()}"
+                "$baseUrl/api/image-proxy?url=${originalUrl.encodeURLParameter()}&width=400"
             } else {
                 originalUrl
             }
