@@ -67,6 +67,8 @@ kotlin {
             // Remote images
             implementation(libs.coil3.compose)
             implementation(libs.coil3.network.ktor)
+            implementation("media.kamel:kamel-image:1.0.1")
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

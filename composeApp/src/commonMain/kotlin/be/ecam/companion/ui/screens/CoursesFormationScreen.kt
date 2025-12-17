@@ -63,15 +63,13 @@ import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.di.buildBaseUrl
 import be.ecam.companion.ui.CourseRef
 import be.ecam.companion.ui.CoursesFicheScreen
-import coil3.compose.AsyncImage
 import io.ktor.client.HttpClient
 import org.koin.compose.koinInject
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import coil3.request.ImageRequest
-import coil3.request.crossfade
-import coil3.size.Scale
-import coil3.compose.LocalPlatformContext
+import io.kamel.image.KamelImage
+import io.kamel.image.asyncPainterResource
+import io.ktor.http.Url
 
 @Composable
 fun CoursesFormationScreen(
@@ -443,23 +441,48 @@ private fun ProgramCard(
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             val imageShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
+            
             if (program.imageUrl != null) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalPlatformContext.current)
-                        .data(program.imageUrl)
-                        // CRUCIAL POUR WASM :
-                        // 1. Désactiver l'animation qui fait souvent crasher Skiko sur Wasm
-                        .crossfade(false)
-                        // 2. Redimensionner l'image AVANT le rendu pour économiser la mémoire
-                        // (évite le "bad cast" sur les grosses textures)
-                        .size(600, 400) 
-                        .build(),
+                KamelImage(
+                    resource = asyncPainterResource(data = Url(program.imageUrl)),
                     contentDescription = program.title,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(imageHeight)
-                        .clip(imageShape)
+                        .clip(imageShape),
+                    onLoading = {
+                        // Placeholder pendant le chargement
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(imageHeight)
+                                .background(MaterialTheme.colorScheme.surfaceVariant),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator(modifier = Modifier.size(24.dp))
+                        }
+                    },
+                    onFailure = {
+                        // Fallback si l'image ne charge pas
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(imageHeight)
+                                .clip(imageShape)
+                                .background(
+                                    formationColors[program.formation.id]
+                                        ?: MaterialTheme.colorScheme.primaryContainer
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = program.title.take(2).uppercase(),
+                                style = MaterialTheme.typography.headlineLarge,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        }
+                    }
                 )
             } else {
                 Box(
@@ -467,35 +490,38 @@ private fun ProgramCard(
                         .fillMaxWidth()
                         .height(imageHeight)
                         .clip(imageShape)
-                        .background(MaterialTheme.colorScheme.surfaceVariant)
-                )
+                        .background(
+                            formationColors[program.formation.id]
+                                ?: MaterialTheme.colorScheme.primaryContainer
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = program.title.take(2).uppercase(),
+                        style = MaterialTheme.typography.headlineLarge,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
             }
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f, fill = true)
-                    .padding(16.dp)
+                    .padding(12.dp)
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    FormationAvatar(program.formation.id)
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = program.title,
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                        Spacer(Modifier.height(4.dp))
-                        Text(
-                            text = program.description,
-                            style = MaterialTheme.typography.bodyMedium,
-                            maxLines = 3,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-                }
+                Text(
+                    text = program.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = "${program.formation.blocks.size} blocs",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
     }
