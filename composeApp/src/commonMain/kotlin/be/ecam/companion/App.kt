@@ -134,9 +134,12 @@ fun App(extraModules: List<Module> = emptyList()) {
                             },
                             onLogout = {
                                 scope.launch { drawerState.close() }
+                                loginViewModel.logout() 
+                                isLoggedIn = false
                                 showPaePage = false
                                 paeTitleSuffix = null
-                                isLoggedIn = false
+                                showCoursesPage = false
+                                showProfessorsPage = false
                             }
                         )
                     }
