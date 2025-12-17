@@ -105,28 +105,14 @@ fun CalendarScreen(
             }
         )
 
+        WeekDayHeader()
+
         Column(
             modifier = Modifier
                 .weight(1f)
                 .verticalScroll(calendarScrollState)
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 8.dp)
         ) {
-            // Week day headers
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                val days = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
-                for (d in days) {
-                    Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                        Text(
-                            d,
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                        )
-                    }
-                }
-            }
-
-            Spacer(Modifier.height(4.dp))
-
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -236,6 +222,27 @@ fun CalendarScreen(
                     date = dialogDate!!,
                     events = items,
                     onClose = { dialogDate = null }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun WeekDayHeader() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp, top = 4.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        val days = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+        days.forEach { day ->
+            Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                Text(
+                    day,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                 )
             }
         }

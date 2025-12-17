@@ -7,15 +7,19 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 class CourseResourceRepository {
 
+    private val json by lazy {
+        Json {
+            ignoreUnknownKeys = true
+            isLenient = true
+        }
+    }
+
     @OptIn(ExperimentalResourceApi::class)
     suspend fun getAllResources(): CourseResourcesMap {
         val bytes = Res.readBytes("files/ecam_courses_resources_2025.json")
         val jsonString = bytes.decodeToString()
 
-        return Json {
-            ignoreUnknownKeys = true
-            isLenient = true
-        }.decodeFromString(jsonString)
+        return json.decodeFromString(jsonString)
     }
 
     @OptIn(ExperimentalResourceApi::class)

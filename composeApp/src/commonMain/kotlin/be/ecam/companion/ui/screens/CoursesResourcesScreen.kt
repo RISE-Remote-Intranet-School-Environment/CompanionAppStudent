@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -46,7 +48,7 @@ fun CoursesResourcesScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Retour")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
                     }
                 }
             )
@@ -66,7 +68,7 @@ fun CoursesResourcesScreen(
             }
 
             grouped["article"]?.let { arts ->
-                item { SectionHeader("Articles Web", Icons.Default.Article, Color(0xFF4CAF50)) }
+                item { SectionHeader("Articles Web", Icons.AutoMirrored.Filled.Article, Color(0xFF4CAF50)) }
                 item { ResourceRow(arts, Color(0xFF4CAF50), uri) }
             }
 
@@ -143,7 +145,7 @@ fun ResourceCardClean(res: CourseResource, accent: Color, uri: androidx.compose.
                     "pdf" -> Icons.Default.Description
                     "image" -> Icons.Default.Image
                     "video" -> Icons.Default.Movie
-                    else -> Icons.Default.Article
+                    else -> Icons.AutoMirrored.Filled.Article
                 },
                 contentDescription = null,
                 tint = accent,
