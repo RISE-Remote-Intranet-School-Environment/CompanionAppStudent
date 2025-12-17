@@ -14,6 +14,15 @@ fun Route.imageProxyRoutes() {
     val client = HttpClient()
 
     route("/image-proxy") {
+        head {
+            val url = call.request.queryParameters["url"]
+            if (url.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest)
+                return@head
+            }
+            call.respond(HttpStatusCode.OK)
+        }
+
         get {
             val url = call.request.queryParameters["url"]
             if (url.isNullOrBlank()) {
@@ -25,7 +34,7 @@ fun Route.imageProxyRoutes() {
                 val response = client.get(url)
                 val contentType = response.contentType() ?: ContentType.Image.Any
 
-                call.respondBytes(response.readRawBytes(), contentType)
+                call.respondBytes(response.readRawRawBytes(), contentType)
             } catch (e: Exception) {
                 call.respond(HttpStatusCode.BadGateway, "Failed to fetch image: ${e.message}")
             }
