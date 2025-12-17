@@ -2,6 +2,7 @@ package be.ecam.server.routes
 
 import be.ecam.server.models.FormationWriteRequest
 import be.ecam.server.services.FormationService
+import be.ecam.server.services.CourseService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
