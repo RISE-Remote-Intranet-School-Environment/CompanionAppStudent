@@ -17,6 +17,7 @@ import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.event.Level
+import io.ktor.server.plugins.autohead.*
 
 
 
@@ -31,6 +32,8 @@ fun Application.module() {
         level = Level.INFO
         filter { true }
     }
+
+    install(AutoHeadResponse)
 
     // json serialization
     install(ContentNegotiation) {
@@ -53,6 +56,7 @@ fun Application.module() {
         allowHeader(HttpHeaders.Authorization)
         allowHeader("X-User-Id")
         allowMethod(HttpMethod.Get)
+        allowMethod(HttpMethod.Head) 
         allowMethod(HttpMethod.Post)
         allowMethod(HttpMethod.Put)
         allowMethod(HttpMethod.Patch)

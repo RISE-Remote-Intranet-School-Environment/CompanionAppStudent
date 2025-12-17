@@ -66,6 +66,12 @@ import be.ecam.companion.ui.CoursesFicheScreen
 import coil3.compose.AsyncImage
 import io.ktor.client.HttpClient
 import org.koin.compose.koinInject
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import coil3.size.Scale
+import coil3.compose.LocalPlatformContext
 
 @Composable
 fun CoursesFormationScreen(
@@ -182,100 +188,148 @@ fun CoursesFormationScreen(
                 onBack = { selectedCourseRef = null }
             )
         } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(scrollState)
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                if (uiState !is CoursesState.BlockDetail) {
-                    Text(
-                        text = headerTitle,
-                        style = MaterialTheme.typography.displayLarge,
-                        textAlign = TextAlign.Center
-                    )
-                    if (uiState !is CoursesState.ProgramList && headerSubtitle.isNotBlank()) {
-                        Spacer(Modifier.height(4.dp))
-                        Text(
-                            text = headerSubtitle,
-                            style = MaterialTheme.typography.titleMedium,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
-                loadError?.let {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.error,
-                        textAlign = TextAlign.Center
-                    )
-                    Spacer(Modifier.height(12.dp))
-                }
-                if (selectedProgram != null && uiState !is CoursesState.BlockDetail) {
-                    FormationSelector(
-                        programs = programs,
-                        selectedProgram = selectedProgram,
-                        onProgramSelected = selectProgram
-                    )
-                    Spacer(Modifier.height(12.dp))
-                    FormationHeroCard(
-                        program = selectedProgram,
-                        year = database?.year,
-                        totalCourses = selectedProgram.formation.blocks.sumOf { it.courses.size }
-                    )
-                    Spacer(Modifier.height(16.dp))
-                }
-                when (val state = uiState) {
-                    CoursesState.ProgramList -> {
-                        IntroText(database)
-                        Spacer(Modifier.height(24.dp))
-                        
-                        if (database == null) {
-                            if (loadError != null) {
+            // ON SÉPARE ICI : LazyColumn pour la liste, Column Scrollable pour les détails
+            when (val state = uiState) {
+                // CAS 1 : LA LISTE DES FORMATIONS (Optimisé avec LazyColumn)
+                is CoursesState.ProgramList -> {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        // 1. Le Titre (Header)
+                        item {
+                            Text(
+                                text = headerTitle,
+                                style = MaterialTheme.typography.displayLarge,
+                                textAlign = TextAlign.Center
+                            )
+                            if (headerSubtitle.isNotBlank()) {
+                                Spacer(Modifier.height(4.dp))
                                 Text(
-                                    text = loadError ?: "Erreur inconnue",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.error,
+                                    text = headerSubtitle,
+                                    style = MaterialTheme.typography.titleMedium,
                                     textAlign = TextAlign.Center
                                 )
-                            } else {
-                                CircularProgressIndicator()
                             }
-                        } else if (programs.isEmpty()) {
-                            Text(
-                                text = "Aucune formation trouvée.\n",
-                                style = MaterialTheme.typography.bodyLarge,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.padding(20.dp)
-                            )
-                        } else {
-                            ProgramGrid(
-                                programs = programs,
-                                onProgramSelected = selectProgram
-                            )
+                            Spacer(Modifier.height(24.dp))
+                        }
+
+                        // 2. Texte d'intro et Erreurs
+                        item {
+                            IntroText(database)
+                            Spacer(Modifier.height(24.dp))
+
+                            if (database == null) {
+                                if (loadError != null) {
+                                    Text(
+                                        text = loadError ?: "Erreur inconnue",
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.error,
+                                        textAlign = TextAlign.Center
+                                    )
+                                } else {
+                                    CircularProgressIndicator()
+                                }
+                            } else if (programs.isEmpty()) {
+                                Text(
+                                    text = "Aucune formation trouvée.\n",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.padding(20.dp)
+                                )
+                            }
+                        }
+
+                        // 3. La Grille des programmes (Rendu optimisé)
+                        if (programs.isNotEmpty()) {
+                            items(programs.chunked(3)) { rowPrograms ->
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                ) {
+                                    rowPrograms.forEach { program ->
+                                        ProgramCard(
+                                            program = program,
+                                            modifier = Modifier.weight(1f),
+                                            onClick = { selectProgram(program) }
+                                        )
+                                    }
+                                    // Remplissage pour garder l'alignement si la ligne n'est pas pleine
+                                    repeat(3 - rowPrograms.size) {
+                                        Spacer(modifier = Modifier.weight(1f))
+                                    }
+                                }
+                                Spacer(Modifier.height(16.dp))
+                            }
                         }
                     }
+                }
 
-                    is CoursesState.ProgramDetail -> {
-                        ProgramBlocks(
-                            program = state.program,
-                            onBlockSelected = { block -> selectBlock(state.program, block) }
-                        )
-                    }
+                // CAS 2 : LES DÉTAILS (On garde le scroll classique ici)
+                else -> {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .verticalScroll(scrollState)
+                            .padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        // Header (identique mais dans une Column classique)
+                        if (uiState !is CoursesState.BlockDetail) {
+                            Text(
+                                text = headerTitle,
+                                style = MaterialTheme.typography.displayLarge,
+                                textAlign = TextAlign.Center
+                            )
+                            if (headerSubtitle.isNotBlank()) {
+                                Spacer(Modifier.height(4.dp))
+                                Text(
+                                    text = headerSubtitle,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                        }
 
-                    is CoursesState.BlockDetail -> {
-                        CoursesFormationBlocScreen(
-                            program = state.program,
-                            block = state.block,
-                            programs = programs,
-                            databaseYear = database?.year,
-                            onFormationSelected = selectProgram,
-                            onBlockSelected = { block -> selectBlock(state.program, block) },
-                            onCourseSelected = tableCourseSelection,
-                            onOpenCourseCalendar = onOpenCourseCalendar
-                        )
+                        // Sélecteur de formation et Hero Card
+                        if (selectedProgram != null && uiState !is CoursesState.BlockDetail) {
+                            FormationSelector(
+                                programs = programs,
+                                selectedProgram = selectedProgram,
+                                onProgramSelected = selectProgram
+                            )
+                            Spacer(Modifier.height(12.dp))
+                            FormationHeroCard(
+                                program = selectedProgram,
+                                year = database?.year,
+                                totalCourses = selectedProgram.formation.blocks.sumOf { it.courses.size }
+                            )
+                            Spacer(Modifier.height(16.dp))
+                        }
+
+                        // Contenu spécifique (Blocs ou Détail du bloc)
+                        when (state) {
+                            is CoursesState.ProgramDetail -> {
+                                ProgramBlocks(
+                                    program = state.program,
+                                    onBlockSelected = { block -> selectBlock(state.program, block) }
+                                )
+                            }
+                            is CoursesState.BlockDetail -> {
+                                CoursesFormationBlocScreen(
+                                    program = state.program,
+                                    block = state.block,
+                                    programs = programs,
+                                    databaseYear = database?.year,
+                                    onFormationSelected = selectProgram,
+                                    onBlockSelected = { block -> selectBlock(state.program, block) },
+                                    onCourseSelected = tableCourseSelection,
+                                    onOpenCourseCalendar = onOpenCourseCalendar
+                                )
+                            }
+                            else -> {} 
+                        }
                     }
                 }
             }
@@ -391,7 +445,15 @@ private fun ProgramCard(
             val imageShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
             if (program.imageUrl != null) {
                 AsyncImage(
-                    model = program.imageUrl,
+                    model = ImageRequest.Builder(LocalPlatformContext.current)
+                        .data(program.imageUrl)
+                        // CRUCIAL POUR WASM :
+                        // 1. Désactiver l'animation qui fait souvent crasher Skiko sur Wasm
+                        .crossfade(false)
+                        // 2. Redimensionner l'image AVANT le rendu pour économiser la mémoire
+                        // (évite le "bad cast" sur les grosses textures)
+                        .size(600, 400) 
+                        .build(),
                     contentDescription = program.title,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
