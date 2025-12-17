@@ -24,8 +24,8 @@ fun Route.imageProxyRoutes() {
             try {
                 val response = client.get(url)
                 val contentType = response.contentType() ?: ContentType.Image.Any
-                
-                call.respondBytes(response.readBytes(), contentType)
+
+                call.respondBytes(response.readRawBytes(), contentType)
             } catch (e: Exception) {
                 call.respond(HttpStatusCode.BadGateway, "Failed to fetch image: ${e.message}")
             }

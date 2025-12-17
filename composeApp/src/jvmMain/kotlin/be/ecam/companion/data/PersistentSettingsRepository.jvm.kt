@@ -28,8 +28,17 @@ class PersistentSettingsRepository : SettingsRepository {
     }
 
     private fun loadHost(): String {
-        val def = defaultServerBaseUrl().removePrefix("http://").removePrefix("https://").substringBefore(":")
-        return prefs.get(KEY_HOST, def)
+        val def = defaultServerBaseUrl()
+            .removePrefix("http://")
+            .removePrefix("https://")
+            .substringBefore(":")
+        val stored = prefs.get(KEY_HOST, def)
+        return if (stored.equals("localhost", ignoreCase = true) || stored == "127.0.0.1") {
+            prefs.put(KEY_HOST, def)
+            def
+        } else {
+            stored
+        }
     }
 
     private fun loadPort(): Int {

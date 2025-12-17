@@ -1,6 +1,15 @@
 package be.ecam.companion.data
 
 import companion.composeapp.generated.resources.Res
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import io.ktor.client.request.header
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.HttpHeaders
+import io.ktor.http.isSuccess
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -36,7 +45,6 @@ data class ProfessorCourse(
     val mandatory: Boolean = false
 )
 
-
 object EcamProfessorsRepository {
     private val json = Json { ignoreUnknownKeys = true }
     private var cache: ProfessorDatabase? = null
@@ -49,4 +57,121 @@ object EcamProfessorsRepository {
         cache = data
         return data
     }
+}
+
+data class ProfessorCatalogResult(
+    val database: ProfessorDatabase,
+    val fromServer: Boolean = true
+)
+
+/**
+ * Loads professors exclusively from the server API (/api/professors).
+ * A small cache avoids unnecessary network calls when the base URL does not change.
+ */
+class ProfessorCatalogRepository(
+    private val client: HttpClient,
+    private val baseUrlProvider: () -> String,
+    private val authTokenProvider: () -> String? = { null }
+) {
+    private val mutex = Mutex()
+    private var cached: ProfessorCatalogResult? = null
+    private var cachedBaseUrl: String? = null
+
+    suspend fun load(): ProfessorCatalogResult = mutex.withLock {
+        val base = baseUrlProvider().removeSuffix("/")
+
+        cached?.let { result ->
+            if (cachedBaseUrl == base && result.fromServer) return result
+        }
+
+        val remoteDb = fetchFromServer(base)
+        val result = ProfessorCatalogResult(database = remoteDb, fromServer = true)
+        cachedBaseUrl = base
+        cached = result
+        result
+    }
+
+    suspend fun refresh(): ProfessorCatalogResult {
+        mutex.withLock {
+            cached = null
+            cachedBaseUrl = null
+        }
+        return load()
+    }
+
+    private suspend fun fetchFromServer(baseUrl: String): ProfessorDatabase {
+        val token = authTokenProvider()
+            ?.trim()
+            ?.removeSurrounding("\"")
+            ?.takeIf { it.isNotBlank() }
+
+        val response = client.get("$baseUrl/api/professors") {
+            token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+        }
+
+        if (!response.status.isSuccess()) {
+            val raw = response.bodyAsText()
+            val trimmed = raw.trim()
+            val snippet = trimmed.take(200)
+            val hint = when {
+                snippet.isBlank() -> "HTTP ${response.status.value} (${response.status.description})"
+                snippet.trimStart().startsWith("<") -> "HTTP ${response.status.value} (${response.status.description})"
+                else -> snippet
+            }
+            throw IllegalStateException("Chargement des professeurs impossible : $hint")
+        }
+
+        val responseItems: List<ServerProfessorDto> = response.body()
+
+        return ProfessorDatabase(
+            year = "server",
+            generatedAt = "",
+            source = baseUrl,
+            professors = responseItems.map { it.toProfessor() }
+        )
+    }
+}
+
+@Serializable
+private data class ServerProfessorDto(
+    val id: Int? = null,
+    @SerialName("professorId") val professorId: String? = null,
+    @SerialName("firstName") val firstName: String,
+    @SerialName("lastName") val lastName: String,
+    val email: String,
+    @SerialName("roomIds") val roomIds: String? = null,
+    val phone: String? = null,
+    val speciality: String? = null,
+    @SerialName("fullName") val fullName: String? = null,
+    @SerialName("coursesId") val coursesId: String? = null,
+    @SerialName("photoUrl") val photoUrl: String? = null,
+    @SerialName("roleTitle") val roleTitle: String? = null,
+    @SerialName("roleDetail") val roleDetail: String? = null,
+    val diplomas: String? = null
+)
+
+private fun ServerProfessorDto.toProfessor(): Professor {
+    val parsedCourses = coursesId
+        ?.removePrefix("[")
+        ?.removeSuffix("]")
+        ?.split(',', ';')
+        ?.map { it.trim().trim('"', '\'') }
+        ?.filter { it.isNotBlank() }
+        ?.map { code ->
+            ProfessorCourse(
+                code = code,
+                title = code
+            )
+        }
+        ?: emptyList()
+
+    return Professor(
+        id = id ?: professorId?.hashCode() ?: 0,
+        firstName = firstName,
+        lastName = lastName,
+        email = email,
+        speciality = speciality ?: "Autres",
+        office = roomIds?.takeIf { it.isNotBlank() },
+        courses = parsedCourses
+    )
 }

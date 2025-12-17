@@ -16,6 +16,7 @@ object CoursesTable : IntIdTable("courses") {
     val blocId = varchar("bloc_id", 255).nullable()        // FK logique vers blocs.id
     val formationId = varchar("formation_id", 255).nullable() // FK logique vers formations.id
     val language = varchar("language", 10)
+    val icon = varchar("icon", 100).nullable()
 }
 
 // DTO pour exposer les cours au front
@@ -31,7 +32,8 @@ data class CourseDTO(
     val mandatory: Boolean,
     val blocId: String?,
     val formationId: String?,
-    val language: String
+    val language: String,
+    val icon: String?
 )
 
 // mapper ResultRow -> DTO
@@ -46,7 +48,8 @@ fun ResultRow.toCourseDTO() = CourseDTO(
     mandatory = this[CoursesTable.mandatory],
     blocId = this[CoursesTable.blocId],
     formationId = this[CoursesTable.formationId],
-    language = this[CoursesTable.language]
+    language = this[CoursesTable.language],
+    icon = this[CoursesTable.icon]
 )
 
 // DTO pour écriture (création et update complet)
@@ -61,5 +64,6 @@ data class CourseWriteRequest(
     val mandatory: Boolean,
     val blocId: String? = null,
     val formationId: String? = null,
-    val language: String
+    val language: String,
+    val icon: String? = null
 )

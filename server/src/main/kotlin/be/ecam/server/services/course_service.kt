@@ -68,6 +68,7 @@ object CourseService {
             row[CoursesTable.blocId] = req.blocId
             row[CoursesTable.formationId] = req.formationId
             row[CoursesTable.language] = req.language
+            row[CoursesTable.icon] = req.icon ?: guessCourseIcon(req.title)
         }
 
         CoursesTable
@@ -90,6 +91,7 @@ object CourseService {
             row[CoursesTable.blocId] = req.blocId
             row[CoursesTable.formationId] = req.formationId
             row[CoursesTable.language] = req.language
+            row[CoursesTable.icon] = req.icon ?: guessCourseIcon(req.title)
         }
 
         if (updated == 0) return@transaction null
@@ -104,5 +106,29 @@ object CourseService {
     //  DELETE
     fun deleteCourse(id: Int): Boolean = transaction {
         CoursesTable.deleteWhere { CoursesTable.id eq id } > 0
+    }
+}
+
+fun guessCourseIcon(title: String): String {
+    val t = title.lowercase()
+    return when {
+        listOf("chim", "phys", "science", "biolog", "lab", "optique", "spectro", "energie", "énergie").any { t.contains(it) } -> "Science"
+        listOf("math", "alg", "anal", "stat", "prob", "calcul").any { t.contains(it) } -> "Functions"
+        listOf("info", "prog", "code", "software", "algo", "informatique", "java", "python", "programmation", "matlab", "simulink", "operating system", "os ", "intelligence artificielle", "artificial intelligence", "ai", "gpu", "web", "logiciel", "développement", "development").any { t.contains(it) } -> "Code"
+        listOf("anglais", "english", "langue", "communication", "fran", "presentation", "presse").any { t.contains(it) } -> "Language"
+        listOf("network", "réseau", "reseau", "protocol", "internet", "telecom", "télécom", "tic").any { t.contains(it) } -> "Share"
+        listOf("security", "secur", "sécur", "crypt", "cyber").any { t.contains(it) } -> "Lock"
+        listOf("elec", "élec", "electric", "electron", "circuit", "power", "signal", "commande", "hvac", "capteur", "capteurs", "sustainable").any { t.contains(it) } -> "Bolt"
+        listOf("meca", "méca", "mechan", "therm", "fluid", "structure", "resistance", "résistance", "materiaux", "matériaux", "cao", "dao", "dessin", "3d", "usinage", "fabrication", "béton", "beton", "armé", "charpente", "fondation", "sols", "hydraulique", "génie civil", "genie civil", "charpentes", "bois", "metal", "métall", "topographie", "stabilit", "geotech", "géotech", "geodes", "géodési", "urbanisme").any { t.contains(it) } -> "Build"
+        listOf("project", "projet", "design", "stage", "atelier", "tp", "tfe", "seminaire", "séminaire", "travail de fin", "memoire", "expertise").any { t.contains(it) } -> "Assignment"
+        listOf("gestion", "management", "finance", "eco", "éco", "organ", "droit", "entreprise", "marketing", "qualite", "qualité", "logistique", "comptabil", "entrepreneuriat", "insertion professionnelle", "regulatory", "strategie", "gouvernance", "exigence").any { t.contains(it) } -> "Work"
+        listOf("data", "base", "sql", "bd", "database", "big data", "analyse de donn", "analyse des donn").any { t.contains(it) } -> "Storage"
+        listOf("mobile", "android", "ios", "smart").any { t.contains(it) } -> "PhoneIphone"
+        listOf("robot", "automation", "automatisation", "automatique", "mcu", "microcontroleur", "microcontrôleur", "instrumentation", "regulation", "régulation", "control", "controle", "installations", "process", "industrie 4.0", "mesure", "measurement", "modelling", "simulation", "digital", "embedded", "mechatron", "mécatron", "cnc", "system on chip", "soc", "maintenance", "technologie", "bureau d'etudes", "bureau d'études", "systémique").any { t.contains(it) } -> "Engineering"
+        listOf("safety", "santé", "sante", "secours", "medical", "medic", "health", "pathologie").any { t.contains(it) } -> "HealthAndSafety"
+        listOf("sport", "gym", "education physique", "physique sport").any { t.contains(it) } -> "SportsEsports"
+        listOf("leadership", "éthique", "ethique", "culture", "humain", "human", "psych", "social").any { t.contains(it) } -> "Psychology"
+        listOf("innovation", "creatif", "créatif").any { t.contains(it) } -> "EmojiObjects"
+        else -> "MenuBook"
     }
 }

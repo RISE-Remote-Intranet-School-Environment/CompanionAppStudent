@@ -2,11 +2,15 @@ package be.ecam.server.db
 
 import at.favre.lib.crypto.bcrypt.BCrypt
 import be.ecam.server.models.*
+import be.ecam.server.services.guessCourseIcon
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.transactions.TransactionManager
 import java.io.File
 
 object DatabaseFactory {
@@ -65,6 +69,13 @@ object DatabaseFactory {
                     "PaeStudents, NotesStudents, StudentSubmissions, CourseResources"
             )
 
+            val iconReady = ensureCoursesIconColumn()
+            if (iconReady) {
+                backfillCourseIcons()
+            } else {
+                println("courses.icon column still missing; skipping backfill")
+            }
+
             // Seed initial data
             //DatabaseSeeder.seedAll()
 
@@ -92,5 +103,41 @@ object DatabaseFactory {
             }
             
         }
+    }
+
+    private fun ensureCoursesIconColumn(): Boolean {
+        val hasIcon = TransactionManager.current().exec("PRAGMA table_info(courses)") { rs ->
+            generateSequence {
+                if (rs.next()) rs.getString("name") else null
+            }.any { it.equals("icon", ignoreCase = true) }
+        } ?: false
+
+        if (!hasIcon) {
+            return try {
+                TransactionManager.current().exec("ALTER TABLE courses ADD COLUMN icon TEXT")
+                println("Added icon column to courses")
+                true
+            } catch (t: Throwable) {
+                println("Failed to add icon column: ${t.message}")
+                false
+            }
+        }
+        return true
+    }
+
+    private fun backfillCourseIcons() {
+        val missing = CoursesTable
+            .selectAll()
+            .map { Triple(it[CoursesTable.id].value, it[CoursesTable.title], it[CoursesTable.icon]) }
+            .filter { it.third.isNullOrBlank() }
+
+        missing.forEach { (id, title, _) ->
+            val icon = guessCourseIcon(title)
+            CoursesTable.update({ CoursesTable.id eq id }) {
+                it[CoursesTable.icon] = icon
+            }
+        }
+
+        if (missing.isNotEmpty()) println("Backfilled ${missing.size} course icons")
     }
 }
