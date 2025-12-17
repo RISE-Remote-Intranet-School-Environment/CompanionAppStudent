@@ -1563,6 +1563,40 @@
       "hash": "sha256-MISfPn1O4OvZ4yYVZoxkyKlXIdWWiy9glXMcNFfVz1k="
     }
   },
+  "io.ktor:ktor-client-cio:3.3.0": {
+    "ktor-client-cio-3.3.0.module": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-cio/3.3.0/ktor-client-cio-3.3.0.module",
+      "hash": "sha256-qeQqN0JJefUWlIHV+PCfAb6EXyetbs0d+oub8NEOAeg="
+    },
+    "ktor-client-cio-3.3.0.pom": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-cio/3.3.0/ktor-client-cio-3.3.0.pom",
+      "hash": "sha256-F6hcwuwyZ7QvbLAlGBLKS1THFJIUk/OHXfI7w1de1Zs="
+    }
+  },
+  "io.ktor:ktor-client-cio:2.3.6": {
+    "ktor-client-cio-2.3.6.module": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-cio/2.3.6/ktor-client-cio-2.3.6.module",
+      "hash": "sha256-elAFELyh4tpFFbLRO+uFQHRgy8mf5WubEG5j6GLwfWc="
+    },
+    "ktor-client-cio-2.3.6.pom": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-cio/2.3.6/ktor-client-cio-2.3.6.pom",
+      "hash": "sha256-kr2ZbqGo2XPDQggme6cibg234p7NMOiiJCFYMPkjFfI="
+    }
+  },
+  "io.ktor:ktor-client-cio-jvm:3.3.0": {
+    "ktor-client-cio-jvm-3.3.0.jar": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-cio-jvm/3.3.0/ktor-client-cio-jvm-3.3.0.jar",
+      "hash": "sha256-38nbafoyFYoMEKFfJbYIdWGsmePFhASW/5sMGTUZgQI="
+    },
+    "ktor-client-cio-jvm-3.3.0.module": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-cio-jvm/3.3.0/ktor-client-cio-jvm-3.3.0.module",
+      "hash": "sha256-C6m3KjsLRB5mUysf9UFI/NK6bnhGHPTT9hpPXdp2ctw="
+    },
+    "ktor-client-cio-jvm-3.3.0.pom": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-cio-jvm/3.3.0/ktor-client-cio-jvm-3.3.0.pom",
+      "hash": "sha256-xj3M8rbz4rk97TK6t7vqun7Zn9ysF5S8v9J7WDh2i+Y="
+    }
+  },
   "io.ktor:ktor-client-core:3.3.0": {
     "ktor-client-core-3.3.0.module": {
       "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-core/3.3.0/ktor-client-core-3.3.0.module",
