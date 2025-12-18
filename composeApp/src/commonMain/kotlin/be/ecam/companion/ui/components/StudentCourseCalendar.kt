@@ -24,10 +24,11 @@ fun StudentCourseCalendar(
     modifier: Modifier = Modifier,
     initialYearOption: String? = null,
     initialSeries: String? = null,
-    username: String? = null
+    username: String? = null,
+    authToken: String? = null
 ) {
     Column(modifier = modifier.fillMaxSize()) {
-        val allCourses = rememberCourseEvents()
+        val allCourses = rememberCourseEvents(authToken)
 
         var selectedYear by remember(initialYearOption) { mutableStateOf(initialYearOption) }
         var selectedSeries by remember(initialSeries) { mutableStateOf(initialSeries) }
@@ -36,12 +37,10 @@ fun StudentCourseCalendar(
         var resolvedUser by remember { mutableStateOf(username) }
 
         LaunchedEffect(username) {
-            val fallback = "ncrepin"
-            val target = username?.takeIf { it.isNotBlank() } ?: fallback
+            val target = username?.takeIf { it.isNotBlank() } ?: "moi"
             val db = PaeRepository.load()
-            var student = db.students.firstOrNull { it.username == target || it.email == target }
-            if (student == null && target != fallback) {
-                student = db.students.firstOrNull { it.username == fallback || it.email == fallback }
+            val student = target?.let { uname ->
+                db.students.firstOrNull { it.username == uname || it.email == uname }
             }
             resolvedUser = student?.studentName ?: target
             val program = student?.records?.firstOrNull()?.program
@@ -58,6 +57,13 @@ fun StudentCourseCalendar(
 
         val availableYears = allCourses.map { it.yearOption }.distinct()
         val availableSeries = allCourses.flatMap { it.series }.distinct()
+
+        LaunchedEffect(availableYears) {
+            if (selectedYear == null && availableYears.isNotEmpty()) {
+                selectedYear = availableYears.first()
+                selectedSeries = null
+            }
+        }
 
         val filtered = allCourses.filter { c ->
             (selectedYear == null || c.yearOption == selectedYear) &&
@@ -124,7 +130,8 @@ fun StudentCourseCalendar(
 
             CalendarScreen(
                 scheduledByDate = eventsByDateStrings,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                authToken = authToken
             )
         }
     }
