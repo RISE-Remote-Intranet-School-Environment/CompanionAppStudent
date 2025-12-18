@@ -13,25 +13,26 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoGraph
 import androidx.compose.material.icons.filled.Timer
+import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.Handshake
+import androidx.compose.material.icons.filled.Science
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -49,10 +50,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import be.ecam.companion.data.Formation
 import be.ecam.companion.data.FormationBlock
@@ -147,7 +148,7 @@ fun CoursesFormationScreen(
         is CoursesState.BlockDetail -> "Formations - ${state.program.title}"
     }
     val headerSubtitle = when (val state = uiState) {
-        CoursesState.ProgramList -> "Toutes les formations a portee de main"
+        CoursesState.ProgramList -> ""
         is CoursesState.ProgramDetail -> "Choisis un bloc pour explorer les cours"
         is CoursesState.BlockDetail -> ""
     }
@@ -337,30 +338,126 @@ fun CoursesFormationScreen(
 
 @Composable
 private fun IntroText(database: FormationDatabase?) {
-    val uriHandler = LocalUriHandler.current
-    database?.let {
-        val annotated = buildAnnotatedString {
-            append("Programme ${it.year} - Source : ")
-            val start = length
-            append(it.source)
-            addStyle(
-                SpanStyle(
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+        ),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(20.dp)
+        ) {
+            // En-tête avec Icône
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(bottom = 12.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.School,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(Modifier.width(12.dp))
+                Text(
+                    text = "L'Institut Supérieur Industriel",
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.SemiBold
-                ),
-                start,
-                length
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            // Paragraphe principal
+            Text(
+                text = buildAnnotatedString {
+                    append("L’ECAM a pour objet la formation de ")
+                    withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)) {
+                        append("Master en sciences industrielles")
+                    }
+                    append(" dans une des finalités présentées ci-dessous.")
+                },
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                lineHeight = MaterialTheme.typography.bodyLarge.lineHeight
             )
-            addStringAnnotation(tag = "URL", annotation = it.source, start = start, end = length)
+
+            HorizontalDivider(
+                modifier = Modifier.padding(vertical = 16.dp),
+                color = MaterialTheme.colorScheme.outlineVariant
+            )
+
+            // Section Partenariats (ICHEC)
+            Row(verticalAlignment = Alignment.Top) {
+                Icon(
+                    imageVector = Icons.Default.Handshake,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.tertiary,
+                    modifier = Modifier.size(20.dp).padding(top = 2.dp)
+                )
+                Spacer(Modifier.width(12.dp))
+                Column {
+                    Text(
+                        text = buildAnnotatedString {
+                            append("Depuis 2018/19, l’ECAM et l’ICHEC proposent un double diplôme ")
+                            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("Ingénieur industriel et commercial")
+                            }
+                            append(" en 6 ans.")
+                        },
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    
+                    Spacer(Modifier.height(8.dp))
+                    
+                    Text(
+                        text = buildAnnotatedString {
+                            append("En co-diplômation avec l’ICHEC, le master ")
+                            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("Business Analyst")
+                            }
+                            append(" vise à établir des ponts entre les utilisateurs et les équipes de développement, d’accompagner les projets et de participer à la stratégie IT de l’entreprise.")
+                        },
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
+            HorizontalDivider(
+                modifier = Modifier.padding(vertical = 16.dp),
+                color = MaterialTheme.colorScheme.outlineVariant
+            )
+
+            // Section CERDECAM
+            Row(verticalAlignment = Alignment.Top) {
+                Icon(
+                    imageVector = Icons.Default.Science,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.secondary,
+                    modifier = Modifier.size(20.dp).padding(top = 2.dp)
+                )
+                Spacer(Modifier.width(12.dp))
+                Text(
+                    text = buildAnnotatedString {
+                        append("Le Centre de Recherche de l’ECAM, le ")
+                        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("CERDECAM")
+                        }
+                        append(", organise également des ")
+                        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("Formations Continues")
+                        }
+                        append(".")
+                    },
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
-        Text(
-            text = annotated,
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { uriHandler.openUri(it.source) }
-        )
     }
 }
 
@@ -432,7 +529,7 @@ private fun ProgramCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    val cardHeight = 260.dp
+    val cardHeight = 240.dp
     val imageHeight = 140.dp
     Card(
         modifier = modifier.height(cardHeight),
@@ -511,21 +608,31 @@ private fun ProgramCard(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(12.dp)
+                    .padding(12.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Text(
-                    text = program.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Spacer(Modifier.height(4.dp))
-                Text(
-                    text = "${program.formation.blocks.size} blocs",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    FormationAvatar(program.formation.id)
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = program.title,
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            text = program.description.ifBlank { "Explore les blocs, cours et credits de la formation." },
+                            style = MaterialTheme.typography.bodyMedium,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
             }
         }
     }
