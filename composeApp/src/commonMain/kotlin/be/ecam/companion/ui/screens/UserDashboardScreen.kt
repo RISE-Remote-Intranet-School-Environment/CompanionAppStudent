@@ -112,21 +112,19 @@ fun UserDashboardScreen(loginViewModel: LoginViewModel, modifier: Modifier = Mod
             val events = runCatching {
                 CalendarRepository(
                     client = httpClient,
-                    baseUrlProvider = { baseUrl },
-                    authTokenProvider = { token }
-                ).fetchCalendarEvents()
+                    baseUrlProvider = { baseUrl }
+                ).getCalendarEvents(token)
             }.getOrDefault(emptyList())
 
             DashboardData(
                 user = user,
-                studentDisplayName = targetStudent?.studentName
-                    ?: listOfNotNull(user.firstName, user.lastName).joinToString(" ").ifBlank { user.username },
+                studentDisplayName = targetStudent?.username ?: user.username,
                 record = record,
-                courses = record?.courses.orEmpty(),
+                courses = record?.courses ?: emptyList(),
                 events = events
             )
-        } catch (t: Throwable) {
-            loadError = t.message ?: "Impossible de charger le tableau de bord"
+        } catch (e: Exception) {
+            loadError = e.message
             null
         }
     }

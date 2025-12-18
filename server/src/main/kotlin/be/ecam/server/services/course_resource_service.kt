@@ -54,11 +54,8 @@ object CourseResourcesService {
             row[CourseResourcesTable.courseId] = req.courseId
             row[CourseResourcesTable.sousCourseId] = req.sousCourseId
             row[CourseResourcesTable.title] = req.title
-            row[CourseResourcesTable.description] = req.description
-            row[CourseResourcesTable.resourceType] = req.resourceType
-            row[CourseResourcesTable.resourceUrl] = req.resourceUrl
-            row[CourseResourcesTable.thumbnailUrl] = req.thumbnailUrl
-            row[CourseResourcesTable.durationSeconds] = req.durationSeconds
+            row[CourseResourcesTable.type] = req.type
+            row[CourseResourcesTable.url] = req.url
             row[CourseResourcesTable.uploadedAt] = now
         }
 
@@ -70,22 +67,21 @@ object CourseResourcesService {
     }
 
     fun updateResource(id: Int, req: CourseResourceUpdateRequest): CourseResourceDTO? = transaction {
-        val updated = CourseResourcesTable.update({ CourseResourcesTable.id eq id }) { row ->
+        val updatedCount = CourseResourcesTable.update({ CourseResourcesTable.id eq id }) { row ->
             req.title?.let { row[CourseResourcesTable.title] = it }
-            req.description?.let { row[CourseResourcesTable.description] = it }
-            req.resourceType?.let { row[CourseResourcesTable.resourceType] = it }
-            req.resourceUrl?.let { row[CourseResourcesTable.resourceUrl] = it }
-            req.thumbnailUrl?.let { row[CourseResourcesTable.thumbnailUrl] = it }
-            req.durationSeconds?.let { row[CourseResourcesTable.durationSeconds] = it }
+            req.type?.let { row[CourseResourcesTable.type] = it }
+            req.url?.let { row[CourseResourcesTable.url] = it }
         }
 
-        if (updated == 0) return@transaction null
-
-        CourseResourcesTable
-            .selectAll()
-            .where { CourseResourcesTable.id eq id }
-            .singleOrNull()
-            ?.toCourseResourceDTO()
+        if (updatedCount > 0) {
+            CourseResourcesTable
+                .selectAll()
+                .where { CourseResourcesTable.id eq id }
+                .singleOrNull()
+                ?.toCourseResourceDTO()
+        } else {
+            null
+        }
     }
 
     fun deleteResource(id: Int): Boolean = transaction {
