@@ -41,40 +41,93 @@ object DesktopOAuthHelper {
             val refreshToken = params["refreshToken"]
             val error = params["error"]
             
-            // Répondre avec une page HTML qui confirme la réception
-            val response = if (accessToken != null) {
-                """
+            val title = if (accessToken != null) "Connexion réussie" else "Erreur"
+            val icon = if (accessToken != null) "✓" else "✕"
+            val iconClass = if (accessToken != null) "success" else "error"
+            val message = if (accessToken != null) 
+                "Connexion réussie !" 
+            else 
+                "Erreur de connexion"
+            
+            val details = if (accessToken != null) 
+                "Vous pouvez fermer cette fenêtre et retourner à l'application." 
+            else 
+                (error ?: "Erreur inconnue")
+
+            val html = """
                 <!DOCTYPE html>
-                <html>
+                <html lang="fr">
                 <head>
-                    <title>Connexion réussie</title>
                     <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>$title - ECAM</title>
+                    <style>
+                        :root {
+                            --ecam-blue: #003366;
+                            --bg-gradient: linear-gradient(135deg, #002B55 0%, #004E92 100%);
+                        }
+                        body {
+                            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                            background: var(--bg-gradient);
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            min-height: 100vh;
+                            margin: 0;
+                            color: #333;
+                        }
+                        .card {
+                            background: white;
+                            padding: 40px;
+                            border-radius: 16px;
+                            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+                            text-align: center;
+                            max-width: 400px;
+                            width: 90%;
+                            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+                        }
+                        @keyframes slideUp {
+                            from { transform: translateY(30px); opacity: 0; }
+                            to { transform: translateY(0); opacity: 1; }
+                        }
+                        .logo {
+                            height: 60px;
+                            margin-bottom: 24px;
+                            object-fit: contain;
+                        }
+                        h2 {
+                            color: var(--ecam-blue);
+                            margin: 0 0 12px 0;
+                            font-size: 24px;
+                        }
+                        p {
+                            color: #666;
+                            line-height: 1.6;
+                            margin: 0 0 24px 0;
+                        }
+                        .status-icon {
+                            font-size: 48px;
+                            margin-bottom: 16px;
+                            display: block;
+                        }
+                        .success { color: #28a745; }
+                        .error { color: #dc3545; }
+                    </style>
                 </head>
-                <body style="font-family: sans-serif; text-align: center; padding: 50px; background: linear-gradient(135deg, #1a237e, #0d47a1); color: white;">
-                    <h1>✅ Connexion réussie !</h1>
-                    <p>Vous pouvez fermer cette fenêtre et retourner à l'application.</p>
-                    <script>setTimeout(function() { window.close(); }, 2000);</script>
+                <body>
+                    <div class="card">
+                        <img src="https://www.ecam.be/wp-content/uploads/2023/12/logo_ECAM_entier_sansfond-2.png" alt="ECAM Bruxelles" class="logo">
+                        <span class="status-icon $iconClass">$icon</span>
+                        <h2 class="${if(accessToken == null) "error" else ""}">$message</h2>
+                        <p>$details</p>
+                        ${if (accessToken != null) "<script>setTimeout(function() { window.close(); }, 2500);</script>" else ""}
+                    </div>
                 </body>
                 </html>
-                """.trimIndent()
-            } else {
-                """
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Erreur</title>
-                    <meta charset="UTF-8">
-                </head>
-                <body style="font-family: sans-serif; text-align: center; padding: 50px; background: #ff5252; color: white;">
-                    <h1>❌ Erreur</h1>
-                    <p>${error ?: "Erreur inconnue"}</p>
-                </body>
-                </html>
-                """.trimIndent()
-            }
+            """.trimIndent()
             
             exchange.responseHeaders.add("Content-Type", "text/html; charset=utf-8")
-            val responseBytes = response.toByteArray(Charsets.UTF_8)
+            val responseBytes = html.toByteArray(Charsets.UTF_8)
             exchange.sendResponseHeaders(200, responseBytes.size.toLong())
             exchange.responseBody.write(responseBytes)
             exchange.responseBody.close()
@@ -84,7 +137,7 @@ object DesktopOAuthHelper {
             
             // Arrêter le serveur après un court délai
             Thread {
-                Thread.sleep(2000)
+                Thread.sleep(3000)
                 stop()
             }.start()
         }

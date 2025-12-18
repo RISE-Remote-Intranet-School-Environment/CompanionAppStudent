@@ -1,35 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentification...</title>
+    <title>Authentification ECAM</title>
     <style>
+        :root {
+            --ecam-blue: #003366;
+            --bg-gradient: linear-gradient(135deg, #002B55 0%, #004E92 100%);
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-gradient);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
-            color: white;
+            color: #333;
         }
 
-        .container {
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
             text-align: center;
-            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            height: 60px;
+            margin-bottom: 24px;
+            object-fit: contain;
+        }
+
+        h2 {
+            color: var(--ecam-blue);
+            margin: 0 0 12px 0;
+            font-size: 24px;
+        }
+
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin: 0 0 24px 0;
         }
 
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top-color: white;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(0, 51, 102, 0.1);
+            border-top-color: var(--ecam-blue);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
+            margin: 0 auto 20px;
         }
 
         @keyframes spin {
@@ -38,18 +79,50 @@
             }
         }
 
+        .status-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
         .error {
-            color: #ff5252;
+            color: #dc3545;
+        }
+
+        .success {
+            color: #28a745;
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="spinner" id="spinner"></div>
-        <h2 id="message">Authentification en cours...</h2>
-        <p id="details"></p>
+    <div class="card">
+        <img src="https://www.ecam.be/wp-content/uploads/2023/12/logo_ECAM_entier_sansfond-2.png" alt="ECAM Bruxelles"
+            class="logo">
+
+        <div id="loading-state">
+            <div class="spinner"></div>
+            <h2>Authentification en cours</h2>
+            <p>Veuillez patienter...</p>
+        </div>
+
+        <div id="success-state" class="hidden">
+            <span class="status-icon success">✓</span>
+            <h2>Connexion réussie !</h2>
+            <p>Redirection vers l'application...</p>
+        </div>
+
+        <div id="error-state" class="hidden">
+            <span class="status-icon error">✕</span>
+            <h2 class="error">Erreur</h2>
+            <p id="error-details">Une erreur est survenue.</p>
+        </div>
     </div>
+
     <script>
         (function () {
             const params = new URLSearchParams(window.location.search);
@@ -58,36 +131,32 @@
             const error = params.get('error');
             const errorMessage = params.get('message');
 
-            const spinner = document.getElementById('spinner');
-            const message = document.getElementById('message');
-            const details = document.getElementById('details');
+            const loading = document.getElementById('loading-state');
+            const success = document.getElementById('success-state');
+            const errorDiv = document.getElementById('error-state');
 
             if (error) {
-                spinner.style.display = 'none';
-                message.textContent = 'Erreur d\'authentification';
-                message.className = 'error';
-                details.textContent = errorMessage || error;
+                loading.classList.add('hidden');
+                errorDiv.classList.remove('hidden');
+                document.getElementById('error-details').textContent = errorMessage || error;
                 return;
             }
 
             if (accessToken && refreshToken) {
-                // Stockage des tokens
                 localStorage.setItem('jwt_token', accessToken);
                 localStorage.setItem('refresh_token', refreshToken);
                 localStorage.setItem('oauth_success', 'true');
 
-                message.textContent = 'Connexion réussie !';
-                details.textContent = 'Redirection...';
+                loading.classList.add('hidden');
+                success.classList.remove('hidden');
 
-                // Redirection vers l'app principale
                 setTimeout(function () {
                     window.location.href = '/';
                 }, 1000);
             } else {
-                spinner.style.display = 'none';
-                message.textContent = 'Erreur';
-                message.className = 'error';
-                details.textContent = 'Tokens manquants dans la réponse';
+                loading.classList.add('hidden');
+                errorDiv.classList.remove('hidden');
+                document.getElementById('error-details').textContent = 'Tokens manquants';
             }
         })();
     </script>
