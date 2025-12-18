@@ -49,9 +49,14 @@ fun Route.microsoftAuthRoutes() {
         get("/login") {
             val platform = call.request.queryParameters["platform"] ?: "web"
             val returnUrl = call.request.queryParameters["returnUrl"] ?: ""
+            val localCallback = call.request.queryParameters["localCallback"] ?: ""
             
-            // Encode platform et returnUrl dans le state (séparés par |)
-            val state = if (returnUrl.isNotBlank()) "$platform|$returnUrl" else platform
+            // Encode platform, returnUrl et localCallback dans le state (séparés par |)
+            val state = buildString {
+                append(platform)
+                if (returnUrl.isNotBlank()) append("|$returnUrl")
+                else if (localCallback.isNotBlank()) append("|$localCallback")
+            }
             
             val authUrl = buildString {
                 append("https://login.microsoftonline.com/common/oauth2/v2.0/authorize?")
@@ -82,15 +87,26 @@ fun Route.microsoftAuthRoutes() {
             // Fonction helper pour construire l'URL de redirection
             fun buildRedirectUrl(params: String): String {
                 return when (platform) {
-                    "android", "ios", "desktop" -> "be.ecam.companion://auth-callback?$params"
-                    else -> {
-                        // Web : rediriger directement vers l'app avec les tokens en paramètres
-                        if (!returnUrl.isNullOrBlank()) {
-                            // Retour vers localhost ou autre origine
+                    // Android et iOS supportent les deep links
+                    "android", "ios" -> "be.ecam.companion://auth-callback?$params"
+                    
+                    "desktop" -> {
+                        // Si on a un callback local (serveur Desktop), l'utiliser
+                        if (!returnUrl.isNullOrBlank() && returnUrl.startsWith("http://localhost")) {
                             val separator = if (returnUrl.contains("?")) "&" else "?"
                             "$returnUrl$separator$params"
                         } else {
-                            // Production : page HTML intermédiaire
+                            // Sinon, page HTML de fallback
+                            "/auth-callback-desktop.html?$params"
+                        }
+                    }
+                    
+                    else -> {
+                        // Web : rediriger directement vers l'app avec les tokens en paramètres
+                        if (!returnUrl.isNullOrBlank()) {
+                            val separator = if (returnUrl.contains("?")) "&" else "?"
+                            "$returnUrl$separator$params"
+                        } else {
                             "/auth-callback.html?$params"
                         }
                     }

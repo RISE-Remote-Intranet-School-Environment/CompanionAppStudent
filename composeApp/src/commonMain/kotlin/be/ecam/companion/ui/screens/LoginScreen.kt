@@ -27,7 +27,8 @@ fun LoginScreen(
     onLoginSuccess: () -> Unit,
     onNavigateToRegister: () -> Unit,
     viewModel: LoginViewModel,
-    loginUrlGenerator: (() -> String)? = null
+    loginUrlGenerator: (() -> String)? = null,
+    navigateToUrl: ((String) -> Unit)? = null // Nouveau paramètre pour navigation platform-specific
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -60,10 +61,15 @@ fun LoginScreen(
                             viewModel.login(emailOrUsername = email, password = password)
                     },
                     onMicrosoftLoginClick = {
-                        // Ouvre le navigateur vers l'endpoint OAuth Microsoft
                         val microsoftLoginUrl = loginUrlGenerator?.invoke() 
                             ?: "${defaultServerBaseUrl()}/api/auth/microsoft/login?platform=web"
-                        uriHandler.openUri(microsoftLoginUrl)
+                        
+                        // Utiliser la navigation platform-specific si disponible
+                        if (navigateToUrl != null) {
+                            navigateToUrl(microsoftLoginUrl)
+                        } else {
+                            uriHandler.openUri(microsoftLoginUrl)
+                        }
                     },
                     passwordFocusRequester = passwordFocusRequester,
                     buttonFocusRequester = buttonFocusRequester

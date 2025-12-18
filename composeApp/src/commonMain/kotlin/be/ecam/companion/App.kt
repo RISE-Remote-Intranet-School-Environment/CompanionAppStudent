@@ -38,7 +38,8 @@ import org.koin.core.module.Module
 @Composable
 fun App(
     extraModules: List<Module> = emptyList(),
-    loginUrlGenerator: (() -> String)? = null
+    loginUrlGenerator: (() -> String)? = null,
+    navigateToUrl: ((String) -> Unit)? = null // Nouveau paramètre
 ) {
 
     KoinApplication(application = { modules(appModule + extraModules) }) {
@@ -77,7 +78,8 @@ fun App(
                             viewModel = loginViewModel,
                             onLoginSuccess = { isLoggedIn = true },
                             onNavigateToRegister = { showRegister = true },
-                            loginUrlGenerator = loginUrlGenerator
+                            loginUrlGenerator = loginUrlGenerator,
+                            navigateToUrl = navigateToUrl
                         )
                     }
                     return@MaterialTheme
