@@ -89,8 +89,9 @@ fun MonPaeScreen(
     authToken: String? = null,
     onContextChange: (String?) -> Unit = {}
 ) {
-    val httpClient = koinInject<HttpClient>()
+    // Ensure we use the settings-provided server (host/port)
     val settingsRepo = koinInject<SettingsRepository>()
+    val httpClient = koinInject<HttpClient>()
     val host = settingsRepo.getServerHost()
     val port = settingsRepo.getServerPort()
     val token = authToken?.trim()?.removeSurrounding("\"")?.takeIf { it.isNotBlank() }
@@ -101,15 +102,12 @@ fun MonPaeScreen(
     val paeDatabase by produceState<PaeDatabase?>(initialValue = null) {
         loadError = null
         value = try {
-            // Try server first, fallback to local json
-            val remote = runCatching {
-                loadPaeFromServer(
-                    client = httpClient,
-                    baseUrl = buildBaseUrl(host, port),
-                    token = token
-                )
-            }.getOrNull()
-            remote ?: PaeRepository.load()
+            val baseUrl = buildBaseUrl(host, port)
+            loadPaeFromServer(
+                client = httpClient,
+                baseUrl = baseUrl,
+                token = token
+            )
         } catch (t: Throwable) {
             loadError = t.message ?: "Impossible de charger le PAE"
             null
@@ -281,6 +279,15 @@ private data class NotesStudentDto(
 )
 
 @Serializable
+private data class SousCourseDto(
+    @SerialName("sousCourseId") val sousCourseId: String,
+    @SerialName("courseId") val courseId: String,
+    val title: String,
+    @SerialName("hoursQ1") val hoursQ1: String,
+    @SerialName("hoursQ2") val hoursQ2: String
+)
+
+@Serializable
 private data class CourseMetaDto(
     @SerialName("courseId") val courseId: String,
     @SerialName("courseRaccourciId") val courseRaccourciId: String? = null,
@@ -294,6 +301,20 @@ private data class BlocMetaDto(
     @SerialName("blocId") val blocId: String,
     val name: String
 )
+
+private fun parseYearStart(academicYear: String?): Int? {
+    if (academicYear.isNullOrBlank()) return null
+    val firstPart = academicYear.split('-', '/', ' ').firstOrNull()?.filter { it.isDigit() }
+    return firstPart?.takeIf { it.length >= 4 }?.toIntOrNull()
+}
+
+private fun latestAcademicYear(notes: List<NotesStudentDto>, enrolYear: Int?): String? {
+    val notedYears = notes.mapNotNull { it.academicYear }
+    val latestFromNotes = notedYears.maxWithOrNull(
+        compareBy<String> { parseYearStart(it) ?: Int.MIN_VALUE }.thenBy { it }
+    )
+    return latestFromNotes ?: enrolYear?.toString()
+}
 
 suspend fun loadPaeFromServer(
     client: HttpClient,
@@ -325,6 +346,13 @@ suspend fun loadPaeFromServer(
         }.body<List<CourseMetaDto>>()
     }.getOrElse { emptyList() }.associateBy { it.courseId.lowercase() }
 
+    val sousCoursesByCourse: Map<String, List<SousCourseDto>> = runCatching {
+        client.get("$baseUrl/api/sous-courses") {
+            bearer?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+            header(HttpHeaders.Accept, "application/json")
+        }.body<List<SousCourseDto>>()
+    }.getOrElse { emptyList() }.groupBy { it.courseId.lowercase() }
+
     val blocNameById: Map<String, String> = runCatching {
         client.get("$baseUrl/api/blocs") {
             bearer?.let { header(HttpHeaders.Authorization, "Bearer $it") }
@@ -334,16 +362,39 @@ suspend fun loadPaeFromServer(
 
     val mappedStudents = students.map { dto ->
         val notes = notesByStudent[dto.studentId].orEmpty()
-        val courses = buildCoursesFromNotes(dto.courseIds, notes, coursesMeta)
-        val record = PaeRecord(
-            program = dto.program,
-            academicYearLabel = dto.enrolYear?.toString(),
-            catalogYear = dto.enrolYear?.toString(),
-            formationSlug = dto.formationId,
-            formationId = null,
-            block = dto.blocId?.let { blocNameById[it.lowercase()] ?: it },
-            courses = courses
-        )
+        val blocName = dto.blocId?.let { blocNameById[it.lowercase()] ?: it }
+
+        // Construire un record par année de notes si disponibles, sinon fallback enrolYear
+        val records: List<PaeRecord> = notes
+            .groupBy { it.academicYear }
+            .filterKeys { !it.isNullOrBlank() }
+            .entries
+            .sortedByDescending { parseYearStart(it.key) ?: Int.MIN_VALUE }
+            .map { (year, yearNotes) ->
+                PaeRecord(
+                    program = dto.program,
+                    academicYearLabel = year,
+                    catalogYear = year,
+                    formationSlug = dto.formationId,
+                    formationId = null,
+                    block = blocName,
+                    courses = buildCoursesFromNotes(dto.courseIds, yearNotes, coursesMeta, sousCoursesByCourse)
+                )
+            }
+            .ifEmpty {
+                val recordYear = dto.enrolYear?.toString()
+                listOf(
+                    PaeRecord(
+                        program = dto.program,
+                        academicYearLabel = recordYear,
+                        catalogYear = recordYear,
+                        formationSlug = dto.formationId,
+                        formationId = null,
+                        block = blocName,
+                        courses = buildCoursesFromNotes(dto.courseIds, notes, coursesMeta, sousCoursesByCourse)
+                    )
+                )
+            }
 
         PaeStudent(
             studentName = dto.studentName,
@@ -352,7 +403,7 @@ suspend fun loadPaeFromServer(
             username = dto.email.substringBefore("@"),
             email = dto.email,
             password = null,
-            records = listOf(record)
+            records = records
         )
     }
 
@@ -362,7 +413,8 @@ suspend fun loadPaeFromServer(
 private fun buildCoursesFromNotes(
     courseIdsRaw: String?,
     notes: List<NotesStudentDto>,
-    courseMeta: Map<String, CourseMetaDto>
+    courseMeta: Map<String, CourseMetaDto>,
+    sousCoursesByCourse: Map<String, List<SousCourseDto>>
 ): List<PaeCourse> {
     // Start from courseIds list if provided; otherwise derive from notes
     val fromList: Set<String> = courseIdsRaw
@@ -379,7 +431,7 @@ private fun buildCoursesFromNotes(
         val entries = noteCourses[code].orEmpty()
         val meta = courseMeta[code.lowercase()]
         val base = entries.firstOrNull()
-        val components = entries.mapNotNull { entry ->
+        val componentsFromNotes = entries.mapNotNull { entry ->
             entry.componentCode?.takeIf { it.isNotBlank() }?.let {
                 PaeComponent(
                     code = it,
@@ -390,6 +442,22 @@ private fun buildCoursesFromNotes(
                         jun = entry.componentSessionJun?.toString(),
                         sep = entry.componentSessionSep?.toString()
                     )
+                )
+            }
+        }
+        val components = if (componentsFromNotes.isNotEmpty()) {
+            componentsFromNotes
+        } else {
+            sousCoursesByCourse[code.lowercase()].orEmpty().map { sc ->
+                val weight = listOf(sc.hoursQ1, sc.hoursQ2)
+                    .filter { it.isNotBlank() }
+                    .joinToString(" / ")
+                    .ifBlank { null }
+                PaeComponent(
+                    code = sc.sousCourseId,
+                    title = sc.title,
+                    weight = weight,
+                    sessions = PaeSessions()
                 )
             }
         }
