@@ -253,7 +253,11 @@ fun List<Formation>.toProgramCards(): List<ProgramCardData> =
     this.sortedBy { formationOrder.indexOf(it.id).takeIf { index -> index >= 0 } ?: Int.MAX_VALUE }
         .map { formation ->
             val imageUrl = formation.imageUrl?.takeIf { it.isNotBlank() }
-            val description = formationDescriptions[formation.id] ?: ""
+            val description = formation.description
+                ?.takeIf { it.isNotBlank() }
+                ?: formation.notes
+                ?: formationDescriptions[formation.id]
+                ?: ""
             ProgramCardData(
                 formation = formation,
                 description = description,

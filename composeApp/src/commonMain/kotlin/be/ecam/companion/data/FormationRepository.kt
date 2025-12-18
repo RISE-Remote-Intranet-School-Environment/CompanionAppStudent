@@ -21,6 +21,7 @@ data class Formation(
     @SerialName("source_url") val sourceUrl: String? = null,
     @SerialName("image_key") val imageKey: String? = null,
     @SerialName("image_url") val imageUrl: String? = null,
+    val description: String? = null,
     val notes: String? = null,
     val blocks: List<FormationBlock>
 )

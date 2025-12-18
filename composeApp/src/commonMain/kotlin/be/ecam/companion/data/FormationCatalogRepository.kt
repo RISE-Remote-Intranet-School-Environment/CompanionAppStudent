@@ -94,7 +94,8 @@ class FormationCatalogRepository(
                 id = formation.formationId,
                 name = formation.name,
                 sourceUrl = formation.sourceUrl,
-                notes = null,
+                description = formation.description ?: formation.notes,
+                notes = formation.notes,
                 blocks = blocks,
                 imageKey = null,
                 imageUrl = proxiedUrl
@@ -122,7 +123,9 @@ private data class ServerFormationDto(
     @SerialName("formationId") val formationId: String,
     val name: String,
     @SerialName("sourceUrl") val sourceUrl: String? = null,
-    @SerialName("imageUrl") val imageUrl: String? = null
+    @SerialName("imageUrl") val imageUrl: String? = null,
+    val description: String? = null,
+    val notes: String? = null
 )
 
 @Serializable
