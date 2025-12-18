@@ -1,1254 +1,146 @@
-﻿id,code,title,date,start_time,end_time,group_code,owner_type,owner_ref
-1,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-2,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-3,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-4,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-5,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-6,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-7,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-8,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-9,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-10,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-11,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-12,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-13,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-14,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-15,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-16,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-17,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-18,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-19,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-20,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-21,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-22,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-23,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-24,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-25,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-26,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-27,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-28,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-29,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-30,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-31,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-32,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-33,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-34,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-35,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-36,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-37,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-38,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-39,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-40,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-41,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-42,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-43,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-44,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-45,evt_2025-11-11_Lu,Congé,11/10/2025,0:00,23:59,,EVENEMENT,autre
-47,evt_2025-11-11_Ma,Congé,11/11/2025,0:00,23:59,,EVENEMENT,autre
-48,evt_2025-11-13_Je,Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-49,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-50,global_2025-11-24,Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-51,evt_2025-11-28_Ve,SIEP Bruxelles,11/28/2025,0:00,23:59,,EVENEMENT,stage
-52,evt_2025-11-29_Sa,SIEP Bruxelles,11/29/2025,0:00,23:59,,EVENEMENT,stage
-53,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-54,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-55,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-56,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-57,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-58,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-59,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-60,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-61,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-62,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-63,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-64,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-65,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-66,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-67,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-68,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-69,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-70,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-71,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-72,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-73,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-74,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-75,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-76,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-77,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-78,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-79,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-80,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-81,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-82,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-83,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-84,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-85,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-86,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-87,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-88,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-89,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-90,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-91,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-92,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-93,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-94,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-95,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-96,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-97,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-98,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-99,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-100,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-101,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-102,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-103,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-104,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-105,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-106,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-107,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-108,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-109,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-110,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-111,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-112,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-113,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-114,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-115,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-116,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-117,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-118,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-119,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-120,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-121,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-122,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-123,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-124,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-125,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-126,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-127,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-128,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-129,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-130,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-131,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-132,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-133,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-134,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-135,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-136,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-137,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-138,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-139,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-140,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-141,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-142,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-143,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-144,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-145,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-146,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-147,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-148,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-149,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-150,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-151,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-152,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-153,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-154,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-155,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-156,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-157,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-158,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-159,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-160,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-161,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-162,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-163,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-164,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-165,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-166,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-167,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-168,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-169,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-170,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-171,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-172,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-173,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-174,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-175,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-176,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-177,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-178,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-179,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-180,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-181,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-182,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-183,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-184,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-185,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-186,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-187,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-188,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-189,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-190,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-191,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-192,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-193,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-194,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-195,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-196,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-197,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-198,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-199,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-200,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-201,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-202,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-203,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-204,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-205,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-206,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-207,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-208,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-209,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-210,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-211,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-212,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-213,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-214,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-215,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-216,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-217,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-218,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-219,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-220,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-221,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-222,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-223,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-224,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-225,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-226,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-227,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-228,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-229,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-230,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-231,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-232,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-233,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-234,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-235,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-236,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-237,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-238,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-239,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-240,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-241,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-242,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-243,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-244,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-245,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-246,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-247,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-248,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-249,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-250,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-251,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-252,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-253,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-254,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-255,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-256,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-257,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-258,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-259,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-260,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-261,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-262,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-263,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-264,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-265,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-266,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-267,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-268,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-269,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-270,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-271,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-272,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-273,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-274,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-275,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-276,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-277,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-278,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-279,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-280,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-281,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-282,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-283,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-284,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-285,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-286,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-287,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-288,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-289,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-290,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-291,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-292,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-293,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-294,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-295,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-296,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-297,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-298,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-299,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-300,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-301,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-302,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-303,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-304,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-305,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-306,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-307,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-308,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-309,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-310,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-311,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-312,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-313,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-314,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-315,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-316,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-317,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-318,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-319,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-320,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-321,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-322,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-323,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-324,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-325,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-326,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-327,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-328,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-329,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-330,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-331,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-332,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-333,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-334,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-335,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-336,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-337,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-338,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-339,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-340,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-341,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-342,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-343,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-344,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-345,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-346,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-347,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-348,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-349,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-350,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-351,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-352,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-353,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-354,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-355,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-356,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-357,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-358,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-359,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-360,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-361,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-362,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-363,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-364,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-365,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-366,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-367,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-368,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-369,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-370,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-371,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-372,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-373,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-374,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-375,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-376,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-377,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-378,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-379,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-380,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-381,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-382,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-383,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-384,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-385,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-386,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-387,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-388,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-389,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-390,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-391,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-392,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-393,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-394,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-395,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-396,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-397,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-398,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-399,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-400,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-401,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-402,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-403,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-404,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-405,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-406,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-407,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-408,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-409,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-410,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-411,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-412,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-413,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-414,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-415,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-416,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-417,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-418,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-419,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-420,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-421,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-422,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-423,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-424,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-425,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-426,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-427,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-428,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-429,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-430,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-431,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-432,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-433,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-434,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-435,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-436,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-437,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-438,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-439,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-440,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-441,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-442,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-443,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-444,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-445,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-446,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-447,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-448,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-449,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-450,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-451,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-452,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-453,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-454,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-455,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-456,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-457,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-458,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-459,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-460,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-461,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-462,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-463,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-464,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-465,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-466,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-467,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-468,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-469,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-470,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-471,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-472,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-473,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-474,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-475,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-476,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-477,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-478,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-479,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-480,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-481,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-482,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-483,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-484,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-485,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-486,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-487,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-488,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-489,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-490,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-491,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-492,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-493,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-494,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-495,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-496,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-497,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-498,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-499,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-500,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-501,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-502,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-503,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-504,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-505,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-506,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-507,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-508,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-509,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-510,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-511,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-512,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-513,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-514,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-515,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-516,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-517,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-518,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-519,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-520,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-521,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-522,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-523,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-524,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-525,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-526,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-527,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-528,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-529,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-530,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-531,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-532,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-533,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-534,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-535,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-536,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-537,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-538,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-539,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-540,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-541,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-542,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-543,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-544,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-545,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-546,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-547,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-548,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-549,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-550,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-551,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-552,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-553,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-554,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-555,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-556,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-557,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-558,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-559,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-560,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-561,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-562,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-563,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-564,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-565,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-566,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-567,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-568,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-569,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-570,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-571,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-572,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-573,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-574,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-575,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-576,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-577,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-578,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-579,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-580,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-581,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-582,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-583,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-584,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-585,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-586,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-587,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-588,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-589,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-590,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-591,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-592,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-593,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-594,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-595,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-596,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-597,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-598,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-599,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-600,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-601,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-602,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-603,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-604,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-605,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-606,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-607,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-608,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-609,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-610,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-611,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-612,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-613,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-614,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-615,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-616,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-617,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-618,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-619,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-620,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-621,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-622,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-623,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-624,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-625,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-626,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-627,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-628,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-629,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-630,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-631,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-632,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-633,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-634,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-635,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-636,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-637,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-638,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-639,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-640,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-641,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-642,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-643,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-644,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-645,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-646,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-647,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-648,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-649,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-650,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-651,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-652,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-653,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-654,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-655,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-656,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-657,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-658,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-659,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-660,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-661,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-662,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-663,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-664,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-665,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-666,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-667,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-668,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-669,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-670,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-671,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-672,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-673,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-674,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-675,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-676,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-677,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-678,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-679,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-680,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-681,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-682,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-683,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-684,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
-,global_2025-09-15,rentrée ,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-12_Ve,rentrée administrative des 1BA,9/12/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,evt_2025-09-15_Lu,rentrée académique,9/15/2025,0:00,23:59,1BA,EVENEMENT,rentree
-,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,1/5/2026,0:00,23:59,2MA,EVENEMENT,examens
-,global_2026-01-26,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-26_Lu,TFE + délibés et procla 5MA,1/26/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,evt_2026-01-30_Ve,TFE + délibés et procla 5MA,1/30/2026,0:00,23:59,5MA,EVENEMENT,tfe
-,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,evt_2026-02-02_Lu,début du 2e quadrimestre - Stage 2MA,2/2/2026,0:00,23:59,2MA,EVENEMENT,stage
-,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2/23/2026,0:00,23:59,2MA,EVENEMENT,conges
-,global_2026-03-09,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/9/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/11/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,3/12/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/23/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,evt_2026-03-28_Sa,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,3/28/2026,0:00,23:59,2MA,EVENEMENT,tfe
-,global_2026-04-06,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,evt_2026-04-06_Lu,lundi de Pâques Stage 3BA - TFE 2MA,4/6/2026,0:00,23:59,3BA,EVENEMENT,tfe
-,global_2026-04-20,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-20_Lu,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/20/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,4/21/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,4/27/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-11,Ascension,5/11/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-14_Je,Ascension,5/14/2026,0:00,23:59,3BA,EVENEMENT,conges
-,evt_2026-05-15_Ve,Ascension,5/15/2026,0:00,23:59,3BA,EVENEMENT,conges
-,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,5/18/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-06-22,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-22_Lu,délibés,6/22/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-23_Ma,délibés,6/23/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-24_Me,délibés,6/24/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-25_Je,délibés,6/25/2026,0:00,23:59,1BA,EVENEMENT,examens
-,evt_2026-06-26_Ve,délibés,6/26/2026,0:00,23:59,1BA,EVENEMENT,examens
-,global_2026-09-07,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-07_Lu,TFE,9/7/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-08_Ma,TFE,9/8/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-09_Me,TFE,9/9/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-10_Je,TFE,9/10/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,evt_2026-09-11_Ve,TFE,9/11/2026,0:00,23:59,1BA,EVENEMENT,tfe
-,global_2025-10-27,Congés d'automne - cours suspendus,10/27/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-11-03,Lu 03 et Ma 04: examens BLOC 1 ; Ma 04 soir: presentation relations internationales,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-03_Lu,examens BLOC 1,11/3/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,examens BLOC 1,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,evt_2025-11-04_Ma,presentation relations internationales,11/4/2025,0:00,23:59,,EVENEMENT,examens
-,global_2025-11-10,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-10_Lu,Lu 10 et Ma 11: conge ,11/10/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-11_Ma,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/11/2025,0:00,23:59,,EVENEMENT,autre
-,evt_2025-11-13_Je,Lu 10 et Ma 11: conge ; Je 13 soir: Foire Internationale,11/13/2025,0:00,23:59,,EVENEMENT,autre
-,global_2025-11-17,Stage 1MIS,11/17/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-11-24,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/24/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-28_Ve,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/28/2025,0:00,23:59,,EVENEMENT,stage
-,evt_2025-11-29_Sa,Ve 28 et Sa 29: SIEP Bruxelles Stage 1MIS,11/29/2025,0:00,23:59,,EVENEMENT,stage
-,global_2025-12-22,Vacances d'hiver- cours suspendus,12/22/2025,0:00,23:59,,EVENEMENT,conges
-,global_2025-12-29,Vacances d'hiver- cours suspendus,12/29/2025,0:00,23:59,,EVENEMENT,conges
-,global_2026-06-01,Examens ; Ma 02 date limite remise TFE,6/1/2026,0:00,23:59,,EVENEMENT,examens
-,evt_2026-06-02_Ma,Examens ; Ma 02 date limite remise TFE,6/2/2026,0:00,23:59,,EVENEMENT,examens
-,global_2026-06-29,Vacances académiques,6/29/2026,0:00,23:59,,EVENEMENT,conges
+id,code,title,date,start_time,end_time,group_code,owner_type,owner_ref
+225,global_2025-01-01,Vacances d'hiver- cours suspendus,2025-01-01,00:00,23:59,,EVENEMENT,conges
+282,global_2025-01-02,Vacances d'hiver- cours suspendus,2025-01-02,00:00,23:59,,EVENEMENT,conges
+2,evt_2025-09-12_Ve,rentrée administrative des 1BA,2025-09-12,00:00,23:59,1BA,EVENEMENT,rentree
+1,global_2025-09-15,rentrée ,2025-09-15,00:00,23:59,1BA,EVENEMENT,rentree
+3,evt_2025-09-15_Lu,rentrée académique,2025-09-15,00:00,23:59,1BA,EVENEMENT,rentree
+58,global_2025-09-16,rentrée ,2025-09-16,00:00,23:59,1BA,EVENEMENT,rentree
+115,global_2025-09-17,rentrée ,2025-09-17,00:00,23:59,1BA,EVENEMENT,rentree
+172,global_2025-09-18,rentrée ,2025-09-18,00:00,23:59,1BA,EVENEMENT,rentree
+229,global_2025-09-19,rentrée ,2025-09-19,00:00,23:59,1BA,EVENEMENT,rentree
+286,global_2025-09-20,rentrée ,2025-09-20,00:00,23:59,1BA,EVENEMENT,rentree
+40,global_2025-10-27,Congés d'automne - cours suspendus,2025-10-27,00:00,23:59,,EVENEMENT,conges
+97,global_2025-10-28,Congés d'automne - cours suspendus,2025-10-28,00:00,23:59,,EVENEMENT,conges
+154,global_2025-10-29,Congés d'automne - cours suspendus,2025-10-29,00:00,23:59,,EVENEMENT,conges
+211,global_2025-10-30,Congés d'automne - cours suspendus,2025-10-30,00:00,23:59,,EVENEMENT,conges
+268,global_2025-10-31,Congés d'automne - cours suspendus,2025-10-31,00:00,23:59,,EVENEMENT,conges
+325,global_2025-11-01,Congés d'automne - cours suspendus,2025-11-01,00:00,23:59,,EVENEMENT,conges
+42,evt_2025-11-03_Lu,examens BLOC 1,2025-11-03,00:00,23:59,,EVENEMENT,examens
+683,global_2025-11-03,presentation relations internationales,2025-11-03,18:00,22:00,,EVENEMENT,examens
+43,evt_2025-11-04_Ma,examens BLOC 1,2025-11-04,00:00,23:59,,EVENEMENT,examens
+45,evt_2025-11-10_Lu,Congé,2025-11-10,00:00,23:59,,EVENEMENT,autre
+103,evt_2025-11-11_Ma,Congé,2025-11-11,00:00,23:59,,EVENEMENT,autre
+48,evt_2025-11-13_Je,Foire Internationale,2025-11-13,00:00,23:59,,EVENEMENT,autre
+49,global_2025-11-17,Stage 1MIS,2025-11-17,00:00,23:59,,EVENEMENT,stage
+106,global_2025-11-18,Stage 1MIS,2025-11-18,00:00,23:59,,EVENEMENT,stage
+163,global_2025-11-19,Stage 1MIS,2025-11-19,00:00,23:59,,EVENEMENT,stage
+220,global_2025-11-20,Stage 1MIS,2025-11-20,00:00,23:59,,EVENEMENT,stage
+277,global_2025-11-21,Stage 1MIS,2025-11-21,00:00,23:59,,EVENEMENT,stage
+334,global_2025-11-22,Stage 1MIS,2025-11-22,00:00,23:59,,EVENEMENT,stage
+51,evt_2025-11-28_Ve,SIEP Bruxelles,2025-11-28,00:00,23:59,,EVENEMENT,stage
+52,evt_2025-11-29_Sa,SIEP Bruxelles,2025-11-29,00:00,23:59,,EVENEMENT,stage
+53,global_2025-12-22,Vacances d'hiver- cours suspendus,2025-12-22,00:00,23:59,,EVENEMENT,conges
+110,global_2025-12-23,Vacances d'hiver- cours suspendus,2025-12-23,00:00,23:59,,EVENEMENT,conges
+167,global_2025-12-24,Vacances d'hiver- cours suspendus,2025-12-24,00:00,23:59,,EVENEMENT,conges
+224,global_2025-12-25,Vacances d'hiver- cours suspendus,2025-12-25,00:00,23:59,,EVENEMENT,conges
+281,global_2025-12-26,Vacances d'hiver- cours suspendus,2025-12-26,00:00,23:59,,EVENEMENT,conges
+54,global_2025-12-29,Vacances d'hiver- cours suspendus,2025-12-29,00:00,23:59,,EVENEMENT,conges
+111,global_2025-12-30,Vacances d'hiver- cours suspendus,2025-12-30,00:00,23:59,,EVENEMENT,conges
+168,global_2025-12-31,Vacances d'hiver- cours suspendus,2025-12-31,00:00,23:59,,EVENEMENT,conges
+4,global_2026-01-05,Horaire spécial - examens/cours - Stage 2MA,2026-01-05,00:00,23:59,2MA,EVENEMENT,examens
+61,global_2026-01-06,Horaire spécial - examens/cours - Stage 2MA,2026-01-06,00:00,23:59,2MA,EVENEMENT,examens
+118,global_2026-01-07,Horaire spécial - examens/cours - Stage 2MA,2026-01-07,00:00,23:59,2MA,EVENEMENT,examens
+175,global_2026-01-08,Horaire spécial - examens/cours - Stage 2MA,2026-01-08,00:00,23:59,2MA,EVENEMENT,examens
+232,global_2026-01-09,Horaire spécial - examens/cours - Stage 2MA,2026-01-09,00:00,23:59,2MA,EVENEMENT,examens
+289,global_2026-01-10,Horaire spécial - examens/cours - Stage 2MA,2026-01-10,00:00,23:59,2MA,EVENEMENT,examens
+346,global_2026-01-11,Horaire spécial - examens/cours - Stage 2MA,2026-01-11,00:00,23:59,2MA,EVENEMENT,examens
+403,global_2026-01-12,Horaire spécial - examens/cours - Stage 2MA,2026-01-12,00:00,23:59,2MA,EVENEMENT,examens
+460,global_2026-01-13,Horaire spécial - examens/cours - Stage 2MA,2026-01-13,00:00,23:59,2MA,EVENEMENT,examens
+517,global_2026-01-14,Horaire spécial - examens/cours - Stage 2MA,2026-01-14,00:00,23:59,2MA,EVENEMENT,examens
+574,global_2026-01-15,Horaire spécial - examens/cours - Stage 2MA,2026-01-15,00:00,23:59,2MA,EVENEMENT,examens
+631,global_2026-01-16,Horaire spécial - examens/cours - Stage 2MA,2026-01-16,00:00,23:59,2MA,EVENEMENT,examens
+684,global_2026-01-17,Horaire spécial - examens/cours - Stage 2MA,2026-01-17,00:00,23:59,2MA,EVENEMENT,examens
+685,global_2026-01-18,Horaire spécial - examens/cours - Stage 2MA,2026-01-18,00:00,23:59,2MA,EVENEMENT,examens
+686,global_2026-01-19,Horaire spécial - examens/cours - Stage 2MA,2026-01-19,00:00,23:59,2MA,EVENEMENT,examens
+687,global_2026-01-20,Horaire spécial - examens/cours - Stage 2MA,2026-01-20,00:00,23:59,2MA,EVENEMENT,examens
+688,global_2026-01-21,Horaire spécial - examens/cours - Stage 2MA,2026-01-21,00:00,23:59,2MA,EVENEMENT,examens
+689,global_2026-01-22,Horaire spécial - examens/cours - Stage 2MA,2026-01-22,00:00,23:59,2MA,EVENEMENT,examens
+690,global_2026-01-23,Horaire spécial - examens/cours - Stage 2MA,2026-01-23,00:00,23:59,2MA,EVENEMENT,examens
+62,global_2026-01-26,TFE + délibés et procla 5MA,2026-01-26,00:00,23:59,5MA,EVENEMENT,tfe
+63,global_2026-01-27,TFE + délibés et procla 5MA,2026-01-27,00:00,23:59,5MA,EVENEMENT,tfe
+119,global_2026-01-28,TFE + délibés et procla 5MA,2026-01-28,00:00,23:59,5MA,EVENEMENT,tfe
+120,global_2026-01-29,TFE + délibés et procla 5MA,2026-01-29,00:00,23:59,5MA,EVENEMENT,tfe
+176,global_2026-01-30,TFE + délibés et procla 5MA,2026-01-30,00:00,23:59,5MA,EVENEMENT,tfe
+177,global_2026-01-31,TFE + délibés et procla 5MA,2026-01-31,00:00,23:59,5MA,EVENEMENT,tfe
+8,global_2026-02-02,début du 2e quadrimestre - Stage 2MA,2026-02-02,00:00,23:59,2MA,EVENEMENT,stage
+9,global_2026-02-03,début du 2e quadrimestre - Stage 2MA,2026-02-03,00:00,23:59,2MA,EVENEMENT,stage
+65,global_2026-02-04,début du 2e quadrimestre - Stage 2MA,2026-02-04,00:00,23:59,2MA,EVENEMENT,stage
+66,global_2026-02-05,début du 2e quadrimestre - Stage 2MA,2026-02-05,00:00,23:59,2MA,EVENEMENT,stage
+122,global_2026-02-06,début du 2e quadrimestre - Stage 2MA,2026-02-06,00:00,23:59,2MA,EVENEMENT,stage
+123,global_2026-02-07,début du 2e quadrimestre - Stage 2MA,2026-02-07,00:00,23:59,2MA,EVENEMENT,stage
+10,global_2026-02-23,Vacances de détente - cours suspendus - TFE 2MA,2026-02-23,00:00,23:59,2MA,EVENEMENT,conges
+67,global_2026-02-24,Vacances de détente - cours suspendus - TFE 2MA,2026-02-24,00:00,23:59,2MA,EVENEMENT,conges
+124,global_2026-02-25,Vacances de détente - cours suspendus - TFE 2MA,2026-02-25,00:00,23:59,2MA,EVENEMENT,conges
+181,global_2026-02-26,Vacances de détente - cours suspendus - TFE 2MA,2026-02-26,00:00,23:59,2MA,EVENEMENT,conges
+238,global_2026-02-27,Vacances de détente - cours suspendus - TFE 2MA,2026-02-27,00:00,23:59,2MA,EVENEMENT,conges
+295,global_2026-02-28,Vacances de détente - cours suspendus - TFE 2MA,2026-02-28,00:00,23:59,2MA,EVENEMENT,conges
+12,evt_2026-03-11_Me,Me 11 et Je 12: Journées des entreprises - TFE 2MA,2026-03-11,00:00,23:59,2MA,EVENEMENT,tfe
+13,evt_2026-03-12_Je,Me 11 et Je 12: Journées des entreprises - TFE 2MA,2026-03-12,00:00,23:59,2MA,EVENEMENT,tfe
+14,global_2026-03-23,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,2026-03-23,10:00,14:00,2MA,EVENEMENT,tfe
+71,global_2026-03-24,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,2026-03-24,10:00,14:00,2MA,EVENEMENT,tfe
+128,global_2026-03-25,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,2026-03-25,10:00,14:00,2MA,EVENEMENT,tfe
+185,global_2026-03-26,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,2026-03-26,10:00,14:00,2MA,EVENEMENT,tfe
+242,global_2026-03-27,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,2026-03-27,10:00,14:00,2MA,EVENEMENT,tfe
+299,global_2026-03-28,JPO ECAM 10-14h + Printemps des Sciences - TFE 2MA,2026-03-28,10:00,14:00,2MA,EVENEMENT,tfe
+73,global_2026-04-06,Stage 3BA - TFE 2MA,2026-04-06,00:00,23:59,3BA,EVENEMENT,tfe
+17,evt_2026-04-06_Lu,lundi de Pâques,2026-04-06,00:00,23:59,3BA,EVENEMENT,tfe
+74,global_2026-04-07,Stage 3BA - TFE 2MA,2026-04-07,00:00,23:59,3BA,EVENEMENT,tfe
+130,global_2026-04-08,Stage 3BA - TFE 2MA,2026-04-08,00:00,23:59,3BA,EVENEMENT,tfe
+131,global_2026-04-09,Stage 3BA - TFE 2MA,2026-04-09,00:00,23:59,3BA,EVENEMENT,tfe
+187,global_2026-04-10,Stage 3BA - TFE 2MA,2026-04-10,00:00,23:59,3BA,EVENEMENT,tfe
+188,global_2026-04-11,Stage 3BA - TFE 2MA,2026-04-11,00:00,23:59,3BA,EVENEMENT,tfe
+75,global_2026-04-20,Stage 3BA - TFE 2MA,2026-04-20,00:00,23:59,1BA,EVENEMENT,examens
+19,evt_2026-04-20_Lu,examens rattrapage Q1 1BA ,2026-04-20,00:00,23:59,1BA,EVENEMENT,examens
+77,evt_2026-04-21_Ma,Lu 20 et Ma 21: examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,2026-04-21,00:00,23:59,1BA,EVENEMENT,examens
+76,global_2026-04-21,Stage 3BA - TFE 2MA,2026-04-21,00:00,23:59,1BA,EVENEMENT,examens
+20,evt_2026-04-21_Ma,examens rattrapage Q1 1BA,2026-04-21,00:00,23:59,1BA,EVENEMENT,examens
+132,global_2026-04-22,Stage 3BA - TFE 2MA,2026-04-22,00:00,23:59,1BA,EVENEMENT,examens
+133,global_2026-04-23,Stage 3BA - TFE 2MA,2026-04-23,00:00,23:59,1BA,EVENEMENT,examens
+189,global_2026-04-24,Stage 3BA - TFE 2MA,2026-04-24,00:00,23:59,1BA,EVENEMENT,examens
+190,global_2026-04-25,Stage 3BA - TFE 2MA,2026-04-25,00:00,23:59,1BA,EVENEMENT,examens
+21,global_2026-04-27,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,2026-04-27,00:00,23:59,3BA,EVENEMENT,conges
+78,global_2026-04-28,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,2026-04-28,00:00,23:59,3BA,EVENEMENT,conges
+135,global_2026-04-29,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,2026-04-29,00:00,23:59,3BA,EVENEMENT,conges
+192,global_2026-04-30,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,2026-04-30,00:00,23:59,3BA,EVENEMENT,conges
+249,global_2026-05-01,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,2026-05-01,00:00,23:59,3BA,EVENEMENT,conges
+306,global_2026-05-02,Vacances de printemps - cours suspendus - Stage 3BA - TFE 2MA,2026-05-02,00:00,23:59,3BA,EVENEMENT,conges
+23,evt_2026-05-14_Je,Ascension,2026-05-14,00:00,23:59,3BA,EVENEMENT,conges
+24,evt_2026-05-15_Ve,Ascension,2026-05-15,00:00,23:59,3BA,EVENEMENT,conges
+25,global_2026-05-18,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,2026-05-18,00:00,23:59,1BA,EVENEMENT,examens
+82,global_2026-05-19,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,2026-05-19,00:00,23:59,1BA,EVENEMENT,examens
+139,global_2026-05-20,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,2026-05-20,00:00,23:59,1BA,EVENEMENT,examens
+196,global_2026-05-21,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,2026-05-21,00:00,23:59,1BA,EVENEMENT,examens
+253,global_2026-05-22,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,2026-05-22,00:00,23:59,1BA,EVENEMENT,examens
+310,global_2026-05-23,Horaire spécial - examens rattrapage Q1 1BA - Stage 3BA - TFE 2MA,2026-05-23,00:00,23:59,1BA,EVENEMENT,examens
+55,global_2026-06-01,Examens,2026-06-01,00:00,23:59,,EVENEMENT,examens
+56,evt_2026-06-02_Ma,Date limite remise TFE,2026-06-02,00:00,23:59,,EVENEMENT,examens
+112,global_2026-06-02,Examens,2026-06-02,00:00,23:59,,EVENEMENT,examens
+169,global_2026-06-03,Examens,2026-06-03,00:00,23:59,,EVENEMENT,examens
+226,global_2026-06-04,Examens,2026-06-04,00:00,23:59,,EVENEMENT,examens
+283,global_2026-06-05,Examens,2026-06-05,00:00,23:59,,EVENEMENT,examens
+454,global_2026-06-08,Examens,2026-06-08,00:00,23:59,,EVENEMENT,examens
+511,global_2026-06-09,Examens,2026-06-09,00:00,23:59,,EVENEMENT,examens
+568,global_2026-06-10,Examens,2026-06-10,00:00,23:59,,EVENEMENT,examens
+625,global_2026-06-11,Examens,2026-06-11,00:00,23:59,,EVENEMENT,examens
+682,global_2026-06-12,Examens,2026-06-12,00:00,23:59,,EVENEMENT,examens
+691,global_2026-06-15,Examens,2026-06-15,00:00,23:59,,EVENEMENT,examens
+692,global_2026-06-16,Examens,2026-06-16,00:00,23:59,,EVENEMENT,examens
+693,global_2026-06-17,Examens,2026-06-17,00:00,23:59,,EVENEMENT,examens
+694,global_2026-06-18,Examens,2026-06-18,00:00,23:59,,EVENEMENT,examens
+695,global_2026-06-19,Examens,2026-06-19,00:00,23:59,,EVENEMENT,examens
+27,evt_2026-06-22_Lu,délibés,2026-06-22,00:00,23:59,1BA,EVENEMENT,examens
+28,evt_2026-06-23_Ma,délibés,2026-06-23,00:00,23:59,1BA,EVENEMENT,examens
+29,evt_2026-06-24_Me,délibés,2026-06-24,00:00,23:59,1BA,EVENEMENT,examens
+30,evt_2026-06-25_Je,délibés,2026-06-25,00:00,23:59,1BA,EVENEMENT,examens
+32,evt_2026-06-26_Ve,délibés,2026-06-26,00:00,23:59,1BA,EVENEMENT,examens
+57,global_2026-06-29,Vacances académiques,2026-06-29,00:00,23:59,,EVENEMENT,conges
+114,global_2026-06-30,Vacances académiques,2026-06-30,00:00,23:59,,EVENEMENT,conges
+171,global_2026-07-01,Vacances académiques,2026-07-01,00:00,23:59,,EVENEMENT,conges
+228,global_2026-07-02,Vacances académiques,2026-07-02,00:00,23:59,,EVENEMENT,conges
+285,global_2026-07-03,Vacances académiques,2026-07-03,00:00,23:59,,EVENEMENT,conges
+342,global_2026-07-04,Vacances académiques,2026-07-04,00:00,23:59,,EVENEMENT,conges
+34,evt_2026-09-07_Lu,TFE,2026-09-07,00:00,23:59,1BA,EVENEMENT,tfe
+35,evt_2026-09-08_Ma,TFE,2026-09-08,00:00,23:59,1BA,EVENEMENT,tfe
+36,evt_2026-09-09_Me,TFE,2026-09-09,00:00,23:59,1BA,EVENEMENT,tfe
+38,evt_2026-09-10_Je,TFE,2026-09-10,00:00,23:59,1BA,EVENEMENT,tfe
+39,evt_2026-09-11_Ve,TFE,2026-09-11,00:00,23:59,1BA,EVENEMENT,tfe
