@@ -109,13 +109,10 @@ fun UserDashboardScreen(loginViewModel: LoginViewModel, modifier: Modifier = Mod
                 ?.sortedByDescending { it.catalogYear ?: it.academicYearLabel ?: "" }
                 ?.firstOrNull()
 
-            val events = runCatching {
-                CalendarRepository(
-                    client = httpClient,
-                    baseUrlProvider = { baseUrl },
-                    authTokenProvider = { token }
-                ).fetchCalendarEvents()
-            }.getOrDefault(emptyList())
+            val events = CalendarRepository(
+                client = httpClient,
+                baseUrlProvider = { baseUrl }
+            ).getCalendarEvents(token)
 
             DashboardData(
                 user = user,
