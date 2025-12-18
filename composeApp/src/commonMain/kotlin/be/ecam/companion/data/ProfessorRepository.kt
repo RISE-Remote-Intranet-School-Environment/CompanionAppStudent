@@ -33,7 +33,11 @@ data class Professor(
     val speciality: String,
     val office: String? = null,
     val courses: List<ProfessorCourse> = emptyList(), // tu l'utiliseras plus tard quand tu auras fait le scraping des cours
-    @SerialName("photoUrl") val photoUrl: String? = null
+    @SerialName("photoUrl") val photoUrl: String? = null,
+    val phone: String? = null,
+    val roleTitle: String? = null,
+    val roleDetail: String? = null,
+    val diplomas: String? = null
 )
 
 @Serializable
@@ -151,7 +155,7 @@ private data class ServerProfessorDto(
     @SerialName("lastName") val lastName: String,
     val email: String,
     @SerialName("roomIds") val roomIds: String? = null,
-    val phone: String? = null,
+    @SerialName("phone") val phone: String? = null,
     val speciality: String? = null,
     @SerialName("fullName") val fullName: String? = null,
     @SerialName("coursesId") val coursesId: String? = null,
@@ -200,6 +204,10 @@ private fun ServerProfessorDto.toProfessor(courseMap: Map<String, ProfessorCours
         speciality = speciality ?: "Autres",
         office = roomIds?.takeIf { it.isNotBlank() },
         courses = parsedCourses,
-        photoUrl = proxiedUrl
+        photoUrl = proxiedUrl,
+        phone = phone,
+        roleTitle = roleTitle,
+        roleDetail = roleDetail,
+        diplomas = diplomas
     )
 }
