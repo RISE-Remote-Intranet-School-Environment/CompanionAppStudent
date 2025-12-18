@@ -337,6 +337,7 @@ fun ExpandableSectionCard(
     content: String
 ) {
     var expanded by remember { mutableStateOf(false) }
+    val bulletContent = remember(content) { content.toBulletPoints() }
 
     ElevatedCard(
         modifier = Modifier
@@ -369,11 +370,7 @@ fun ExpandableSectionCard(
             AnimatedVisibility(visible = expanded) {
                 Column {
                     HorizontalDivider(Modifier.padding(vertical = 8.dp))
-                    Text(
-                        text = content,
-                        style = MaterialTheme.typography.bodyMedium,
-                        textAlign = TextAlign.Justify
-                    )
+                    bulletContent()
                 }
             }
         }
@@ -422,6 +419,40 @@ fun SectionsResponsiveLayout(sections: Map<String, String>) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             sections.forEach { (title, content) ->
                 ExpandableSectionCard(title, content)
+            }
+        }
+    }
+}
+
+private fun String.toBulletPoints(): @Composable () -> Unit {
+    val lines = this
+        .split("\n")
+        .map { it.trim() }
+        .filter { it.isNotEmpty() }
+
+    // Single line: just render text
+    if (lines.size <= 1) {
+        return {
+            Text(
+                text = this@toBulletPoints,
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Justify
+            )
+        }
+    }
+
+    // Multi-line: render as bullets
+    return {
+        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            lines.forEach { line ->
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.Top) {
+                    Text("•", style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        text = line,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Start
+                    )
+                }
             }
         }
     }
