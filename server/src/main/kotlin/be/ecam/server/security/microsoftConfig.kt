@@ -41,5 +41,6 @@ object MicrosoftConfig {
     }
 
     const val redirectUri = "https://clacoxygen.msrl.be/api/auth/microsoft/callback"
-    const val scope = "openid profile email User.Read"
+    // User.Read est nécessaire pour la photo (/me/photo/$value). offline_access pour le refresh token.
+    const val scope = "openid profile email User.Read offline_access"
 }

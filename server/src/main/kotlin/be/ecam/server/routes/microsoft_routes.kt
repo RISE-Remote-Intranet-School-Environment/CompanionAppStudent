@@ -162,7 +162,7 @@ fun Route.microsoftAuthRoutes() {
                         println("Microsoft Photo Base64 length: ${base64.length}")
                         base64
                     } else {
-                        println("Microsoft Photo not available: ${photoResponse.status}")
+                        println("Microsoft Photo not available (Status: ${photoResponse.status}). User might not have a profile picture set.")
                         null
                     }
                 } catch (e: Exception) {
