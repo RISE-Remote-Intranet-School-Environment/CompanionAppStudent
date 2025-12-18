@@ -216,6 +216,7 @@ fun App(
                             showPaePage -> MonPaeScreen(
                                 modifier = baseModifier,
                                 userIdentifier = connectedUser?.username?:"",
+                                authToken = loginViewModel.jwtToken,
                                 onContextChange = { paeTitleSuffix = it }
                             )
 

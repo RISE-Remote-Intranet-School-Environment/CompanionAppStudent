@@ -53,7 +53,7 @@ object AuthService {
             it[UsersTable.role] = role
         }.value
 
-        val user = AuthUserDTO(id, username, email, role, null)
+        val user = AuthUserDTO(id, username, email, role, avatarUrl = null, firstName = "", lastName = "")
         generateAuthResponse(user, "Compte créé")
     }
 
@@ -82,7 +82,9 @@ object AuthService {
                 username = existingUser[UsersTable.username],
                 email = existingUser[UsersTable.email],
                 role = existingUser[UsersTable.role],
-                avatarUrl = existingUser[UsersTable.avatarUrl]
+                avatarUrl = existingUser[UsersTable.avatarUrl],
+                firstName = existingUser[UsersTable.firstName],
+                lastName = existingUser[UsersTable.lastName]
             )
         } else {
             // Nouvel utilisateur -> création automatique
@@ -103,7 +105,7 @@ object AuthService {
                 it[UsersTable.avatarUrl] = null
             }.value
 
-            AuthUserDTO(newId, finalUsername, email.lowercase(), UserRole.STUDENT, null)
+            AuthUserDTO(newId, finalUsername, email.lowercase(), UserRole.STUDENT, avatarUrl = null, firstName = firstName, lastName = lastName)
         }
 
         generateAuthResponse(userDto, "Connexion Microsoft OK")
@@ -144,7 +146,9 @@ object AuthService {
             username = row[UsersTable.username],
             email = row[UsersTable.email],
             role = row[UsersTable.role],
-            avatarUrl = row[UsersTable.avatarUrl]
+            avatarUrl = row[UsersTable.avatarUrl],
+            firstName = row[UsersTable.firstName],
+            lastName = row[UsersTable.lastName]
         )
 
         generateAuthResponse(user, "Connexion OK")
@@ -186,7 +190,9 @@ object AuthService {
             username = row[UsersTable.username],
             email = row[UsersTable.email],
             role = row[UsersTable.role],
-            avatarUrl = row[UsersTable.avatarUrl]
+            avatarUrl = row[UsersTable.avatarUrl],
+            firstName = row[UsersTable.firstName],
+            lastName = row[UsersTable.lastName]
         )
     }
     
@@ -225,7 +231,9 @@ object AuthService {
             username = username,
             email = email,
             role = current[UsersTable.role],
-            avatarUrl = current[UsersTable.avatarUrl]
+            avatarUrl = current[UsersTable.avatarUrl],
+            firstName = current[UsersTable.firstName],
+            lastName = current[UsersTable.lastName]
         )
     }
 }

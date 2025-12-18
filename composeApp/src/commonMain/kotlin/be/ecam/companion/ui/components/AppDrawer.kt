@@ -94,7 +94,9 @@ private fun DrawerProfileSection(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = user?.username?.first()?.uppercase() ?: "",
+                text = user?.firstName?.firstOrNull()?.uppercase()
+                    ?: user?.username?.firstOrNull()?.uppercase()
+                    ?: "",
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.onPrimary
             )
@@ -104,7 +106,13 @@ private fun DrawerProfileSection(
 
         Column {
             Text(
-                text = user?.username ?:"invité",
+                text = buildString {
+                    listOfNotNull(user?.firstName, user?.lastName)
+                        .joinToString(" ")
+                        .takeIf { it.isNotBlank() }
+                        ?.let { append(it) }
+                    if (isEmpty()) append(user?.username ?: "invité")
+                },
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(

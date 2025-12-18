@@ -65,17 +65,35 @@ import be.ecam.companion.data.PaeRepository
 import be.ecam.companion.data.PaeStudent
 import be.ecam.companion.data.PaeComponent
 import be.ecam.companion.data.PaeSessions
+import be.ecam.companion.data.SettingsRepository
+import be.ecam.companion.di.buildBaseUrl
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import io.ktor.client.request.header
+import io.ktor.http.HttpHeaders
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import org.koin.compose.koinInject
 
 private const val COURSE_WEIGHT = 2f
 private val ECTS_CELL_WIDTH = 60.dp
 private val SCORE_CELL_WIDTH = 50.dp
+private val jsonIgnoreUnknown = Json { ignoreUnknownKeys = true }
 
 @Composable
 fun MonPaeScreen(
     modifier: Modifier = Modifier,
     userIdentifier: String,
+    authToken: String? = null,
     onContextChange: (String?) -> Unit = {}
 ) {
+    val httpClient = koinInject<HttpClient>()
+    val settingsRepo = koinInject<SettingsRepository>()
+    val host = settingsRepo.getServerHost()
+    val port = settingsRepo.getServerPort()
+    val token = authToken?.trim()?.removeSurrounding("\"")?.takeIf { it.isNotBlank() }
     val detailScrollState = rememberScrollState()
     var loadError by remember { mutableStateOf<String?>(null) }
 
@@ -83,7 +101,15 @@ fun MonPaeScreen(
     val paeDatabase by produceState<PaeDatabase?>(initialValue = null) {
         loadError = null
         value = try {
-            PaeRepository.load()
+            // Try server first, fallback to local json
+            val remote = runCatching {
+                loadPaeFromServer(
+                    client = httpClient,
+                    baseUrl = buildBaseUrl(host, port),
+                    token = token
+                )
+            }.getOrNull()
+            remote ?: PaeRepository.load()
         } catch (t: Throwable) {
             loadError = t.message ?: "Impossible de charger le PAE"
             null
@@ -216,6 +242,135 @@ fun MonPaeScreen(
                 }
             }
         }
+    }
+}
+
+@Serializable
+private data class PaeStudentDto(
+    @SerialName("studentId") val studentId: Int,
+    @SerialName("studentName") val studentName: String,
+    val email: String,
+    val role: String? = null,
+    val program: String? = null,
+    @SerialName("enrolYear") val enrolYear: Int? = null,
+    @SerialName("formationId") val formationId: String? = null,
+    @SerialName("blocId") val blocId: String? = null,
+    @SerialName("courseIds") val courseIds: String? = null
+)
+
+@Serializable
+private data class NotesStudentDto(
+    val studentId: Int,
+    val academicYear: String,
+    val formationId: String,
+    val blocId: String,
+    val courseId: String,
+    val courseTitle: String,
+    val courseEcts: Double,
+    val coursePeriod: String,
+    val courseId1: String? = null,
+    val courseSessionJan: Double? = null,
+    val courseSessionJun: Double? = null,
+    val courseSessionSep: Double? = null,
+    val componentCode: String? = null,
+    val componentTitle: String? = null,
+    val componentWeight: Double? = null,
+    val componentSessionJan: Double? = null,
+    val componentSessionJun: Double? = null,
+    val componentSessionSep: Double? = null
+)
+
+private suspend fun loadPaeFromServer(
+    client: HttpClient,
+    baseUrl: String,
+    token: String?
+): PaeDatabase {
+    val bearer = token?.takeIf { it.isNotBlank() }
+    val students: List<PaeStudentDto> = client.get("$baseUrl/api/pae-students") {
+        bearer?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+        header(HttpHeaders.Accept, "application/json")
+    }.body<List<PaeStudentDto>>()
+
+    // Charger les notes pour enrichir ECTS/notes/composants
+    val notesByStudent: Map<Int, List<NotesStudentDto>> = students.associate { dto ->
+        val notes: List<NotesStudentDto> = runCatching {
+            client.get("$baseUrl/api/notes-students/by-student/${dto.studentId}") {
+                bearer?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+                header(HttpHeaders.Accept, "application/json")
+            }.body<List<NotesStudentDto>>()
+        }.getOrElse { emptyList<NotesStudentDto>() }
+        dto.studentId to notes
+    }
+
+    val mappedStudents = students.map { dto ->
+        val notes = notesByStudent[dto.studentId].orEmpty()
+        val courses = buildCoursesFromNotes(dto.courseIds, notes)
+        val record = PaeRecord(
+            program = dto.program,
+            academicYearLabel = dto.enrolYear?.toString(),
+            catalogYear = dto.enrolYear?.toString(),
+            formationSlug = dto.formationId,
+            formationId = null,
+            block = dto.blocId,
+            courses = courses
+        )
+
+        PaeStudent(
+            studentName = dto.studentName,
+            studentId = dto.studentId.toString(),
+            role = dto.role,
+            username = dto.email.substringBefore("@"),
+            email = dto.email,
+            password = null,
+            records = listOf(record)
+        )
+    }
+
+    return PaeDatabase(students = mappedStudents)
+}
+
+private fun buildCoursesFromNotes(courseIdsRaw: String?, notes: List<NotesStudentDto>): List<PaeCourse> {
+    // Start from courseIds list if provided; otherwise derive from notes
+    val fromList: Set<String> = courseIdsRaw
+        ?.split(';', ',', '|')
+        ?.mapNotNull { it.trim().takeIf { it.isNotEmpty() } }
+        ?.toSet()
+        ?: emptySet()
+
+    val noteCourses: Map<String, List<NotesStudentDto>> = notes.groupBy { it.courseId }
+
+    val allCodes: List<String> = if (fromList.isNotEmpty()) fromList.toList() else noteCourses.keys.toList()
+
+    return allCodes.map { code ->
+        val entries = noteCourses[code].orEmpty()
+        val base = entries.firstOrNull()
+        val components = entries.mapNotNull { entry ->
+            entry.componentCode?.takeIf { it.isNotBlank() }?.let {
+                PaeComponent(
+                    code = it,
+                    title = entry.componentTitle,
+                    weight = entry.componentWeight?.toString(),
+                    sessions = PaeSessions(
+                        jan = entry.componentSessionJan?.toString(),
+                        jun = entry.componentSessionJun?.toString(),
+                        sep = entry.componentSessionSep?.toString()
+                    )
+                )
+            }
+        }
+        PaeCourse(
+            code = code,
+            title = base?.courseTitle,
+            ects = base?.courseEcts?.toInt(),
+            period = base?.coursePeriod,
+            courseId = base?.courseId1?.toIntOrNull(),
+            sessions = PaeSessions(
+                jan = base?.courseSessionJan?.toString(),
+                jun = base?.courseSessionJun?.toString(),
+                sep = base?.courseSessionSep?.toString()
+            ),
+            components = components
+        )
     }
 }
 

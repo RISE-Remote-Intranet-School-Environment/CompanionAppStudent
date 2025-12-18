@@ -44,7 +44,9 @@ data class AuthUserDTO(
     val username: String,
     val email: String,
     val role: UserRole,
-    val avatarUrl: String? = null
+    val avatarUrl: String? = null,
+    val firstName: String? = null,
+    val lastName: String? = null
 
 )
 
