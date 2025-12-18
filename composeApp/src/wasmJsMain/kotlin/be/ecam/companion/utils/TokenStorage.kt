@@ -1,30 +1,31 @@
 package be.ecam.companion.utils
 
-import kotlinx.browser.localStorage
+import kotlinx.browser.window
 
 actual fun saveToken(token: String) {
-    localStorage.setItem("jwt_token", token)
+    window.localStorage.setItem("jwt_token", token)
 }
 
 actual fun loadToken(): String? {
-    return localStorage.getItem("jwt_token")
+    val token = window.localStorage.getItem("jwt_token")
+    return if (token.isNullOrBlank()) null else token
 }
 
 actual fun clearToken() {
-    localStorage.removeItem("jwt_token")
-    localStorage.removeItem("refresh_token")
-    localStorage.removeItem("oauth_success")
+    window.localStorage.removeItem("jwt_token")
+    window.localStorage.removeItem("refresh_token")
+    window.localStorage.removeItem("oauth_success")
 }
 
 fun checkOAuthSuccess(): Boolean {
-    val success = localStorage.getItem("oauth_success")
+    val success = window.localStorage.getItem("oauth_success")
     if (success == "true") {
-        localStorage.removeItem("oauth_success")
+        window.localStorage.removeItem("oauth_success")
         return true
     }
     return false
 }
 
 fun loadRefreshToken(): String? {
-    return localStorage.getItem("refresh_token")
+    return window.localStorage.getItem("refresh_token")
 }

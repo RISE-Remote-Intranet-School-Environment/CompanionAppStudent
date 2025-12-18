@@ -57,7 +57,6 @@
             const refreshToken = params.get('refreshToken');
             const error = params.get('error');
             const errorMessage = params.get('message');
-            const redirectUrl = params.get('redirect_url'); // URL de retour (ex: localhost)
 
             const spinner = document.getElementById('spinner');
             const message = document.getElementById('message');
@@ -72,23 +71,7 @@
             }
 
             if (accessToken && refreshToken) {
-                // Si on doit rediriger vers une autre origine (ex: localhost), on passe les tokens en URL
-                if (redirectUrl) {
-                    message.textContent = 'Redirection vers l\'application...';
-                    details.textContent = redirectUrl;
-
-                    // Construction de l'URL de retour avec les tokens
-                    const targetUrl = new URL(redirectUrl);
-                    targetUrl.searchParams.set('accessToken', accessToken);
-                    targetUrl.searchParams.set('refreshToken', refreshToken);
-
-                    setTimeout(function () {
-                        window.location.href = targetUrl.toString();
-                    }, 500);
-                    return;
-                }
-
-                // Sinon (Prod), on stocke et on redirige en local
+                // Stocker les tokens
                 localStorage.setItem('jwt_token', accessToken);
                 localStorage.setItem('refresh_token', refreshToken);
                 localStorage.setItem('oauth_success', 'true');
@@ -96,10 +79,11 @@
                 message.textContent = 'Connexion réussie !';
                 details.textContent = 'Redirection...';
 
-                // Redirection vers l'app principale
+                // Redirection vers la racine (même fenêtre)
                 setTimeout(function () {
-                    window.location.href = '/';
-                }, 1000);
+                    // Utiliser replace pour éviter l'historique du callback
+                    window.location.replace('/');
+                }, 500);
             } else {
                 spinner.style.display = 'none';
                 message.textContent = 'Erreur';

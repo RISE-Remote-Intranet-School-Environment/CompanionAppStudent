@@ -125,10 +125,13 @@ class LoginViewModel : ViewModel() {
                         currentUser = response.body()
                         loginSuccess = true
                     } else {
-                        logout()
+                        // Token invalide, on le supprime
+                        clearToken()
+                        jwtToken = null
                     }
                 } catch (e: Exception) {
-                    logout()
+                    // Erreur réseau, on garde le token pour réessayer plus tard
+                    println("Erreur de validation du token: ${e.message}")
                 }
             }
         }

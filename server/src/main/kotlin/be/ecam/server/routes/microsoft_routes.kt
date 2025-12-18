@@ -47,8 +47,11 @@ fun Route.microsoftAuthRoutes() {
 
         // 1. Redirige vers Microsoft avec state pour savoir d'où vient la requête
         get("/login") {
-            // Détecter si la requête vient du web (via Referer ou un paramètre)
             val platform = call.request.queryParameters["platform"] ?: "web"
+            val returnUrl = call.request.queryParameters["returnUrl"] ?: ""
+            
+            // Encode platform et returnUrl dans le state (séparés par |)
+            val state = if (returnUrl.isNotBlank()) "$platform|$returnUrl" else platform
             
             val authUrl = buildString {
                 append("https://login.microsoftonline.com/common/oauth2/v2.0/authorize?")
@@ -57,7 +60,7 @@ fun Route.microsoftAuthRoutes() {
                 append("&redirect_uri=${MicrosoftConfig.redirectUri}")
                 append("&response_mode=query")
                 append("&scope=${MicrosoftConfig.scope}")
-                append("&state=$platform") // Passe la plateforme dans le state
+                append("&state=$state")
             }
             call.respondRedirect(authUrl)
         }
@@ -70,19 +73,26 @@ fun Route.microsoftAuthRoutes() {
             val stateParam = call.parameters["state"] ?: "web"
 
             // Parsing du state (format: "platform|returnUrl" ou juste "platform")
-            val parts = stateParam.split("|")
+            val parts = stateParam.split("|", limit = 2)
             val platform = parts.getOrNull(0) ?: "web"
-            val returnUrl = parts.getOrNull(1)
+            val returnUrl = parts.getOrNull(1)?.let { 
+                try { java.net.URLDecoder.decode(it, "UTF-8") } catch (e: Exception) { it }
+            }
 
             // Fonction helper pour construire l'URL de redirection
             fun buildRedirectUrl(params: String): String {
                 return when (platform) {
                     "android", "ios", "desktop" -> "be.ecam.companion://auth-callback?$params"
                     else -> {
-                        // Web : on redirige vers la page HTML intermédiaire
-                        // Si un returnUrl est fourni (ex: localhost:8080), on le passe en paramètre
-                        val returnUrlParam = if (returnUrl != null) "&redirect_url=$returnUrl" else ""
-                        "/auth-callback.html?$params$returnUrlParam"
+                        // Web : rediriger directement vers l'app avec les tokens en paramètres
+                        if (!returnUrl.isNullOrBlank()) {
+                            // Retour vers localhost ou autre origine
+                            val separator = if (returnUrl.contains("?")) "&" else "?"
+                            "$returnUrl$separator$params"
+                        } else {
+                            // Production : page HTML intermédiaire
+                            "/auth-callback.html?$params"
+                        }
                     }
                 }
             }
