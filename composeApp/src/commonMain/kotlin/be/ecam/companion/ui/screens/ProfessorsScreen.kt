@@ -425,13 +425,37 @@ private fun ProfessorDetailsDialog(
                     ) {
                         val photoUrl = professor.photoUrl?.takeIf { it.isNotBlank() }
                         if (photoUrl != null) {
-                            AsyncImage(
-                                model = photoUrl,
+                            KamelImage(
+                                resource = { asyncPainterResource(Url(photoUrl)) },
                                 contentDescription = "${professor.firstName} ${professor.lastName}",
                                 modifier = Modifier
                                     .size(86.dp)
                                     .clip(CircleShape),
-                                contentScale = ContentScale.Crop
+                                contentScale = ContentScale.Crop,
+                                onLoading = {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(86.dp)
+                                            .clip(CircleShape)
+                                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                                    )
+                                },
+                                onFailure = {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(86.dp)
+                                            .clip(CircleShape)
+                                            .background(randomColorFor(professor.id)),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = "${professor.firstName.take(1)}${professor.lastName.take(1)}",
+                                            style = MaterialTheme.typography.titleLarge,
+                                            color = Color.White,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    }
+                                }
                             )
                         } else {
                             Box(
@@ -442,7 +466,7 @@ private fun ProfessorDetailsDialog(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "${professor.firstName.first()}${professor.lastName.first()}",
+                                    text = "${professor.firstName.take(1)}${professor.lastName.take(1)}",
                                     style = MaterialTheme.typography.titleLarge,
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold
