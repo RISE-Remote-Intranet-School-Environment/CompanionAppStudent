@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -200,28 +202,11 @@ fun CoursesFormationScreen(
                         contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        // 1. Le Titre (Header)
-                        item {
-                            Text(
-                                text = headerTitle,
-                                style = MaterialTheme.typography.displayLarge,
-                                textAlign = TextAlign.Center
-                            )
-                            if (headerSubtitle.isNotBlank()) {
-                                Spacer(Modifier.height(4.dp))
-                                Text(
-                                    text = headerSubtitle,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    textAlign = TextAlign.Center
-                                )
-                            }
-                            Spacer(Modifier.height(24.dp))
-                        }
-
-                        // 2. Texte d'intro et Erreurs
+                        // 1. Texte d'intro (le header title est maintenant intégré dedans)
                         item {
                             IntroText(database)
-                            Spacer(Modifier.height(24.dp))
+                            
+                            Spacer(Modifier.height(16.dp))
 
                             if (database == null) {
                                 if (loadError != null) {
@@ -244,7 +229,7 @@ fun CoursesFormationScreen(
                             }
                         }
 
-                        // 3. La Grille des programmes (Rendu optimisé)
+                        // 2. La Grille des programmes (Rendu optimisé)
                         if (programs.isNotEmpty()) {
                             items(programs.chunked(3)) { rowPrograms ->
                                 Row(
@@ -342,125 +327,194 @@ fun CoursesFormationScreen(
 
 @Composable
 private fun IntroText(database: FormationDatabase?) {
-    Card(
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-        ),
-        shape = RoundedCornerShape(16.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(20.dp)
+        val isWide = maxWidth > 700.dp
+
+        Card(
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+            ),
+            shape = RoundedCornerShape(16.dp)
         ) {
-            // En-tête avec Icône
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(bottom = 12.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.School,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(24.dp)
-                )
-                Spacer(Modifier.width(12.dp))
-                Text(
-                    text = "L'Institut Supérieur Industriel",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-
-            // Paragraphe principal
-            Text(
-                text = buildAnnotatedString {
-                    append("L’ECAM a pour objet la formation de ")
-                    withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)) {
-                        append("Master en sciences industrielles")
+            if (isWide) {
+                // MODE LARGE : Titre à gauche, tout le contenu à droite
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp),
+                    horizontalArrangement = Arrangement.spacedBy(32.dp)
+                ) {
+                    // GAUCHE : Titre "Formations" avec icône - plus grand
+                    Column(
+                        modifier = Modifier.width(230.dp),
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.School,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(64.dp)
+                        )
+                        Text(
+                            text = "Formations",
+                            style = MaterialTheme.typography.displaySmall,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
-                    append(" dans une des finalités présentées ci-dessous.")
-                },
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                lineHeight = MaterialTheme.typography.bodyLarge.lineHeight
-            )
 
-            HorizontalDivider(
-                modifier = Modifier.padding(vertical = 16.dp),
-                color = MaterialTheme.colorScheme.outlineVariant
-            )
+                    // DROITE : Tout le texte descriptif
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Text(
+                            text = buildAnnotatedString {
+                                append("L'")
+                                withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("ECAM")
+                                }
+                                append(" est un Institut Supérieur Industriel ayant pour objet la formation de ")
+                                withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("Master en sciences industrielles")
+                                }
+                                append(" dans une des finalités ci-dessous :")
+                            },
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
 
-            // Section Partenariats (ICHEC)
-            Row(verticalAlignment = Alignment.Top) {
-                Icon(
-                    imageVector = Icons.Default.Handshake,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.tertiary,
-                    modifier = Modifier.size(20.dp).padding(top = 2.dp)
-                )
-                Spacer(Modifier.width(12.dp))
-                Column {
-                    Text(
-                        text = buildAnnotatedString {
-                            append("Depuis 2018/19, l’ECAM et l’ICHEC proposent un double diplôme ")
-                            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                                append("Ingénieur industriel et commercial")
-                            }
-                            append(" en 6 ans.")
-                        },
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    
+                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+
+                        // Les deux infos côte à côte
+                        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                            MiniInfoCard(
+                                modifier = Modifier.weight(1f),
+                                icon = Icons.Default.Handshake,
+                                title = "Partenariat ICHEC",
+                                color = MaterialTheme.colorScheme.tertiary,
+                                content = {
+                                    Text(
+                                        text = buildAnnotatedString {
+                                            append("Double diplôme ")
+                                            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Ingénieur industriel et commercial") }
+                                            append(" (6 ans) & Master ")
+                                            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Business Analyst") }
+                                            append(" dont le but est d’établir des ponts entre les utilisateurs et les équipes de développement, d’accompagner les projets et de participer à la stratégie IT de l’entreprise.")
+                                        },
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            )
+                            MiniInfoCard(
+                                modifier = Modifier.weight(1f),
+                                icon = Icons.Default.Science,
+                                title = "CERDECAM",
+                                color = MaterialTheme.colorScheme.secondary,
+                                content = {
+                                    Text(
+                                        text = buildAnnotatedString {
+                                            append("Le Centre de Recherche de l’ECAM, le ")
+                                            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("CERDECAM") }
+                                            append(" , organise également des Formations Continues.")
+                                        },
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            )
+                        }
+                    }
+                }
+            } else {
+                // MODE MOBILE : Empilé verticalement
+                Column(modifier = Modifier.padding(20.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            Icons.Default.School,
+                            null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(40.dp)
+                        )
+                        Spacer(Modifier.width(12.dp))
+                        Text(
+                            text = "Formations",
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
                     Spacer(Modifier.height(8.dp))
-                    
                     Text(
-                        text = buildAnnotatedString {
-                            append("En co-diplômation avec l’ICHEC, le master ")
-                            withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                                append("Business Analyst")
-                            }
-                            append(" vise à établir des ponts entre les utilisateurs et les équipes de développement, d’accompagner les projets et de participer à la stratégie IT de l’entreprise.")
-                        },
-                        style = MaterialTheme.typography.bodyMedium,
+                        text = "Pour tout savoir sur l'organisation des études.",
+                        style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
+
+                    Spacer(Modifier.height(12.dp))
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                    Spacer(Modifier.height(12.dp))
+
+                    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                        MiniInfoCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            icon = Icons.Default.Handshake,
+                            title = "Partenariat ICHEC",
+                            color = MaterialTheme.colorScheme.tertiary,
+                            content = {
+                                Text(
+                                    text = "Double diplôme Ingénieur industriel et commercial & Master Business Analyst.",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        )
+                        MiniInfoCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            icon = Icons.Default.Science,
+                            title = "Formation Continue",
+                            color = MaterialTheme.colorScheme.secondary,
+                            content = {
+                                Text(
+                                    text = "Le CERDECAM organise également des Formations Continues.",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        )
+                    }
                 }
             }
+        }
+    }
+}
 
-            HorizontalDivider(
-                modifier = Modifier.padding(vertical = 16.dp),
-                color = MaterialTheme.colorScheme.outlineVariant
-            )
-
-            // Section CERDECAM
-            Row(verticalAlignment = Alignment.Top) {
-                Icon(
-                    imageVector = Icons.Default.Science,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.secondary,
-                    modifier = Modifier.size(20.dp).padding(top = 2.dp)
-                )
-                Spacer(Modifier.width(12.dp))
-                Text(
-                    text = buildAnnotatedString {
-                        append("Le Centre de Recherche de l’ECAM, le ")
-                        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("CERDECAM")
-                        }
-                        append(", organise également des ")
-                        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("Formations Continues")
-                        }
-                        append(".")
-                    },
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
+@Composable
+private fun MiniInfoCard(
+    modifier: Modifier,
+    icon: ImageVector,
+    title: String,
+    color: Color,
+    content: @Composable () -> Unit
+) {
+    Row(
+        modifier = modifier
+            .background(color.copy(alpha = 0.1f), RoundedCornerShape(12.dp))
+            .padding(12.dp),
+        verticalAlignment = Alignment.Top
+    ) {
+        Icon(icon, null, tint = color, modifier = Modifier.size(24.dp))
+        Spacer(Modifier.width(12.dp))
+        Column {
+            Text(title, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = color)
+            Spacer(Modifier.height(4.dp))
+            content()
         }
     }
 }
@@ -794,6 +848,132 @@ private fun BlockChip(
         ) {
             BlocAvatar(block.name, color = formationColor)
             Text(block.name, style = MaterialTheme.typography.labelLarge)
+        }
+    }
+}
+
+@Composable
+private fun DashboardHighlights() {
+    BoxWithConstraints(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
+        val isWide = maxWidth > 850.dp // Breakpoint pour passer en mode horizontal
+
+        if (isWide) {
+            // MODE DESKTOP : 3 cartes côte à côte
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.Top // Important pour aligner les cartes en haut
+            ) {
+                HighlightCard(
+                    modifier = Modifier.weight(1f),
+                    icon = Icons.Default.School,
+                    title = "Master Ingénieur",
+                    accentColor = MaterialTheme.colorScheme.primary,
+                    content = {
+                        Text(
+                            text = "Master en sciences industrielles dans l'une des finalités ci-dessous.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                )
+                HighlightCard(
+                    modifier = Modifier.weight(1f),
+                    icon = Icons.Default.Handshake,
+                    title = "Double Diplôme",
+                    accentColor = MaterialTheme.colorScheme.tertiary,
+                    content = {
+                        Text(
+                            text = buildAnnotatedString {
+                                append("Partenariat ")
+                                withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("ICHEC") }
+                                append(" : Ingénieur commercial (6 ans) & Master Business Analyst.")
+                            },
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                )
+                HighlightCard(
+                    modifier = Modifier.weight(1f),
+                    icon = Icons.Default.Science,
+                    title = "Recherche & Continue",
+                    accentColor = MaterialTheme.colorScheme.secondary,
+                    content = {
+                        Text(
+                            text = buildAnnotatedString {
+                                append("Le ")
+                                withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("CERDECAM") }
+                                append(" organise également des Formations Continues.")
+                            },
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                )
+            }
+        } else {
+            // MODE MOBILE : Un slider horizontal (LazyRow) ou une colonne compacte
+            // Ici on choisit une colonne compacte mais stylisée pour prendre moins de place visuelle
+            Card(
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+            ) {
+                Column(modifier = Modifier.padding(12.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Default.School, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
+                        Spacer(Modifier.width(8.dp))
+                        Text("Master en sciences industrielles", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    }
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        "Incluant double diplôme ICHEC et formations continues via le CERDECAM.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun HighlightCard(
+    modifier: Modifier = Modifier,
+    icon: ImageVector,
+    title: String,
+    accentColor: Color,
+    content: @Composable () -> Unit
+) {
+    Card(
+        modifier = modifier.heightIn(min = 100.dp), // Hauteur fixe minimale pour uniformité
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
+        ),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(12.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Surface(
+                    color = accentColor.copy(alpha = 0.1f),
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier.size(32.dp)
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(icon, null, tint = accentColor, modifier = Modifier.size(18.dp))
+                    }
+                }
+                Spacer(Modifier.width(10.dp))
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            content()
         }
     }
 }
