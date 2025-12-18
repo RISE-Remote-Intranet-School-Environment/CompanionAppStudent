@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import be.ecam.companion.data.ProfessorCatalogRepository
 import be.ecam.companion.data.Professor
 import be.ecam.companion.data.ProfessorDatabase
@@ -226,20 +227,31 @@ private fun ProfessorCard(professor: Professor) {
             /* -------- AVATAR + NAME -------- */
             Row(verticalAlignment = Alignment.CenterVertically) {
 
-                /* Avatar dynamique (initiales) */
-                Box(
-                    modifier = Modifier
-                        .size(48.dp)
-                        .clip(CircleShape)
-                        .background(randomColorFor(professor.id)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "${professor.firstName.first()}${professor.lastName.first()}",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold
+                val photoUrl = professor.photoUrl?.takeIf { it.isNotBlank() }
+                if (photoUrl != null) {
+                    AsyncImage(
+                        model = photoUrl,
+                        contentDescription = "${professor.firstName} ${professor.lastName}",
+                        modifier = Modifier
+                            .size(48.dp)
+                            .clip(CircleShape),
+                        contentScale = androidx.compose.ui.layout.ContentScale.Crop
                     )
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .size(48.dp)
+                            .clip(CircleShape)
+                            .background(randomColorFor(professor.id)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "${professor.firstName.first()}${professor.lastName.first()}",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
 
                 Spacer(Modifier.width(12.dp))
