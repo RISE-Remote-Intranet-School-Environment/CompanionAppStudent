@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentification...</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error {
+            color: #ff5252;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="spinner" id="spinner"></div>
+        <h2 id="message">Authentification en cours...</h2>
+        <p id="details"></p>
+    </div>
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const accessToken = params.get('accessToken');
+            const refreshToken = params.get('refreshToken');
+            const error = params.get('error');
+            const errorMessage = params.get('message');
+
+            const spinner = document.getElementById('spinner');
+            const message = document.getElementById('message');
+            const details = document.getElementById('details');
+
+            if (error) {
+                spinner.style.display = 'none';
+                message.textContent = 'Erreur d\'authentification';
+                message.className = 'error';
+                details.textContent = errorMessage || error;
+                return;
+            }
+
+            if (accessToken && refreshToken) {
+                // Stockage des tokens
+                localStorage.setItem('jwt_token', accessToken);
+                localStorage.setItem('refresh_token', refreshToken);
+                localStorage.setItem('oauth_success', 'true');
+
+                message.textContent = 'Connexion réussie !';
+                details.textContent = 'Redirection...';
+
+                // Redirection vers l'app principale
+                setTimeout(function () {
+                    window.location.href = '/';
+                }, 1000);
+            } else {
+                spinner.style.display = 'none';
+                message.textContent = 'Erreur';
+                message.className = 'error';
+                details.textContent = 'Tokens manquants dans la réponse';
+            }
+        })();
+    </script>
+</body>
+
+</html>

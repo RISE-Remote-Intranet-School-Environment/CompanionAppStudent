@@ -18,6 +18,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.event.Level
 import io.ktor.server.plugins.autohead.*
+import io.ktor.server.http.content.*
 
 
 
@@ -103,6 +104,9 @@ fun Application.module() {
 
     // routes
     routing {
+
+        // Servir les fichiers statiques (comme auth-callback.html)
+        staticResources("/", "static")
 
         // Routes publiques simples
         get("/") {
