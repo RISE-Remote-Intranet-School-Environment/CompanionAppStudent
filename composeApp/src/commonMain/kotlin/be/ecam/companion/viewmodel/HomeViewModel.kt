@@ -9,7 +9,7 @@ import be.ecam.companion.data.ApiRepository
 import be.ecam.companion.data.PaeCourse
 import be.ecam.companion.data.PaeRepository
 import be.ecam.companion.data.PaeStudent
-import be.ecam.companion.ui.CourseDetail
+import be.ecam.companion.data.CourseDetail
 import companion.composeapp.generated.resources.Res
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate

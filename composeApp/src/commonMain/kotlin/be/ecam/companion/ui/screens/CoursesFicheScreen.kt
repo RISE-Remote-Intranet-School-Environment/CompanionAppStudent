@@ -4,7 +4,17 @@ package be.ecam.companion.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -23,87 +33,71 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import companion.composeapp.generated.resources.Res
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-import org.jetbrains.compose.resources.ExperimentalResourceApi
+import be.ecam.companion.data.CourseDetail
+import be.ecam.companion.data.CourseDetailsRepository
+import be.ecam.companion.data.EvaluatedActivity
+import be.ecam.companion.data.OrganizedActivity
+import be.ecam.companion.data.SettingsRepository
+import be.ecam.companion.di.buildBaseUrl
+import io.ktor.client.HttpClient
+import org.koin.compose.koinInject
 
 
 
-
-@Serializable
-data class OrganizedActivity(
-    val code: String,
-    val title: String,
-    val hours_Q1: String? = null,
-    val hours_Q2: String? = null,
-    val teachers: List<String> = emptyList(),
-    val language: String? = null
-)
-
-@Serializable
-data class EvaluatedActivity(
-    val code: String,
-    val title: String,
-    val weight: String? = null,
-    val type_Q1: String? = null,
-    val type_Q2: String? = null,
-    val type_Q3: String? = null,
-    val teachers: List<String> = emptyList(),
-    val language: String? = null,
-    val linked_activities: List<String> = emptyList()
-)
-
-@Serializable
-data class CourseDetail(
-    val code: String,
-    val title: String,
-    val credits: String? = null,
-    val hours: String? = null,
-    val mandatory: Boolean = false,
-    val bloc: String? = null,
-    val program: String? = null,
-    val responsable: String? = null,
-    val language: String? = null,
-    val organized_activities: List<OrganizedActivity> = emptyList(),
-    val evaluated_activities: List<EvaluatedActivity> = emptyList(),
-    val sections: Map<String, String> = emptyMap()
-)
 
 data class CourseRef(val code: String, val detailsUrl: String?)
 
+data class CourseDetailsLoadState(
+    val courses: List<CourseDetail>,
+    val isLoading: Boolean,
+    val error: String?
+)
 
-
-
-@OptIn(ExperimentalResourceApi::class)
 @Composable
-fun loadCourses(): List<CourseDetail> {
-    val state = produceState(initialValue = emptyList<CourseDetail>()) {
-        try {
-            val bytes = Res.readBytes("files/ecam_courses_details_2025.json")
-            if (bytes.isNotEmpty()) {
-                val json = Json { ignoreUnknownKeys = true; isLenient = true }
-                value = json.decodeFromString(bytes.decodeToString())
-            }
-        } catch (e: Throwable) {
-            println("[CoursesLoader] error: ${e.message}")
-            value = emptyList()
-        }
+fun rememberCoursesDetails(authToken: String? = null): CourseDetailsLoadState {
+    val httpClient = koinInject<HttpClient>()
+    val settingsRepo = koinInject<SettingsRepository>()
+    val host by settingsRepo.serverHostFlow.collectAsState(settingsRepo.getServerHost())
+    val port by settingsRepo.serverPortFlow.collectAsState(settingsRepo.getServerPort())
+    val bearerToken = remember(authToken) {
+        authToken?.trim()?.removeSurrounding("\"")?.takeIf { it.isNotBlank() }
     }
-    return state.value
+    val repository = remember(httpClient, host, port, bearerToken) {
+        CourseDetailsRepository(
+            client = httpClient,
+            baseUrlProvider = { buildBaseUrl(host, port) },
+            authTokenProvider = { bearerToken }
+        )
+    }
+    var error by remember(host, port, bearerToken) { mutableStateOf<String?>(null) }
+    var loading by remember(host, port, bearerToken) { mutableStateOf(true) }
+    val courses by produceState(initialValue = emptyList<CourseDetail>(), host, port, bearerToken) {
+        loading = true
+        error = null
+        value = try {
+            repository.loadAll()
+        } catch (t: Throwable) {
+            error = t.message?.takeIf { it.isNotBlank() } ?: t::class.simpleName ?: "Erreur inconnue"
+            emptyList()
+        }
+        loading = false
+    }
+    return CourseDetailsLoadState(
+        courses = courses,
+        isLoading = loading,
+        error = error
+    )
 }
-
-
-@Composable
-fun rememberCoursesDetails(): List<CourseDetail> = loadCourses()
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CoursesFicheScreen(
     courseRef: CourseRef,
+    authToken: String? = null,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val allCourses = rememberCoursesDetails()
+    val detailsState = rememberCoursesDetails(authToken)
+    val allCourses = detailsState.courses
     val normalizedKey = courseRef.code.lowercase().replace(" ", "")
 
     val course = allCourses.find { cd ->
@@ -140,10 +134,13 @@ fun CoursesFicheScreen(
                 modifier = Modifier.fillMaxSize().padding(padding),
                 contentAlignment = Alignment.Center
             ) {
-                if (allCourses.isEmpty()) {
-                    CircularProgressIndicator()
-                } else {
-                    Text("Aucune fiche trouvée pour '${courseRef.code}'.")
+                when {
+                    detailsState.isLoading -> CircularProgressIndicator()
+                    detailsState.error != null -> Text(
+                        text = "Impossible de charger la fiche : ${detailsState.error}",
+                        textAlign = TextAlign.Center
+                    )
+                    else -> Text("Aucune fiche trouvée pour '${courseRef.code}'.")
                 }
             }
         } else {
@@ -290,8 +287,18 @@ fun EvaluatedActivitiesTable(list: List<EvaluatedActivity>) {
         Column(Modifier.fillMaxWidth().padding(8.dp)) {
             Row(Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
                 Text("Activité", Modifier.weight(2f), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge)
-                Text("Ponderation", Modifier.weight(0.8f), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge, textAlign = TextAlign.Center)
-                Text("Q1/Q2/Q3", Modifier.weight(1.2f), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge, textAlign = TextAlign.Center)
+                Box(
+                    modifier = Modifier.weight(1f).fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("Ponderation", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge, textAlign = TextAlign.Center)
+                }
+                Box(
+                    modifier = Modifier.weight(1f).fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("Q1/Q2/Q3", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge, textAlign = TextAlign.Center)
+                }
             }
 
             HorizontalDivider()
@@ -302,11 +309,21 @@ fun EvaluatedActivitiesTable(list: List<EvaluatedActivity>) {
                         Text(eval.title, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold)
                         Text(eval.code, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.secondary)
                     }
-                    Text(if(eval.weight != null) "${eval.weight}%" else "-", Modifier.weight(0.8f), style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center)
+                    Box(
+                        modifier = Modifier.weight(1f).fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(if(eval.weight != null) "${eval.weight}%" else "-", style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center)
+                    }
                     val q1 = eval.type_Q1 ?: "-"
                     val q2 = eval.type_Q2 ?: "-"
                     val q3 = eval.type_Q3 ?: "-"
-                    Text("$q1  /  $q2   /  $q3", Modifier.weight(1.8f), style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center)
+                    Box(
+                        modifier = Modifier.weight(1f).fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("$q1  /  $q2   /  $q3", style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center)
+                    }
                 }
                 HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
             }
@@ -409,5 +426,3 @@ fun SectionsResponsiveLayout(sections: Map<String, String>) {
         }
     }
 }
-
-
