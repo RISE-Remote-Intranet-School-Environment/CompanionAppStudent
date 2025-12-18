@@ -1,19 +1,18 @@
 package be.ecam.companion.ui.components
-import be.ecam.companion.viewmodel.AuthUserDTO
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import be.ecam.companion.viewmodel.AuthUserDTO
 
 
 @Composable
@@ -85,35 +84,17 @@ private fun DrawerProfileSection(
             .clickable { onSelectDashboard() }
             .padding(bottom = 8.dp)
     ) {
-        Box(
+        // Photo de profil ou initiale
+        UserAvatar(
+            avatarUrl = user?.avatarUrl,
+            fallbackInitial = user?.firstName?.firstOrNull()?.toString() 
+                ?: user?.username?.firstOrNull()?.toString() 
+                ?: "?",
             modifier = Modifier
                 .size(56.dp)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primary),
-            contentAlignment = Alignment.Center
-        ) {
-            val initial = user?.firstName?.firstOrNull()?.uppercase() 
-                ?: user?.username?.firstOrNull()?.uppercase() 
-                ?: ""
-            
-            if (!user?.avatarUrl.isNullOrBlank()) {
-                // Utiliser Kamel pour charger l'avatar
-                RemoteImage(
-                    url = user?.avatarUrl ?: "",
-                    contentDescription = "Avatar",
-                    modifier = Modifier.size(56.dp).clip(CircleShape),
-                    contentScale = ContentScale.Crop
-                )
-            } else {
-                Text(
-                    text = user?.firstName?.firstOrNull()?.uppercase()
-                        ?: user?.username?.firstOrNull()?.uppercase()
-                        ?: "",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
-            }
-        }
+                .background(MaterialTheme.colorScheme.primary)
+        )
 
         Spacer(Modifier.width(8.dp))
 
@@ -127,13 +108,7 @@ private fun DrawerProfileSection(
             }.ifEmpty { user?.username ?: "Utilisateur" }
 
             Text(
-                text = buildString {
-                    listOfNotNull(user?.firstName, user?.lastName)
-                        .joinToString(" ")
-                        .takeIf { it.isNotBlank() }
-                        ?.let { append(it) }
-                    if (isEmpty()) append(user?.username ?: "invité")
-                },
+                text = fullName,
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(

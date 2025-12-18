@@ -20,6 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import be.ecam.companion.viewmodel.LoginViewModel
+import be.ecam.companion.ui.components.RemoteImage
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.draw.clip
 
 @Composable
 fun UserDashboardScreen(loginViewModel: LoginViewModel, modifier: Modifier = Modifier) {
@@ -72,16 +75,13 @@ fun UserDashboardScreen(loginViewModel: LoginViewModel, modifier: Modifier = Mod
 
             // HEADER
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier = Modifier
-                        .size(70.dp)
-                        .background(MaterialTheme.colorScheme.primary, CircleShape),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = user.username.first().uppercase(),
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        style = MaterialTheme.typography.headlineMedium
+                val avatarUrl = loginViewModel.currentUser?.avatarUrl
+                if (!avatarUrl.isNullOrBlank()) {
+                    RemoteImage(
+                        url = avatarUrl,
+                        contentDescription = "Photo de profil",
+                        modifier = Modifier.size(70.dp).clip(CircleShape),
+                        contentScale = ContentScale.Crop
                     )
                 }
 

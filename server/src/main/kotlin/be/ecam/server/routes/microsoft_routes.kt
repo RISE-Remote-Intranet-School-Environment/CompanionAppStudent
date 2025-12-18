@@ -147,20 +147,27 @@ fun Route.microsoftAuthRoutes() {
                 }.body()
 
                 val email = profile.mail ?: profile.userPrincipalName ?: ""
+                println("Microsoft OAuth - Email: $email, Name: ${profile.givenName} ${profile.surname}")
                 
                 // Récupérer la photo de profil Microsoft (binaire)
                 val avatarBase64: String? = try {
                     val photoResponse: HttpResponse = httpClient.get("https://graph.microsoft.com/v1.0/me/photo/\$value") {
                         header(HttpHeaders.Authorization, "Bearer ${tokenResponse.accessToken}")
                     }
+                    println("Microsoft Photo Response Status: ${photoResponse.status}")
                     if (photoResponse.status.isSuccess()) {
                         val photoBytes: ByteArray = photoResponse.body()
-                        "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(photoBytes)
+                        println("Microsoft Photo Size: ${photoBytes.size} bytes")
+                        val base64 = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(photoBytes)
+                        println("Microsoft Photo Base64 length: ${base64.length}")
+                        base64
                     } else {
+                        println("Microsoft Photo not available: ${photoResponse.status}")
                         null
                     }
                 } catch (e: Exception) {
                     println("Impossible de récupérer la photo Microsoft: ${e.message}")
+                    e.printStackTrace()
                     null
                 }
                 

@@ -7,7 +7,6 @@ import be.ecam.companion.data.PersistentSettingsRepository
 import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.data.defaultServerBaseUrl
 import be.ecam.companion.oauth.DesktopOAuthHelper
-import be.ecam.companion.oauth.DesktopOAuthHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.dsl.module
@@ -19,8 +18,6 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "companion",
     ) {
-        initDesktopCoilImageLoader()
-
         val desktopModule = module {
             single<SettingsRepository> { PersistentSettingsRepository() }
         }
