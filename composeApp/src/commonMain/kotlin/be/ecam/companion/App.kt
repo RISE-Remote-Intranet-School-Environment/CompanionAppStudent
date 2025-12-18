@@ -81,7 +81,7 @@ fun App(extraModules: List<Module> = emptyList()) {
 
                 // --- KEY STEP: Retrieve the connected username ---
                 // Use Nirina Crépin as the default fallback
-                val connectedUser = loginViewModel.currentUser?.username ?: "ncrepin"
+                val connectedUser = loginViewModel.currentUser
 
                 val drawerState = rememberDrawerState(DrawerValue.Closed)
                 val scope = rememberCoroutineScope()
@@ -210,7 +210,7 @@ fun App(extraModules: List<Module> = emptyList()) {
 
                             showPaePage -> MonPaeScreen(
                                 modifier = baseModifier,
-                                userIdentifier = connectedUser,
+                                userIdentifier = connectedUser?.username?:"",
                                 onContextChange = { paeTitleSuffix = it }
                             )
 
@@ -221,8 +221,8 @@ fun App(extraModules: List<Module> = emptyList()) {
                                     HomeScreen(
                                         modifier = baseModifier,
                                         vm = vm,
-                                        // Pass the connected user's ID to HomeScreen
-                                        currentUser = connectedUser
+                                        loginViewModel = loginViewModel,
+                                        
                                     )
                                 }
 
@@ -231,7 +231,7 @@ fun App(extraModules: List<Module> = emptyList()) {
                                         modifier = baseModifier,
                                         initialYearOption = courseCalendarInitialYearOption,
                                         initialSeries = courseCalendarInitialSeries,
-                                        username = connectedUser
+                                        username = connectedUser?.username?:""
                                     )
                                 }
 

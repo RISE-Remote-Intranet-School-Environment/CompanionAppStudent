@@ -45,7 +45,7 @@ class HomeViewModel(
         private set
 
     @OptIn(ExperimentalResourceApi::class)
-    fun load(userIdentifier: String = "nicolas.schell") {
+    fun load(userIdentifier: AuthUserDTO?) {
 
         // 1. Hello Message
         viewModelScope.launch {
@@ -80,7 +80,7 @@ class HomeViewModel(
             try {
                 val db = PaeRepository.load()
                 val targetStudent = db.students.find { student ->
-                    student.username == userIdentifier || student.email == userIdentifier
+                    student.username == userIdentifier?.username || student.email == userIdentifier?.email
                 } ?: db.students.firstOrNull()
 
                 student = targetStudent

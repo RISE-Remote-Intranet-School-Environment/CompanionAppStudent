@@ -30,24 +30,29 @@ import be.ecam.companion.data.PaeCourse
 import be.ecam.companion.ui.components.BottomBar
 import be.ecam.companion.ui.components.BottomItem
 import be.ecam.companion.viewmodel.HomeViewModel
+import be.ecam.companion.viewmodel.LoginViewModel
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     vm: HomeViewModel = viewModel(),
-    currentUser: String
+    loginViewModel: LoginViewModel
+    
 ) {
     var searchQuery by remember { mutableStateOf("") }
     var selectedBottomItem by remember { mutableStateOf(BottomItem.DASHBOARD) }
+    val user = loginViewModel.currentUser
 
-    LaunchedEffect(currentUser) { vm.load(currentUser) }
-
-    val displayName = remember(vm.student, currentUser) {
-        listOfNotNull(vm.student?.studentName, vm.student?.username, currentUser)
-            .firstOrNull { it.isNotBlank() }
-            ?.trim()
-            ?: "utilisateur"
+    if (user == null) {
+        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text("Utilisateur non connecté")
+        }
+        return
     }
+
+    LaunchedEffect(user.id) { vm.load(user) }
+
+    val displayName = user.username.split(" ").firstOrNull() ?: "Étudiant"
 
     val displayedCourses = remember(vm.courses, vm.catalogCourses, searchQuery) {
         if (searchQuery.isBlank()) vm.courses
