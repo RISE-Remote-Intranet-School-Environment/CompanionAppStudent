@@ -280,7 +280,22 @@ private data class NotesStudentDto(
     val componentSessionSep: Double? = null
 )
 
-private suspend fun loadPaeFromServer(
+@Serializable
+private data class CourseMetaDto(
+    @SerialName("courseId") val courseId: String,
+    @SerialName("courseRaccourciId") val courseRaccourciId: String? = null,
+    val title: String? = null,
+    val credits: Int? = null,
+    val periods: String? = null
+)
+
+@Serializable
+private data class BlocMetaDto(
+    @SerialName("blocId") val blocId: String,
+    val name: String
+)
+
+suspend fun loadPaeFromServer(
     client: HttpClient,
     baseUrl: String,
     token: String?
@@ -302,16 +317,31 @@ private suspend fun loadPaeFromServer(
         dto.studentId to notes
     }
 
+    // Métadonnées cours et blocs pour enrichir l'affichage
+    val coursesMeta: Map<String, CourseMetaDto> = runCatching {
+        client.get("$baseUrl/api/courses") {
+            bearer?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+            header(HttpHeaders.Accept, "application/json")
+        }.body<List<CourseMetaDto>>()
+    }.getOrElse { emptyList() }.associateBy { it.courseId.lowercase() }
+
+    val blocNameById: Map<String, String> = runCatching {
+        client.get("$baseUrl/api/blocs") {
+            bearer?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+            header(HttpHeaders.Accept, "application/json")
+        }.body<List<BlocMetaDto>>()
+    }.getOrElse { emptyList() }.associate { it.blocId.lowercase() to it.name }
+
     val mappedStudents = students.map { dto ->
         val notes = notesByStudent[dto.studentId].orEmpty()
-        val courses = buildCoursesFromNotes(dto.courseIds, notes)
+        val courses = buildCoursesFromNotes(dto.courseIds, notes, coursesMeta)
         val record = PaeRecord(
             program = dto.program,
             academicYearLabel = dto.enrolYear?.toString(),
             catalogYear = dto.enrolYear?.toString(),
             formationSlug = dto.formationId,
             formationId = null,
-            block = dto.blocId,
+            block = dto.blocId?.let { blocNameById[it.lowercase()] ?: it },
             courses = courses
         )
 
@@ -329,7 +359,11 @@ private suspend fun loadPaeFromServer(
     return PaeDatabase(students = mappedStudents)
 }
 
-private fun buildCoursesFromNotes(courseIdsRaw: String?, notes: List<NotesStudentDto>): List<PaeCourse> {
+private fun buildCoursesFromNotes(
+    courseIdsRaw: String?,
+    notes: List<NotesStudentDto>,
+    courseMeta: Map<String, CourseMetaDto>
+): List<PaeCourse> {
     // Start from courseIds list if provided; otherwise derive from notes
     val fromList: Set<String> = courseIdsRaw
         ?.split(';', ',', '|')
@@ -343,6 +377,7 @@ private fun buildCoursesFromNotes(courseIdsRaw: String?, notes: List<NotesStuden
 
     return allCodes.map { code ->
         val entries = noteCourses[code].orEmpty()
+        val meta = courseMeta[code.lowercase()]
         val base = entries.firstOrNull()
         val components = entries.mapNotNull { entry ->
             entry.componentCode?.takeIf { it.isNotBlank() }?.let {
@@ -360,9 +395,9 @@ private fun buildCoursesFromNotes(courseIdsRaw: String?, notes: List<NotesStuden
         }
         PaeCourse(
             code = code,
-            title = base?.courseTitle,
-            ects = base?.courseEcts?.toInt(),
-            period = base?.coursePeriod,
+            title = base?.courseTitle ?: meta?.title,
+            ects = base?.courseEcts?.toInt() ?: meta?.credits,
+            period = base?.coursePeriod ?: meta?.periods,
             courseId = base?.courseId1?.toIntOrNull(),
             sessions = PaeSessions(
                 jan = base?.courseSessionJan?.toString(),
