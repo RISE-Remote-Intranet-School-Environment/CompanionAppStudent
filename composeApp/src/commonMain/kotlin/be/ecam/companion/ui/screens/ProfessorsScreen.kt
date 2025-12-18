@@ -3,6 +3,8 @@ package be.ecam.companion.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -18,6 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -152,6 +156,8 @@ private fun ProfessorsMainScreen(
     onSearch: (TextFieldValue) -> Unit,
     onFilterChange: (String?) -> Unit
 ) {
+    var selectedProfessor by remember { mutableStateOf<Professor?>(null) }
+
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
         /* -------- SEARCH -------- */
@@ -204,16 +210,29 @@ private fun ProfessorsMainScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             items(filtered) { prof ->
-                ProfessorCard(professor = prof)
+                ProfessorCard(
+                    professor = prof,
+                    onInfoClick = { selectedProfessor = prof }
+                )
             }
         }
+    }
+
+    selectedProfessor?.let { prof ->
+        ProfessorDetailsDialog(
+            professor = prof,
+            onDismiss = { selectedProfessor = null }
+        )
     }
 }
 
 /* --------------------------- PROFESSOR CARD --------------------------- */
 
 @Composable
-private fun ProfessorCard(professor: Professor) {
+private fun ProfessorCard(
+    professor: Professor,
+    onInfoClick: () -> Unit
+) {
     var expanded by remember { mutableStateOf(false) }
     val uriHandler = LocalUriHandler.current
 
@@ -300,9 +319,11 @@ private fun ProfessorCard(professor: Professor) {
                 Spacer(Modifier.height(8.dp))
 
                 /* -------- HIDE/SHOW BUTTON -------- */
-                TextButton(onClick = { expanded = !expanded }) {
-                    Text(if (expanded) "Masquer les cours" else "Voir les cours")
-                }
+                TextButton(onClick = { expanded = !expanded }) { Text(if (expanded) "Masquer les cours" else "Voir les cours") }
+                TextButton(onClick = onInfoClick) { Text("Fiche professeur") }
+            } else {
+                Spacer(Modifier.height(8.dp))
+                TextButton(onClick = onInfoClick) { Text("Fiche professeur") }
             }
 
             /* -------- COURSE LIST -------- */
@@ -341,6 +362,167 @@ private fun ProfessorCard(professor: Professor) {
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun ProfessorDetailsDialog(
+    professor: Professor,
+    onDismiss: () -> Unit
+) {
+    val uriHandler = LocalUriHandler.current
+    val scrollState = rememberScrollState()
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {},
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 12.dp),
+        text = {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .widthIn(max = 1200.dp),
+                shape = MaterialTheme.shapes.extraLarge,
+                tonalElevation = 8.dp,
+                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.8f)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .verticalScroll(scrollState)
+                        .padding(horizontal = 28.dp, vertical = 24.dp),
+                    verticalArrangement = Arrangement.spacedBy(18.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        val photoUrl = professor.photoUrl?.takeIf { it.isNotBlank() }
+                        if (photoUrl != null) {
+                            AsyncImage(
+                                model = photoUrl,
+                                contentDescription = "${professor.firstName} ${professor.lastName}",
+                                modifier = Modifier
+                                    .size(86.dp)
+                                    .clip(CircleShape),
+                                contentScale = ContentScale.Crop
+                            )
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .size(86.dp)
+                                    .clip(CircleShape)
+                                    .background(randomColorFor(professor.id)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "${professor.firstName.first()}${professor.lastName.first()}",
+                                    style = MaterialTheme.typography.titleLarge,
+                                    color = Color.White,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+                        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            Text(
+                                "${professor.firstName} ${professor.lastName}",
+                                style = MaterialTheme.typography.headlineSmall.copy(color = MaterialTheme.colorScheme.primary),
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                specialityLabels[professor.speciality] ?: professor.speciality,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                            professor.roleTitle?.takeIf { it.isNotBlank() }?.let {
+                                Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.tertiary)
+                            }
+                        }
+                    }
+
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text("Informations", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                        InfoRow(Icons.Default.Email, professor.email)
+                        professor.phone?.takeIf { it.isNotBlank() && it != "1" }?.let {
+                            InfoRow(Icons.Default.Phone, it)
+                        }
+                        InfoRow(Icons.Default.Room, professor.office ?: "Non renseigné", tint = MaterialTheme.colorScheme.tertiary)
+                        professor.roleDetail?.takeIf { it.isNotBlank() }?.let {
+                            InfoRow(Icons.Default.Work, it, tint = MaterialTheme.colorScheme.secondary)
+                        }
+                        professor.diplomas?.takeIf { it.isNotBlank() }?.let {
+                            InfoRow(Icons.Default.School, it, tint = MaterialTheme.colorScheme.primary)
+                        }
+                    }
+
+                    HorizontalDivider()
+
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Text(
+                            "Cours enseignés (${professor.courses.size})",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        if (professor.courses.isEmpty()) {
+                            Text("Aucun cours associé", style = MaterialTheme.typography.bodySmall)
+                        } else {
+                            professor.courses.forEach { course ->
+                                Surface(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    tonalElevation = 1.dp,
+                                    shape = MaterialTheme.shapes.medium
+                                ) {
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 12.dp, vertical = 10.dp)
+                                            .clickable { /* TODO navigate to in-app course details screen */ },
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Icon(
+                                            Icons.Default.Book,
+                                            null,
+                                            modifier = Modifier.size(18.dp),
+                        tint = MaterialTheme.colorScheme.primary
+                                        )
+                                        Spacer(Modifier.width(10.dp))
+                                        Column(Modifier.weight(1f)) {
+                                            Text(course.title, fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.onSurface)
+                                            Text(course.code, style = MaterialTheme.typography.bodySmall)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        TextButton(onClick = onDismiss) { Text("Fermer") }
+                    }
+                }
+            }
+        }
+    )
+}
+
+@Composable
+private fun InfoRow(icon: ImageVector, text: String, tint: Color? = null) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        if (tint != null) {
+            Icon(icon, contentDescription = null, modifier = Modifier.size(18.dp), tint = tint)
+        } else {
+            Icon(icon, contentDescription = null, modifier = Modifier.size(18.dp))
+        }
+        Text(text, style = MaterialTheme.typography.bodyMedium)
     }
 }
 
