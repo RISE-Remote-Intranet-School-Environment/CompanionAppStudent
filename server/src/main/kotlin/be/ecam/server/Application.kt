@@ -97,7 +97,7 @@ fun Application.module() {
 
     // Seeds - Décommenter pour peupler la base
     // CatalogService.seedFormationsFromJson()
-    CalendarService.seedCourseScheduleFromJson()  // <-- Activer ce seed
+    // CalendarService.seedCourseScheduleFromJson()
     // CatalogService.seedCourseDetailsFromJson()
     // ProfessorService.seedProfessorsFromJson()
 
