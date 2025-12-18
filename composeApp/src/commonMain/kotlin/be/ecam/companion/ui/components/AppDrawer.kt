@@ -103,8 +103,16 @@ private fun DrawerProfileSection(
         Spacer(Modifier.width(8.dp))
 
         Column {
+            val fullName = buildString {
+                user?.firstName?.takeIf { it.isNotBlank() }?.let { append(it) }
+                user?.lastName?.takeIf { it.isNotBlank() }?.let {
+                    if (isNotEmpty()) append(" ")
+                    append(it)
+                }
+            }.ifEmpty { user?.username ?: "Utilisateur" }
+
             Text(
-                text = user?.username ?:"invité",
+                text = fullName,
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(

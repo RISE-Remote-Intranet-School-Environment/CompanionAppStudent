@@ -52,7 +52,9 @@ fun HomeScreen(
 
     LaunchedEffect(user.id) { vm.load(user) }
 
-    val displayName = user.username.split(" ").firstOrNull() ?: "Étudiant"
+    val displayName = user.firstName?.split(" ")?.firstOrNull() 
+        ?: user.username 
+        ?: "Étudiant"
 
     val displayedCourses = remember(vm.courses, vm.catalogCourses, searchQuery) {
         if (searchQuery.isBlank()) vm.courses

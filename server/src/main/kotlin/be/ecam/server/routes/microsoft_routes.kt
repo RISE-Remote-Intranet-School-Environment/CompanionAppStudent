@@ -146,6 +146,10 @@ fun Route.microsoftAuthRoutes() {
 
                 val email = profile.mail ?: profile.userPrincipalName ?: ""
                 
+                // Récupérer l'URL de la photo de profil Microsoft
+                // Note: Graph API retourne la photo en binaire, on utilise l'URL directe
+                val avatarUrl = "https://graph.microsoft.com/v1.0/me/photo/\$value"
+                
                 // Optionnel : Restriction aux emails ECAM
                 if (!email.endsWith("@ecam.be")) {
                     val redirectUrl = buildRedirectUrl("error=invalid_domain&message=Seuls les comptes ECAM sont autorisés")
@@ -153,12 +157,13 @@ fun Route.microsoftAuthRoutes() {
                     return@get
                 }
 
-                // Login ou création automatique de l'utilisateur
+                // Login ou création automatique de l'utilisateur avec avatar
                 val authResponse = AuthService.loginOrRegisterMicrosoft(
                     email = email,
                     firstName = profile.givenName ?: "",
                     lastName = profile.surname ?: "",
-                    displayName = profile.displayName
+                    displayName = profile.displayName,
+                    avatarUrl = null // On n'utilise pas l'avatar Microsoft directement (nécessite token)
                 )
 
                 // Redirection avec les tokens

@@ -53,7 +53,7 @@ object AuthService {
             it[UsersTable.role] = role
         }.value
 
-        val user = AuthUserDTO(id, username, email, role, null)
+        val user = AuthUserDTO(id, username, email, role, null, "", "")
         generateAuthResponse(user, "Compte créé")
     }
 
@@ -64,7 +64,8 @@ object AuthService {
         email: String,
         firstName: String,
         lastName: String,
-        displayName: String? = null
+        displayName: String? = null,
+        avatarUrl: String? = null
     ): AuthResponse = transaction {
         
         require(email.isNotBlank()) { "Email Microsoft vide" }
@@ -76,13 +77,32 @@ object AuthService {
             .singleOrNull()
 
         val userDto = if (existingUser != null) {
-            // Utilisateur existant -> login
+            // Utilisateur existant -> update les infos si nécessaire (photo, nom...)
+            val userId = existingUser[UsersTable.id].value
+            
+            // Mise à jour de l'avatar si fourni et différent
+            if (!avatarUrl.isNullOrBlank() && existingUser[UsersTable.avatarUrl] != avatarUrl) {
+                UsersTable.update({ UsersTable.id eq userId }) {
+                    it[UsersTable.avatarUrl] = avatarUrl
+                }
+            }
+            
+            // Mise à jour du prénom/nom si vides
+            if (existingUser[UsersTable.firstName].isNullOrBlank() && firstName.isNotBlank()) {
+                UsersTable.update({ UsersTable.id eq userId }) {
+                    it[UsersTable.firstName] = firstName
+                    it[UsersTable.lastName] = lastName
+                }
+            }
+            
             AuthUserDTO(
-                id = existingUser[UsersTable.id].value,
+                id = userId,
                 username = existingUser[UsersTable.username],
                 email = existingUser[UsersTable.email],
                 role = existingUser[UsersTable.role],
-                avatarUrl = existingUser[UsersTable.avatarUrl]
+                avatarUrl = avatarUrl ?: existingUser[UsersTable.avatarUrl],
+                firstName = if (existingUser[UsersTable.firstName].isNullOrBlank()) firstName else existingUser[UsersTable.firstName],
+                lastName = if (existingUser[UsersTable.lastName].isNullOrBlank()) lastName else existingUser[UsersTable.lastName]
             )
         } else {
             // Nouvel utilisateur -> création automatique
@@ -90,20 +110,19 @@ object AuthService {
                 .replace(".", "_")
                 .take(50)
             
-            // Vérifier si le username existe déjà, sinon ajouter un suffixe
             val finalUsername = generateUniqueUsername(username)
 
             val newId = UsersTable.insertAndGetId {
                 it[UsersTable.username] = finalUsername
                 it[UsersTable.email] = email.lowercase()
-                it[UsersTable.passwordHash] = "" // Pas de mot de passe pour OAuth
+                it[UsersTable.passwordHash] = ""
                 it[UsersTable.firstName] = firstName
                 it[UsersTable.lastName] = lastName
                 it[UsersTable.role] = UserRole.STUDENT
-                it[UsersTable.avatarUrl] = null
+                it[UsersTable.avatarUrl] = avatarUrl
             }.value
 
-            AuthUserDTO(newId, finalUsername, email.lowercase(), UserRole.STUDENT, null)
+            AuthUserDTO(newId, finalUsername, email.lowercase(), UserRole.STUDENT, avatarUrl, firstName, lastName)
         }
 
         generateAuthResponse(userDto, "Connexion Microsoft OK")
@@ -144,7 +163,9 @@ object AuthService {
             username = row[UsersTable.username],
             email = row[UsersTable.email],
             role = row[UsersTable.role],
-            avatarUrl = row[UsersTable.avatarUrl]
+            avatarUrl = row[UsersTable.avatarUrl],
+            firstName = row[UsersTable.firstName],
+            lastName = row[UsersTable.lastName]
         )
 
         generateAuthResponse(user, "Connexion OK")
@@ -186,7 +207,9 @@ object AuthService {
             username = row[UsersTable.username],
             email = row[UsersTable.email],
             role = row[UsersTable.role],
-            avatarUrl = row[UsersTable.avatarUrl]
+            avatarUrl = row[UsersTable.avatarUrl],
+            firstName = row[UsersTable.firstName],
+            lastName = row[UsersTable.lastName]
         )
     }
     
@@ -225,7 +248,9 @@ object AuthService {
             username = username,
             email = email,
             role = current[UsersTable.role],
-            avatarUrl = current[UsersTable.avatarUrl]
+            avatarUrl = current[UsersTable.avatarUrl],
+            firstName = current[UsersTable.firstName],
+            lastName = current[UsersTable.lastName]
         )
     }
 }
