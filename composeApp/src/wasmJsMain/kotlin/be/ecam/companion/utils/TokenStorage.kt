@@ -12,4 +12,19 @@ actual fun loadToken(): String? {
 
 actual fun clearToken() {
     localStorage.removeItem("jwt_token")
+    localStorage.removeItem("refresh_token")
+    localStorage.removeItem("oauth_success")
+}
+
+fun checkOAuthSuccess(): Boolean {
+    val success = localStorage.getItem("oauth_success")
+    if (success == "true") {
+        localStorage.removeItem("oauth_success")
+        return true
+    }
+    return false
+}
+
+fun loadRefreshToken(): String? {
+    return localStorage.getItem("refresh_token")
 }

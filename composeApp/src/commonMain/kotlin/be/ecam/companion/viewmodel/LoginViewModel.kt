@@ -135,6 +135,31 @@ class LoginViewModel : ViewModel() {
     }
 
     /**
+     * Restaure la session à partir d'un token stocké (utile après OAuth callback)
+     */
+    fun restoreSession(accessToken: String) {
+        jwtToken = accessToken
+        saveToken(accessToken)
+        viewModelScope.launch {
+            try {
+                val response: HttpResponse = client.get("${defaultServerBaseUrl()}/api/auth/me") {
+                    val token = accessToken.trim().removeSurrounding("\"")
+                    header(HttpHeaders.Authorization, "Bearer $token")
+                }
+                if (response.status.isSuccess()) {
+                    currentUser = response.body()
+                    loginSuccess = true
+                } else {
+                    logout()
+                }
+            } catch (e: Exception) {
+                errorMessage = "Erreur de restauration : ${e.message}"
+                logout()
+            }
+        }
+    }
+
+    /**
      * 🔐 Login via POST /api/auth/login
      */
     fun login(

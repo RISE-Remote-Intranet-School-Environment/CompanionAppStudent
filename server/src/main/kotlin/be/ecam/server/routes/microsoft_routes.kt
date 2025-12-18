@@ -45,8 +45,11 @@ fun Route.microsoftAuthRoutes() {
 
     route("/auth/microsoft") {
 
-        // 1. Redirige vers Microsoft
+        // 1. Redirige vers Microsoft avec state pour savoir d'où vient la requête
         get("/login") {
+            // Détecter si la requête vient du web (via Referer ou un paramètre)
+            val platform = call.request.queryParameters["platform"] ?: "web"
+            
             val authUrl = buildString {
                 append("https://login.microsoftonline.com/common/oauth2/v2.0/authorize?")
                 append("client_id=${MicrosoftConfig.clientId}")
@@ -54,6 +57,7 @@ fun Route.microsoftAuthRoutes() {
                 append("&redirect_uri=${MicrosoftConfig.redirectUri}")
                 append("&response_mode=query")
                 append("&scope=${MicrosoftConfig.scope}")
+                append("&state=$platform") // Passe la plateforme dans le state
             }
             call.respondRedirect(authUrl)
         }
@@ -63,14 +67,25 @@ fun Route.microsoftAuthRoutes() {
             val code = call.parameters["code"]
             val error = call.parameters["error"]
             val errorDescription = call.parameters["error_description"]
+            val state = call.parameters["state"] ?: "web"
+
+            // Fonction helper pour construire l'URL de redirection
+            fun buildRedirectUrl(params: String): String {
+                return when (state) {
+                    "android", "ios" -> "be.ecam.companion://auth-callback?$params"
+                    else -> "/auth-callback.html?$params" // Web: page HTML
+                }
+            }
 
             if (error != null) {
-                call.respondRedirect("be.ecam.companion://auth-callback?error=$error&message=$errorDescription")
+                val redirectUrl = buildRedirectUrl("error=$error&message=${errorDescription?.take(100) ?: ""}")
+                call.respondRedirect(redirectUrl)
                 return@get
             }
 
             if (code == null) {
-                call.respondRedirect("be.ecam.companion://auth-callback?error=missing_code")
+                val redirectUrl = buildRedirectUrl("error=missing_code")
+                call.respondRedirect(redirectUrl)
                 return@get
             }
 
@@ -97,7 +112,8 @@ fun Route.microsoftAuthRoutes() {
                 
                 // Optionnel : Restriction aux emails ECAM
                 if (!email.endsWith("@ecam.be")) {
-                    call.respondRedirect("be.ecam.companion://auth-callback?error=invalid_domain")
+                    val redirectUrl = buildRedirectUrl("error=invalid_domain&message=Seuls les comptes ECAM sont autorisés")
+                    call.respondRedirect(redirectUrl)
                     return@get
                 }
 
@@ -109,16 +125,16 @@ fun Route.microsoftAuthRoutes() {
                     displayName = profile.displayName
                 )
 
-                // Redirection vers l'app via Deep Link
-                call.respondRedirect(
-                    "be.ecam.companion://auth-callback?" +
-                    "accessToken=${authResponse.accessToken}&" +
-                    "refreshToken=${authResponse.refreshToken}"
+                // Redirection avec les tokens
+                val redirectUrl = buildRedirectUrl(
+                    "accessToken=${authResponse.accessToken}&refreshToken=${authResponse.refreshToken}"
                 )
+                call.respondRedirect(redirectUrl)
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                call.respondRedirect("be.ecam.companion://auth-callback?error=server_error&message=${e.message}")
+                val redirectUrl = buildRedirectUrl("error=server_error&message=${e.message?.take(100) ?: "Erreur inconnue"}")
+                call.respondRedirect(redirectUrl)
             }
         }
     }
