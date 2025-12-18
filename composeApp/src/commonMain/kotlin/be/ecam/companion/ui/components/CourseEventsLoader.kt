@@ -7,14 +7,6 @@ import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.di.buildBaseUrl
 import io.ktor.client.HttpClient
 import org.koin.compose.koinInject
-import companion.composeapp.generated.resources.Res
-import kotlinx.serialization.Serializable
-import kotlinx.datetime.LocalDate
-import kotlinx.serialization.json.Json
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-
-private val fallbackJson = Json { ignoreUnknownKeys = true }
-
 @Composable
 fun rememberCourseEvents(authToken: String? = null): List<CourseEvent> {
     val httpClient = koinInject<HttpClient>()
@@ -28,44 +20,7 @@ fun rememberCourseEvents(authToken: String? = null): List<CourseEvent> {
     )
 
     val state = produceState(initialValue = emptyList<CourseEvent>(), host, port, authToken) {
-        val remote = runCatching { repository.fetchCourseEvents() }.getOrElse { emptyList() }
-        value = if (remote.isNotEmpty()) remote else loadLocalFallback()
+        value = runCatching { repository.fetchCourseEvents() }.getOrElse { emptyList() }
     }
     return state.value
-}
-
-@Serializable
-private data class RawCourseEvent(
-    val date: String,
-    val year_option: String,
-    val series: List<String>,
-    val course_code: String,
-    val course_name: String,
-    val start_time: String,
-    val end_time: String,
-    val teachers: List<String>,
-    val room: List<String>
-)
-
-@OptIn(ExperimentalResourceApi::class)
-private suspend fun loadLocalFallback(): List<CourseEvent> {
-    return try {
-        val bytes = Res.readBytes("files/ecam_calendar_courses_schedule_2025.json")
-        val rawEvents = fallbackJson.decodeFromString<List<RawCourseEvent>>(bytes.decodeToString())
-        rawEvents.map {
-            CourseEvent(
-                date = LocalDate.parse(it.date),
-                yearOption = it.year_option,
-                series = it.series,
-                courseCode = it.course_code,
-                courseName = it.course_name,
-                startTime = it.start_time,
-                endTime = it.end_time,
-                teachers = it.teachers,
-                rooms = it.room
-            )
-        }
-    } catch (_: Throwable) {
-        emptyList()
-    }
 }

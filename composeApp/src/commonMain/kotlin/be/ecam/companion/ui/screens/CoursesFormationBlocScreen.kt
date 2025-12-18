@@ -460,7 +460,7 @@ private fun TableHeader(
             Surface(
                 modifier = Modifier
                     .height(40.dp)
-                    .clickable { onOpenCourseCalendar(inferYearOption(block.name), null) },
+                    .clickable { onOpenCourseCalendar(inferYearOption(block.name, program.formation.id), null) },
                 shape = RoundedCornerShape(18.dp),
                 color = accentColor.copy(alpha = 0.14f),
                 border = BorderStroke(1.dp, accentColor.copy(alpha = 0.4f))
@@ -769,14 +769,41 @@ private fun formationAccentColor(formationId: String, fallback: Color): Color =
         else -> fallback
     }
 
-private fun inferYearOption(blockName: String): String? {
+private fun inferYearOption(blockName: String, formationId: String): String? {
     val number = Regex("""\d+""").find(blockName)?.value ?: return null
+    val id = formationId.lowercase()
     return when (number) {
         "1" -> "1BA"
         "2" -> "2BA"
-        "3" -> "3B"
-        "4" -> "4M"
-        "5" -> "5M"
+        "3" -> when (id) {
+            "construction" -> "3BC"
+            "electronique", "informatique" -> "3BE"
+            "electromecanique" -> "3BM"
+            "ingenierie_sante" -> "3BS"
+            else -> "3B"
+        }
+        "4" -> when (id) {
+            "automatisation" -> "4MAU"
+            "construction" -> "4MCO"
+            "electromecanique" -> "4MEM"
+            "electronique" -> "4MEO"
+            "informatique" -> "4MIN"
+            "ingenierie_sante" -> "4MIS"
+            "geometre" -> "4MGA"
+            else -> "4M"
+        }
+        "5" -> when (id) {
+            "automatisation" -> "5MAU"
+            "construction" -> "5MCO"
+            "electromecanique" -> "5MEM"
+            "electronique" -> "5MEO"
+            "informatique" -> "5MIN"
+            "ingenierie_sante" -> "5MIS"
+            "business_analyst" -> "5MBA"
+            "geometre" -> "5MGA"
+            "ingenieur_industriel_commercial" -> "5MIC"
+            else -> "5M"
+        }
         "6" -> "6M"
         else -> null
     }
