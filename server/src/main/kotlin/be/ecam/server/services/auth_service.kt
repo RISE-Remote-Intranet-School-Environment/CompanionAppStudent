@@ -53,7 +53,7 @@ object AuthService {
             it[UsersTable.role] = role
         }.value
 
-        val user = AuthUserDTO(id, username, email, role, null, "", "")
+        val user = AuthUserDTO(id, username, email, role, avatarUrl = null, firstName = "", lastName = "")
         generateAuthResponse(user, "Compte créé")
     }
 
@@ -122,7 +122,7 @@ object AuthService {
                 it[UsersTable.avatarUrl] = avatarUrl
             }.value
 
-            AuthUserDTO(newId, finalUsername, email.lowercase(), UserRole.STUDENT, avatarUrl, firstName, lastName)
+            AuthUserDTO(newId, finalUsername, email.lowercase(), UserRole.STUDENT, avatarUrl = null, firstName = firstName, lastName = lastName)
         }
 
         generateAuthResponse(userDto, "Connexion Microsoft OK")

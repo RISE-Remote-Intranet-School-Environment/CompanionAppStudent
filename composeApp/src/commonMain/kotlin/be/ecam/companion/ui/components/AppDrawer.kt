@@ -106,7 +106,9 @@ private fun DrawerProfileSection(
                 )
             } else {
                 Text(
-                    text = initial,
+                    text = user?.firstName?.firstOrNull()?.uppercase()
+                        ?: user?.username?.firstOrNull()?.uppercase()
+                        ?: "",
                     style = MaterialTheme.typography.headlineMedium,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
@@ -125,7 +127,13 @@ private fun DrawerProfileSection(
             }.ifEmpty { user?.username ?: "Utilisateur" }
 
             Text(
-                text = fullName,
+                text = buildString {
+                    listOfNotNull(user?.firstName, user?.lastName)
+                        .joinToString(" ")
+                        .takeIf { it.isNotBlank() }
+                        ?.let { append(it) }
+                    if (isEmpty()) append(user?.username ?: "invité")
+                },
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(
