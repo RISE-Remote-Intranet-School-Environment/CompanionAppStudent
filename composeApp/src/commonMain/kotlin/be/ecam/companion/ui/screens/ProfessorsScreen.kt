@@ -255,9 +255,6 @@ private fun ProfessorCard(
     onInfoClick: () -> Unit,
     onCourseClick: ((ProfessorCourse) -> Unit)? = null
 ) {
-    var expanded by remember { mutableStateOf(false) }
-    val uriHandler = LocalUriHandler.current
-
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
@@ -348,66 +345,16 @@ private fun ProfessorCard(
                 Text(professor.office ?: "Non renseigné")
             }
 
-            /* -------- COURSES SUMMARY -------- */
+            /* -------- COURSES SUMMARY ICON -------- */
             Spacer(Modifier.height(6.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.clickable { expanded = !expanded }
-            ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Default.School, null, modifier = Modifier.size(18.dp))
                 Spacer(Modifier.width(6.dp))
                 Text("${professor.courses.size} cours enseignés")
             }
 
-            if (professor.courses.isNotEmpty()) {
-                Spacer(Modifier.height(8.dp))
-
-                /* -------- HIDE/SHOW BUTTON -------- */
-                TextButton(onClick = { expanded = !expanded }) { Text(if (expanded) "Masquer les cours" else "Voir les cours") }
-                TextButton(onClick = onInfoClick) { Text("Fiche professeur") }
-            } else {
-                Spacer(Modifier.height(8.dp))
-                TextButton(onClick = onInfoClick) { Text("Fiche professeur") }
-            }
-
-            /* -------- COURSE LIST -------- */
-            if (expanded) {
-                val sorted = professor.courses.sortedBy { it.code.firstOrNull()?.digitToIntOrNull() ?: 9 }
-
-                sorted.forEach { course ->
-
-                    Spacer(Modifier.height(8.dp))
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                when {
-                                    onCourseClick != null -> onCourseClick(course)
-                                    else -> course.detailsUrl?.let { uriHandler.openUri(it) }
-                                }
-                            },
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(12.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(Icons.Default.Book, null, modifier = Modifier.size(18.dp))
-                            Spacer(Modifier.width(12.dp))
-
-                            Column(Modifier.weight(1f)) {
-                                Text(
-                                    "${course.code.uppercase()} – ${course.title}",
-                                    fontWeight = FontWeight.Medium
-                                )
-                            }
-
-                            Icon(Icons.AutoMirrored.Filled.ArrowForward, null)
-                        }
-                    }
-                }
-            }
+            Spacer(Modifier.height(8.dp))
+            TextButton(onClick = onInfoClick) { Text("Fiche professeur") }
         }
     }
 }
@@ -516,13 +463,13 @@ private fun ProfessorDetailsDialog(
 
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text("Informations", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                        InfoRow(Icons.Default.Email, professor.email)
+                        InfoRow(Icons.Default.Email, professor.email, tint = MaterialTheme.colorScheme.primary)
                         professor.phone?.takeIf { it.isNotBlank() && it != "1" }?.let {
-                            InfoRow(Icons.Default.Phone, it)
+                            InfoRow(Icons.Default.Phone, it, tint = MaterialTheme.colorScheme.primary)
                         }
-                        InfoRow(Icons.Default.Room, professor.office ?: "Non renseigné", tint = MaterialTheme.colorScheme.tertiary)
+                        InfoRow(Icons.Default.Room, professor.office ?: "Non renseigné", tint = MaterialTheme.colorScheme.primary)
                         professor.roleDetail?.takeIf { it.isNotBlank() }?.let {
-                            InfoRow(Icons.Default.Work, it, tint = MaterialTheme.colorScheme.secondary)
+                            InfoRow(Icons.Default.Work, it, tint = MaterialTheme.colorScheme.primary)
                         }
                         professor.diplomas?.takeIf { it.isNotBlank() }?.let {
                             InfoRow(Icons.Default.School, it, tint = MaterialTheme.colorScheme.primary)
@@ -559,7 +506,7 @@ private fun ProfessorDetailsDialog(
                                             Icons.Default.Book,
                                             null,
                                             modifier = Modifier.size(18.dp),
-                        tint = MaterialTheme.colorScheme.primary
+                                            tint = MaterialTheme.colorScheme.primary
                                         )
                                         Spacer(Modifier.width(10.dp))
                                         Column(Modifier.weight(1f)) {
