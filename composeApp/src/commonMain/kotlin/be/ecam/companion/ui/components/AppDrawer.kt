@@ -1,4 +1,5 @@
 package be.ecam.companion.ui.components
+import be.ecam.companion.viewmodel.AuthUserDTO
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,11 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
-import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.nicolas
+
 
 @Composable
 fun AppDrawer(
+    user: AuthUserDTO?,
     onSelectDashboard: () -> Unit,
     onSelectCourses: () -> Unit,
     onSelectProfessors: () -> Unit,
@@ -30,7 +31,7 @@ fun AppDrawer(
     ModalDrawerSheet(
         modifier = Modifier
             .fillMaxHeight()
-            .widthIn(min = 140.dp, max = 200.dp) // Max drawer size
+            .widthIn(min = 140.dp, max = 200.dp)
     ) {
         Column(
             modifier = Modifier
@@ -42,29 +43,27 @@ fun AppDrawer(
                     .weight(1f)
                     .verticalScroll(scrollState)
             ) {
-                DrawerProfileSection(onSelectDashboard)
-                Spacer(Modifier.height(8.dp))
+                DrawerProfileSection(
+                    user = user,
+                    onSelectDashboard = onSelectDashboard
+                )
+
+                Spacer(Modifier.height(16.dp))
 
                 Button(
                     onClick = onSelectCourses,
-                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
-                ) {
-                    Text("Formations")
-                }
+                    modifier = Modifier.fillMaxWidth()
+                ) { Text("Formations") }
 
                 Button(
                     onClick = onSelectPae,
                     modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
-                ) {
-                    Text("Mon PAE")
-                }
+                ) { Text("Mon PAE") }
 
                 Button(
                     onClick = onSelectProfessors,
                     modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
-                ) {
-                    Text("Professeurs")
-                }
+                ) { Text("Professeurs") }
 
                 Spacer(Modifier.height(16.dp))
                 DrawerExtraScrollableSection()
@@ -76,7 +75,10 @@ fun AppDrawer(
 }
 
 @Composable
-private fun DrawerProfileSection(onSelectDashboard: () -> Unit) {
+private fun DrawerProfileSection(
+    user: AuthUserDTO?,
+    onSelectDashboard: () -> Unit
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -91,16 +93,29 @@ private fun DrawerProfileSection(onSelectDashboard: () -> Unit) {
                 .background(MaterialTheme.colorScheme.primary),
             contentAlignment = Alignment.Center
         ) {
-            Image(
-                painter = painterResource(Res.drawable.nicolas),
-                contentDescription = "Profile Picture",
-                modifier = Modifier.size(56.dp).clip(CircleShape)
+            Text(
+                text = user?.username?.first()?.uppercase() ?: "",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onPrimary
             )
         }
+
         Spacer(Modifier.width(8.dp))
-        Text("Nicolas Schell")
+
+        Column {
+            Text(
+                text = user?.username ?:"invité",
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Text(
+                text = user?.email?:"",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
     }
 }
+
 
 @Composable
 private fun DrawerExtraScrollableSection() {

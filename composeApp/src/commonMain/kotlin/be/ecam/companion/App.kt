@@ -101,6 +101,7 @@ fun App(extraModules: List<Module> = emptyList()) {
                     gesturesEnabled = true,
                     drawerContent = {
                         AppDrawer(
+                            user = connectedUser,
                             onSelectDashboard = {
                                 selectedScreen = BottomItem.DASHBOARD
                                 showPaePage = false
