@@ -105,7 +105,7 @@ fun LoginCard(
         modifier = Modifier
             .width(420.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White.copy(alpha = 0.12f)
+            containerColor = Color.White.copy(alpha = 0.18f)
         ),
         shape = RoundedCornerShape(20.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)

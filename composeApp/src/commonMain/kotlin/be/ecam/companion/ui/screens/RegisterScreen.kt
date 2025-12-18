@@ -54,7 +54,6 @@ fun RegisterScreen(
 }
 
 
-
 @Composable
 fun RegisterCard(
     username: String,
@@ -68,61 +67,77 @@ fun RegisterCard(
 ) {
     Card(
         modifier = Modifier.width(420.dp),
-        shape = RoundedCornerShape(24.dp),
-        elevation = CardDefaults.cardElevation(16.dp),
+        shape = RoundedCornerShape(20.dp),
+        elevation = CardDefaults.cardElevation(0.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White.copy(alpha = 0.92f)
+            containerColor = Color.White.copy(alpha = 0.18f) // 👈 moins transparent
         )
     ) {
         Column(
             modifier = Modifier.padding(32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            @Composable
+            fun registerTextFieldColors() = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Black,
+                unfocusedContainerColor = Color.Black,
+                focusedIndicatorColor = Color.White,
+                unfocusedIndicatorColor = Color.White.copy(alpha = 0.6f),
+                cursorColor = Color.White,
+                focusedLabelColor = Color.White,
+                unfocusedLabelColor = Color.White.copy(alpha = 0.8f),
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White
+            )
             Text(
                 "Inscription",
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.primary
-            )
-
-            Spacer(Modifier.height(20.dp))
-
-            OutlinedTextField(
-                value = username,
-                onValueChange = onUsernameChange,
-                label = { Text("Nom d’utilisateur") },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(Modifier.height(12.dp))
-
-            OutlinedTextField(
-                value = email,
-                onValueChange = onEmailChange,
-                label = { Text("Email") },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(Modifier.height(12.dp))
-
-            OutlinedTextField(
-                value = password,
-                onValueChange = onPasswordChange,
-                label = { Text("Mot de passe") },
-                visualTransformation = PasswordVisualTransformation(),
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+                style = MaterialTheme.typography.headlineMedium,
+                color = Color.White
             )
 
             Spacer(Modifier.height(24.dp))
 
+            OutlinedTextField(
+                value = username,
+                onValueChange = onUsernameChange,
+                label = { Text("Nom d’utilisateur", color = Color.White) },
+                singleLine = true,
+                modifier = Modifier.width(350.dp),
+                colors = registerTextFieldColors()
+            )
+
+            Spacer(Modifier.height(16.dp))
+
+            OutlinedTextField(
+                value = email,
+                onValueChange = onEmailChange,
+                label = { Text("Email", color = Color.White) },
+                singleLine = true,
+                modifier = Modifier.width(350.dp),
+                colors = registerTextFieldColors()
+            )
+
+            Spacer(Modifier.height(16.dp))
+
+            OutlinedTextField(
+                value = password,
+                onValueChange = onPasswordChange,
+                label = { Text("Mot de passe", color = Color.White) },
+                visualTransformation = PasswordVisualTransformation(),
+                singleLine = true,
+                modifier = Modifier.width(350.dp),
+                colors = registerTextFieldColors()
+            )
+
+            Spacer(Modifier.height(28.dp))
+
             Button(
                 onClick = onRegisterClick,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                shape = RoundedCornerShape(16.dp)
+                    .width(350.dp)
+                    .height(48.dp),
+                shape = RoundedCornerShape(12.dp)
             ) {
                 Text("S'inscrire")
             }
@@ -130,8 +145,12 @@ fun RegisterCard(
             Spacer(Modifier.height(16.dp))
 
             TextButton(onClick = onNavigateToLogin) {
-                Text("Déjà un compte ? Connectez-vous")
+                Text(
+                    "Déjà un compte ? Connectez-vous",
+                    color = Color.White.copy(alpha = 0.85f)
+                )
             }
         }
     }
 }
+
