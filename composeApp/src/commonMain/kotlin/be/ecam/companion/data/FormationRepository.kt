@@ -37,7 +37,8 @@ data class FormationCourse(
     val title: String,
     val credits: Double,
     val periods: List<String> = emptyList(),
-    @SerialName("details_url") val detailsUrl: String? = null
+    @SerialName("details_url") val detailsUrl: String? = null,
+    val icon: String? = null
 )
 
 object EcamFormationsRepository {

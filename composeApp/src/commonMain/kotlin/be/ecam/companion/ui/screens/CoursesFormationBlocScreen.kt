@@ -20,12 +20,24 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Assignment
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Construction
+import androidx.compose.material.icons.filled.EmojiObjects
+import androidx.compose.material.icons.filled.Functions
+import androidx.compose.material.icons.filled.HealthAndSafety
+import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.PhoneIphone
 import androidx.compose.material.icons.filled.Science
 import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.ViewWeek
+import androidx.compose.material.icons.filled.Work
+import androidx.compose.material.icons.filled.Code
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Card
@@ -541,7 +553,7 @@ private fun CourseRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         androidx.compose.material3.Icon(
-            imageVector = courseIconForTitle(course.title),
+            imageVector = courseIcon(course),
             contentDescription = null,
             tint = accentColor,
             modifier = Modifier
@@ -672,6 +684,35 @@ private fun periodColorFor(label: String): Color = when {
     label.contains("Q1", ignoreCase = true) -> Color(0xFF8D6E63)
     label.contains("Q2", ignoreCase = true) -> Color(0xFF26A69A)
     else -> MaterialTheme.colorScheme.outline
+}
+
+@Composable
+private fun courseIcon(course: FormationCourse): ImageVector {
+    iconFromServer(course.icon)?.let { return it }
+    return courseIconForTitle(course.title)
+}
+
+private fun iconFromServer(name: String?): ImageVector? {
+    val key = name?.trim()?.lowercase() ?: return null
+    return when (key) {
+        "science" -> Icons.Filled.Science
+        "bolt" -> Icons.Filled.Bolt
+        "construction", "build", "engineering" -> Icons.Filled.Build
+        "computer" -> Icons.Filled.Computer
+        "code" -> Icons.Filled.Code
+        "assignment" -> Icons.AutoMirrored.Filled.Assignment
+        "work" -> Icons.Filled.Work
+        "functions" -> Icons.Filled.Functions
+        "language" -> Icons.Filled.Language
+        "share" -> Icons.Filled.Share
+        "healthandsafety", "health_and_safety" -> Icons.Filled.HealthAndSafety
+        "lock" -> Icons.Filled.Lock
+        "phoneiphone", "phone_iphone" -> Icons.Filled.PhoneIphone
+        "emojiobjects", "emoji_objects" -> Icons.Filled.EmojiObjects
+        "storage" -> Icons.Filled.Storage
+        "school" -> Icons.Filled.School
+        else -> null
+    }
 }
 
 @Composable

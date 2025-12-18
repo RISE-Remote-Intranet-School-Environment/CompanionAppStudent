@@ -133,7 +133,8 @@ private data class ServerCourseDto(
     val credits: Int? = null,
     @SerialName("blocId") val blocId: String? = null,
     val periods: String? = null,
-    @SerialName("detailsUrl") val detailsUrl: String? = null
+    @SerialName("detailsUrl") val detailsUrl: String? = null,
+    val icon: String? = null
 )
 
 private fun ServerCourseDto.toFormationCourse(): FormationCourse {
@@ -148,6 +149,7 @@ private fun ServerCourseDto.toFormationCourse(): FormationCourse {
         title = title,
         credits = credits?.toDouble() ?: 0.0,
         periods = periodsList,
-        detailsUrl = detailsUrl
+        detailsUrl = detailsUrl,
+        icon = icon
     )
 }
