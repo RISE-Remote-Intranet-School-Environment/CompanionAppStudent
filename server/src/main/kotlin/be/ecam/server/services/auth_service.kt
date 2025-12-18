@@ -57,6 +57,73 @@ object AuthService {
         generateAuthResponse(user, "Compte créé")
     }
 
+    /**
+     * Login ou création automatique via Microsoft OAuth
+     */
+    fun loginOrRegisterMicrosoft(
+        email: String,
+        firstName: String,
+        lastName: String,
+        displayName: String? = null
+    ): AuthResponse = transaction {
+        
+        require(email.isNotBlank()) { "Email Microsoft vide" }
+
+        // 1. Chercher si l'utilisateur existe déjà
+        val existingUser = UsersTable
+            .selectAll()
+            .where { UsersTable.email eq email.lowercase() }
+            .singleOrNull()
+
+        val userDto = if (existingUser != null) {
+            // Utilisateur existant -> login
+            AuthUserDTO(
+                id = existingUser[UsersTable.id].value,
+                username = existingUser[UsersTable.username],
+                email = existingUser[UsersTable.email],
+                role = existingUser[UsersTable.role],
+                avatarUrl = existingUser[UsersTable.avatarUrl]
+            )
+        } else {
+            // Nouvel utilisateur -> création automatique
+            val username = email.substringBefore("@").lowercase()
+                .replace(".", "_")
+                .take(50)
+            
+            // Vérifier si le username existe déjà, sinon ajouter un suffixe
+            val finalUsername = generateUniqueUsername(username)
+
+            val newId = UsersTable.insertAndGetId {
+                it[UsersTable.username] = finalUsername
+                it[UsersTable.email] = email.lowercase()
+                it[UsersTable.passwordHash] = "" // Pas de mot de passe pour OAuth
+                it[UsersTable.firstName] = firstName
+                it[UsersTable.lastName] = lastName
+                it[UsersTable.role] = UserRole.STUDENT
+                it[UsersTable.avatarUrl] = null
+            }.value
+
+            AuthUserDTO(newId, finalUsername, email.lowercase(), UserRole.STUDENT, null)
+        }
+
+        generateAuthResponse(userDto, "Connexion Microsoft OK")
+    }
+
+    /**
+     * Génère un username unique en ajoutant un suffixe si nécessaire
+     */
+    private fun generateUniqueUsername(baseUsername: String): String {
+        var candidate = baseUsername
+        var counter = 1
+        
+        while (UsersTable.selectAll().where { UsersTable.username eq candidate }.count() > 0) {
+            candidate = "${baseUsername}_$counter"
+            counter++
+        }
+        
+        return candidate
+    }
+
     // login
     fun login(req: LoginRequest): AuthResponse = transaction {
         val identifier = req.emailOrUsername.trim()
