@@ -25,9 +25,9 @@ fun RemoteImage(
     contentScale: ContentScale = ContentScale.Fit
 ) {
     val painterResource = asyncPainterResource(data = url)
-    
+
     KamelImage(
-        resource = painterResource,
+        resource = { painterResource },
         contentDescription = contentDescription,
         modifier = modifier,
         contentScale = contentScale,
