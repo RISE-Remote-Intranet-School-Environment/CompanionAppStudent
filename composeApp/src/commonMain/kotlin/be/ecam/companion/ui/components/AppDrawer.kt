@@ -1,7 +1,6 @@
 package be.ecam.companion.ui.components
 import be.ecam.companion.viewmodel.AuthUserDTO
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.resources.painterResource
 
 
 @Composable
@@ -93,11 +92,25 @@ private fun DrawerProfileSection(
                 .background(MaterialTheme.colorScheme.primary),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = user?.username?.first()?.uppercase() ?: "",
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.onPrimary
-            )
+            val initial = user?.firstName?.firstOrNull()?.uppercase() 
+                ?: user?.username?.firstOrNull()?.uppercase() 
+                ?: ""
+            
+            if (!user?.avatarUrl.isNullOrBlank()) {
+                // Utiliser Kamel pour charger l'avatar
+                RemoteImage(
+                    url = user?.avatarUrl ?: "",
+                    contentDescription = "Avatar",
+                    modifier = Modifier.size(56.dp).clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Text(
+                    text = initial,
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }
         }
 
         Spacer(Modifier.width(8.dp))
@@ -116,7 +129,7 @@ private fun DrawerProfileSection(
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(
-                text = user?.email?:"",
+                text = user?.email ?: "",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

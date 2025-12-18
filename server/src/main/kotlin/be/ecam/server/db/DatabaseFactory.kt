@@ -69,6 +69,9 @@ object DatabaseFactory {
                     "PaeStudents, NotesStudents, StudentSubmissions, CourseResources"
             )
 
+            // Migration: s'assurer que avatar_url est de type TEXT
+            migrateAvatarUrlColumn()
+
             val iconReady = ensureCoursesIconColumn()
             if (iconReady) {
                 backfillCourseIcons()
@@ -102,6 +105,25 @@ object DatabaseFactory {
                 println("Default admin user created (email=admin@example.com, pwd=1234)")
             }
             
+        }
+    }
+
+    private fun migrateAvatarUrlColumn() {
+        // SQLite ne supporte pas ALTER COLUMN, donc on vérifie juste que la colonne existe
+        // Si vous avez besoin de migrer, il faudrait recréer la table
+        try {
+            val hasColumn = TransactionManager.current().exec("PRAGMA table_info(users)") { rs ->
+                generateSequence {
+                    if (rs.next()) rs.getString("name") else null
+                }.any { it.equals("avatar_url", ignoreCase = true) }
+            } ?: false
+
+            if (!hasColumn) {
+                TransactionManager.current().exec("ALTER TABLE users ADD COLUMN avatar_url TEXT")
+                println("Added avatar_url column to users table")
+            }
+        } catch (e: Exception) {
+            println("Migration avatar_url: ${e.message}")
         }
     }
 

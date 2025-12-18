@@ -6,7 +6,7 @@ import androidx.compose.ui.window.application
 import be.ecam.companion.data.PersistentSettingsRepository
 import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.data.defaultServerBaseUrl
-import be.ecam.companion.coil.initDesktopCoilImageLoader
+import be.ecam.companion.oauth.DesktopOAuthHelper
 import be.ecam.companion.oauth.DesktopOAuthHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

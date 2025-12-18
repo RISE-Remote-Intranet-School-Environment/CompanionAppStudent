@@ -43,6 +43,7 @@ object UserService {
             .map { row -> row.toUser().toPublicDTO() }
     }
 
+    // Récupérer un utilisateur par ID
     fun getUserById(id: Int): UserPublicDTO? = transaction {
         UsersTable
             .selectAll()

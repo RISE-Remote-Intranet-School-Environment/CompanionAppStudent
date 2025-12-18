@@ -8,6 +8,7 @@ import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
@@ -16,6 +17,7 @@ import io.ktor.server.routing.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import java.util.Base64
 
 @Serializable
 data class MicrosoftTokenResponse(
@@ -146,9 +148,21 @@ fun Route.microsoftAuthRoutes() {
 
                 val email = profile.mail ?: profile.userPrincipalName ?: ""
                 
-                // Récupérer l'URL de la photo de profil Microsoft
-                // Note: Graph API retourne la photo en binaire, on utilise l'URL directe
-                val avatarUrl = "https://graph.microsoft.com/v1.0/me/photo/\$value"
+                // Récupérer la photo de profil Microsoft (binaire)
+                val avatarBase64: String? = try {
+                    val photoResponse: HttpResponse = httpClient.get("https://graph.microsoft.com/v1.0/me/photo/\$value") {
+                        header(HttpHeaders.Authorization, "Bearer ${tokenResponse.accessToken}")
+                    }
+                    if (photoResponse.status.isSuccess()) {
+                        val photoBytes: ByteArray = photoResponse.body()
+                        "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(photoBytes)
+                    } else {
+                        null
+                    }
+                } catch (e: Exception) {
+                    println("Impossible de récupérer la photo Microsoft: ${e.message}")
+                    null
+                }
                 
                 // Optionnel : Restriction aux emails ECAM
                 if (!email.endsWith("@ecam.be")) {
@@ -163,7 +177,7 @@ fun Route.microsoftAuthRoutes() {
                     firstName = profile.givenName ?: "",
                     lastName = profile.surname ?: "",
                     displayName = profile.displayName,
-                    avatarUrl = null // On n'utilise pas l'avatar Microsoft directement (nécessite token)
+                    avatarUrl = avatarBase64 // Stocker en base64
                 )
 
                 // Redirection avec les tokens

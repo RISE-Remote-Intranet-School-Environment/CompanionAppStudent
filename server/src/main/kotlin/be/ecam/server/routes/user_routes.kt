@@ -101,6 +101,35 @@ fun Route.userRoutes() {
 
             call.respond(updated)
         }
+
+        // GET /api/users/{id}/avatar - Récupérer l'avatar d'un utilisateur
+        get("/{id}/avatar") {
+            val id = call.parameters["id"]?.toIntOrNull()
+                ?: return@get call.respond(HttpStatusCode.BadRequest, "ID invalide")
+
+            val user = UserService.getUserById(id)
+                ?: return@get call.respond(HttpStatusCode.NotFound, "Utilisateur non trouvé")
+
+            val avatarUrl = user.avatarUrl
+            if (avatarUrl.isNullOrBlank()) {
+                return@get call.respond(HttpStatusCode.NotFound, "Pas d'avatar")
+            }
+
+            // Si c'est du base64, décoder et servir l'image
+            if (avatarUrl.startsWith("data:image/")) {
+                val base64Data = avatarUrl.substringAfter("base64,")
+                val imageBytes = java.util.Base64.getDecoder().decode(base64Data)
+                val contentType = when {
+                    avatarUrl.contains("image/png") -> ContentType.Image.PNG
+                    avatarUrl.contains("image/gif") -> ContentType.Image.GIF
+                    else -> ContentType.Image.JPEG
+                }
+                call.respondBytes(imageBytes, contentType)
+            } else {
+                // Sinon, rediriger vers l'URL externe
+                call.respondRedirect(avatarUrl)
+            }
+        }
     }
 
 
