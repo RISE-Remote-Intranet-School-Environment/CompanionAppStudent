@@ -62,13 +62,8 @@ fun rememberCalendarEventsByDate(authToken: String? = null): Map<LocalDate, List
 
     val state = produceState(initialValue = emptyMap<LocalDate, List<CalendarEvent>>(), host, port, authToken) {
         value = coroutineScope {
-            val remoteDeferred = async {
-                runCatching { repository.fetchCalendarEvents() }.getOrDefault(emptyList())
-            }
-            val localDeferred = async { runCatching { LocalCalendarLoader.load() }.getOrDefault(emptyList()) }
-
-            val mergedList = localDeferred.await() + remoteDeferred.await()
-            mergedList.groupBy { it.date }
+            val remote = async { runCatching { repository.fetchCalendarEvents() }.getOrDefault(emptyList()) }.await()
+            remote.groupBy { it.date }
         }
     }
     return state.value

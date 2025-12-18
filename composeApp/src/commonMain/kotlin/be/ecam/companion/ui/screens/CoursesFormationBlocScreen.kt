@@ -20,12 +20,24 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Assignment
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Construction
+import androidx.compose.material.icons.filled.EmojiObjects
+import androidx.compose.material.icons.filled.Functions
+import androidx.compose.material.icons.filled.HealthAndSafety
+import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.PhoneIphone
 import androidx.compose.material.icons.filled.Science
 import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.ViewWeek
+import androidx.compose.material.icons.filled.Work
+import androidx.compose.material.icons.filled.Code
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Card
@@ -448,7 +460,7 @@ private fun TableHeader(
             Surface(
                 modifier = Modifier
                     .height(40.dp)
-                    .clickable { onOpenCourseCalendar(inferYearOption(block.name), null) },
+                    .clickable { onOpenCourseCalendar(inferYearOption(block.name, program.formation.id), null) },
                 shape = RoundedCornerShape(18.dp),
                 color = accentColor.copy(alpha = 0.14f),
                 border = BorderStroke(1.dp, accentColor.copy(alpha = 0.4f))
@@ -541,7 +553,7 @@ private fun CourseRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         androidx.compose.material3.Icon(
-            imageVector = courseIconForTitle(course.title),
+            imageVector = courseIcon(course),
             contentDescription = null,
             tint = accentColor,
             modifier = Modifier
@@ -675,6 +687,35 @@ private fun periodColorFor(label: String): Color = when {
 }
 
 @Composable
+private fun courseIcon(course: FormationCourse): ImageVector {
+    iconFromServer(course.icon)?.let { return it }
+    return courseIconForTitle(course.title)
+}
+
+private fun iconFromServer(name: String?): ImageVector? {
+    val key = name?.trim()?.lowercase() ?: return null
+    return when (key) {
+        "science" -> Icons.Filled.Science
+        "bolt" -> Icons.Filled.Bolt
+        "construction", "build", "engineering" -> Icons.Filled.Build
+        "computer" -> Icons.Filled.Computer
+        "code" -> Icons.Filled.Code
+        "assignment" -> Icons.AutoMirrored.Filled.Assignment
+        "work" -> Icons.Filled.Work
+        "functions" -> Icons.Filled.Functions
+        "language" -> Icons.Filled.Language
+        "share" -> Icons.Filled.Share
+        "healthandsafety", "health_and_safety" -> Icons.Filled.HealthAndSafety
+        "lock" -> Icons.Filled.Lock
+        "phoneiphone", "phone_iphone" -> Icons.Filled.PhoneIphone
+        "emojiobjects", "emoji_objects" -> Icons.Filled.EmojiObjects
+        "storage" -> Icons.Filled.Storage
+        "school" -> Icons.Filled.School
+        else -> null
+    }
+}
+
+@Composable
 private fun courseIconForTitle(title: String): ImageVector {
     val lower = title.lowercase()
     return when {
@@ -728,14 +769,41 @@ private fun formationAccentColor(formationId: String, fallback: Color): Color =
         else -> fallback
     }
 
-private fun inferYearOption(blockName: String): String? {
+private fun inferYearOption(blockName: String, formationId: String): String? {
     val number = Regex("""\d+""").find(blockName)?.value ?: return null
+    val id = formationId.lowercase()
     return when (number) {
         "1" -> "1BA"
         "2" -> "2BA"
-        "3" -> "3B"
-        "4" -> "4M"
-        "5" -> "5M"
+        "3" -> when (id) {
+            "construction" -> "3BC"
+            "electronique", "informatique" -> "3BE"
+            "electromecanique" -> "3BM"
+            "ingenierie_sante" -> "3BS"
+            else -> "3B"
+        }
+        "4" -> when (id) {
+            "automatisation" -> "4MAU"
+            "construction" -> "4MCO"
+            "electromecanique" -> "4MEM"
+            "electronique" -> "4MEO"
+            "informatique" -> "4MIN"
+            "ingenierie_sante" -> "4MIS"
+            "geometre" -> "4MGA"
+            else -> "4M"
+        }
+        "5" -> when (id) {
+            "automatisation" -> "5MAU"
+            "construction" -> "5MCO"
+            "electromecanique" -> "5MEM"
+            "electronique" -> "5MEO"
+            "informatique" -> "5MIN"
+            "ingenierie_sante" -> "5MIS"
+            "business_analyst" -> "5MBA"
+            "geometre" -> "5MGA"
+            "ingenieur_industriel_commercial" -> "5MIC"
+            else -> "5M"
+        }
         "6" -> "6M"
         else -> null
     }

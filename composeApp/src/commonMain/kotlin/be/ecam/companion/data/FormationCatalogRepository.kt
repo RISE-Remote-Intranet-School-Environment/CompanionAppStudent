@@ -94,7 +94,8 @@ class FormationCatalogRepository(
                 id = formation.formationId,
                 name = formation.name,
                 sourceUrl = formation.sourceUrl,
-                notes = null,
+                description = formation.description ?: formation.notes,
+                notes = formation.notes,
                 blocks = blocks,
                 imageKey = null,
                 imageUrl = proxiedUrl
@@ -122,7 +123,9 @@ private data class ServerFormationDto(
     @SerialName("formationId") val formationId: String,
     val name: String,
     @SerialName("sourceUrl") val sourceUrl: String? = null,
-    @SerialName("imageUrl") val imageUrl: String? = null
+    @SerialName("imageUrl") val imageUrl: String? = null,
+    val description: String? = null,
+    val notes: String? = null
 )
 
 @Serializable
@@ -133,7 +136,8 @@ private data class ServerCourseDto(
     val credits: Int? = null,
     @SerialName("blocId") val blocId: String? = null,
     val periods: String? = null,
-    @SerialName("detailsUrl") val detailsUrl: String? = null
+    @SerialName("detailsUrl") val detailsUrl: String? = null,
+    val icon: String? = null
 )
 
 private fun ServerCourseDto.toFormationCourse(): FormationCourse {
@@ -148,6 +152,7 @@ private fun ServerCourseDto.toFormationCourse(): FormationCourse {
         title = title,
         credits = credits?.toDouble() ?: 0.0,
         periods = periodsList,
-        detailsUrl = detailsUrl
+        detailsUrl = detailsUrl,
+        icon = icon
     )
 }
