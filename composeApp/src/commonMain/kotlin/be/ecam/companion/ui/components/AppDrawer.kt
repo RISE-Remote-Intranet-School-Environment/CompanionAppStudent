@@ -105,7 +105,6 @@ private fun DrawerProfileSection(onSelectDashboard: () -> Unit) {
 @Composable
 private fun DrawerExtraScrollableSection() {
     Column(modifier = Modifier.padding(top = 12.dp)) {
-        Text("Drawer content here")
         Spacer(Modifier.height(400.dp)) // Exemple, à remplacer par un vrai contenu
     }
 }
