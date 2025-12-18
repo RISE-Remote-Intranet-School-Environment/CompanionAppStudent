@@ -55,7 +55,8 @@ fun CalendarScreen(
     initialMode: CalendarMode? = null,
     initialAnchorDate: LocalDate? = null,
     initialDialogDate: LocalDate? = null,
-    scheduledByDate: Map<LocalDate, List<String>> = emptyMap()
+    scheduledByDate: Map<LocalDate, List<String>> = emptyMap(),
+    authToken: String? = null
 ) {
     var today by remember {
         mutableStateOf(
@@ -66,7 +67,7 @@ fun CalendarScreen(
     var mode by remember { mutableStateOf(initialMode ?: CalendarMode.Month) }
     var slideDirection by remember { mutableStateOf(0) } // -1 for left (next), +1 for right (prev)
     var dialogDate by remember { mutableStateOf(initialDialogDate) }
-    val localEventsByDate = rememberCalendarEventsByDate()
+    val localEventsByDate = rememberCalendarEventsByDate(authToken)
     val eventsByDate = remember(localEventsByDate, scheduledByDate) {
         mergeCalendarEvents(localEventsByDate, scheduledByDate)
     }

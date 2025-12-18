@@ -232,7 +232,8 @@ fun App(extraModules: List<Module> = emptyList()) {
                                         modifier = baseModifier,
                                         initialYearOption = courseCalendarInitialYearOption,
                                         initialSeries = courseCalendarInitialSeries,
-                                        username = connectedUser?.username?:""
+                                        username = connectedUser?.username?:"",
+                                        authToken = loginViewModel.jwtToken
                                     )
                                 }
 
