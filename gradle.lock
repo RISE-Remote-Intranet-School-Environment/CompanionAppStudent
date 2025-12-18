@@ -1597,6 +1597,40 @@
       "hash": "sha256-xj3M8rbz4rk97TK6t7vqun7Zn9ysF5S8v9J7WDh2i+Y="
     }
   },
+  "io.ktor:ktor-client-content-negotiation:3.3.0": {
+    "ktor-client-content-negotiation-3.3.0.module": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-content-negotiation/3.3.0/ktor-client-content-negotiation-3.3.0.module",
+      "hash": "sha256-GVhVIxoy0ErNEcE36HNSF3sfcqPpZYMuPHpJVsVj+Pc="
+    },
+    "ktor-client-content-negotiation-3.3.0.pom": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-content-negotiation/3.3.0/ktor-client-content-negotiation-3.3.0.pom",
+      "hash": "sha256-X8+d6d3XsHAWONmw06chAHSOFI6ui992U02ekAuMA/4="
+    }
+  },
+  "io.ktor:ktor-client-content-negotiation:2.3.6": {
+    "ktor-client-content-negotiation-2.3.6.module": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-content-negotiation/2.3.6/ktor-client-content-negotiation-2.3.6.module",
+      "hash": "sha256-tHLn/w6Ecst/xKlWyFw1MW1UjjSkh+HV0iWPtuxJhvI="
+    },
+    "ktor-client-content-negotiation-2.3.6.pom": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-content-negotiation/2.3.6/ktor-client-content-negotiation-2.3.6.pom",
+      "hash": "sha256-JD0+H1CwljFJFyeSrW621I40en/FVExJCKp4nYCIHD0="
+    }
+  },
+  "io.ktor:ktor-client-content-negotiation-jvm:3.3.0": {
+    "ktor-client-content-negotiation-jvm-3.3.0.jar": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-content-negotiation-jvm/3.3.0/ktor-client-content-negotiation-jvm-3.3.0.jar",
+      "hash": "sha256-N5QN+KrS225jFFRPU+IXuJGPjVgkygBqx7RM7TqqCWQ="
+    },
+    "ktor-client-content-negotiation-jvm-3.3.0.module": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-content-negotiation-jvm/3.3.0/ktor-client-content-negotiation-jvm-3.3.0.module",
+      "hash": "sha256-Hvor6ucII4AZriDBRZ2InJkTOBBAuMOHkwj5kpJJiSI="
+    },
+    "ktor-client-content-negotiation-jvm-3.3.0.pom": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-content-negotiation-jvm/3.3.0/ktor-client-content-negotiation-jvm-3.3.0.pom",
+      "hash": "sha256-MCqitCg8H64JMLxqfZ0fdwTxmQ3q7zXILgtRMT/6FJM="
+    }
+  },
   "io.ktor:ktor-client-core:3.3.0": {
     "ktor-client-core-3.3.0.module": {
       "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-core/3.3.0/ktor-client-core-3.3.0.module",
@@ -1605,6 +1639,16 @@
     "ktor-client-core-3.3.0.pom": {
       "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-core/3.3.0/ktor-client-core-3.3.0.pom",
       "hash": "sha256-B7GUYwxeVNzZu3za0iH5Tza/gq16hiPF2YL5ZxCp16k="
+    }
+  },
+  "io.ktor:ktor-client-core:2.3.6": {
+    "ktor-client-core-2.3.6.module": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-core/2.3.6/ktor-client-core-2.3.6.module",
+      "hash": "sha256-qR1pzTdAuHtQkcN8AogES254gBF1JfCZN60R3cEij+o="
+    },
+    "ktor-client-core-2.3.6.pom": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-client-core/2.3.6/ktor-client-core-2.3.6.pom",
+      "hash": "sha256-6vzx4/ow5K39pvrhmL8vETpgb/SZzV4SxDnUQx424qs="
     }
   },
   "io.ktor:ktor-client-core-jvm:3.3.0": {

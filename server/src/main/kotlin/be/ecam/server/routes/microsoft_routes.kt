@@ -1,12 +1,11 @@
 package be.ecam.server.routes
 
-import be.ecam.server.models.*
 import be.ecam.server.security.MicrosoftConfig
 import be.ecam.server.services.AuthService
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
-import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*

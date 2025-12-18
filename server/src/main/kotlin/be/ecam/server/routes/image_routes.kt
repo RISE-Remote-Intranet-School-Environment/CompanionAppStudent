@@ -41,7 +41,7 @@ fun Route.imageProxyRoutes() {
 
             try {
                 val response = client.get(url)
-                val bytes = response.readBytes()
+                val bytes = response.readRawBytes()
                 val originalContentType = response.contentType() ?: ContentType.Image.Any
 
                 // Si pas de redimensionnement demandé ou image trop petite, on renvoie tel quel
