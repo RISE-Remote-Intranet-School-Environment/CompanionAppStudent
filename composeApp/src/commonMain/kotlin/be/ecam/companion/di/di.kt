@@ -1,6 +1,7 @@
 package be.ecam.companion.di
 
 import be.ecam.companion.data.ApiRepository
+import be.ecam.companion.data.CalendarRepository
 import be.ecam.companion.data.KtorApiRepository
 import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.viewmodel.HomeViewModel
@@ -32,6 +33,12 @@ val appModule = module {
         KtorApiRepository(get(), baseUrlProvider)
     } bind ApiRepository::class
 
+    // Calendar Repository
+    single {
+        val repo = get<SettingsRepository>()
+        val baseUrlProvider = { buildBaseUrl(repo.getServerHost(), repo.getServerPort()) }
+        CalendarRepository(get(), baseUrlProvider)
+    }
 
     // ViewModels
     viewModel { HomeViewModel(get<ApiRepository>()) }

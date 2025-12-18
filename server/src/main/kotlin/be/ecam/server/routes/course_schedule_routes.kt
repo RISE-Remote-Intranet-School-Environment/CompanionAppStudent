@@ -9,93 +9,83 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.courseScheduleRoutes() {
-
     route("/course-schedule") {
 
-        
+        // GET /api/course-schedule?yearOptionId=...&seriesId=...&startDate=...&endDate=...
         get {
-            call.respond(CourseScheduleService.getAllSchedules())
+            val yearOptionId = call.request.queryParameters["yearOptionId"]
+            val seriesId = call.request.queryParameters["seriesId"]
+            val startDate = call.request.queryParameters["startDate"]
+            val endDate = call.request.queryParameters["endDate"]
+
+            val schedules = CourseScheduleService.getAllFiltered(
+                yearOptionId = yearOptionId,
+                seriesId = seriesId,
+                startDate = startDate,
+                endDate = endDate
+            )
+            call.respond(schedules)
         }
 
-        
+        // GET /api/course-schedule/{id}
         get("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
-                ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid id")
+                ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid ID")
 
-            val schedule = CourseScheduleService.getScheduleById(id)
+            val schedule = CourseScheduleService.getById(id)
                 ?: return@get call.respond(HttpStatusCode.NotFound, "Schedule not found")
 
             call.respond(schedule)
         }
 
-        
-        get("by-week/{week}") {
-            val week = call.parameters["week"]?.toIntOrNull()
-                ?: return@get call.respond(HttpStatusCode.BadRequest, "Invalid week")
-
-            call.respond(CourseScheduleService.getSchedulesByWeek(week))
-        }
-
-        
+        // GET /api/course-schedule/by-date/{date}
         get("by-date/{date}") {
             val date = call.parameters["date"]
-                ?: return@get call.respond(HttpStatusCode.BadRequest, "date missing")
+                ?: return@get call.respond(HttpStatusCode.BadRequest, "Date required")
 
-            call.respond(CourseScheduleService.getSchedulesByDate(date))
+            val schedules = CourseScheduleService.getByDate(date)
+            call.respond(schedules)
         }
 
-        
+        // GET /api/course-schedule/by-year-option/{yearOptionId}
         get("by-year-option/{yearOptionId}") {
-            val yo = call.parameters["yearOptionId"]
-                ?: return@get call.respond(HttpStatusCode.BadRequest, "yearOptionId missing")
+            val yearOptionId = call.parameters["yearOptionId"]
+                ?: return@get call.respond(HttpStatusCode.BadRequest, "YearOptionId required")
 
-            call.respond(CourseScheduleService.getSchedulesByYearOption(yo))
+            val schedules = CourseScheduleService.getByYearOption(yearOptionId)
+            call.respond(schedules)
         }
 
-        
-        get("by-group/{groupNo}") {
-            val group = call.parameters["groupNo"]
-                ?: return@get call.respond(HttpStatusCode.BadRequest, "groupNo missing")
+        // GET /api/course-schedule/by-course/{courseId}
+        get("by-course/{courseId}") {
+            val courseId = call.parameters["courseId"]
+                ?: return@get call.respond(HttpStatusCode.BadRequest, "CourseId required")
 
-            call.respond(CourseScheduleService.getSchedulesByGroup(group))
+            val schedules = CourseScheduleService.getByCourse(courseId)
+            call.respond(schedules)
         }
 
-        
-        
-        get("by-raccourci/{shortId}") {
-            val shortId = call.parameters["shortId"]
-                ?: return@get call.respond(HttpStatusCode.BadRequest, "shortId missing")
-
-            call.respond(CourseScheduleService.getSchedulesByRaccourci(shortId))
-        }
-
-        
+        // POST /api/course-schedule
         post {
-            val req = call.receive<CourseScheduleWriteRequest>()
-            val created = CourseScheduleService.createSchedule(req)
+            val body = runCatching { call.receive<CourseScheduleWriteRequest>() }.getOrElse {
+                return@post call.respond(HttpStatusCode.BadRequest, "Invalid JSON")
+            }
+
+            val created = CourseScheduleService.create(body)
             call.respond(HttpStatusCode.Created, created)
         }
 
-        
-        put("{id}") {
-            val id = call.parameters["id"]?.toIntOrNull()
-                ?: return@put call.respond(HttpStatusCode.BadRequest, "Invalid id")
-
-            val req = call.receive<CourseScheduleWriteRequest>()
-            val updated = CourseScheduleService.updateSchedule(id, req)
-                ?: return@put call.respond(HttpStatusCode.NotFound, "Schedule not found")
-
-            call.respond(updated)
-        }
-
-        
+        // DELETE /api/course-schedule/{id}
         delete("{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
-                ?: return@delete call.respond(HttpStatusCode.BadRequest, "Invalid id")
+                ?: return@delete call.respond(HttpStatusCode.BadRequest, "Invalid ID")
 
-            val ok = CourseScheduleService.deleteSchedule(id)
-            if (ok) call.respond(HttpStatusCode.NoContent)
-            else call.respond(HttpStatusCode.NotFound, "Schedule not found")
+            val deleted = CourseScheduleService.delete(id)
+            if (deleted) {
+                call.respond(HttpStatusCode.OK, "Deleted")
+            } else {
+                call.respond(HttpStatusCode.NotFound, "Not found")
+            }
         }
     }
 }

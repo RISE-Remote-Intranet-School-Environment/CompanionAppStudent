@@ -27,43 +27,68 @@ internal object LocalCalendarLoader {
 
     @OptIn(ExperimentalResourceApi::class)
     suspend fun load(): List<CalendarEvent> {
-        val bytes = Res.readBytes("files/ecam_calendar_events_2025_2026.json")
-        val raw = json.decodeFromString<List<RawCalendarEvent>>(bytes.decodeToString())
-        return raw.flatMap { event ->
-            val dates = expandDates(event)
-            val category = CalendarEventCategory.fromKey(event.category)
-            dates.map { day ->
-                CalendarEvent(
-                    id = "${event.id}_$day",
-                    title = event.title,
-                    description = event.description,
-                    category = category,
-                    date = day,
-                    years = event.years
-                )
+        return try {
+            val bytes = Res.readBytes("files/ecam_calendar_events_2025_2026.json")
+            val content = bytes.decodeToString()
+            val rawEvents: List<RawCalendarEvent> = json.decodeFromString(content)
+            rawEvents.flatMap { raw -> convertRawEvent(raw) }
+        } catch (e: Exception) {
+            println("Erreur chargement calendrier local: ${e.message}")
+            emptyList()
+        }
+    }
+
+    private fun convertRawEvent(raw: RawCalendarEvent): List<CalendarEvent> {
+        val category = CalendarEventCategory.fromKey(raw.category ?: raw.type ?: "autre")
+        
+        // Si c'est un événement sur plusieurs jours
+        if (!raw.start.isNullOrBlank() && !raw.end.isNullOrBlank()) {
+            return try {
+                val startDate = LocalDate.parse(raw.start)
+                val endDate = LocalDate.parse(raw.end)
+                generateDateRange(startDate, endDate).map { date ->
+                    CalendarEvent(
+                        id = "${raw.id}_$date",
+                        title = raw.title,
+                        description = raw.description,
+                        category = category,
+                        date = date,
+                        years = raw.years
+                    )
+                }
+            } catch (e: Exception) {
+                emptyList()
             }
         }
-    }
-
-    private fun expandDates(event: RawCalendarEvent): List<LocalDate> {
-        event.date?.let { return listOf(parseDate(it)) }
-        val start = event.start?.let(::parseDate) ?: return emptyList()
-        val end = event.end?.let(::parseDate) ?: start
-        val result = mutableListOf<LocalDate>()
-        var cursor = start
-        while (cursor <= end) {
-            result += cursor
-            cursor = cursor.plus(1, DateTimeUnit.DAY)
+        
+        // Événement sur un seul jour
+        val dateStr = raw.date ?: raw.start
+        if (dateStr.isNullOrBlank()) return emptyList()
+        
+        return try {
+            val date = LocalDate.parse(dateStr)
+            listOf(
+                CalendarEvent(
+                    id = raw.id,
+                    title = raw.title,
+                    description = raw.description,
+                    category = category,
+                    date = date,
+                    years = raw.years
+                )
+            )
+        } catch (e: Exception) {
+            emptyList()
         }
-        return result
     }
 
-    private fun parseDate(value: String): LocalDate {
-        val parts = value.split("-","/") // fallback for different formats
-        return LocalDate(
-            parts[0].toInt(),
-            parts[1].toInt(),
-            parts[2].toInt()
-        )
+    private fun generateDateRange(start: LocalDate, end: LocalDate): List<LocalDate> {
+        val dates = mutableListOf<LocalDate>()
+        var current = start
+        while (current <= end) {
+            dates.add(current)
+            current = current.plus(1, DateTimeUnit.DAY)
+        }
+        return dates
     }
 }
