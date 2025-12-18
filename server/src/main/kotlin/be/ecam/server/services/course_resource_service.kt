@@ -9,8 +9,7 @@ object CourseResourcesService {
 
     fun getAllResources(): List<CourseResourceDTO> = transaction {
         CourseResourcesTable
-            .join(ProfessorsTable, JoinType.INNER, onColumn = CourseResourcesTable.professor, otherColumn = ProfessorsTable.id)
-            .slice(CourseResourcesTable.columns + ProfessorsTable.professorId)
+            .join(ProfessorsTable, JoinType.LEFT, onColumn = CourseResourcesTable.professor, otherColumn = ProfessorsTable.id)
             .selectAll()
             .orderBy(CourseResourcesTable.uploadedAt, SortOrder.DESC)
             .map { it.toCourseResourceDTOWithProfessorCode() }
@@ -18,47 +17,49 @@ object CourseResourcesService {
 
     fun getResourceById(id: Int): CourseResourceDTO? = transaction {
         CourseResourcesTable
-            .join(ProfessorsTable, JoinType.INNER, onColumn = CourseResourcesTable.professor, otherColumn = ProfessorsTable.id)
-            .slice(CourseResourcesTable.columns + ProfessorsTable.professorId)
-            .select { CourseResourcesTable.id eq id }
+            .join(ProfessorsTable, JoinType.LEFT, onColumn = CourseResourcesTable.professor, otherColumn = ProfessorsTable.id)
+            .selectAll()
+            .where { CourseResourcesTable.id eq id }
             .singleOrNull()
             ?.toCourseResourceDTOWithProfessorCode()
     }
 
     fun getResourcesByProfessor(professorId: Int): List<CourseResourceDTO> = transaction {
         CourseResourcesTable
-            .join(ProfessorsTable, JoinType.INNER, onColumn = CourseResourcesTable.professor, otherColumn = ProfessorsTable.id)
-            .slice(CourseResourcesTable.columns + ProfessorsTable.professorId)
-            .select { CourseResourcesTable.professor eq professorId }
+            .join(ProfessorsTable, JoinType.LEFT, onColumn = CourseResourcesTable.professor, otherColumn = ProfessorsTable.id)
+            .selectAll()
+            .where { CourseResourcesTable.professor eq professorId }
             .orderBy(CourseResourcesTable.uploadedAt, SortOrder.DESC)
             .map { it.toCourseResourceDTOWithProfessorCode() }
     }
 
     fun getResourcesByCourse(courseId: String): List<CourseResourceDTO> = transaction {
         CourseResourcesTable
-            .join(ProfessorsTable, JoinType.INNER, onColumn = CourseResourcesTable.professor, otherColumn = ProfessorsTable.id)
-            .slice(CourseResourcesTable.columns + ProfessorsTable.professorId)
-            .select { CourseResourcesTable.courseId eq courseId }
+            .join(ProfessorsTable, JoinType.LEFT, onColumn = CourseResourcesTable.professor, otherColumn = ProfessorsTable.id)
+            .selectAll()
+            .where { CourseResourcesTable.courseId eq courseId }
             .orderBy(CourseResourcesTable.uploadedAt, SortOrder.DESC)
             .map { it.toCourseResourceDTOWithProfessorCode() }
     }
 
     fun getResourcesBySousCourse(sousCourseId: String): List<CourseResourceDTO> = transaction {
         CourseResourcesTable
-            .join(ProfessorsTable, JoinType.INNER, onColumn = CourseResourcesTable.professor, otherColumn = ProfessorsTable.id)
-            .slice(CourseResourcesTable.columns + ProfessorsTable.professorId)
-            .select { CourseResourcesTable.sousCourseId eq sousCourseId }
+            .join(ProfessorsTable, JoinType.LEFT, onColumn = CourseResourcesTable.professor, otherColumn = ProfessorsTable.id)
+            .selectAll()
+            .where { CourseResourcesTable.sousCourseId eq sousCourseId }
             .orderBy(CourseResourcesTable.uploadedAt, SortOrder.DESC)
             .map { it.toCourseResourceDTOWithProfessorCode() }
     }
 
     fun createResource(req: CourseResourceCreateRequest): CourseResourceDTO = transaction {
-        val profRow = ProfessorsTable
-            .select { ProfessorsTable.professorId eq req.professorId }
-            .singleOrNull()
-            ?: throw IllegalArgumentException("Professor code not found")
-
-        val profPk = profRow[ProfessorsTable.id]
+        val profPk: Int? = req.professorId?.let { id ->
+            ProfessorsTable
+                .selectAll()
+                .where { ProfessorsTable.id eq id }
+                .singleOrNull()
+                ?.get(ProfessorsTable.id)?.value
+                ?: throw IllegalArgumentException("Professor not found")
+        }
 
         val now = System.currentTimeMillis()
 
@@ -73,9 +74,9 @@ object CourseResourcesService {
         }
 
         CourseResourcesTable
-            .join(ProfessorsTable, JoinType.INNER, onColumn = CourseResourcesTable.professor, otherColumn = ProfessorsTable.id)
-            .slice(CourseResourcesTable.columns + ProfessorsTable.professorId)
-            .select { CourseResourcesTable.id eq newId }
+            .join(ProfessorsTable, JoinType.LEFT, onColumn = CourseResourcesTable.professor, otherColumn = ProfessorsTable.id)
+            .selectAll()
+            .where { CourseResourcesTable.id eq newId }
             .single()
             .toCourseResourceDTOWithProfessorCode()
     }
@@ -89,10 +90,11 @@ object CourseResourcesService {
 
         if (updatedCount > 0) {
             CourseResourcesTable
+                .join(ProfessorsTable, JoinType.LEFT, onColumn = CourseResourcesTable.professor, otherColumn = ProfessorsTable.id)
                 .selectAll()
                 .where { CourseResourcesTable.id eq id }
                 .singleOrNull()
-                ?.toCourseResourceDTO()
+                ?.toCourseResourceDTOWithProfessorCode()
         } else {
             null
         }

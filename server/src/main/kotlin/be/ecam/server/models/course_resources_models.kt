@@ -18,6 +18,7 @@ object CourseResourcesTable : IntIdTable("course_resources") {
 data class CourseResourceDTO(
     val id: Int,
     val professorId: Int?,
+    val professorCode: String? = null,
     val courseId: String?,
     val sousCourseId: String?,
     val title: String,
@@ -29,6 +30,19 @@ data class CourseResourceDTO(
 fun ResultRow.toCourseResourceDTO() = CourseResourceDTO(
     id = this[CourseResourcesTable.id].value,
     professorId = this[CourseResourcesTable.professor],
+    professorCode = null,
+    courseId = this[CourseResourcesTable.courseId],
+    sousCourseId = this[CourseResourcesTable.sousCourseId],
+    title = this[CourseResourcesTable.title],
+    type = this[CourseResourcesTable.type],
+    url = this[CourseResourcesTable.url],
+    uploadedAt = this[CourseResourcesTable.uploadedAt]
+)
+
+fun ResultRow.toCourseResourceDTOWithProfessorCode() = CourseResourceDTO(
+    id = this[CourseResourcesTable.id].value,
+    professorId = this[CourseResourcesTable.professor],
+    professorCode = this.getOrNull(ProfessorsTable.professorId),
     courseId = this[CourseResourcesTable.courseId],
     sousCourseId = this[CourseResourcesTable.sousCourseId],
     title = this[CourseResourcesTable.title],
