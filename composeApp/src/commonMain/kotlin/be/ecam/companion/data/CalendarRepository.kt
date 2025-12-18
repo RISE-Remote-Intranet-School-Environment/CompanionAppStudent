@@ -78,9 +78,13 @@ private data class CalendarEventDto(
     fun toCalendarEventOrNull(): CalendarEvent? {
         val parsedDate = parseDateFlexible(date) ?: return null
         val description = buildString {
-            append("$startTime - $endTime")
-            ownerRef?.takeIf { it.isNotBlank() }?.let { append("\nRef: $it") }
-            groupCode?.takeIf { it.isNotBlank() }?.let { append("\nGroupe: $it") }
+            val startClean = startTime.trim()
+            val endClean = endTime.trim()
+            val showTime = !(startClean == "0:00" && endClean == "23:59") &&
+                !(startClean == "00:00" && endClean == "23:59")
+            if (showTime) {
+                append("$startTime - $endTime")
+            }
         }
         val category = CalendarEventCategory.fromKey(ownerRef ?: ownerType ?: code)
         return CalendarEvent(
