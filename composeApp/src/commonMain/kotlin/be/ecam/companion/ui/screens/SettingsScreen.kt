@@ -1,101 +1,75 @@
 package be.ecam.companion.ui.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import be.ecam.companion.data.SettingsRepository
-import be.ecam.companion.di.buildBaseUrl
-import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsScreen(
-    repo: SettingsRepository,
-    modifier: Modifier = Modifier,
-    onSaved: (() -> Unit)? = null
+    isColorBlindMode: Boolean,
+    onColorBlindModeChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    val scope = rememberCoroutineScope()
-    var host by remember { mutableStateOf("") }
-    var portText by remember { mutableStateOf("") }
-    var error by remember { mutableStateOf<String?>(null) }
-    var saving by remember { mutableStateOf(false) }
-    var saved by remember { mutableStateOf(false) }
-
-    LaunchedEffect(Unit) {
-        host = repo.getServerHost()
-        portText = repo.getServerPort().toString()
-    }
-
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(16.dp)
     ) {
-        Text("Server configuration")
-        Spacer(Modifier.height(8.dp))
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = host,
-            onValueChange = { host = it },
-            label = { Text("Server host (e.g. 192.168.1.10 or http://example.com)") },
-            singleLine = true
+        Text(
+            text = "Paramètres d'accessibilité",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(bottom = 24.dp)
         )
-        Spacer(Modifier.height(8.dp))
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = portText,
-            onValueChange = { portText = it.filter { ch -> ch.isDigit() } },
-            label = { Text("Port") },
-            singleLine = true
-        )
-        if (error != null) {
-            Spacer(Modifier.height(8.dp))
-            Text(error!!)
-        }
-        Spacer(Modifier.height(12.dp))
-        Button(enabled = !saving, onClick = {
-            val port = portText.toIntOrNull()
-            if (host.isBlank() || port == null || port !in 1..65535) {
-                error = "Please enter a valid host and port (1-65535)."
-                return@Button
-            }
-            error = null
-            scope.launch {
-                saving = true
-                try {
-                    repo.setServerHost(host.trim())
-                    repo.setServerPort(port)
-                    saved = true
-                    onSaved?.invoke()
-                } finally {
-                    // show saved feedback briefly
-                    kotlinx.coroutines.delay(1200)
-                    saved = false
-                    saving = false
+
+        Card(
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+            )
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "Mode Daltonien",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        text = "Ajuste les couleurs pour améliorer la lisibilité (contraste élevé).",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
+                Switch(
+                    checked = isColorBlindMode,
+                    onCheckedChange = onColorBlindModeChange
+                )
             }
-        }) {
-            Text("Save")
         }
-        Spacer(Modifier.height(8.dp))
-        val preview = run {
-            val p = portText.toIntOrNull() ?: 0
-            if (host.isNotBlank() && p in 1..65535) buildBaseUrl(host, p) else ""
-        }
-        if (preview.isNotBlank()) {
-            Text("Base URL: $preview")
-        }
-        if (saved) {
-            Spacer(Modifier.height(4.dp))
-            Text("Saved. Reloading…")
+
+        Spacer(Modifier.height(24.dp))
+
+        HorizontalDivider()
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "Companion App Student v1.0.0",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.outline
+            )
         }
     }
 }

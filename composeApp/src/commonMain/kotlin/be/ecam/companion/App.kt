@@ -61,6 +61,7 @@ fun App(
         }
 
         var themeMode by remember { mutableStateOf(ThemeMode.LIGHT) }
+        var isColorBlindMode by remember { mutableStateOf(false) } // État pour le mode daltonien
         var textScaleMode by remember { mutableStateOf(TextScaleMode.NORMAL) }
         var screenSizeMode by remember { mutableStateOf(ScreenSizeMode.Default) }
         var showNotifications by remember { mutableStateOf(false) }
@@ -72,6 +73,7 @@ fun App(
                 fontScale = textScaleMode.fontScale
             )
         ) {
+            // Application du thème (on pourrait modifier le colorScheme ici si isColorBlindMode est true)
             MaterialTheme(
                 colorScheme = themeMode.colorScheme()
             ) {
@@ -257,11 +259,10 @@ fun App(
                                 }
 
                                 BottomItem.SETTINGS -> {
-                                    val settingsRepo = koinInject<SettingsRepository>()
                                     SettingsScreen(
-                                        repo = settingsRepo,
-                                        modifier = baseModifier,
-                                        onSaved = { scope.launch { vm.load(connectedUser) } }
+                                        isColorBlindMode = isColorBlindMode,
+                                        onColorBlindModeChange = { isColorBlindMode = it },
+                                        modifier = baseModifier
                                     )
                                 }
 
