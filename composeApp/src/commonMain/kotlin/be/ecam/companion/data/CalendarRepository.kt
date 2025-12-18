@@ -65,6 +65,8 @@ class CalendarRepository(
                 }
             }
             
+            println("🔄 GET $url")
+            
             val response = client.get(url) {
                 token?.let { 
                     header(HttpHeaders.Authorization, "Bearer ${it.trim().removeSurrounding("\"")}")
@@ -72,15 +74,20 @@ class CalendarRepository(
                 header(HttpHeaders.Accept, "application/json")
             }
             
+            println("📥 Response status: ${response.status}")
+            
             if (response.status.isSuccess()) {
                 val dtos: List<CourseScheduleDto> = response.body()
+                println("📥 Reçu ${dtos.size} cours du serveur")
                 dtos.mapNotNull { it.toCourseScheduleEvent(json) }
             } else {
-                println("Erreur course-schedule: ${response.status}")
+                val body = runCatching { response.body<String>() }.getOrDefault("")
+                println("❌ Erreur course-schedule: ${response.status} - $body")
                 emptyList()
             }
         } catch (e: Exception) {
-            println("Erreur récupération course-schedule: ${e.message}")
+            println("❌ Exception récupération course-schedule: ${e.message}")
+            e.printStackTrace()
             emptyList()
         }
     }
@@ -189,8 +196,9 @@ data class CourseScheduleDto(
 ) {
     fun toCourseScheduleEvent(json: Json): CourseScheduleEvent? {
         val parsedDate = try {
-            LocalDate.parse(date)
+            parseFlexibleDate(date)
         } catch (e: Exception) {
+            println("❌ Erreur parsing date '$date': ${e.message}")
             return null
         }
         
@@ -219,6 +227,39 @@ data class CourseScheduleDto(
             sousCourseId = sousCourseId
         )
     }
+}
+
+/**
+ * Parse une date flexible supportant ISO (YYYY-MM-DD) et US (MM/DD/YYYY)
+ */
+private fun parseFlexibleDate(dateStr: String): LocalDate {
+    // Format ISO: 2025-11-18
+    if (dateStr.contains("-") && dateStr.length == 10) {
+        return LocalDate.parse(dateStr)
+    }
+    
+    // Format US: 11/18/2025 ou format EU: 18/11/2025
+    if (dateStr.contains("/")) {
+        val parts = dateStr.split("/")
+        if (parts.size == 3) {
+            val first = parts[0].toInt()
+            val second = parts[1].toInt()
+            val year = parts[2].toInt()
+            
+            // Si le premier nombre > 12, c'est probablement DD/MM/YYYY
+            return if (first > 12) {
+                LocalDate(year, second, first) // DD/MM/YYYY
+            } else if (second > 12) {
+                LocalDate(year, first, second) // MM/DD/YYYY
+            } else {
+                // Ambigu - on assume MM/DD/YYYY (format US)
+                LocalDate(year, first, second)
+            }
+        }
+    }
+    
+    // Fallback: essayer le parsing ISO standard
+    return LocalDate.parse(dateStr)
 }
 
 // Modèle pour les événements de cours

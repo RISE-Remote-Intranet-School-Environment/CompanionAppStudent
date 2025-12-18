@@ -11,6 +11,12 @@ import io.ktor.server.routing.*
 fun Route.courseScheduleRoutes() {
     route("/course-schedule") {
 
+        // DEBUG: Comptage des entrées
+        get("count") {
+            val count = CourseScheduleService.getAll().size
+            call.respond(mapOf("count" to count))
+        }
+
         // GET /api/course-schedule?yearOptionId=...&seriesId=...&startDate=...&endDate=...
         get {
             val yearOptionId = call.request.queryParameters["yearOptionId"]
@@ -18,12 +24,16 @@ fun Route.courseScheduleRoutes() {
             val startDate = call.request.queryParameters["startDate"]
             val endDate = call.request.queryParameters["endDate"]
 
+            println("📅 GET /api/course-schedule yearOptionId=$yearOptionId seriesId=$seriesId")
+
             val schedules = CourseScheduleService.getAllFiltered(
                 yearOptionId = yearOptionId,
                 seriesId = seriesId,
                 startDate = startDate,
                 endDate = endDate
             )
+            
+            println("📅 Retourne ${schedules.size} cours")
             call.respond(schedules)
         }
 

@@ -63,6 +63,7 @@ fun StudentCourseCalendar(
     LaunchedEffect(baseUrl, bearer) {
         isLoading = true
         try {
+            println("📅 Chargement calendrier depuis: $baseUrl/api/course-schedule")
             coroutineScope {
                 val yearOptionsDeferred = async { calendarRepo.getYearOptions(bearer) }
                 val seriesDeferred = async { calendarRepo.getSeriesNames(bearer) }
@@ -71,9 +72,14 @@ fun StudentCourseCalendar(
                 yearOptions = yearOptionsDeferred.await()
                 seriesNames = seriesDeferred.await()
                 allCourses = coursesDeferred.await()
+                
+                println("📅 Cours chargés: ${allCourses.size}")
+                println("📅 YearOptions: ${yearOptions.map { it.yearOptionId }}")
+                println("📅 Series: ${seriesNames.map { it.seriesId }}")
             }
         } catch (e: Exception) {
-            println("Erreur chargement calendrier: ${e.message}")
+            println("❌ Erreur chargement calendrier: ${e.message}")
+            e.printStackTrace()
         } finally {
             isLoading = false
         }

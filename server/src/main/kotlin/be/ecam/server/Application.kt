@@ -95,10 +95,9 @@ fun Application.module() {
     // Database connection
     DatabaseFactory.connect()
 
-    // (optionnel) Seeds désactivés pour l’instant
+    // Seeds - Décommenter pour peupler la base
     // CatalogService.seedFormationsFromJson()
-    // CalendarService.seedCalendarEventsFromJson()
-    // CalendarService.seedCourseScheduleFromJson()
+    CalendarService.seedCourseScheduleFromJson()  // <-- Activer ce seed
     // CatalogService.seedCourseDetailsFromJson()
     // ProfessorService.seedProfessorsFromJson()
 
