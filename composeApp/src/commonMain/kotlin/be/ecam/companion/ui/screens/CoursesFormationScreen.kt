@@ -338,7 +338,7 @@ private fun IntroText(database: FormationDatabase?) {
 
         Card(
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
             ),
             shape = RoundedCornerShape(16.dp)
         ) {
@@ -395,15 +395,15 @@ private fun IntroText(database: FormationDatabase?) {
 
                         // Les deux infos côte à côte
                         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                            MiniInfoCard(
-                                modifier = Modifier.weight(1f),
-                                icon = Icons.Default.Handshake,
-                                title = "Partenariat ICHEC",
-                                color = MaterialTheme.colorScheme.tertiary,
-                                content = {
-                                    Text(
-                                        text = buildAnnotatedString {
-                                            append("Double diplôme ")
+                        MiniInfoCard(
+                            modifier = Modifier.weight(1f),
+                            icon = Icons.Default.Handshake,
+                            title = "Partenariat ICHEC",
+                            color = MaterialTheme.colorScheme.primary,
+                            content = {
+                                Text(
+                                    text = buildAnnotatedString {
+                                        append("Double diplôme ")
                                             withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Ingénieur industriel et commercial") }
                                             append(" (6 ans) & Master ")
                                             withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Business Analyst") }
@@ -414,15 +414,15 @@ private fun IntroText(database: FormationDatabase?) {
                                     )
                                 }
                             )
-                            MiniInfoCard(
-                                modifier = Modifier.weight(1f),
-                                icon = Icons.Default.Science,
-                                title = "CERDECAM",
-                                color = MaterialTheme.colorScheme.secondary,
-                                content = {
-                                    Text(
-                                        text = buildAnnotatedString {
-                                            append("Le Centre de Recherche de l’ECAM, le ")
+                        MiniInfoCard(
+                            modifier = Modifier.weight(1f),
+                            icon = Icons.Default.Science,
+                            title = "CERDECAM",
+                            color = MaterialTheme.colorScheme.primary,
+                            content = {
+                                Text(
+                                    text = buildAnnotatedString {
+                                        append("Le Centre de Recherche de l’ECAM, le ")
                                             withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("CERDECAM") }
                                             append(" , organise également des Formations Continues.")
                                         },
@@ -473,16 +473,16 @@ private fun IntroText(database: FormationDatabase?) {
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                        MiniInfoCard(
-                            modifier = Modifier.fillMaxWidth(),
-                            icon = Icons.Default.Handshake,
-                            title = "Partenariat ICHEC",
-                            color = MaterialTheme.colorScheme.tertiary,
-                            content = {
-                                Text(
-                                    text = buildAnnotatedString {
-                                        append("Double diplôme ")
-                                        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Ingénieur industriel et commercial") }
+        MiniInfoCard(
+            modifier = Modifier.fillMaxWidth(),
+            icon = Icons.Default.Handshake,
+            title = "Partenariat ICHEC",
+            color = MaterialTheme.colorScheme.primary,
+            content = {
+                Text(
+                    text = buildAnnotatedString {
+                        append("Double diplôme ")
+                        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Ingénieur industriel et commercial") }
                                         append(" (6 ans) & Master ")
                                         withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Business Analyst") }
                                         append(" dont le but est d’établir des ponts entre les utilisateurs et les équipes de développement, d’accompagner les projets et de participer à la stratégie IT de l’entreprise.")
@@ -492,15 +492,15 @@ private fun IntroText(database: FormationDatabase?) {
                                 )
                             }
                         )
-                        MiniInfoCard(
-                            modifier = Modifier.fillMaxWidth(),
-                            icon = Icons.Default.Science,
-                            title = "CERDECAM",
-                            color = MaterialTheme.colorScheme.secondary,
-                            content = {
-                                Text(
-                                    text = buildAnnotatedString {
-                                        append("Le Centre de Recherche de l’ECAM, le ")
+        MiniInfoCard(
+            modifier = Modifier.fillMaxWidth(),
+            icon = Icons.Default.Science,
+            title = "CERDECAM",
+            color = MaterialTheme.colorScheme.primary,
+            content = {
+                Text(
+                    text = buildAnnotatedString {
+                        append("Le Centre de Recherche de l’ECAM, le ")
                                         withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("CERDECAM") }
                                         append(" , organise également des Formations Continues.")
                                     },
