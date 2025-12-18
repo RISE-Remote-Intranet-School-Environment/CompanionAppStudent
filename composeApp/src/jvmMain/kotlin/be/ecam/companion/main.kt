@@ -1,5 +1,6 @@
 package be.ecam.companion
 
+import androidx.compose.runtime.*
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import be.ecam.companion.data.PersistentSettingsRepository
@@ -7,6 +8,8 @@ import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.data.defaultServerBaseUrl
 import be.ecam.companion.coil.initDesktopCoilImageLoader
 import be.ecam.companion.oauth.DesktopOAuthHelper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.dsl.module
 import java.awt.Desktop
 import java.net.URI
@@ -21,7 +24,11 @@ fun main() = application {
         val desktopModule = module {
             single<SettingsRepository> { PersistentSettingsRepository() }
         }
-
+        
+        // État pour stocker les tokens OAuth reçus
+        var pendingOAuthTokens by remember { mutableStateOf<Pair<String, String>?>(null) }
+        val scope = rememberCoroutineScope()
+        
         App(
             extraModules = listOf(desktopModule),
             loginUrlGenerator = {
@@ -29,10 +36,20 @@ fun main() = application {
                 val localPort = DesktopOAuthHelper.start()
                 val localCallbackUrl = "http://localhost:$localPort/callback"
                 val encodedCallback = java.net.URLEncoder.encode(localCallbackUrl, "UTF-8")
-
-                // On passe l'URL du callback local au backend
+                
+                // Lancer l'attente du callback en background
+                scope.launch(Dispatchers.IO) {
+                    val result = DesktopOAuthHelper.waitForCallback()
+                    if (result != null && result.accessToken != null && result.refreshToken != null) {
+                        pendingOAuthTokens = result.accessToken to result.refreshToken
+                    }
+                }
+                
                 "${defaultServerBaseUrl()}/api/auth/microsoft/login?platform=desktop&localCallback=$encodedCallback"
-            }
+            },
+            // Passer les tokens OAuth pour la restauration de session
+            pendingOAuthResult = pendingOAuthTokens,
+            onOAuthResultConsumed = { pendingOAuthTokens = null }
         )
     }
 }

@@ -3,6 +3,7 @@ package be.ecam.companion.oauth
 import com.sun.net.httpserver.HttpServer
 import java.net.InetSocketAddress
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.TimeUnit
 
 /**
  * Helper pour OAuth sur Desktop.
@@ -21,9 +22,11 @@ object DesktopOAuthHelper {
     
     /**
      * Démarre le serveur local et retourne le port utilisé.
-     * Appeler startAndWait() pour attendre le callback.
      */
     fun start(): Int {
+        // Arrêter tout serveur existant
+        stop()
+        
         // Trouver un port disponible
         val port = findAvailablePort()
         
@@ -43,10 +46,14 @@ object DesktopOAuthHelper {
                 """
                 <!DOCTYPE html>
                 <html>
-                <head><title>Connexion réussie</title></head>
+                <head>
+                    <title>Connexion réussie</title>
+                    <meta charset="UTF-8">
+                </head>
                 <body style="font-family: sans-serif; text-align: center; padding: 50px; background: linear-gradient(135deg, #1a237e, #0d47a1); color: white;">
                     <h1>✅ Connexion réussie !</h1>
                     <p>Vous pouvez fermer cette fenêtre et retourner à l'application.</p>
+                    <script>setTimeout(function() { window.close(); }, 2000);</script>
                 </body>
                 </html>
                 """.trimIndent()
@@ -54,7 +61,10 @@ object DesktopOAuthHelper {
                 """
                 <!DOCTYPE html>
                 <html>
-                <head><title>Erreur</title></head>
+                <head>
+                    <title>Erreur</title>
+                    <meta charset="UTF-8">
+                </head>
                 <body style="font-family: sans-serif; text-align: center; padding: 50px; background: #ff5252; color: white;">
                     <h1>❌ Erreur</h1>
                     <p>${error ?: "Erreur inconnue"}</p>
@@ -64,8 +74,9 @@ object DesktopOAuthHelper {
             }
             
             exchange.responseHeaders.add("Content-Type", "text/html; charset=utf-8")
-            exchange.sendResponseHeaders(200, response.toByteArray().size.toLong())
-            exchange.responseBody.write(response.toByteArray())
+            val responseBytes = response.toByteArray(Charsets.UTF_8)
+            exchange.sendResponseHeaders(200, responseBytes.size.toLong())
+            exchange.responseBody.write(responseBytes)
             exchange.responseBody.close()
             
             // Compléter le future avec le résultat
@@ -73,7 +84,7 @@ object DesktopOAuthHelper {
             
             // Arrêter le serveur après un court délai
             Thread {
-                Thread.sleep(1000)
+                Thread.sleep(2000)
                 stop()
             }.start()
         }
@@ -87,17 +98,23 @@ object DesktopOAuthHelper {
     
     /**
      * Attend le callback OAuth et retourne le résultat.
+     * Timeout de 5 minutes.
      */
     fun waitForCallback(): OAuthResult? {
         return try {
-            callbackFuture?.get()
+            callbackFuture?.get(5, TimeUnit.MINUTES)
         } catch (e: Exception) {
+            println("OAuth callback timeout or error: ${e.message}")
             OAuthResult(null, null, e.message)
         }
     }
     
     fun stop() {
-        server?.stop(0)
+        try {
+            server?.stop(0)
+        } catch (e: Exception) {
+            // Ignorer les erreurs lors de l'arrêt
+        }
         server = null
         callbackFuture = null
     }
@@ -117,12 +134,18 @@ object DesktopOAuthHelper {
     }
     
     private fun parseQuery(query: String): Map<String, String> {
+        if (query.isBlank()) return emptyMap()
+        
         return query.split("&")
             .mapNotNull { param ->
                 val parts = param.split("=", limit = 2)
                 if (parts.size == 2) {
-                    java.net.URLDecoder.decode(parts[0], "UTF-8") to 
-                    java.net.URLDecoder.decode(parts[1], "UTF-8")
+                    try {
+                        java.net.URLDecoder.decode(parts[0], "UTF-8") to 
+                        java.net.URLDecoder.decode(parts[1], "UTF-8")
+                    } catch (e: Exception) {
+                        parts[0] to parts[1]
+                    }
                 } else null
             }
             .toMap()

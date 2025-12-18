@@ -46,7 +46,10 @@ fun main() {
             // Navigation dans la même fenêtre pour OAuth
             navigateToUrl = { url ->
                 window.location.href = url
-            }
+            },
+            // Pas de pendingOAuthResult pour Wasm (géré via URL params)
+            pendingOAuthResult = null,
+            onOAuthResultConsumed = null
         )
     }
 }
