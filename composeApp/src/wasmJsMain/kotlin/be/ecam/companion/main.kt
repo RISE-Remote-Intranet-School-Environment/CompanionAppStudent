@@ -9,12 +9,18 @@ import kotlinx.browser.document
 import kotlinx.browser.window
 import org.koin.dsl.module
 
+// Déclaration de la fonction JS globale pour l'encodage d'URL
+external fun encodeURIComponent(str: String): String
+
+// Helper pour récupérer les paramètres d'URL via JS directement
+// Cela évite les problèmes de typage entre String Kotlin et JsAny du constructeur URLSearchParams
+fun getSearchParam(key: String): String? = js("new URLSearchParams(window.location.search).get(key)")
+
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
     // Vérifier si on arrive avec des tokens OAuth dans l'URL
-    val params = js("new URLSearchParams(window.location.search)")
-    val accessToken = params.get("accessToken") as? String
-    val refreshToken = params.get("refreshToken") as? String
+    val accessToken = getSearchParam("accessToken")
+    val refreshToken = getSearchParam("refreshToken")
     
     // Si on a des tokens, les stocker et nettoyer l'URL
     if (!accessToken.isNullOrBlank() && !refreshToken.isNullOrBlank()) {
@@ -34,9 +40,16 @@ fun main() {
             extraModules = listOf(webModule),
             loginUrlGenerator = {
                 // Encode l'URL de retour pour éviter les problèmes avec le pipe
-                val returnUrl = js("encodeURIComponent(window.location.origin)") as String
+                val returnUrl = encodeURIComponent(window.location.origin)
                 "${defaultServerBaseUrl()}/api/auth/microsoft/login?platform=web&returnUrl=$returnUrl"
-            }
+            },
+            // Navigation dans la même fenêtre pour OAuth
+            navigateToUrl = { url ->
+                window.location.href = url
+            },
+            // Pas de pendingOAuthResult pour Wasm (géré via URL params)
+            pendingOAuthResult = null,
+            onOAuthResultConsumed = null
         )
     }
 }

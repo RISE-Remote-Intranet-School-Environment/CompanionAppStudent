@@ -38,7 +38,11 @@ import org.koin.core.module.Module
 @Composable
 fun App(
     extraModules: List<Module> = emptyList(),
-    loginUrlGenerator: (() -> String)? = null
+    loginUrlGenerator: (() -> String)? = null,
+    navigateToUrl: ((String) -> Unit)? = null,
+    // Nouveaux paramètres pour OAuth Desktop
+    pendingOAuthResult: Pair<String, String>? = null,
+    onOAuthResultConsumed: (() -> Unit)? = null
 ) {
 
     KoinApplication(application = { modules(appModule + extraModules) }) {
@@ -46,6 +50,15 @@ fun App(
         val vm = koinInject<HomeViewModel>()
         // Initialize LoginViewModel here so it survives across screens
         val loginViewModel = remember { LoginViewModel() }
+
+        // Gérer le callback OAuth Desktop
+        LaunchedEffect(pendingOAuthResult) {
+            if (pendingOAuthResult != null) {
+                val (accessToken, refreshToken) = pendingOAuthResult
+                loginViewModel.restoreSession(accessToken)
+                onOAuthResultConsumed?.invoke()
+            }
+        }
 
         var themeMode by remember { mutableStateOf(ThemeMode.LIGHT) }
         var textScaleMode by remember { mutableStateOf(TextScaleMode.NORMAL) }
@@ -77,7 +90,8 @@ fun App(
                             viewModel = loginViewModel,
                             onLoginSuccess = { isLoggedIn = true },
                             onNavigateToRegister = { showRegister = true },
-                            loginUrlGenerator = loginUrlGenerator
+                            loginUrlGenerator = loginUrlGenerator,
+                            navigateToUrl = navigateToUrl
                         )
                     }
                     return@MaterialTheme

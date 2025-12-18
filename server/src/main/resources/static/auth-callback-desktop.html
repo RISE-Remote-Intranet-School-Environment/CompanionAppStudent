@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentification ECAM</title>
+    <title>Connexion Desktop - ECAM</title>
     <style>
         :root {
             --ecam-blue: #003366;
@@ -28,7 +28,7 @@
             border-radius: 16px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
             text-align: center;
-            max-width: 400px;
+            max-width: 450px;
             width: 90%;
             animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -61,22 +61,43 @@
             color: #666;
             line-height: 1.6;
             margin: 0 0 24px 0;
+            font-size: 15px;
         }
 
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(0, 51, 102, 0.1);
-            border-top-color: var(--ecam-blue);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+        .token-box {
+            background: #f5f7fa;
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 16px 0;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            color: #444;
+            word-break: break-all;
+            max-height: 80px;
+            overflow-y: auto;
+            text-align: left;
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        .btn {
+            background: var(--ecam-blue);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: #002244;
         }
 
         .status-icon {
@@ -85,12 +106,12 @@
             display: block;
         }
 
-        .error {
-            color: #dc3545;
-        }
-
         .success {
             color: #28a745;
+        }
+
+        .error {
+            color: #dc3545;
         }
 
         .hidden {
@@ -104,22 +125,26 @@
         <img src="https://www.ecam.be/wp-content/uploads/2023/12/logo_ECAM_entier_sansfond-2.png" alt="ECAM Bruxelles"
             class="logo">
 
-        <div id="loading-state">
-            <div class="spinner"></div>
-            <h2>Authentification en cours</h2>
-            <p>Veuillez patienter...</p>
-        </div>
-
         <div id="success-state" class="hidden">
             <span class="status-icon success">✓</span>
             <h2>Connexion réussie !</h2>
-            <p>Redirection vers l'application...</p>
+            <p>Copiez ce token et collez-le dans l'application Desktop pour finaliser la connexion.</p>
+
+            <div class="token-box" id="token-display"></div>
+
+            <button class="btn" onclick="copyToken()">
+                <span>Copier le token</span>
+            </button>
         </div>
 
         <div id="error-state" class="hidden">
             <span class="status-icon error">✕</span>
-            <h2 class="error">Erreur</h2>
+            <h2 style="color: #dc3545;">Erreur de connexion</h2>
             <p id="error-details">Une erreur est survenue.</p>
+        </div>
+
+        <div id="loading-state">
+            <p>Traitement de la réponse...</p>
         </div>
     </div>
 
@@ -127,7 +152,6 @@
         (function () {
             const params = new URLSearchParams(window.location.search);
             const accessToken = params.get('accessToken');
-            const refreshToken = params.get('refreshToken');
             const error = params.get('error');
             const errorMessage = params.get('message');
 
@@ -135,30 +159,39 @@
             const success = document.getElementById('success-state');
             const errorDiv = document.getElementById('error-state');
 
+            loading.classList.add('hidden');
+
             if (error) {
-                loading.classList.add('hidden');
                 errorDiv.classList.remove('hidden');
                 document.getElementById('error-details').textContent = errorMessage || error;
                 return;
             }
 
-            if (accessToken && refreshToken) {
-                localStorage.setItem('jwt_token', accessToken);
-                localStorage.setItem('refresh_token', refreshToken);
-                localStorage.setItem('oauth_success', 'true');
-
-                loading.classList.add('hidden');
+            if (accessToken) {
+                window.authToken = accessToken;
                 success.classList.remove('hidden');
-
-                setTimeout(function () {
-                    window.location.href = '/';
-                }, 1000);
+                document.getElementById('token-display').textContent = accessToken;
             } else {
-                loading.classList.add('hidden');
                 errorDiv.classList.remove('hidden');
-                document.getElementById('error-details').textContent = 'Tokens manquants';
+                document.getElementById('error-details').textContent = 'Token manquant';
             }
         })();
+
+        function copyToken() {
+            const token = window.authToken;
+            if (token) {
+                navigator.clipboard.writeText(token).then(() => {
+                    const btn = document.querySelector('.btn');
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '<span>Copié !</span>';
+                    btn.style.background = '#28a745';
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.background = '';
+                    }, 2000);
+                });
+            }
+        }
     </script>
 </body>
 

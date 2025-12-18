@@ -27,7 +27,8 @@ fun LoginScreen(
     onLoginSuccess: () -> Unit,
     onNavigateToRegister: () -> Unit,
     viewModel: LoginViewModel,
-    loginUrlGenerator: (() -> String)? = null
+    loginUrlGenerator: (() -> String)? = null,
+    navigateToUrl: ((String) -> Unit)? = null // Nouveau paramètre pour navigation platform-specific
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -60,10 +61,15 @@ fun LoginScreen(
                             viewModel.login(emailOrUsername = email, password = password)
                     },
                     onMicrosoftLoginClick = {
-                        // Ouvre le navigateur vers l'endpoint OAuth Microsoft
                         val microsoftLoginUrl = loginUrlGenerator?.invoke() 
                             ?: "${defaultServerBaseUrl()}/api/auth/microsoft/login?platform=web"
-                        uriHandler.openUri(microsoftLoginUrl)
+                        
+                        // Utiliser la navigation platform-specific si disponible
+                        if (navigateToUrl != null) {
+                            navigateToUrl(microsoftLoginUrl)
+                        } else {
+                            uriHandler.openUri(microsoftLoginUrl)
+                        }
                     },
                     passwordFocusRequester = passwordFocusRequester,
                     buttonFocusRequester = buttonFocusRequester
@@ -198,8 +204,7 @@ fun LoginCard(
 }
 
 /**
- * Bouton "Sign in with Microsoft" conforme aux guidelines Microsoft
- * https://learn.microsoft.com/en-us/entra/identity-platform/howto-add-branding-in-apps
+ * Bouton "Continuer avec Microsoft" avec style moderne
  */
 @Composable
 fun MicrosoftSignInButton(
@@ -211,35 +216,40 @@ fun MicrosoftSignInButton(
         modifier = modifier
             .border(
                 width = 1.dp,
-                color = Color(0xFF8C8C8C),
-                shape = RoundedCornerShape(4.dp)
+                color = Color(0xFFDADADA),
+                shape = RoundedCornerShape(8.dp)
             ),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.White,
-            contentColor = Color(0xFF5E5E5E)
+            contentColor = Color(0xFF3C3C3C)
         ),
-        shape = RoundedCornerShape(4.dp),
-        elevation = ButtonDefaults.buttonElevation(defaultElevation = 0.dp),
-        contentPadding = PaddingValues(horizontal = 12.dp)
+        shape = RoundedCornerShape(8.dp),
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = 1.dp,
+            pressedElevation = 0.dp
+        ),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start,
+            horizontalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxWidth()
         ) {
-            // Logo Microsoft (carré 4 couleurs)
+            // Logo Microsoft
             Image(
                 painter = painterResource(Res.drawable.microsoft_logo),
                 contentDescription = "Microsoft Logo",
-                modifier = Modifier.size(21.dp)
+                modifier = Modifier.size(20.dp)
             )
             
             Spacer(Modifier.width(12.dp))
             
             Text(
-                text = "Sign in with Microsoft",
-                color = Color(0xFF5E5E5E),
-                style = MaterialTheme.typography.labelLarge
+                text = "Continuer avec Microsoft",
+                color = Color(0xFF3C3C3C),
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold
+                )
             )
         }
     }
