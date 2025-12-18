@@ -85,7 +85,7 @@ la séparation des responsabilités.
 
 Structure principale :
 
-![alt text](image.png)
+![alt text](image/image.png)
 
  - db: coonexion DB, DatabaseFactory
  - models: Tables Exposed (mapping DB)
@@ -439,10 +439,16 @@ Deux représentations complémentaires sont fournies :
   Ce diagramme est volontairement simplifié pour la soutenance
   afin de rester lisible et pédagogique.
 
+  ![alt text](data/Untitled.png)
+
 - **Diagramme physique (DBeaver)**  
   Généré automatiquement à partir de la base SQLite,
   il reflète exactement la structure réelle des tables
   et les clés étrangères effectivement implémentées.
+
+  ![alt text](data/image.png)
+
+
 
 Ces deux diagrammes sont complémentaires :
 - le diagramme logique explique l’architecture et les choix conceptuels,
