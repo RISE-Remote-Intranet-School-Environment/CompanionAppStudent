@@ -463,13 +463,13 @@ private fun ProfessorDetailsDialog(
 
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text("Informations", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                        InfoRow(Icons.Default.Email, professor.email)
+                        InfoRow(Icons.Default.Email, professor.email, tint = MaterialTheme.colorScheme.primary)
                         professor.phone?.takeIf { it.isNotBlank() && it != "1" }?.let {
-                            InfoRow(Icons.Default.Phone, it)
+                            InfoRow(Icons.Default.Phone, it, tint = MaterialTheme.colorScheme.primary)
                         }
-                        InfoRow(Icons.Default.Room, professor.office ?: "Non renseigné", tint = MaterialTheme.colorScheme.tertiary)
+                        InfoRow(Icons.Default.Room, professor.office ?: "Non renseigné", tint = MaterialTheme.colorScheme.primary)
                         professor.roleDetail?.takeIf { it.isNotBlank() }?.let {
-                            InfoRow(Icons.Default.Work, it, tint = MaterialTheme.colorScheme.secondary)
+                            InfoRow(Icons.Default.Work, it, tint = MaterialTheme.colorScheme.primary)
                         }
                         professor.diplomas?.takeIf { it.isNotBlank() }?.let {
                             InfoRow(Icons.Default.School, it, tint = MaterialTheme.colorScheme.primary)
@@ -506,7 +506,7 @@ private fun ProfessorDetailsDialog(
                                             Icons.Default.Book,
                                             null,
                                             modifier = Modifier.size(18.dp),
-                        tint = MaterialTheme.colorScheme.primary
+                                            tint = MaterialTheme.colorScheme.primary
                                         )
                                         Spacer(Modifier.width(10.dp))
                                         Column(Modifier.weight(1f)) {
