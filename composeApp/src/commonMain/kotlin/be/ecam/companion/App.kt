@@ -36,7 +36,10 @@ import org.koin.core.module.Module
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun App(extraModules: List<Module> = emptyList()) {
+fun App(
+    extraModules: List<Module> = emptyList(),
+    loginUrlGenerator: (() -> String)? = null
+) {
 
     KoinApplication(application = { modules(appModule + extraModules) }) {
 
@@ -73,7 +76,8 @@ fun App(extraModules: List<Module> = emptyList()) {
                         LoginScreen(
                             viewModel = loginViewModel,
                             onLoginSuccess = { isLoggedIn = true },
-                            onNavigateToRegister = { showRegister = true }
+                            onNavigateToRegister = { showRegister = true },
+                            loginUrlGenerator = loginUrlGenerator
                         )
                     }
                     return@MaterialTheme

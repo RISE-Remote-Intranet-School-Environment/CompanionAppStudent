@@ -26,8 +26,8 @@ import org.jetbrains.compose.resources.painterResource
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
     onNavigateToRegister: () -> Unit,
-    viewModel: LoginViewModel
-
+    viewModel: LoginViewModel,
+    loginUrlGenerator: (() -> String)? = null
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -61,8 +61,8 @@ fun LoginScreen(
                     },
                     onMicrosoftLoginClick = {
                         // Ouvre le navigateur vers l'endpoint OAuth Microsoft
-                        // Le paramètre platform=web indique au serveur de rediriger vers une page web
-                        val microsoftLoginUrl = "${defaultServerBaseUrl()}/api/auth/microsoft/login?platform=web"
+                        val microsoftLoginUrl = loginUrlGenerator?.invoke() 
+                            ?: "${defaultServerBaseUrl()}/api/auth/microsoft/login?platform=web"
                         uriHandler.openUri(microsoftLoginUrl)
                     },
                     passwordFocusRequester = passwordFocusRequester,

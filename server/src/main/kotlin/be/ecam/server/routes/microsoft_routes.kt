@@ -67,13 +67,23 @@ fun Route.microsoftAuthRoutes() {
             val code = call.parameters["code"]
             val error = call.parameters["error"]
             val errorDescription = call.parameters["error_description"]
-            val state = call.parameters["state"] ?: "web"
+            val stateParam = call.parameters["state"] ?: "web"
+
+            // Parsing du state (format: "platform|returnUrl" ou juste "platform")
+            val parts = stateParam.split("|")
+            val platform = parts.getOrNull(0) ?: "web"
+            val returnUrl = parts.getOrNull(1)
 
             // Fonction helper pour construire l'URL de redirection
             fun buildRedirectUrl(params: String): String {
-                return when (state) {
-                    "android", "ios" -> "be.ecam.companion://auth-callback?$params"
-                    else -> "/auth-callback.html?$params" // Web: page HTML
+                return when (platform) {
+                    "android", "ios", "desktop" -> "be.ecam.companion://auth-callback?$params"
+                    else -> {
+                        // Web : on redirige vers la page HTML intermédiaire
+                        // Si un returnUrl est fourni (ex: localhost:8080), on le passe en paramètre
+                        val returnUrlParam = if (returnUrl != null) "&redirect_url=$returnUrl" else ""
+                        "/auth-callback.html?$params$returnUrlParam"
+                    }
                 }
             }
 
