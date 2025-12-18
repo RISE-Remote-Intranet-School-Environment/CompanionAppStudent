@@ -33,8 +33,11 @@ import io.ktor.http.Url
 import be.ecam.companion.data.ProfessorCatalogRepository
 import be.ecam.companion.data.Professor
 import be.ecam.companion.data.ProfessorDatabase
+import be.ecam.companion.data.ProfessorCourse
 import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.di.buildBaseUrl
+import be.ecam.companion.ui.CourseRef
+import be.ecam.companion.ui.CoursesFicheScreen
 import io.ktor.client.HttpClient
 import org.koin.compose.koinInject
 import kotlin.math.absoluteValue
@@ -66,6 +69,7 @@ fun ProfessorsScreen(
     var refreshKey by remember { mutableStateOf(0) }
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
     var selectedSpeciality by remember { mutableStateOf<String?>(null) }
+    var selectedCourseRef by remember { mutableStateOf<CourseRef?>(null) }
 
     val database by produceState<ProfessorDatabase?>(
         initialValue = null,
@@ -92,6 +96,15 @@ fun ProfessorsScreen(
 
     Surface(modifier = modifier.fillMaxSize()) {
         when {
+            selectedCourseRef != null -> {
+                CoursesFicheScreen(
+                    courseRef = selectedCourseRef!!,
+                    authToken = authToken,
+                    onBack = { selectedCourseRef = null },
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+
             database == null && loadError == null -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
@@ -121,7 +134,10 @@ fun ProfessorsScreen(
                     searchQuery = searchQuery,
                     selectedSpeciality = selectedSpeciality,
                     onSearch = { searchQuery = it },
-                    onFilterChange = { selectedSpeciality = it }
+                    onFilterChange = { selectedSpeciality = it },
+                    onCourseSelected = { course ->
+                        selectedCourseRef = CourseRef(course.code, course.detailsUrl)
+                    }
                 )
             }
         }
@@ -156,7 +172,8 @@ private fun ProfessorsMainScreen(
     searchQuery: TextFieldValue,
     selectedSpeciality: String?,
     onSearch: (TextFieldValue) -> Unit,
-    onFilterChange: (String?) -> Unit
+    onFilterChange: (String?) -> Unit,
+    onCourseSelected: (ProfessorCourse) -> Unit
 ) {
     var selectedProfessor by remember { mutableStateOf<Professor?>(null) }
 
@@ -214,7 +231,8 @@ private fun ProfessorsMainScreen(
             items(filtered) { prof ->
                 ProfessorCard(
                     professor = prof,
-                    onInfoClick = { selectedProfessor = prof }
+                    onInfoClick = { selectedProfessor = prof },
+                    onCourseClick = onCourseSelected
                 )
             }
         }
@@ -223,7 +241,8 @@ private fun ProfessorsMainScreen(
     selectedProfessor?.let { prof ->
         ProfessorDetailsDialog(
             professor = prof,
-            onDismiss = { selectedProfessor = null }
+            onDismiss = { selectedProfessor = null },
+            onCourseSelected = onCourseSelected
         )
     }
 }
@@ -233,7 +252,8 @@ private fun ProfessorsMainScreen(
 @Composable
 private fun ProfessorCard(
     professor: Professor,
-    onInfoClick: () -> Unit
+    onInfoClick: () -> Unit,
+    onCourseClick: ((ProfessorCourse) -> Unit)? = null
 ) {
     var expanded by remember { mutableStateOf(false) }
     val uriHandler = LocalUriHandler.current
@@ -362,7 +382,10 @@ private fun ProfessorCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                course.detailsUrl?.let { uriHandler.openUri(it) }
+                                when {
+                                    onCourseClick != null -> onCourseClick(course)
+                                    else -> course.detailsUrl?.let { uriHandler.openUri(it) }
+                                }
                             },
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                     ) {
@@ -392,7 +415,8 @@ private fun ProfessorCard(
 @Composable
 private fun ProfessorDetailsDialog(
     professor: Professor,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onCourseSelected: (ProfessorCourse) -> Unit
 ) {
     val uriHandler = LocalUriHandler.current
     val scrollState = rememberScrollState()
@@ -526,7 +550,9 @@ private fun ProfessorDetailsDialog(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .padding(horizontal = 12.dp, vertical = 10.dp)
-                                            .clickable { /* TODO navigate to in-app course details screen */ },
+                                            .clickable {
+                                                onCourseSelected(course)
+                                            },
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         Icon(

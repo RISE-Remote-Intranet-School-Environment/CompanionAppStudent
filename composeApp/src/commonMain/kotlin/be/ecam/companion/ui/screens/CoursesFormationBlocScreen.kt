@@ -52,11 +52,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import be.ecam.companion.data.CourseDetail
 import be.ecam.companion.data.FormationBlock
 import be.ecam.companion.data.FormationCourse
 import be.ecam.companion.ui.CourseRef
 import be.ecam.companion.ui.rememberCoursesDetails
-import be.ecam.companion.ui.CourseDetail
 import kotlin.math.roundToInt
 
 @Composable
@@ -65,6 +65,7 @@ fun CoursesFormationBlocScreen(
     block: FormationBlock,
     programs: List<ProgramCardData>,
     databaseYear: String?,
+    authToken: String? = null,
     onFormationSelected: (ProgramCardData) -> Unit,
     onBlockSelected: (FormationBlock) -> Unit,
     onCourseSelected: (CourseRef) -> Unit,
@@ -131,6 +132,7 @@ fun CoursesFormationBlocScreen(
                         program = program,
                         block = block,
                         courses = filteredCourses,
+                        authToken = authToken,
                         onCourseSelected = onCourseSelected,
                         onOpenCourseCalendar = onOpenCourseCalendar,
                         modifier = Modifier.weight(2.5f)
@@ -171,6 +173,7 @@ fun CoursesFormationBlocScreen(
                     program = program,
                     block = block,
                     courses = filteredCourses,
+                    authToken = authToken,
                     onCourseSelected = onCourseSelected,
                     onOpenCourseCalendar = onOpenCourseCalendar
                 )
@@ -303,13 +306,15 @@ private fun BlockDetails(
     program: ProgramCardData,
     block: FormationBlock,
     courses: List<FormationCourse>,
+    authToken: String?,
     onCourseSelected: (CourseRef) -> Unit,
     onOpenCourseCalendar: (String?, String?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
         // Explicitly typed list to avoid inference errors
-        val courseDetails: List<CourseDetail> = rememberCoursesDetails()
+        val courseDetailsState = rememberCoursesDetails(authToken)
+        val courseDetails: List<CourseDetail> = courseDetailsState.courses
 
         val teacherByCode = remember(courseDetails) {
             // Explicitly typing 'detail: CourseDetail' fixes the inference issues

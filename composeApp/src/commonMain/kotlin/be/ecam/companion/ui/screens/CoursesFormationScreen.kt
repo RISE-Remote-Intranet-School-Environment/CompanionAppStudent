@@ -190,6 +190,7 @@ fun CoursesFormationScreen(
             CoursesFicheScreen(
                 modifier = Modifier.fillMaxSize(),
                 courseRef = selectedCourseRef!!,
+                authToken = authToken,
                 onBack = { selectedCourseRef = null }
             )
         } else {
@@ -310,6 +311,7 @@ fun CoursesFormationScreen(
                                     block = state.block,
                                     programs = programs,
                                     databaseYear = database?.year,
+                                    authToken = authToken,
                                     onFormationSelected = selectProgram,
                                     onBlockSelected = { block -> selectBlock(state.program, block) },
                                     onCourseSelected = tableCourseSelection,
