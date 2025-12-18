@@ -246,15 +246,20 @@ fun App(
                                     )
                                 }
 
-                                BottomItem.COURSECALENDAR -> {
-                                    StudentCourseCalendar(
-                                        modifier = baseModifier,
-                                        initialYearOption = courseCalendarInitialYearOption,
-                                        initialSeries = courseCalendarInitialSeries,
-                                        username = connectedUser?.username?:"",
-                                        authToken = loginViewModel.jwtToken
-                                    )
-                                }
+                            BottomItem.COURSECALENDAR -> {
+                                StudentCourseCalendar(
+                                    modifier = baseModifier,
+                                    initialYearOption = courseCalendarInitialYearOption,
+                                    initialSeries = courseCalendarInitialSeries,
+                                    username = connectedUser?.username?:"",
+                                    displayName = connectedUser?.let {
+                                        listOfNotNull(it.firstName, it.lastName)
+                                            .joinToString(" ")
+                                            .ifBlank { it.username }
+                                    },
+                                    authToken = loginViewModel.jwtToken
+                                )
+                            }
 
                                 BottomItem.SETTINGS -> {
                                     val settingsRepo = koinInject<SettingsRepository>()
