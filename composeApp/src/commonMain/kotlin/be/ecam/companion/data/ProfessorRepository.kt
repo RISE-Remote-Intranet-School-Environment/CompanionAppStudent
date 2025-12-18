@@ -8,6 +8,7 @@ import io.ktor.client.request.header
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpHeaders
 import io.ktor.http.isSuccess
+import io.ktor.http.encodeURLParameter
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.SerialName
@@ -137,7 +138,7 @@ class ProfessorCatalogRepository(
             year = "server",
             generatedAt = "",
             source = baseUrl,
-            professors = responseItems.map { it.toProfessor(courseMap) }
+            professors = responseItems.map { it.toProfessor(courseMap, baseUrl) }
         )
     }
 }
@@ -168,7 +169,7 @@ internal data class ProfessorCourseDtoRemote(
     @SerialName("detailsUrl") val detailsUrl: String? = null
 )
 
-private fun ServerProfessorDto.toProfessor(courseMap: Map<String, ProfessorCourseDtoRemote>): Professor {
+private fun ServerProfessorDto.toProfessor(courseMap: Map<String, ProfessorCourseDtoRemote>, baseUrl: String): Professor {
     val parsedCourses = coursesId
         ?.removePrefix("[")
         ?.removeSuffix("]")
@@ -185,6 +186,12 @@ private fun ServerProfessorDto.toProfessor(courseMap: Map<String, ProfessorCours
         }
         ?: emptyList()
 
+    val proxiedUrl = if (!photoUrl.isNullOrBlank() && photoUrl.startsWith("http")) {
+        "$baseUrl/api/image-proxy?url=${photoUrl.encodeURLParameter()}&width=150"
+    } else {
+        photoUrl
+    }
+
     return Professor(
         id = id ?: professorId?.hashCode() ?: 0,
         firstName = firstName,
@@ -193,6 +200,6 @@ private fun ServerProfessorDto.toProfessor(courseMap: Map<String, ProfessorCours
         speciality = speciality ?: "Autres",
         office = roomIds?.takeIf { it.isNotBlank() },
         courses = parsedCourses,
-        photoUrl = photoUrl
+        photoUrl = proxiedUrl
     )
 }

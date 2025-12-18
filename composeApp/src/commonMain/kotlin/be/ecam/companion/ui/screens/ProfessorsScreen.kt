@@ -23,7 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
+import io.kamel.image.KamelImage
+import io.kamel.image.asyncPainterResource
+import io.ktor.http.Url
 import be.ecam.companion.data.ProfessorCatalogRepository
 import be.ecam.companion.data.Professor
 import be.ecam.companion.data.ProfessorDatabase
@@ -229,25 +231,47 @@ private fun ProfessorCard(professor: Professor) {
 
                 val photoUrl = professor.photoUrl?.takeIf { it.isNotBlank() }
                 if (photoUrl != null) {
-                    AsyncImage(
-                        model = photoUrl,
+                    KamelImage(
+                        resource = { asyncPainterResource(Url(photoUrl)) },
                         contentDescription = "${professor.firstName} ${professor.lastName}",
                         modifier = Modifier
-                            .size(48.dp)
+                            .size(50.dp)
                             .clip(CircleShape),
-                        contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                        contentScale = androidx.compose.ui.layout.ContentScale.Crop,
+                        onLoading = {
+                            Box(
+                                modifier = Modifier
+                                    .size(50.dp)
+                                    .clip(CircleShape)
+                                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                            )
+                        },
+                        onFailure = {
+                            Box(
+                                modifier = Modifier
+                                    .size(50.dp)
+                                    .clip(CircleShape)
+                                    .background(randomColorFor(professor.id)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "${professor.firstName.take(1)}${professor.lastName.take(1)}",
+                                    color = Color.White,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
                     )
                 } else {
                     Box(
                         modifier = Modifier
-                            .size(48.dp)
+                            .size(50.dp)
                             .clip(CircleShape)
                             .background(randomColorFor(professor.id)),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "${professor.firstName.first()}${professor.lastName.first()}",
-                            style = MaterialTheme.typography.titleMedium,
+                            text = "${professor.firstName.take(1)}${professor.lastName.take(1)}",
                             color = Color.White,
                             fontWeight = FontWeight.Bold
                         )
