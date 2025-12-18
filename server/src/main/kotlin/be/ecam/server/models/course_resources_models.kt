@@ -33,7 +33,7 @@ object CourseResourcesTable : IntIdTable("course_resources") {
 @Serializable
 data class CourseResourceDTO(
     val id: Int,
-    val professorId: Int,
+    val professorId: String, // expose le code professeur
     val courseId: String?,
     val sousCourseId: String?,
     val title: String,
@@ -45,23 +45,9 @@ data class CourseResourceDTO(
     val uploadedAt: Long
 )
 
-fun ResultRow.toCourseResourceDTO() = CourseResourceDTO(
-    id = this[CourseResourcesTable.id].value,
-    professorId = this[CourseResourcesTable.professor].value,
-    courseId = this[CourseResourcesTable.courseId],
-    sousCourseId = this[CourseResourcesTable.sousCourseId],
-    title = this[CourseResourcesTable.title],
-    description = this[CourseResourcesTable.description],
-    resourceType = this[CourseResourcesTable.resourceType],
-    resourceUrl = this[CourseResourcesTable.resourceUrl],
-    thumbnailUrl = this[CourseResourcesTable.thumbnailUrl],
-    durationSeconds = this[CourseResourcesTable.durationSeconds],
-    uploadedAt = this[CourseResourcesTable.uploadedAt]
-)
-
 @Serializable
 data class CourseResourceCreateRequest(
-    val professorId: Int,
+    val professorId: String, // code professeur
     val courseId: String? = null,
     val sousCourseId: String? = null,
     val title: String,
@@ -81,3 +67,20 @@ data class CourseResourceUpdateRequest(
     val thumbnailUrl: String? = null,
     val durationSeconds: Int? = null
 )
+
+fun ResultRow.toCourseResourceDTOWithProfessorCode(): CourseResourceDTO {
+    val profCode = this[ProfessorsTable.professorId]
+    return CourseResourceDTO(
+        id = this[CourseResourcesTable.id].value,
+        professorId = profCode,
+        courseId = this[CourseResourcesTable.courseId],
+        sousCourseId = this[CourseResourcesTable.sousCourseId],
+        title = this[CourseResourcesTable.title],
+        description = this[CourseResourcesTable.description],
+        resourceType = this[CourseResourcesTable.resourceType],
+        resourceUrl = this[CourseResourcesTable.resourceUrl],
+        thumbnailUrl = this[CourseResourcesTable.thumbnailUrl],
+        durationSeconds = this[CourseResourcesTable.durationSeconds],
+        uploadedAt = this[CourseResourcesTable.uploadedAt]
+    )
+}
