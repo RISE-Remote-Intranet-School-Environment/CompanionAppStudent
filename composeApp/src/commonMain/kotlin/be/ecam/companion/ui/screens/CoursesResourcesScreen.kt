@@ -427,7 +427,7 @@ private fun ResourceCard(res: CourseResource, accent: Color, icon: ImageVector, 
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                Divider(
+                HorizontalDivider(
                     modifier = Modifier
                         .weight(1f)
                         .height(1.dp)
