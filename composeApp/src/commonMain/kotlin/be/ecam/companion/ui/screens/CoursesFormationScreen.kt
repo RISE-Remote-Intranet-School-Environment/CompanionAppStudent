@@ -332,9 +332,9 @@ private fun IntroText(database: FormationDatabase?) {
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(vertical = 8.dp)
     ) {
-        val isWide = maxWidth > 700.dp
+        val isWide = maxWidth > 900.dp
 
         Card(
             colors = CardDefaults.cardColors(
@@ -452,18 +452,27 @@ private fun IntroText(database: FormationDatabase?) {
                             color = MaterialTheme.colorScheme.primary
                         )
                     }
-                    Spacer(Modifier.height(8.dp))
-                    Text(
-                        text = "Pour tout savoir sur l'organisation des études.",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
 
                     Spacer(Modifier.height(12.dp))
                     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
                     Spacer(Modifier.height(12.dp))
 
                     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                        Text(
+                            text = buildAnnotatedString {
+                                append("L'")
+                                withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("ECAM")
+                                }
+                                append(" est un Institut Supérieur Industriel ayant pour objet la formation de ")
+                                withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("Master en sciences industrielles")
+                                }
+                                append(" dans une des finalités ci-dessous :")
+                            },
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                         MiniInfoCard(
                             modifier = Modifier.fillMaxWidth(),
                             icon = Icons.Default.Handshake,
@@ -471,7 +480,13 @@ private fun IntroText(database: FormationDatabase?) {
                             color = MaterialTheme.colorScheme.tertiary,
                             content = {
                                 Text(
-                                    text = "Double diplôme Ingénieur industriel et commercial & Master Business Analyst.",
+                                    text = buildAnnotatedString {
+                                        append("Double diplôme ")
+                                        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Ingénieur industriel et commercial") }
+                                        append(" (6 ans) & Master ")
+                                        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Business Analyst") }
+                                        append(" dont le but est d’établir des ponts entre les utilisateurs et les équipes de développement, d’accompagner les projets et de participer à la stratégie IT de l’entreprise.")
+                                    },
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -480,11 +495,15 @@ private fun IntroText(database: FormationDatabase?) {
                         MiniInfoCard(
                             modifier = Modifier.fillMaxWidth(),
                             icon = Icons.Default.Science,
-                            title = "Formation Continue",
+                            title = "CERDECAM",
                             color = MaterialTheme.colorScheme.secondary,
                             content = {
                                 Text(
-                                    text = "Le CERDECAM organise également des Formations Continues.",
+                                    text = buildAnnotatedString {
+                                        append("Le Centre de Recherche de l’ECAM, le ")
+                                        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("CERDECAM") }
+                                        append(" , organise également des Formations Continues.")
+                                    },
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
