@@ -122,12 +122,21 @@ class ProfessorCatalogRepository(
         }
 
         val responseItems: List<ServerProfessorDto> = response.body()
+        val courses: List<ProfessorCourseDtoRemote> = client.get("$baseUrl/api/courses") {
+            token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+        }.body()
+        val courseMap: Map<String, ProfessorCourseDtoRemote> = mutableMapOf<String, ProfessorCourseDtoRemote>().apply {
+            courses.forEach { c ->
+                put(c.courseId.lowercase(), c)
+                c.courseRaccourciId?.let { put(it.lowercase(), c) }
+            }
+        }
 
         return ProfessorDatabase(
             year = "server",
             generatedAt = "",
             source = baseUrl,
-            professors = responseItems.map { it.toProfessor() }
+            professors = responseItems.map { it.toProfessor(courseMap) }
         )
     }
 }
@@ -150,7 +159,15 @@ private data class ServerProfessorDto(
     val diplomas: String? = null
 )
 
-private fun ServerProfessorDto.toProfessor(): Professor {
+@Serializable
+internal data class ProfessorCourseDtoRemote(
+    @SerialName("courseId") val courseId: String,
+    @SerialName("courseRaccourciId") val courseRaccourciId: String? = null,
+    val title: String,
+    @SerialName("detailsUrl") val detailsUrl: String? = null
+)
+
+private fun ServerProfessorDto.toProfessor(courseMap: Map<String, ProfessorCourseDtoRemote>): Professor {
     val parsedCourses = coursesId
         ?.removePrefix("[")
         ?.removeSuffix("]")
@@ -158,9 +175,11 @@ private fun ServerProfessorDto.toProfessor(): Professor {
         ?.map { it.trim().trim('"', '\'') }
         ?.filter { it.isNotBlank() }
         ?.map { code ->
+            val match = courseMap[code.lowercase()]
             ProfessorCourse(
-                code = code,
-                title = code
+                code = match?.courseId ?: code,
+                title = match?.title ?: code,
+                detailsUrl = match?.detailsUrl
             )
         }
         ?: emptyList()
