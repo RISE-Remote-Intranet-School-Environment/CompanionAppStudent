@@ -60,16 +60,9 @@ fun rememberCalendarEventsByDate(authToken: String? = null): Map<LocalDate, List
             val remoteEvents = async { 
                 runCatching { repository.getCalendarEvents(authToken) }.getOrDefault(emptyList()) 
             }
-            // Charger depuis le fichier local
-            val localEvents = async { 
-                runCatching { LocalCalendarLoader.load() }.getOrDefault(emptyList()) 
-            }
             
-            // Combiner les deux sources
-            val allEvents = remoteEvents.await() + localEvents.await()
-            
-            // Grouper par date
-            allEvents.groupBy { it.date }
+            // Grouper par date (uniquement serveur)
+            remoteEvents.await().groupBy { it.date }
         }
     }
 
