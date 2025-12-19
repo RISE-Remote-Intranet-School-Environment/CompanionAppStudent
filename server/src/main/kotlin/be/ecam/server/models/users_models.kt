@@ -35,8 +35,8 @@ data class User(
     val username: String,
     val email: String,
     val passwordHash: String,
-    val firstName: String,
-    val lastName: String,
+    val firstName: String?,
+    val lastName: String?,
     val role: UserRole,
     val avatarUrl: String?,
     val professorId: Int?,
@@ -50,8 +50,8 @@ data class UserPublicDTO(
     val id: Int,
     val username: String,
     val email: String,
-    val firstName: String,
-    val lastName: String,
+    val firstName: String?,
+    val lastName: String?,
     val role: UserRole,
     val avatarUrl: String?,
     val professorId: Int?,
@@ -71,8 +71,8 @@ fun ResultRow.toUser(): User =
         lastName = this[UsersTable.lastName],
         role = this[UsersTable.role],
         avatarUrl = this[UsersTable.avatarUrl],
-        professorId = this[UsersTable.professorId]?.value,
-        studentId = this[UsersTable.studentId]?.value
+        professorId = this[UsersTable.professorId],
+        studentId = this[UsersTable.studentId]
     )
 
 // Mapping interne -> DTO public
@@ -96,8 +96,8 @@ data class UserWriteRequest(
     val username: String,
     val email: String,
     val password: String,
-    val firstName: String,
-    val lastName: String,
+    val firstName: String? = null,
+    val lastName: String? = null,
     val role: UserRole,
     val avatarUrl: String? = null,
     val professorId: Int? = null,
