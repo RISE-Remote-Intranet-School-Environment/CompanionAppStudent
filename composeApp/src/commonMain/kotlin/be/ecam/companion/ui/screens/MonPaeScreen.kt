@@ -622,15 +622,15 @@ private data class NotesStudentDto(
     val courseEcts: Double,
     val coursePeriod: String,
     val courseId1: String? = null,
-    val courseSessionJan: Double? = null,
-    val courseSessionJun: Double? = null,
-    val courseSessionSep: Double? = null,
+    val courseSessionJan: String? = null,
+    val courseSessionJun: String? = null,
+    val courseSessionSep: String? = null,
     val componentCode: String? = null,
     val componentTitle: String? = null,
     val componentWeight: Double? = null,
-    val componentSessionJan: Double? = null,
-    val componentSessionJun: Double? = null,
-    val componentSessionSep: Double? = null
+    val componentSessionJan: String? = null,
+    val componentSessionJun: String? = null,
+    val componentSessionSep: String? = null
 )
 
 @Serializable
@@ -717,10 +717,16 @@ suspend fun loadPaeFromServer(
 
     val mappedStudents = students.map { dto ->
         val notes = notesByStudent[dto.studentId].orEmpty()
+        val filteredNotes = notes.filter {
+            val formationOk = dto.formationId?.let { fid -> it.formationId.equals(fid, ignoreCase = true) } ?: true
+            val blocOk = dto.blocId?.let { bid -> it.blocId.equals(bid, ignoreCase = true) } ?: true
+            formationOk && blocOk
+        }
+        val scopedNotes = if (filteredNotes.isNotEmpty()) filteredNotes else notes
         val blocName = dto.blocId?.let { blocNameById[it.lowercase()] ?: it }
 
         // Construire un record par année de notes si disponibles, sinon fallback enrolYear
-        val records: List<PaeRecord> = notes
+        val records: List<PaeRecord> = scopedNotes
             .groupBy { it.academicYear }
             .filterKeys { !it.isNullOrBlank() }
             .entries
@@ -746,7 +752,7 @@ suspend fun loadPaeFromServer(
                         formationSlug = dto.formationId,
                         formationId = null,
                         block = blocName,
-                        courses = buildCoursesFromNotes(dto.courseIds, notes, coursesMeta, sousCoursesByCourse)
+                        courses = buildCoursesFromNotes(dto.courseIds, scopedNotes, coursesMeta, sousCoursesByCourse)
                     )
                 )
             }
@@ -774,11 +780,12 @@ private fun buildCoursesFromNotes(
     // Start from courseIds list if provided; otherwise derive from notes
     val fromList: Set<String> = courseIdsRaw
         ?.split(';', ',', '|')
-        ?.mapNotNull { it.trim().takeIf { it.isNotEmpty() } }
+        ?.mapNotNull { it.trim().takeIf { it.isNotEmpty() }?.lowercase() }
         ?.toSet()
         ?: emptySet()
 
-    val noteCourses: Map<String, List<NotesStudentDto>> = notes.groupBy { it.courseId }
+    // Normalise en lowercase pour matcher quelles que soient les capitalisations
+    val noteCourses: Map<String, List<NotesStudentDto>> = notes.groupBy { it.courseId.lowercase() }
 
     val allCodes: List<String> = if (fromList.isNotEmpty()) fromList.toList() else noteCourses.keys.toList()
 
@@ -786,6 +793,29 @@ private fun buildCoursesFromNotes(
         val entries = noteCourses[code].orEmpty()
         val meta = courseMeta[code.lowercase()]
         val base = entries.firstOrNull()
+        // Utiliser un code affiché cohérent : soit le code des notes, soit celui de la liste
+        val displayCode = base?.courseId?.takeIf { it.isNotBlank() } ?: code.uppercase()
+
+        fun pickSession(values: List<String?>): String? {
+            val cleaned = values.mapNotNull { v ->
+                v?.trim()?.takeIf { it.isNotEmpty() && it != "-" }
+            }
+            if (cleaned.isEmpty()) return null
+            val numeric = cleaned.mapNotNull { it.toDoubleOrNull() }
+            return if (numeric.isNotEmpty()) {
+                numeric.maxOrNull()?.toString()
+            } else {
+                cleaned.firstOrNull()
+            }
+        }
+
+        val courseJan = pickSession(entries.map { it.courseSessionJan })
+            ?: pickSession(entries.map { it.componentSessionJan })
+        val courseJun = pickSession(entries.map { it.courseSessionJun })
+            ?: pickSession(entries.map { it.componentSessionJun })
+        val courseSep = pickSession(entries.map { it.courseSessionSep })
+            ?: pickSession(entries.map { it.componentSessionSep })
+
         val componentsFromNotes = entries.mapNotNull { entry ->
             entry.componentCode?.takeIf { it.isNotBlank() }?.let {
                 PaeComponent(
@@ -817,15 +847,15 @@ private fun buildCoursesFromNotes(
             }
         }
         PaeCourse(
-            code = code,
+            code = displayCode,
             title = base?.courseTitle ?: meta?.title,
             ects = base?.courseEcts?.toInt() ?: meta?.credits,
             period = base?.coursePeriod ?: meta?.periods,
             courseId = base?.courseId1?.toIntOrNull(),
             sessions = PaeSessions(
-                jan = base?.courseSessionJan?.toString(),
-                jun = base?.courseSessionJun?.toString(),
-                sep = base?.courseSessionSep?.toString()
+                jan = courseJan,
+                jun = courseJun,
+                sep = courseSep
             ),
             components = components
         )
