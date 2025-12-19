@@ -191,9 +191,10 @@ private fun ProfessorsMainScreen(
         Spacer(Modifier.height(12.dp))
 
         /* -------- FILTERS -------- */
-        Row(
+        FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             FilterChip(
                 selected = selectedSpeciality == null,
@@ -201,7 +202,7 @@ private fun ProfessorsMainScreen(
                 label = { Text("Tous") }
             )
 
-            specialityLabels.forEach { (code, label) ->
+            specialityLabels.forEach { (code, _) ->
                 FilterChip(
                     selected = selectedSpeciality == code,
                     onClick = { onFilterChange(code) },
