@@ -78,11 +78,11 @@ fun HomeScreen(
     LaunchedEffect(user.id, loginViewModel.jwtToken) { vm.load(user, loginViewModel.jwtToken) }
 
     val displayName = buildString {
-        listOfNotNull(user.firstName, user.lastName)
-            .joinToString(" ")
-            .takeIf { it.isNotBlank() }
-            ?.let { append(it) }
-        if (isEmpty()) append(user.username.split(" ").firstOrNull().orEmpty())
+        user.firstName?.takeIf { it.isNotBlank() }?.let { 
+            append(it) 
+        } ?: run {
+            append(user.username.split(" ").firstOrNull().orEmpty())
+        }
         if (isEmpty()) append("Étudiant")
     }
 
@@ -211,7 +211,8 @@ private fun HomeMainScreen(
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
         Text(
-            text = if (searchQuery.isBlank()) "Bonjour, $displayName" else "Recherche dans le catalogue",
+            // 🔥 CORRECTION : Virgule APRÈS le prénom
+            text = if (searchQuery.isBlank()) "Bonjour $displayName," else "Recherche dans le catalogue",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface
