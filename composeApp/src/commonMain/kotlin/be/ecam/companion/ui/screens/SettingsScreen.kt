@@ -78,7 +78,7 @@ fun SettingsScreen(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Text("Bearer token", style = MaterialTheme.typography.titleMedium)
+                    Text("JWT token", style = MaterialTheme.typography.titleMedium)
                     OutlinedTextField(
                         value = if (tokenVisible) token else "••••••••••",
                         onValueChange = {},

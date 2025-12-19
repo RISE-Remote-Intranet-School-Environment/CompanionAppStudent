@@ -221,12 +221,17 @@ fun CalendarScreen(
         val items = eventsByDate[dialogDate] ?: emptyList()
         Dialog(
             onDismissRequest = { dialogDate = null },
-            properties = DialogProperties(dismissOnClickOutside = true, usePlatformDefaultWidth = true)
+            properties = DialogProperties(dismissOnClickOutside = true, usePlatformDefaultWidth = false)
         ) {
-            Box(
+            Surface(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    // 🔥 CORRECTION : Augmenter légèrement la largeur
+                    .widthIn(min = 320.dp, max = 450.dp)
+                    .fillMaxWidth(0.92f)
+                    .heightIn(max = 500.dp),
+                shape = RoundedCornerShape(16.dp),
+                tonalElevation = 4.dp,
+                color = MaterialTheme.colorScheme.surface
             ) {
                 SelectedDayEvents(
                     date = dialogDate!!,
@@ -340,6 +345,8 @@ private fun SelectedDayEvents(
     events: List<CalendarEvent>,
     onClose: (() -> Unit)? = null
 ) {
+    val scrollState = rememberScrollState()
+    
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
@@ -349,59 +356,52 @@ private fun SelectedDayEvents(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(14.dp),
+                .padding(16.dp)
+                .heightIn(max = 400.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
+            // Header avec date et bouton fermer
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Events on ${date.toEuropeanString()}",
+                    text = date.toEuropeanString(),
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.Bold
                 )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    if (events.isNotEmpty()) {
-                        Surface(
-                            shape = RoundedCornerShape(50),
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.05f)
-                        ) {
-                            Text(
-                                text = "${events.size} ${if (events.size == 1) "event" else "events"}",
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                            )
-                        }
-                    }
-                    if (onClose != null) {
-                        IconButton(onClick = onClose, modifier = Modifier.size(28.dp)) {
-                            Icon(Icons.Filled.Close, contentDescription = "Close events")
-                        }
+                onClose?.let {
+                    IconButton(onClick = it, modifier = Modifier.size(24.dp)) {
+                        Icon(
+                            Icons.Default.Close,
+                            contentDescription = "Fermer",
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     }
                 }
             }
 
+            // Liste des événements avec scroll
             if (events.isEmpty()) {
-                Text("No events", color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+                Text(
+                    "Aucun événement",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             } else {
-                val enriched = events.map { it to it.extractEventMeta() }
-                    .sortedWith(
-                        compareBy(
-                            { it.second.startMinutes ?: Int.MAX_VALUE },
-                            { it.first.title }
-                        )
-                    )
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    enriched.forEach { (event, meta) ->
-                        CalendarEventDetailCard(event = event, meta = meta)
-                    }
+                Column(
+                    modifier = Modifier
+                        .weight(1f, fill = false)
+                        .verticalScroll(scrollState),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    events
+                        .sortedBy { it.extractEventMeta().startMinutes ?: Int.MAX_VALUE }
+                        .forEach { event ->
+                            val meta = event.extractEventMeta()
+                            CalendarEventDetailCard(event = event, meta = meta)
+                        }
                 }
             }
         }
