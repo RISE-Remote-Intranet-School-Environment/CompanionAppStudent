@@ -9,8 +9,9 @@ object CourseResourcesTable : IntIdTable("course_resources") {
     val courseId = varchar("course_id", 50).nullable()
     val sousCourseId = varchar("sous_course_id", 50).nullable()
     val title = varchar("title", 255)
-    val type = varchar("type", 50).default("link") // link, file, pdf, etc.
-    val url = text("url")
+    // DB columns are resource_type/resource_url in app.db
+    val type = varchar("resource_type", 50).default("link") // link, file, pdf, etc.
+    val url = text("resource_url")
     val uploadedAt = long("uploaded_at").default(System.currentTimeMillis())
 }
 
