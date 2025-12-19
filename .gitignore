@@ -30,3 +30,4 @@ etapes.md
 scripts/.pytest_cache/
 ./instructions.md
 
+!wasm-dist/

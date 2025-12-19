@@ -1,5 +1,5 @@
 {
-  description = "Companion App Backend + Frontend";
+  description = "Clacoxygen - ECAM Student Companion App";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -18,8 +18,8 @@
       pkgs = nixpkgs.legacyPackages.${system};
 
       # Construction du JAR backend avec gradle2nix
-      companion-backend-pkg = gradle2nix.builders.${system}.buildGradlePackage {
-        pname = "companion-backend";
+      clacoxygen-backend-pkg = gradle2nix.builders.${system}.buildGradlePackage {
+        pname = "clacoxygen-backend";
         version = "0.1.0";
         src = ./.;
         lockFile = ./gradle.lock;
@@ -30,8 +30,8 @@
         '';
       };
 
-      companion-wasm-pkg = pkgs.stdenv.mkDerivation {
-        pname = "companion-wasm";
+      clacoxygen-wasm-pkg = pkgs.stdenv.mkDerivation {
+        pname = "clacoxygen-wasm";
         version = "0.1.0";
         src = ./wasm-dist;
         installPhase = ''
@@ -43,19 +43,19 @@
     {
       packages.${system} = {
         default = pkgs.callPackage ./server/default.nix {
-          buildGradlePackage = companion-backend-pkg;
+          buildGradlePackage = clacoxygen-backend-pkg;
         };
 
-        wasm = companion-wasm-pkg;
+        wasm = clacoxygen-wasm-pkg;
 
         full = pkgs.symlinkJoin {
-          name = "companion-full";
+          name = "clacoxygen-full";
           paths = [
-            (pkgs.callPackage ./server/default.nix { buildGradlePackage = companion-backend-pkg; })
+            (pkgs.callPackage ./server/default.nix { buildGradlePackage = clacoxygen-backend-pkg; })
           ];
           postBuild = ''
             mkdir -p $out/share/www
-            cp -r ${companion-wasm-pkg}/share/www/* $out/share/www/
+            cp -r ${clacoxygen-wasm-pkg}/share/www/* $out/share/www/
           '';
         };
       };
@@ -69,54 +69,95 @@
         }:
         with lib;
         let
-          cfg = config.services.companion-app;
+          cfg = config.services.clacoxygen;
         in
         {
-          options.services.companion-app = {
-            enable = mkEnableOption "Companion App (Backend + Frontend)";
+          options.services.clacoxygen = {
+            enable = mkEnableOption "Clacoxygen - ECAM Student Companion App";
 
             port = mkOption {
               type = types.int;
               default = 28088;
-              description = "Port for the backend API";
+              description = "Port interne pour l'API backend (non exposé publiquement)";
             };
 
             domain = mkOption {
               type = types.str;
-              default = "clacoxygen.msrl.be";
-              description = "Domain name for the app";
+              description = "Nom de domaine pour l'application (ex: clacoxygen.msrl.be)";
+              example = "clacoxygen.msrl.be";
             };
 
             user = mkOption {
               type = types.str;
               default = "clacoxygen";
+              description = "Utilisateur système pour le service";
             };
 
             group = mkOption {
               type = types.str;
               default = "clacoxygen";
+              description = "Groupe système pour le service";
             };
 
             jwtSecretFile = mkOption {
               type = types.nullOr types.path;
               default = null;
-              description = "Path to JWT secret file";
+              description = "Chemin vers le fichier contenant le secret JWT";
             };
 
             msClientIdFile = mkOption {
               type = types.nullOr types.path;
               default = null;
-              description = "Path to Microsoft Client ID file";
+              description = "Chemin vers le fichier contenant le Client ID Microsoft";
             };
 
             msClientSecretFile = mkOption {
               type = types.nullOr types.path;
               default = null;
-              description = "Path to Microsoft Client Secret file";
+              description = "Chemin vers le fichier contenant le Client Secret Microsoft";
+            };
+
+            nginx = {
+              enable = mkOption {
+                type = types.bool;
+                default = true;
+                description = "Configurer automatiquement Nginx comme reverse proxy";
+              };
+
+              enableACME = mkOption {
+                type = types.bool;
+                default = true;
+                description = "Activer Let's Encrypt pour HTTPS";
+              };
+
+              extraConfig = mkOption {
+                type = types.lines;
+                default = "";
+                description = "Configuration Nginx supplémentaire";
+              };
+            };
+
+            microsoftRedirectUri = mkOption {
+              type = types.nullOr types.str;
+              default = null;
+              description = "URI de redirection Microsoft OAuth (défaut: https://<domain>/api/auth/microsoft/callback)";
             };
           };
 
           config = mkIf cfg.enable {
+
+            # Assertions pour valider la configuration
+            assertions = [
+              {
+                assertion = cfg.domain != "";
+                message = "services.clacoxygen.domain doit être défini";
+              }
+              {
+                assertion = cfg.jwtSecretFile != null;
+                message = "services.clacoxygen.jwtSecretFile doit être défini pour la production";
+              }
+            ];
+
             users.users.${cfg.user} = {
               isSystemUser = true;
               group = cfg.group;
@@ -125,13 +166,20 @@
             };
             users.groups.${cfg.group} = { };
 
-            systemd.services.companion-backend = {
-              description = "Companion App Backend";
+            systemd.services.clacoxygen = {
+              description = "Clacoxygen Backend API";
               after = [ "network.target" ];
               wantedBy = [ "multi-user.target" ];
 
               environment = {
                 PORT = toString cfg.port;
+                APP_DOMAIN = cfg.domain;
+                APP_BASE_URL = "https://${cfg.domain}";
+                MS_REDIRECT_URI =
+                  if cfg.microsoftRedirectUri != null then
+                    cfg.microsoftRedirectUri
+                  else
+                    "https://${cfg.domain}/api/auth/microsoft/callback";
               }
               // optionalAttrs (cfg.jwtSecretFile != null) {
                 JWT_SECRET_FILE = cfg.jwtSecretFile;
@@ -144,12 +192,14 @@
               };
 
               serviceConfig = {
-                ExecStart = "${self.packages.${pkgs.system}.default}/bin/companion-backend";
+                ExecStart = "${self.packages.${pkgs.system}.default}/bin/clacoxygen-backend";
                 User = cfg.user;
                 Group = cfg.group;
                 WorkingDirectory = "/var/lib/${cfg.user}";
                 Restart = "always";
+                RestartSec = "5s";
 
+                # Hardening
                 NoNewPrivileges = true;
                 ProtectSystem = "strict";
                 ReadWritePaths = [ "/var/lib/${cfg.user}" ];
@@ -157,41 +207,79 @@
                 ProtectHome = "tmpfs";
                 ProtectKernelTunables = true;
                 ProtectControlGroups = true;
+                CapabilityBoundingSet = "";
+                SystemCallFilter = [
+                  "@system-service"
+                  "~@privileged"
+                ];
               };
             };
 
-            services.nginx.virtualHosts.${cfg.domain} = {
-              enableACME = true;
-              forceSSL = true;
+            # Configuration Nginx séparée et optionnelle
+            services.nginx = mkIf cfg.nginx.enable {
+              enable = true;
 
-              root = "${self.packages.${pkgs.system}.wasm}/share/www";
+              recommendedProxySettings = true;
+              recommendedTlsSettings = true;
+              recommendedOptimisation = true;
+              recommendedGzipSettings = true;
 
-              extraConfig = ''
-                add_header Cross-Origin-Opener-Policy "same-origin" always;
-                add_header Cross-Origin-Embedder-Policy "require-corp" always;
-              '';
+              virtualHosts.${cfg.domain} = {
+                enableACME = cfg.nginx.enableACME;
+                forceSSL = cfg.nginx.enableACME;
 
-              locations = {
-                "/" = {
-                  tryFiles = "$uri $uri/ /index.html";
-                  extraConfig = ''
-                    location ~* \.(wasm|js|mjs|css|png|jpg|svg|ico)$ {
-                      add_header Cache-Control "public, max-age=31536000, immutable";
-                      add_header Cross-Origin-Opener-Policy "same-origin" always;
-                      add_header Cross-Origin-Embedder-Policy "require-corp" always;
-                    }
-                  '';
-                };
+                root = "${self.packages.${pkgs.system}.wasm}/share/www";
 
-                "/api" = {
-                  proxyPass = "http://127.0.0.1:${toString cfg.port}";
-                  proxyWebsockets = true;
-                };
+                extraConfig = ''
+                  # Headers requis pour WASM avec SharedArrayBuffer
+                  add_header Cross-Origin-Opener-Policy "same-origin" always;
+                  add_header Cross-Origin-Embedder-Policy "require-corp" always;
+                  ${cfg.nginx.extraConfig}
+                '';
 
-                "/auth-callback.html" = {
-                  proxyPass = "http://127.0.0.1:${toString cfg.port}";
+                locations = {
+                  "/" = {
+                    tryFiles = "$uri $uri/ /index.html";
+                    extraConfig = ''
+                      # Cache long pour assets statiques
+                      location ~* \.(wasm|js|mjs|css|png|jpg|jpeg|gif|svg|ico|woff|woff2)$ {
+                        add_header Cache-Control "public, max-age=31536000, immutable";
+                        add_header Cross-Origin-Opener-Policy "same-origin" always;
+                        add_header Cross-Origin-Embedder-Policy "require-corp" always;
+                      }
+                    '';
+                  };
+
+                  # API Backend
+                  "/api" = {
+                    proxyPass = "http://127.0.0.1:${toString cfg.port}";
+                    proxyWebsockets = true;
+                    extraConfig = ''
+                      proxy_read_timeout 300s;
+                      proxy_connect_timeout 75s;
+                    '';
+                  };
+
+                  # OAuth callback (servi par le backend)
+                  "/auth-callback.html" = {
+                    proxyPass = "http://127.0.0.1:${toString cfg.port}";
+                  };
+
+                  # Health check
+                  "/health" = {
+                    proxyPass = "http://127.0.0.1:${toString cfg.port}";
+                    extraConfig = ''
+                      access_log off;
+                    '';
+                  };
                 };
               };
+            };
+
+            # ACME (Let's Encrypt)
+            security.acme = mkIf (cfg.nginx.enable && cfg.nginx.enableACME) {
+              acceptTerms = true;
+              defaults.email = mkDefault "admin@${cfg.domain}";
             };
           };
         };

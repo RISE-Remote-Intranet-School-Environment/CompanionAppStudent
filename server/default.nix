@@ -3,21 +3,29 @@
   buildGradlePackage,
 }:
 
-# Ce wrapper prend le JAR construit par gradle2nix et crée un script de lancement
-pkgs.stdenv.mkDerivation (finalAttrs: {
-  inherit (buildGradlePackage) pname version src;
+pkgs.stdenv.mkDerivation {
+  pname = "clacoxygen-backend";
+  version = "0.1.0";
+
+  dontUnpack = true;
+
+  nativeBuildInputs = [ pkgs.makeWrapper ];
 
   installPhase = ''
-    mkdir -p $out/bin
-    # Lien symbolique vers le JAR
-    ln -s ${buildGradlePackage}/share/java/*.jar $out/bin/companion-backend.jar
+    mkdir -p $out/bin $out/share/java
 
-    # Création du script de lancement
-    cat > $out/bin/companion-backend <<EOF
-    #!/bin/sh
-    exec ${pkgs.jre}/bin/java -jar $out/bin/companion-backend.jar
-    EOF
+    # Copier le JAR
+    cp ${buildGradlePackage}/share/java/*.jar $out/share/java/clacoxygen-backend.jar
 
-    chmod +x $out/bin/companion-backend
+    # Créer le script de lancement
+    makeWrapper ${pkgs.jre}/bin/java $out/bin/clacoxygen-backend \
+      --add-flags "-Xmx512m" \
+      --add-flags "-XX:+UseG1GC" \
+      --add-flags "-jar $out/share/java/clacoxygen-backend.jar"
   '';
-})
+
+  meta = with pkgs.lib; {
+    description = "Clacoxygen Backend API";
+    mainProgram = "clacoxygen-backend";
+  };
+}

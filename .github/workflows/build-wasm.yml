@@ -1,0 +1,135 @@
+name: Build & Deploy Clacoxygen
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+  workflow_dispatch:
+    inputs:
+      force_rebuild:
+        description: 'Force rebuild even without changes'
+        required: false
+        default: 'false'
+
+env:
+  JAVA_VERSION: '21'
+
+jobs:
+  # Job 1: Détecter les changements
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      frontend: ${{ steps.filter.outputs.frontend }}
+      backend: ${{ steps.filter.outputs.backend }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            frontend:
+              - 'composeApp/**'
+              - 'shared/**'
+            backend:
+              - 'server/**'
+              - 'shared/**'
+
+  # Job 2: Build WASM (si frontend modifié)
+  build-wasm:
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true' || github.event.inputs.force_rebuild == 'true'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'gradle'
+      
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main' }}
+      
+      - name: Build WASM
+        run: |
+          echo "Building WASM frontend..."
+          ./gradlew :composeApp:wasmJsBrowserDistribution --no-daemon --parallel
+      
+      - name: Validate build
+        run: |
+          if [ ! -f "composeApp/build/dist/wasmJs/productionExecutable/index.html" ]; then
+            echo "Build validation failed"
+            exit 1
+          fi
+          echo "Build validated"
+      
+      - name: Update wasm-dist
+        run: |
+          rm -rf wasm-dist/*
+          cp -r composeApp/build/dist/wasmJs/productionExecutable/* wasm-dist/
+          echo "wasm-dist updated:"
+          du -sh wasm-dist/
+      
+      - name: Commit changes
+        if: github.event_name == 'push'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: |
+            Auto-update wasm-dist
+            
+            Triggered by: ${{ github.sha }}
+          file_pattern: "wasm-dist/*"
+          commit_user_name: "ClacOxygen Bot"
+          commit_user_email: "bot@clacoxygen.msrl.be"
+          skip_dirty_check: false
+
+  # Job 3: Build Backend (validation uniquement)
+  build-backend:
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'gradle'
+      
+      - name: Build Backend JAR
+        run: ./gradlew :server:shadowJar --no-daemon
+      
+      - name: Validate JAR
+        run: |
+          JAR_FILE=$(ls server/build/libs/*.jar | head -1)
+          if [ ! -f "$JAR_FILE" ]; then
+            echo "JAR not found"
+            exit 1
+          fi
+          echo "Backend JAR built: $JAR_FILE"
+          du -h "$JAR_FILE"
+
+  # Job 4: Notifier le serveur (optionnel)
+  notify-server:
+    needs: [build-wasm]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Trigger deployment webhook
+        run: |
+          echo "Deployment notification would be sent here"
+          # Exemple: curl -X POST https://clacoxygen.msrl.be/api/admin/deploy-hook
+        continue-on-error: true
