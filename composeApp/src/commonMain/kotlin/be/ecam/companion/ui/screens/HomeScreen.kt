@@ -14,8 +14,23 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Public
+import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlin.math.absoluteValue
 import be.ecam.companion.data.PaeCourse
 import be.ecam.companion.ui.components.BottomBar
 import be.ecam.companion.ui.components.BottomItem
@@ -50,7 +66,7 @@ fun HomeScreen(
         return
     }
 
-    LaunchedEffect(user.id) { vm.load(user) }
+    LaunchedEffect(user.id, loginViewModel.jwtToken) { vm.load(user, loginViewModel.jwtToken) }
 
     val displayName = buildString {
         listOfNotNull(user.firstName, user.lastName)
@@ -61,12 +77,25 @@ fun HomeScreen(
         if (isEmpty()) append("Étudiant")
     }
 
+    val catalogIndex = remember(vm.catalogCourses) {
+        vm.catalogCourses.associateBy { normalizeCode(it.code) }
+    }
+
     val displayedCourses = remember(vm.courses, vm.catalogCourses, searchQuery) {
-        if (searchQuery.isBlank()) vm.courses
-        else vm.catalogCourses.filter {
-            it.title.contains(searchQuery, true) || it.code.contains(searchQuery, true)
-        }.map {
-            PaeCourse(code = it.code, title = it.title, ects = it.credits?.toIntOrNull() ?: 0)
+        if (searchQuery.isBlank()) {
+            vm.courses.map { course ->
+                val match = catalogIndex[normalizeCode(course.code)]
+                course.copy(
+                    title = match?.title ?: course.title ?: course.code,
+                    ects = course.ects ?: match?.credits?.toIntOrNull()
+                )
+            }
+        } else {
+            vm.catalogCourses.filter {
+                it.title.contains(searchQuery, true) || it.code.contains(searchQuery, true)
+            }.map {
+                PaeCourse(code = it.code, title = it.title, ects = it.credits?.toIntOrNull() ?: 0)
+            }
         }
     }
 
@@ -179,7 +208,7 @@ fun HomeMainScreen(
 
 @Composable
 fun CourseCard(course: PaeCourse, onClick: () -> Unit) {
-    val (color, icon) = getCourseTheme(course.title ?: "")
+    val theme = getCourseTheme(course.title ?: "", course.code ?: "")
 
     Card(
         modifier = Modifier
@@ -197,31 +226,63 @@ fun CourseCard(course: PaeCourse, onClick: () -> Unit) {
                     .fillMaxWidth()
                     .background(
                         Brush.verticalGradient(
-                            listOf(color.copy(.15f), color.copy(.05f))
+                            listOf(theme.color.copy(.20f), theme.color.copy(.08f))
                         )
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(icon, null, tint = color, modifier = Modifier.size(60.dp))
+                Icon(theme.icon, null, tint = theme.color, modifier = Modifier.size(64.dp))
             }
 
             Column(modifier = Modifier.padding(12.dp)) {
-                Text(course.title ?: "", fontWeight = FontWeight.Bold)
-                Text(course.code ?: "", color = MaterialTheme.colorScheme.secondary)
+                Text(
+                    course.title ?: course.code.orEmpty(),
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    course.code ?: "",
+                    color = MaterialTheme.colorScheme.secondary
+                )
             }
         }
     }
 }
 
-private fun getCourseTheme(title: String): Pair<Color, ImageVector> {
+private data class CourseTheme(val color: Color, val icon: ImageVector)
+
+private fun getCourseTheme(title: String, code: String): CourseTheme {
+    // Palette inspirée de l’exemple fourni : pastels contrastés.
+    val palette = listOf(
+        Color(0xFFE57373), // rouge clair
+        Color(0xFFF06292), // rose
+        Color(0xFFBA68C8), // mauve
+        Color(0xFF64B5F6), // bleu clair
+        Color(0xFF4DD0E1), // cyan
+        Color(0xFF81C784), // vert
+        Color(0xFFFFD54F), // jaune
+        Color(0xFFFFB74D), // orange
+        Color(0xFFA1887F), // brun clair
+        Color(0xFF90A4AE)  // gris bleuté
+    )
+
+    val idx = (code + title).hashCode().absoluteValue % palette.size
+    val color = palette[idx]
+
     val t = title.lowercase()
-    return when {
-        "mobile" in t || "android" in t || "java" in t -> Color(0xFF4CAF50) to Icons.Filled.Phone
-        "web" in t || "architecture" in t -> Color(0xFFE91E63) to Icons.Filled.Public
-        "data" in t || "base" in t -> Color(0xFF2196F3) to Icons.Filled.Star
-        "network" in t -> Color(0xFFFF9800) to Icons.Filled.Share
-        "security" in t -> Color(0xFFF44336) to Icons.Filled.Lock
-        "gpu" in t -> Color(0xFF607D8B) to Icons.Filled.Build
-        else -> Color(0xFF607D8B) to Icons.Filled.School
+    val icon = when {
+        "mobile" in t || "android" in t || "java" in t -> Icons.Filled.Phone
+        "web" in t || "architecture" in t -> Icons.Filled.Public
+        "data" in t || "base" in t -> Icons.Filled.Star
+        "network" in t -> Icons.Filled.Share
+        "security" in t -> Icons.Filled.Lock
+        "gpu" in t || "compute" in t -> Icons.Filled.Build
+        else -> Icons.Filled.School
     }
+
+    return CourseTheme(color = color, icon = icon)
 }
+
+private fun normalizeCode(value: String?): String =
+    value?.lowercase()?.replace(" ", "") ?: ""

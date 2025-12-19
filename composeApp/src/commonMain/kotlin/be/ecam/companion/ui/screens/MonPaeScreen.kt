@@ -275,6 +275,7 @@ val students = paeDatabase?.students.orEmpty()
 
 @Serializable
 private data class PaeStudentDto(
+    val id: Int? = null,
     @SerialName("studentId") val studentId: Int,
     @SerialName("studentName") val studentName: String,
     val email: String,
@@ -288,6 +289,7 @@ private data class PaeStudentDto(
 
 @Serializable
 private data class NotesStudentDto(
+    val id: Int? = null,
     val studentId: Int,
     val academicYear: String,
     val formationId: String,

@@ -1,8 +1,11 @@
 package be.ecam.companion.data
 
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
 @Serializable
 data class FormationDatabase(
@@ -41,7 +44,11 @@ data class FormationCourse(
 )
 
 object EcamFormationsRepository {
-    private val httpClient = HttpClient()
+    private val httpClient = HttpClient {
+        install(ContentNegotiation) {
+            json(Json { ignoreUnknownKeys = true; isLenient = true })
+        }
+    }
 
     /**
      * Charge les formations depuis le serveur via FormationCatalogRepository.
