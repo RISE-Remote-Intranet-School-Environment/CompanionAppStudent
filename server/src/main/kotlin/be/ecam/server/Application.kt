@@ -155,6 +155,7 @@ fun Application.module() {
                 paeStudentRoutes()
                 studentSubmissionsRoutes()
                 courseResourcesRoutes()
+                userCoursesRoutes()
             }
         }
     }

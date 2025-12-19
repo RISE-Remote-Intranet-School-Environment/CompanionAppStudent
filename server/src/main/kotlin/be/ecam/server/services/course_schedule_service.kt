@@ -225,73 +225,78 @@ object CourseScheduleService {
     }
 
     /**
-     * Récupère l'horaire personnalisé d'un étudiant via son email.
-     * Gère les PAE multiples (plusieurs lignes pour le même email).
+     * Récupère l'horaire personnalisé d'un étudiant.
+     * Priorité : cours sélectionnés (user_courses) > PAE > liste vide
      */
-    fun getScheduleForStudent(email: String): List<CourseScheduleDTO> = transaction {
-        // 1. Trouver TOUTES les entrées PAE pour cet email (peut avoir plusieurs lignes)
-        val paeEntries = PaeStudentsTable
-            .selectAll()
-            .where { PaeStudentsTable.email.lowerCase() eq email.lowercase() }
-            .toList()
-
-        if (paeEntries.isEmpty()) {
-            println("⚠️ Aucun PAE trouvé pour email: $email")
-            return@transaction emptyList()
+    fun getScheduleForStudent(email: String, userId: Int? = null): List<CourseScheduleDTO> = transaction {
+        // 1. Vérifier les cours sélectionnés manuellement
+        val userCourseIds = if (userId != null) {
+            UserCoursesTable
+                .selectAll()
+                .where { UserCoursesTable.userId eq userId }
+                .map { it[UserCoursesTable.courseId].lowercase() }
+        } else {
+            emptyList()
         }
 
-        // 2. Fusionner tous les course_ids de toutes les entrées PAE
-        val paeCourseIds = paeEntries
-            .mapNotNull { it[PaeStudentsTable.courseIds] }
-            .flatMap { rawIds -> 
-                rawIds.split(Regex("[,;|]"))
-                    .map { it.trim().lowercase() }
-                    .filter { it.isNotEmpty() }
+        // 2. Si l'utilisateur a des cours sélectionnés, les utiliser
+        val paeCourseIds = if (userCourseIds.isNotEmpty()) {
+            println("📚 Utilisation des cours sélectionnés par l'utilisateur ($userId): ${userCourseIds.size} cours")
+            userCourseIds
+        } else {
+            // 3. Sinon, chercher dans pae_students
+            val paeEntries = PaeStudentsTable
+                .selectAll()
+                .where { PaeStudentsTable.email.lowerCase() eq email.lowercase() }
+                .toList()
+
+            if (paeEntries.isEmpty()) {
+                println("⚠️ Aucun PAE et aucun cours sélectionné pour: $email (userId=$userId)")
+                return@transaction emptyList()
             }
-            .distinct()  // 🔥 DÉDUPLIQUER les IDs de cours
 
+            paeEntries
+                .mapNotNull { it[PaeStudentsTable.courseIds] }
+                .flatMap { rawIds ->
+                    rawIds.split(Regex("[,;|]"))
+                        .map { it.trim().lowercase() }
+                        .filter { it.isNotEmpty() }
+                }
+                .distinct()
+        }
+
+        // ...reste du code existant pour récupérer les horaires...
         if (paeCourseIds.isEmpty()) {
-            println("⚠️ PAE trouvé mais course_ids vide pour: $email")
+            println("⚠️ Aucun cours trouvé pour: $email")
             return@transaction emptyList()
         }
 
-        println("📚 PAE courses pour $email: ${paeCourseIds.size} cours distincts")
+        println("📚 Cours pour $email: ${paeCourseIds.size} cours distincts")
 
-        // 3. Trouver les sous_course_id correspondants
         val sousCourseIds = SousCoursesTable
             .selectAll()
             .where { SousCoursesTable.courseId.lowerCase() inList paeCourseIds }
             .map { it[SousCoursesTable.sousCourseId] }
             .distinct()
 
-        println("📚 SousCourse IDs trouvés: ${sousCourseIds.size}")
-
-        // 4. Extraire les préfixes raccourcis
         val raccourciPrefixes = sousCourseIds
             .mapNotNull { it.split("-").firstOrNull()?.uppercase() }
             .distinct()
 
-        println("📚 Raccourci prefixes: ${raccourciPrefixes.size}")
-
         if (sousCourseIds.isEmpty() && raccourciPrefixes.isEmpty()) {
-            println("⚠️ Aucune correspondance trouvée pour les cours PAE")
             return@transaction emptyList()
         }
 
-        // 5. Récupérer les horaires (Version standard sans déduplication forcée)
         val schedules = CourseScheduleTable
             .selectAll()
             .where {
                 val conditions = mutableListOf<Op<Boolean>>()
-                
                 if (sousCourseIds.isNotEmpty()) {
                     conditions.add(CourseScheduleTable.sousCourseId inList sousCourseIds)
                 }
-                
                 if (raccourciPrefixes.isNotEmpty()) {
                     conditions.add(CourseScheduleTable.courseRaccourciId.upperCase() inList raccourciPrefixes)
                 }
-                
                 conditions.reduce { acc, op -> acc or op }
             }
             .orderBy(CourseScheduleTable.date to SortOrder.ASC)

@@ -121,18 +121,20 @@ fun StudentCourseCalendar(
         filteredCourses
             .groupBy { it.date }
             .mapValues { entry ->
-                entry.value.map { course ->
-                    buildString {
-                        append("${course.courseName} (${course.courseCode})")
-                        append(" - ${course.startTime}-${course.endTime}")
-                        if (course.teachers.isNotEmpty()) {
-                            append(" Prof: ${course.teachers.joinToString()}")
-                        }
-                        if (course.rooms.isNotEmpty()) {
-                            append(" Salle: ${course.rooms.joinToString()}")
+                entry.value
+                    .sortedBy { parseTimeToMinutes(it.startTime) } // 🔥 Tri numérique par minutes
+                    .map { course ->
+                        buildString {
+                            append("${course.courseName} (${course.courseCode})")
+                            append(" - ${course.startTime}-${course.endTime}")
+                            if (course.teachers.isNotEmpty()) {
+                                append(" Prof: ${course.teachers.joinToString()}")
+                            }
+                            if (course.rooms.isNotEmpty()) {
+                                append(" Salle: ${course.rooms.joinToString()}")
+                            }
                         }
                     }
-                }
             }
     }
 
@@ -208,5 +210,20 @@ fun StudentCourseCalendar(
                 authToken = authToken
             )
         }
+    }
+}
+
+/**
+ * Convertit une heure au format "HH:MM" ou "H:MM" en nombre de minutes depuis minuit.
+ * Retourne Int.MAX_VALUE si le parsing échoue (pour mettre les entrées invalides à la fin).
+ */
+private fun parseTimeToMinutes(time: String): Int {
+    return try {
+        val parts = time.replace("h", ":").split(":")
+        val hours = parts.getOrNull(0)?.trim()?.toIntOrNull() ?: return Int.MAX_VALUE
+        val minutes = parts.getOrNull(1)?.trim()?.toIntOrNull() ?: 0
+        hours * 60 + minutes
+    } catch (e: Exception) {
+        Int.MAX_VALUE
     }
 }

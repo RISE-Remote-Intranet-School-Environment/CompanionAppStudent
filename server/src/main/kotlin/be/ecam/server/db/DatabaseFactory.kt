@@ -36,6 +36,8 @@ object DatabaseFactory {
                 StudentsTable,
                 ProfessorsTable,
 
+                UserCoursesTable,
+
                 FormationsTable,
                 BlocsTable,
                 YearsTable,

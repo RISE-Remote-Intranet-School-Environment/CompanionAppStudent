@@ -23,14 +23,15 @@ fun Route.courseScheduleRoutes() {
         get("my-schedule") {
             val principal = call.principal<JWTPrincipal>()
             val email = principal?.payload?.getClaim("email")?.asString()
+            val userId = principal?.payload?.getClaim("id")?.asInt() // 🔥 AJOUTER
 
             if (email.isNullOrBlank()) {
                 println("❌ my-schedule: email manquant dans le token JWT")
                 return@get call.respond(HttpStatusCode.Unauthorized, mapOf("error" to "Email missing in token"))
             }
 
-            println("📅 Fetching personal schedule for: $email")
-            val schedules = CourseScheduleService.getScheduleForStudent(email)
+            println("📅 Fetching personal schedule for: $email (userId=$userId)")
+            val schedules = CourseScheduleService.getScheduleForStudent(email, userId) // 🔥 MODIFIER
             
             println("📅 Found ${schedules.size} events for $email")
             call.respond(schedules)
