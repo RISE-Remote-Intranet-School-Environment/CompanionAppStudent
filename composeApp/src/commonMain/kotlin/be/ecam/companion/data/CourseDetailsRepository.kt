@@ -4,6 +4,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.header
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -11,6 +12,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
 class CourseDetailsRepository(
     private val client: HttpClient,
@@ -18,6 +20,7 @@ class CourseDetailsRepository(
     private val authTokenProvider: () -> String? = { null }
     ) {
 
+    private val json = Json { ignoreUnknownKeys = true; isLenient = true }
     private val mutex = Mutex()
     private var cachedBaseUrl: String? = null
     private var cached: List<CourseDetail>? = null
@@ -231,9 +234,12 @@ class CourseDetailsRepository(
         baseUrl: String,
         token: String?,
         path: String
-    ): T = client.get("$baseUrl$path") {
-        token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
-    }.body()
+    ): T {
+        val responseText = client.get("$baseUrl$path") {
+            token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+        }.bodyAsText()
+        return json.decodeFromString(responseText)
+    }
 }
 
 @Serializable

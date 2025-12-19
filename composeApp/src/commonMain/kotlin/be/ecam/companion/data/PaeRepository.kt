@@ -4,6 +4,8 @@ import be.ecam.companion.ui.screens.loadPaeFromServer
 import be.ecam.companion.data.defaultServerBaseUrl
 import be.ecam.companion.utils.loadToken
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -61,7 +63,11 @@ data class PaeComponent(
 )
 
 object PaeRepository {
-    private val httpClient = HttpClient()
+    private val httpClient = HttpClient {
+        install(ContentNegotiation) {
+            json()
+        }
+    }
 
     /**
      * Charge le PAE depuis le serveur (plus de fallback JSON local).

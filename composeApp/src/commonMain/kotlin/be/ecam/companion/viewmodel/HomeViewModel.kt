@@ -11,17 +11,18 @@ import be.ecam.companion.data.CourseDetailsRepository
 import be.ecam.companion.data.PaeCourse
 import be.ecam.companion.data.PaeRepository
 import be.ecam.companion.data.PaeStudent
-import be.ecam.companion.data.defaultServerBaseUrl
+import be.ecam.companion.data.SettingsRepository
+import be.ecam.companion.di.buildBaseUrl
 import be.ecam.companion.utils.loadToken
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
 class HomeViewModel(
-    private val repository: ApiRepository
+    private val repository: ApiRepository,
+    private val settingsRepo: SettingsRepository,
+    private val httpClient: HttpClient
 ) : ViewModel() {
-
-    private val httpClient = HttpClient()
 
     var helloMessage by mutableStateOf("")
         private set
@@ -47,9 +48,10 @@ class HomeViewModel(
     var selectedCourseForResources by mutableStateOf<PaeCourse?>(null)
         private set
 
-    fun load(userIdentifier: AuthUserDTO?) {
-        val baseUrl = defaultServerBaseUrl()
-        val bearer = loadToken()?.trim()?.removeSurrounding("\"")
+    fun load(userIdentifier: AuthUserDTO?, authToken: String? = null) {
+        val baseUrl = buildBaseUrl(settingsRepo.getServerHost(), settingsRepo.getServerPort())
+        val bearer = authToken?.trim()?.removeSurrounding("\"")?.takeIf { it.isNotBlank() }
+            ?: loadToken()?.trim()?.removeSurrounding("\"")
 
         // 1. Hello Message
         viewModelScope.launch {
@@ -82,7 +84,9 @@ class HomeViewModel(
         // 3. PAE (Vos cours)
         viewModelScope.launch {
             try {
+                println("HomeViewModel: loading PAE from $baseUrl with token present=${!bearer.isNullOrBlank()}")
                 val db = PaeRepository.load(baseUrl = baseUrl, token = bearer)
+                println("HomeViewModel: fetched ${db.students.size} students from PAE")
                 val targetStudent = db.students.find { student ->
                     student.username == userIdentifier?.username || student.email == userIdentifier?.email
                 } ?: db.students.firstOrNull()
@@ -92,9 +96,11 @@ class HomeViewModel(
                 val targetRecord = targetStudent?.records?.find { record ->
                     record.academicYearLabel == "2025-2026" || record.catalogYear == "2025-2026"
                 } ?: targetStudent?.records?.firstOrNull()
+                println("HomeViewModel: selected record has ${targetRecord?.courses?.size ?: 0} courses")
                 courses = targetRecord?.courses ?: emptyList()
             } catch (t: Throwable) {
                 lastErrorMessage = t.message ?: "Erreur chargement PAE"
+                println("HomeViewModel: PAE load error ${t.message}")
             }
         }
 
