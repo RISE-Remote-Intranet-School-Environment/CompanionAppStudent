@@ -3,6 +3,7 @@ package be.ecam.companion.ui.components
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import be.ecam.companion.data.CalendarRepository
@@ -20,7 +21,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 import org.koin.compose.koinInject
 
 @Composable
@@ -56,8 +56,10 @@ fun StudentCourseCalendar(
     // Données PAE de l'utilisateur
     var userYearOption by remember { mutableStateOf<String?>(null) }
     var userSeries by remember { mutableStateOf<String?>(null) }
+    // Codes de cours de l'utilisateur (courseRaccourciId)
     var userCourseCodes by remember { mutableStateOf<Set<String>>(emptySet()) }
     var resolvedUser by remember { mutableStateOf(displayName ?: username) }
+    var showOnlyUserCourses by remember { mutableStateOf(true) }
 
     // Charger les données initiales
     LaunchedEffect(baseUrl, bearer) {
@@ -75,11 +77,10 @@ fun StudentCourseCalendar(
                 
                 println("📅 Cours chargés: ${allCourses.size}")
                 println("📅 YearOptions: ${yearOptions.map { it.yearOptionId }}")
-                println("📅 Series: ${seriesNames.map { it.seriesId }}")
+                println("📅 Exemple cours: ${allCourses.take(3).map { "${it.courseCode} -> ${it.sousCourseId}" }}")
             }
         } catch (e: Exception) {
             println("❌ Erreur chargement calendrier: ${e.message}")
-            e.printStackTrace()
         } finally {
             isLoading = false
         }
@@ -93,17 +94,22 @@ fun StudentCourseCalendar(
             val paeStudent = loadPaeStudentFromServer(httpClient, baseUrl, bearer, username)
             if (paeStudent != null) {
                 resolvedUser = paeStudent.studentName.ifBlank { displayName ?: username }
-                userYearOption = paeStudent.program
-                userSeries = null // Peut être extrait du PAE si disponible
-                userCourseCodes = paeStudent.courseIds
+                userYearOption = paeStudent.yearOptionId
+                userSeries = paeStudent.seriesId
+                
+                // Extraire les codes de cours depuis les courseIds du PAE
+                // Les courseIds dans pae_students sont les codes courts (ex: "AS5T", "BC3C")
+                val courseIds = paeStudent.courseIds
                     ?.split(';', ',', '|')
-                    ?.mapNotNull { it.trim().takeIf { it.isNotEmpty() } }
-                    ?.map { it.lowercase() }
+                    ?.mapNotNull { it.trim().uppercase().takeIf { s -> s.isNotEmpty() } }
                     ?.toSet()
                     ?: emptySet()
+                
+                userCourseCodes = courseIds
+                println("📚 PAE user: yearOption=${paeStudent.yearOptionId}, series=${paeStudent.seriesId}, courseCodes=$courseIds")
             }
         } catch (e: Exception) {
-            println("Erreur chargement PAE: ${e.message}")
+            println("❌ Erreur chargement PAE: ${e.message}")
         }
     }
 
@@ -123,17 +129,28 @@ fun StudentCourseCalendar(
     }
 
     // Filtrer les cours selon la sélection
-    val filteredCourses = remember(allCourses, selectedYear, selectedSeries, userCourseCodes) {
+    val filteredCourses = remember(allCourses, selectedYear, selectedSeries, userCourseCodes, userYearOption, showOnlyUserCourses) {
         when {
-            // Si l'utilisateur a un PAE avec des cours spécifiques
-            userCourseCodes.isNotEmpty() -> {
-                allCourses.filter { userCourseCodes.contains(it.courseCode.lowercase()) }
+            // Mode "Mes cours" : filtrer par codes de cours du PAE ET year option de l'utilisateur
+            showOnlyUserCourses && userCourseCodes.isNotEmpty() -> {
+                val filtered = allCourses.filter { course ->
+                    // Le courseRaccourciId doit correspondre à un des codes du PAE
+                    val codeMatch = userCourseCodes.contains(course.courseCode.uppercase())
+                    // Et optionnellement filtrer par yearOption si disponible
+                    val yearMatch = userYearOption == null || course.yearOptionId == userYearOption
+                    codeMatch && yearMatch
+                }
+                println("📅 Filtré par PAE: ${filtered.size} cours (codes: $userCourseCodes, yearOption: $userYearOption)")
+                filtered
             }
-            // Sinon filtrer par year option et series
+            // Mode exploration : filtrer par year option et series
             else -> {
                 allCourses.filter { course ->
-                    (selectedYear == null || course.yearOptionId == selectedYear) &&
-                    (selectedSeries == null || course.series.contains(selectedSeries))
+                    val yearMatch = selectedYear == null || course.yearOptionId == selectedYear
+                    val seriesMatch = selectedSeries == null || 
+                        course.series.isEmpty() || 
+                        course.series.any { it.equals(selectedSeries, ignoreCase = true) }
+                    yearMatch && seriesMatch
                 }
             }
         }
@@ -151,13 +168,6 @@ fun StudentCourseCalendar(
             
             if (fromCourses.isNotEmpty()) fromCourses.sorted()
             else seriesNames.map { it.seriesId }.sorted()
-        }
-    }
-
-    // Auto-sélection de la première série
-    LaunchedEffect(selectedYear, selectedSeries, availableSeriesForYear) {
-        if (selectedYear != null && selectedSeries == null && availableSeriesForYear.isNotEmpty()) {
-            selectedSeries = availableSeriesForYear.first()
         }
     }
 
@@ -183,41 +193,60 @@ fun StudentCourseCalendar(
 
     Column(modifier = modifier.fillMaxSize()) {
         if (isLoading) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = androidx.compose.ui.Alignment.Center) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
         } else {
-            // Bouton pour revenir aux cours de l'utilisateur
+            // Boutons de mode
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                horizontalArrangement = Arrangement.Start
+                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Button(
-                    enabled = userYearOption != null,
-                    onClick = {
-                        selectedYear = userYearOption
-                        selectedSeries = userSeries
+                // Bouton "Mes cours" (actif si l'utilisateur a un PAE)
+                FilterChip(
+                    selected = showOnlyUserCourses && userCourseCodes.isNotEmpty(),
+                    onClick = { showOnlyUserCourses = true },
+                    enabled = userCourseCodes.isNotEmpty(),
+                    label = { 
+                        val label = resolvedUser?.let { "Cours de $it" } ?: "Mes cours"
+                        Text(label) 
                     }
-                ) {
-                    val label = resolvedUser?.let { "Cours de $it" } ?: "Mes cours"
-                    Text(label)
-                }
+                )
+                
+                // Bouton "Explorer"
+                FilterChip(
+                    selected = !showOnlyUserCourses || userCourseCodes.isEmpty(),
+                    onClick = { showOnlyUserCourses = false },
+                    label = { Text("Explorer") }
+                )
             }
 
-            // Barre de filtres
-            CourseFilterBar(
-                yearOptions = yearOptions.map { it.yearOptionId },
-                selectedYear = selectedYear,
-                onYearSelected = {
-                    selectedYear = it
-                    selectedSeries = null
-                },
-                series = availableSeriesForYear,
-                selectedSeries = selectedSeries,
-                onSeriesSelected = { selectedSeries = it }
-            )
+            // Barre de filtres (visible uniquement en mode exploration)
+            if (!showOnlyUserCourses || userCourseCodes.isEmpty()) {
+                CourseFilterBar(
+                    yearOptions = yearOptions.map { it.yearOptionId },
+                    selectedYear = selectedYear,
+                    onYearSelected = {
+                        selectedYear = it
+                        selectedSeries = null
+                    },
+                    series = availableSeriesForYear,
+                    selectedSeries = selectedSeries,
+                    onSeriesSelected = { selectedSeries = it }
+                )
+            }
+
+            // Info sur le filtrage actuel
+            if (showOnlyUserCourses && userCourseCodes.isNotEmpty()) {
+                Text(
+                    text = "Affichage de ${filteredCourses.size} séances pour ${userCourseCodes.size} cours de votre PAE",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                )
+            }
 
             // Calendrier
             CalendarScreen(
@@ -233,10 +262,11 @@ fun StudentCourseCalendar(
 @Serializable
 private data class PaeStudentDto(
     val id: Int,
-    val studentId: Int,
-    val studentName: String,
-    val email: String,
-    val program: String? = null,
+    val studentId: Int? = null,
+    val studentName: String = "",
+    val email: String = "",
+    val yearOptionId: String? = null,
+    val seriesId: String? = null,
     val courseIds: String? = null
 )
 
@@ -249,16 +279,30 @@ private suspend fun loadPaeStudentFromServer(
     if (userIdentifier.isNullOrBlank()) return null
     
     return try {
-        val response = client.get("$baseUrl/api/pae-students/by-name/$userIdentifier") {
-            token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+        // Essayer par email d'abord, puis par nom
+        val endpoints = listOf(
+            "$baseUrl/api/pae-students/by-email/$userIdentifier",
+            "$baseUrl/api/pae-students/by-name/$userIdentifier"
+        )
+        
+        for (endpoint in endpoints) {
+            try {
+                println("🔍 Essai chargement PAE: $endpoint")
+                val response = client.get(endpoint) {
+                    token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+                }
+                if (response.status.value in 200..299) {
+                    val pae = response.body<PaeStudentDto>()
+                    println("✅ PAE trouvé: yearOption=${pae.yearOptionId}, courses=${pae.courseIds}")
+                    return pae
+                }
+            } catch (e: Exception) {
+                println("⚠️ Endpoint $endpoint: ${e.message}")
+            }
         }
-        if (response.status.value in 200..299) {
-            response.body<PaeStudentDto>()
-        } else {
-            null
-        }
+        null
     } catch (e: Exception) {
-        println("Erreur loadPaeStudent: ${e.message}")
+        println("❌ Erreur loadPaeStudent: ${e.message}")
         null
     }
 }

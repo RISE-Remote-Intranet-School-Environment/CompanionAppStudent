@@ -202,15 +202,37 @@ data class CourseScheduleDto(
             return null
         }
         
-        val seriesList = seriesJson?.let {
-            try { json.decodeFromString<List<String>>(it) } catch (e: Exception) { emptyList() }
+        // Parse seriesJson - peut être un JSON array ou une chaîne séparée par virgules
+        val seriesList = seriesJson?.let { raw ->
+            val trimmed = raw.trim()
+            when {
+                trimmed.startsWith("[") -> {
+                    // C'est un JSON array
+                    try { json.decodeFromString<List<String>>(trimmed) } catch (e: Exception) { emptyList() }
+                }
+                trimmed.isNotBlank() -> {
+                    // C'est une chaîne séparée par virgules (ex: "8a,8b")
+                    trimmed.split(",").map { it.trim() }.filter { it.isNotEmpty() }
+                }
+                else -> emptyList()
+            }
         } ?: emptyList()
         
-        val teachersList = teachersJson?.let {
-            try { json.decodeFromString<List<String>>(it) } catch (e: Exception) { emptyList() }
+        // Parse teachersJson - même logique
+        val teachersList = teachersJson?.let { raw ->
+            val trimmed = raw.trim()
+            when {
+                trimmed.startsWith("[") -> {
+                    try { json.decodeFromString<List<String>>(trimmed) } catch (e: Exception) { emptyList() }
+                }
+                trimmed.isNotBlank() -> {
+                    trimmed.split(",").map { it.trim() }.filter { it.isNotEmpty() }
+                }
+                else -> emptyList()
+            }
         } ?: emptyList()
         
-        val roomsList = roomIds?.split(",")?.map { it.trim() } ?: emptyList()
+        val roomsList = roomIds?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
         
         return CourseScheduleEvent(
             id = id,
