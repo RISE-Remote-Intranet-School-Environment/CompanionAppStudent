@@ -122,7 +122,16 @@ object AuthService {
                 it[UsersTable.avatarUrl] = avatarUrl
             }.value
 
-            AuthUserDTO(newId, finalUsername, email.lowercase(), UserRole.STUDENT, avatarUrl = null, firstName = firstName, lastName = lastName)
+            // 🔥 CORRECTION : Passer avatarUrl au lieu de null !
+            AuthUserDTO(
+                id = newId,
+                username = finalUsername,
+                email = email.lowercase(),
+                role = UserRole.STUDENT,
+                avatarUrl = avatarUrl,  // 🔥 ICI était le bug : avatarUrl = null
+                firstName = firstName,
+                lastName = lastName
+            )
         }
 
         generateAuthResponse(userDto, "Connexion Microsoft OK")
