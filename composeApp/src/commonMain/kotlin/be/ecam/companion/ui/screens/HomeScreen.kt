@@ -92,16 +92,17 @@ fun HomeScreen(
                 )
 
             } else {
-                // 🎯 ÉCRAN RESSOURCES
+                // ÉCRAN RESSOURCES
                 CoursesResourcesScreen(
                     courseCode = selectedCourse.code ?: "",
                     courseTitle = selectedCourse.title ?: "",
-                    onBack = { vm.closeCourseResources() }
+                    onBack = { vm.closeCourseResources() },
+                    authToken = loginViewModel.jwtToken
                 )
             }
         }
 
-        // 🎯 BOTTOM BAR
+        // BOTTOM BAR
         BottomBar(
             selected = selectedBottomItem,
             onSelect = { item ->

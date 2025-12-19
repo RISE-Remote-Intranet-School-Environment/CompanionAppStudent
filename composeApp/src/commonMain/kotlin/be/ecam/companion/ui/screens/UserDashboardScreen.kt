@@ -206,8 +206,12 @@ fun UserDashboardScreen(loginViewModel: LoginViewModel, modifier: Modifier = Mod
                 Spacer(Modifier.width(16.dp))
 
                 Column {
+                    val displayName = listOfNotNull(user.firstName, user.lastName)
+                        .filter { it.isNotBlank() }
+                        .joinToString(" ")
+                        .ifBlank { user.username }
                     Text(
-                        "Bonjour, ${data.studentDisplayName}",
+                        "Bonjour, $displayName",
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold
                     )

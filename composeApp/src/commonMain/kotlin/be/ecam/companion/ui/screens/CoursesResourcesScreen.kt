@@ -41,12 +41,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.produceState
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -57,20 +52,33 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import be.ecam.common.api.CourseResource
-import be.ecam.common.api.CourseResourceRepository
+import be.ecam.companion.data.CourseResourceRepository
+import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.data.CourseDetail
+import be.ecam.companion.di.buildBaseUrl
 import be.ecam.companion.ui.CourseRef
 import be.ecam.companion.ui.CoursesFicheScreen
 import be.ecam.companion.ui.rememberCoursesDetails
+import io.ktor.client.HttpClient
+import org.koin.compose.koinInject
 
 @Composable
 fun CoursesResourcesScreen(
     courseCode: String,
     courseTitle: String,
     onBack: () -> Unit,
-    repository: CourseResourceRepository = CourseResourceRepository(),
     authToken: String? = null
 ) {
+    val httpClient = koinInject<HttpClient>()
+    val settingsRepo = koinInject<SettingsRepository>()
+    val host by settingsRepo.serverHostFlow.collectAsState(settingsRepo.getServerHost())
+    val port by settingsRepo.serverPortFlow.collectAsState(settingsRepo.getServerPort())
+    val baseUrl = buildBaseUrl(host, port)
+    val repository = remember(httpClient, baseUrl) {
+        CourseResourceRepository(httpClient) { baseUrl }
+    }
+    val bearer = authToken?.trim()?.removeSurrounding("\"")?.takeIf { it.isNotBlank() }
+
     var showFullFiche by remember { mutableStateOf(false) }
     if (showFullFiche) {
         CoursesFicheScreen(
@@ -81,8 +89,8 @@ fun CoursesResourcesScreen(
         return
     }
 
-    val resources by produceState(initialValue = emptyList<CourseResource>(), courseCode) {
-        value = repository.getResourcesForCourse(courseCode)
+    val resources by produceState(initialValue = emptyList<CourseResource>(), courseCode, baseUrl, bearer) {
+        value = repository.getResourcesForCourse(courseCode, bearer)
     }
     val grouped = remember(resources) { resources.groupBy { it.type.lowercase() } }
     val uri = LocalUriHandler.current
