@@ -15,15 +15,15 @@ object NotesStudentsTable : IntIdTable("notes_students") {
     val courseEcts = double("course_ects")
     val coursePeriod = varchar("course_period", 50)
     val courseId1 = varchar("course_id_1", 50).nullable()
-    val courseSessionJan = double("course_session_jan").nullable()
-    val courseSessionJun = double("course_session_jun").nullable()
-    val courseSessionSep = double("course_session_sep").nullable()
+    val courseSessionJan = varchar("course_session_jan", 20).nullable()
+    val courseSessionJun = varchar("course_session_jun", 20).nullable()
+    val courseSessionSep = varchar("course_session_sep", 20).nullable()
     val componentCode = varchar("component_code", 50).nullable()
     val componentTitle = varchar("component_title", 255).nullable()
     val componentWeight = double("component_weight").nullable()
-    val componentSessionJan = double("component_session_jan").nullable()
-    val componentSessionJun = double("component_session_jun").nullable()
-    val componentSessionSep = double("component_session_sep").nullable()
+    val componentSessionJan = varchar("component_session_jan", 20).nullable()
+    val componentSessionJun = varchar("component_session_jun", 20).nullable()
+    val componentSessionSep = varchar("component_session_sep", 20).nullable()
 }
 
 // DTO pour exposer les notes des étudiants au front
@@ -39,15 +39,15 @@ data class NotesStudentDTO(
     val courseEcts: Double,
     val coursePeriod: String,
     val courseId1: String?,
-    val courseSessionJan: Double?,
-    val courseSessionJun: Double?,
-    val courseSessionSep: Double?,
+    val courseSessionJan: String?,
+    val courseSessionJun: String?,
+    val courseSessionSep: String?,
     val componentCode: String?,
     val componentTitle: String?,
     val componentWeight: Double?,
-    val componentSessionJan: Double?,
-    val componentSessionJun: Double?,
-    val componentSessionSep: Double?
+    val componentSessionJan: String?,
+    val componentSessionJun: String?,
+    val componentSessionSep: String?
 )
 
 // mapper ResultRow -> DTO
@@ -85,13 +85,13 @@ data class NotesStudentWriteRequest(
     val courseEcts: Double,
     val coursePeriod: String,
     val courseId1: String? = null,
-    val courseSessionJan: Double? = null,
-    val courseSessionJun: Double? = null,
-    val courseSessionSep: Double? = null,
+    val courseSessionJan: String? = null,
+    val courseSessionJun: String? = null,
+    val courseSessionSep: String? = null,
     val componentCode: String? = null,
     val componentTitle: String? = null,
     val componentWeight: Double? = null,
-    val componentSessionJan: Double? = null,
-    val componentSessionJun: Double? = null,
-    val componentSessionSep: Double? = null
+    val componentSessionJan: String? = null,
+    val componentSessionJun: String? = null,
+    val componentSessionSep: String? = null
 )
