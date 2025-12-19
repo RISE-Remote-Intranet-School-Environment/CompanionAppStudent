@@ -72,10 +72,25 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
+import io.ktor.http.isSuccess
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.koin.compose.koinInject
+
+@Serializable
+private data class MyCoursesResponse(val courses: List<String>)
+
+// 🔥 NOUVEAU : DTO pour les détails de cours du catalogue
+@Serializable
+private data class CourseDetailDto(
+    val id: Int? = null,
+    @SerialName("courseId") val courseId: String,
+    @SerialName("courseRaccourciId") val courseRaccourciId: String? = null,
+    val title: String? = null,
+    val credits: Int? = null,
+    val periods: String? = null
+)
 
 private const val COURSE_WEIGHT = 2f
 private val ECTS_CELL_WIDTH = 60.dp
@@ -89,7 +104,6 @@ fun MonPaeScreen(
     authToken: String? = null,
     onContextChange: (String?) -> Unit = {}
 ) {
-    // Ensure we use the settings-provided server (host/port)
     val settingsRepo = koinInject<SettingsRepository>()
     val httpClient = koinInject<HttpClient>()
     val host = settingsRepo.getServerHost()
@@ -98,11 +112,45 @@ fun MonPaeScreen(
     val detailScrollState = rememberScrollState()
     var loadError by remember { mutableStateOf<String?>(null) }
 
+    // 🔥 Charger les cours sélectionnés manuellement
+    var userSelectedCourses by remember { mutableStateOf<List<String>>(emptyList()) }
+    
+    // 🔥 NOUVEAU : Catalogue de cours pour enrichir les infos
+    var courseCatalog by remember { mutableStateOf<Map<String, CourseDetailDto>>(emptyMap()) }
 
     val paeDatabase by produceState<PaeDatabase?>(initialValue = null) {
         loadError = null
         value = try {
             val baseUrl = buildBaseUrl(host, port)
+            
+            // 🔥 Charger le catalogue de cours
+            try {
+                val catalogResponse = httpClient.get("$baseUrl/api/courses") {
+                    token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+                    header(HttpHeaders.Accept, "application/json")
+                }
+                if (catalogResponse.status.isSuccess()) {
+                    val courses: List<CourseDetailDto> = catalogResponse.body()
+                    courseCatalog = courses.associateBy { it.courseId.lowercase() }
+                }
+            } catch (e: Exception) {
+                println("Erreur chargement catalogue: ${e.message}")
+            }
+            
+            // Charger les cours sélectionnés manuellement
+            try {
+                val response = httpClient.get("$baseUrl/api/my-courses") {
+                    token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+                    header(HttpHeaders.Accept, "application/json")
+                }
+                if (response.status.isSuccess()) {
+                    val body: MyCoursesResponse = response.body()
+                    userSelectedCourses = body.courses
+                }
+            } catch (e: Exception) {
+                println("Erreur chargement cours sélectionnés: ${e.message}")
+            }
+            
             loadPaeFromServer(
                 client = httpClient,
                 baseUrl = baseUrl,
@@ -113,11 +161,12 @@ fun MonPaeScreen(
             null
         }
     }
-val students = paeDatabase?.students.orEmpty()
+
+    val students = paeDatabase?.students.orEmpty()
 
     var selectedStudentId by remember { mutableStateOf<String?>(null) }
 
-    // Initialisation de la sélection (inchangé)
+    // Initialisation de la sélection
     LaunchedEffect(students, userIdentifier) {
         val matchingStudents = students.filter {
             it.email.equals(userIdentifier, ignoreCase = true) ||
@@ -125,84 +174,174 @@ val students = paeDatabase?.students.orEmpty()
         }
 
         if (matchingStudents.isNotEmpty()) {
-            // On prend l'ID du premier, mais la logique d'affichage ci-dessous utilisera l'email pour regrouper
             selectedStudentId = matchingStudents.first().studentId ?: matchingStudents.first().username
-        } else if (selectedStudentId == null && students.isNotEmpty()) {
-            selectedStudentId = students.first().studentId ?: students.first().username
+        } else {
+            selectedStudentId = "NO_PAE_FOUND"
         }
     }
 
     // 🔥 CORRECTION : Récupérer TOUS les PAE liés à l'étudiant sélectionné (par email)
-    // Au lieu de filtrer juste par ID (qui ne retourne qu'une ligne), on trouve l'email associé à l'ID
-    // et on récupère toutes les entrées avec cet email.
     val targetStudents = remember(students, selectedStudentId, userIdentifier) {
-        // 1. Trouver l'étudiant "principal" correspondant à la sélection
+        if (selectedStudentId == "NO_PAE_FOUND") {
+            return@remember emptyList<PaeStudent>()
+        }
+        
         val primaryMatch = students.firstOrNull { 
             it.studentId == selectedStudentId || it.username == selectedStudentId 
-        } ?: students.firstOrNull { 
-            it.email.equals(userIdentifier, ignoreCase = true) || it.username.equals(userIdentifier, ignoreCase = true)
+        }
+        
+        if (primaryMatch == null) {
+            return@remember emptyList<PaeStudent>()
         }
 
-        // 2. Si trouvé, récupérer TOUTES les entrées qui ont le même email
-        if (primaryMatch != null) {
-            students.filter { it.email.equals(primaryMatch.email, ignoreCase = true) }
+        val targetEmail = primaryMatch.email
+        if (targetEmail.isNullOrBlank()) {
+            listOf(primaryMatch)
         } else {
-            // Fallback (ex: premier chargement ou mode démo)
-            if (students.isNotEmpty()) listOf(students.first()) else emptyList()
+            students.filter { student -> 
+                student.email?.equals(targetEmail, ignoreCase = true) == true 
+            }
         }
     }
 
-    // L'étudiant à afficher (pour le header : nom, email...) - on prend le premier de la liste fusionnée
     val selectedStudent = targetStudents.firstOrNull()
 
-    // 🔥 FUSION : On combine les records de toutes les entrées trouvées
     val sortedRecords = remember(targetStudents) {
         targetStudents
             .flatMap { it.records }
-            .distinctBy { "${it.academicYearLabel}-${it.program}-${it.block}" } // Éviter doublons exacts
+            .distinctBy { it.catalogYear ?: it.academicYearLabel }
             .sortedByDescending { it.catalogYear ?: it.academicYearLabel ?: "" }
     }
-    
+
     var selectedCatalogYear by remember { mutableStateOf<String?>(null) }
 
-    // Sélection automatique de l'année la plus récente si rien n'est sélectionné
     LaunchedEffect(sortedRecords) {
         if (selectedCatalogYear == null && sortedRecords.isNotEmpty()) {
             selectedCatalogYear = sortedRecords.first().catalogYear ?: sortedRecords.first().academicYearLabel
         }
     }
-    
-    val selectedRecord = sortedRecords.firstOrNull { it.catalogYear == selectedCatalogYear || it.academicYearLabel == selectedCatalogYear }
+
+    val selectedRecord = sortedRecords.firstOrNull { 
+        it.catalogYear == selectedCatalogYear || it.academicYearLabel == selectedCatalogYear 
+    }
 
     LaunchedEffect(selectedRecord) {
-        onContextChange(selectedRecord?.let { "${it.program} - ${it.block}" })
+        onContextChange(selectedRecord?.catalogYear ?: selectedRecord?.academicYearLabel)
+    }
+
+    // 🔥 NOUVEAU : Créer un "faux" record PAE à partir des cours sélectionnés
+    val manualPaeRecord: PaeRecord? = remember(userSelectedCourses, courseCatalog) {
+        if (userSelectedCourses.isEmpty()) return@remember null
+        
+        val manualCourses = userSelectedCourses.map { courseCode ->
+            val catalogInfo = courseCatalog[courseCode.lowercase()]
+            PaeCourse(
+                code = courseCode,
+                title = catalogInfo?.title ?: courseCode,
+                ects = catalogInfo?.credits,
+                sessions = PaeSessions()
+            )
+        }
+        
+        PaeRecord(
+            catalogYear = "2024-2025", // Année courante
+            academicYearLabel = "Sélection manuelle",
+            program = "Cours sélectionnés",
+            formationSlug = null,
+            block = "Personnel",
+            courses = manualCourses
+        )
+    }
+
+    // 🔥 NOUVEAU : Créer un "faux" étudiant pour l'affichage
+    val manualStudent: PaeStudent? = remember(userIdentifier, manualPaeRecord) {
+        if (manualPaeRecord == null) return@remember null
+        
+        PaeStudent(
+            studentId = "manual",
+            username = userIdentifier.substringBefore("@"),
+            email = userIdentifier,
+            records = listOf(manualPaeRecord)
+        )
     }
 
     Surface(modifier = modifier.fillMaxSize()) {
         when {
-            loadError != null -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            loadError != null -> Box(
+                modifier = Modifier.fillMaxSize(), 
+                contentAlignment = Alignment.Center
+            ) {
                 Text(loadError ?: "Erreur inconnue", color = MaterialTheme.colorScheme.error)
             }
-            paeDatabase == null || selectedStudent == null -> Box(
+            
+            paeDatabase == null -> Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
-            ) { CircularProgressIndicator() }
-            else -> {
-                BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-                    val isWide = maxWidth > 920.dp
-                    if (isWide) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(16.dp),
-                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                CircularProgressIndicator()
+            }
+            
+            // 🔥 MODIFIÉ : Si pas de PAE officiel MAIS des cours sélectionnés -> afficher comme un PAE
+            selectedStudentId == "NO_PAE_FOUND" || targetStudents.isEmpty() -> {
+                if (manualStudent != null && manualPaeRecord != null) {
+                    // 🔥 Afficher le PAE manuel avec le même style que le PAE officiel
+                    ManualPaeContent(
+                        student = manualStudent,
+                        record = manualPaeRecord,
+                        scrollState = detailScrollState
+                    )
+                } else {
+                    // Vraiment aucun cours
+                    Box(
+                        modifier = Modifier.fillMaxSize().padding(32.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
+                            Icon(
+                                Icons.Default.School,
+                                contentDescription = null,
+                                modifier = Modifier.size(64.dp),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            
+                            Text(
+                                "Aucun cours trouvé",
+                                style = MaterialTheme.typography.headlineSmall,
+                                fontWeight = FontWeight.Bold
+                            )
+                            
+                            Text(
+                                "Utilisez la page d'accueil pour sélectionner vos cours.",
+                                textAlign = TextAlign.Center,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                }
+            }
+            
+            selectedStudent == null -> Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("Sélectionnez un étudiant pour voir son PAE")
+            }
+            
+            else -> {
+                // PAE officiel existant - code existant...
+                BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+                    val isWide = maxWidth > 800.dp
+                    if (isWide) {
+                        Row(modifier = Modifier.fillMaxSize()) {
                             Column(
                                 modifier = Modifier
-                                    .widthIn(max = 420.dp)
+                                    .width(320.dp)
                                     .fillMaxHeight()
-                                    .verticalScroll(rememberScrollState()),
-                                verticalArrangement = Arrangement.spacedBy(12.dp)
+                                    .padding(16.dp),
+                                verticalArrangement = Arrangement.spacedBy(16.dp)
                             ) {
                                 PaeHeaderCard(selectedStudent)
                                 YearSelector(
@@ -211,35 +350,40 @@ val students = paeDatabase?.students.orEmpty()
                                     onSelect = { selectedCatalogYear = it }
                                 )
                             }
-                            PaeDetailPane(
-                                record = selectedRecord,
-                                student = selectedStudent,
-                                onPrev = {
-                                    val currentIndex = sortedRecords.indexOf(selectedRecord)
-                                    if (currentIndex + 1 in sortedRecords.indices) {
-                                        selectedCatalogYear = sortedRecords[currentIndex + 1].catalogYear
-                                            ?: sortedRecords[currentIndex + 1].academicYearLabel
-                                    }
-                                },
-                                onNext = {
-                                    val currentIndex = sortedRecords.indexOf(selectedRecord)
-                                    if (currentIndex - 1 in sortedRecords.indices) {
-                                        selectedCatalogYear = sortedRecords[currentIndex - 1].catalogYear
-                                            ?: sortedRecords[currentIndex - 1].academicYearLabel
-                                    }
-                                },
+                            Box(
                                 modifier = Modifier
+                                    .weight(1f)
                                     .fillMaxHeight()
                                     .verticalScroll(detailScrollState)
-                            )
+                                    .padding(16.dp)
+                            ) {
+                                PaeDetailPane(
+                                    record = selectedRecord,
+                                    student = selectedStudent,
+                                    onPrev = {
+                                        val idx = sortedRecords.indexOf(selectedRecord)
+                                        if (idx < sortedRecords.lastIndex) {
+                                            selectedCatalogYear = sortedRecords[idx + 1].catalogYear
+                                                ?: sortedRecords[idx + 1].academicYearLabel
+                                        }
+                                    },
+                                    onNext = {
+                                        val idx = sortedRecords.indexOf(selectedRecord)
+                                        if (idx > 0) {
+                                            selectedCatalogYear = sortedRecords[idx - 1].catalogYear
+                                                ?: sortedRecords[idx - 1].academicYearLabel
+                                        }
+                                    }
+                                )
+                            }
                         }
                     } else {
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .verticalScroll(rememberScrollState())
+                                .verticalScroll(detailScrollState)
                                 .padding(16.dp),
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             PaeHeaderCard(selectedStudent)
                             YearSelector(
@@ -251,17 +395,17 @@ val students = paeDatabase?.students.orEmpty()
                                 record = selectedRecord,
                                 student = selectedStudent,
                                 onPrev = {
-                                    val currentIndex = sortedRecords.indexOf(selectedRecord)
-                                    if (currentIndex + 1 in sortedRecords.indices) {
-                                        selectedCatalogYear = sortedRecords[currentIndex + 1].catalogYear
-                                            ?: sortedRecords[currentIndex + 1].academicYearLabel
+                                    val idx = sortedRecords.indexOf(selectedRecord)
+                                    if (idx < sortedRecords.lastIndex) {
+                                        selectedCatalogYear = sortedRecords[idx + 1].catalogYear
+                                            ?: sortedRecords[idx + 1].academicYearLabel
                                     }
                                 },
                                 onNext = {
-                                    val currentIndex = sortedRecords.indexOf(selectedRecord)
-                                    if (currentIndex - 1 in sortedRecords.indices) {
-                                        selectedCatalogYear = sortedRecords[currentIndex - 1].catalogYear
-                                            ?: sortedRecords[currentIndex - 1].academicYearLabel
+                                    val idx = sortedRecords.indexOf(selectedRecord)
+                                    if (idx > 0) {
+                                        selectedCatalogYear = sortedRecords[idx - 1].catalogYear
+                                            ?: sortedRecords[idx - 1].academicYearLabel
                                     }
                                 }
                             )
@@ -269,6 +413,185 @@ val students = paeDatabase?.students.orEmpty()
                     }
                 }
             }
+        }
+    }
+}
+
+// 🔥 NOUVEAU : Composable pour afficher le PAE manuel (même style que l'officiel)
+@Composable
+private fun ManualPaeContent(
+    student: PaeStudent,
+    record: PaeRecord,
+    scrollState: androidx.compose.foundation.ScrollState
+) {
+    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+        val isWide = maxWidth > 800.dp
+        
+        if (isWide) {
+            Row(modifier = Modifier.fillMaxSize()) {
+                Column(
+                    modifier = Modifier
+                        .width(320.dp)
+                        .fillMaxHeight()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    ManualPaeHeaderCard(student)
+                }
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .verticalScroll(scrollState)
+                        .padding(16.dp)
+                ) {
+                    ManualPaeDetailPane(record = record)
+                }
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                ManualPaeHeaderCard(student)
+                ManualPaeDetailPane(record = record)
+            }
+        }
+    }
+}
+
+// 🔥 NOUVEAU : Header card pour PAE manuel
+@Composable
+private fun ManualPaeHeaderCard(student: PaeStudent) {
+    val gradient = Brush.linearGradient(
+        listOf(
+            Color(0xFFFF9800), // Orange pour distinguer du PAE officiel
+            Color(0xFFF57C00)
+        )
+    )
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(18.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .background(gradient)
+                .padding(20.dp)
+        ) {
+            // 🔥 Badge "Non officiel"
+            Surface(
+                color = Color.White.copy(alpha = 0.2f),
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Text(
+                    "PAE NON OFFICIEL",
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            }
+            
+            Spacer(Modifier.height(12.dp))
+            
+            // 🔥 CORRECTION : Utiliser orEmpty() pour éviter les nulls
+            Text(
+                student.username.orEmpty().ifBlank { "Utilisateur" },
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+            
+            // 🔥 CORRECTION : Utiliser orEmpty() pour éviter les nulls
+            Text(
+                student.email.orEmpty().ifBlank { "Email non disponible" },
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.White.copy(alpha = 0.9f)
+            )
+            
+            Spacer(Modifier.height(12.dp))
+            
+            Text(
+                "Cours sélectionnés manuellement",
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.White.copy(alpha = 0.8f)
+            )
+        }
+    }
+}
+
+// 🔥 NOUVEAU : Detail pane pour PAE manuel
+@Composable
+private fun ManualPaeDetailPane(record: PaeRecord) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        // Stats
+        ManualStatsStrip(record)
+        
+        // Table des cours
+        CoursesTable(record.courses)
+    }
+}
+
+// 🔥 NOUVEAU : Stats strip pour PAE manuel
+@Composable
+private fun ManualStatsStrip(record: PaeRecord) {
+    val totalEcts = record.courses.sumOf { it.ects ?: 0 }
+    val courseCount = record.courses.size
+    
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        // 🔥 Utilisation de orEmpty() ou valeurs par défaut pour éviter les null
+        ManualStatCard(
+            title = "Cours",
+            value = courseCount.toString(),
+            modifier = Modifier.weight(1f)
+        )
+        ManualStatCard(
+            title = "ECTS",
+            value = totalEcts.toString(),
+            modifier = Modifier.weight(1f)
+        )
+        ManualStatCard(
+            title = "Type",
+            value = "Manuel",
+            modifier = Modifier.weight(1f)
+        )
+    }
+}
+
+// 🔥 NOUVEAU : Version locale de StatCard pour éviter les conflits de types
+@Composable
+private fun ManualStatCard(title: String, value: String, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = value,
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = title,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+            )
         }
     }
 }

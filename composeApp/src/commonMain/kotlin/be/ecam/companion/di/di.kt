@@ -4,6 +4,7 @@ import be.ecam.companion.data.ApiRepository
 import be.ecam.companion.data.CalendarRepository
 import be.ecam.companion.data.KtorApiRepository
 import be.ecam.companion.data.SettingsRepository
+import be.ecam.companion.data.UserCoursesRepository
 import be.ecam.companion.viewmodel.HomeViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -19,7 +20,6 @@ val appModule = module {
     // Provide Ktor HttpClient
     single {
         platformBuildHttpClient().config {
-            // On installe le plugin JSON sur le client global
             install(ContentNegotiation) {
                 json(appJson)
             }
@@ -34,14 +34,27 @@ val appModule = module {
     } bind ApiRepository::class
 
     // Calendar Repository
-    single {
+    single<CalendarRepository> { // 🔥 CORRECTION : Spécifier le type explicitement
         val repo = get<SettingsRepository>()
         val baseUrlProvider = { buildBaseUrl(repo.getServerHost(), repo.getServerPort()) }
         CalendarRepository(get(), baseUrlProvider)
     }
 
+    // UserCourses Repository
+    single<UserCoursesRepository> { // 🔥 CORRECTION : Séparé du CalendarRepository
+        val repo = get<SettingsRepository>()
+        val baseUrlProvider = { buildBaseUrl(repo.getServerHost(), repo.getServerPort()) }
+        UserCoursesRepository(get(), baseUrlProvider)
+    }
+
     // ViewModels
-    viewModel { HomeViewModel(get<ApiRepository>(), get(), get<HttpClient>()) }
+    viewModel { 
+        HomeViewModel(
+            repository = get<ApiRepository>(), 
+            settingsRepo = get<SettingsRepository>(), 
+            httpClient = get<HttpClient>()
+        ) 
+    }
 }
 
 // Helper to build base URL from host and port (force HTTP scheme)
