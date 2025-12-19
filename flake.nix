@@ -30,32 +30,13 @@
         '';
       };
 
-      # 🔥 NOUVEAU : Construction du WASM avec Gradle standard (pas gradle2nix)
       companion-wasm-pkg = pkgs.stdenv.mkDerivation {
         pname = "companion-wasm";
         version = "0.1.0";
-        src = ./.;
-
-        nativeBuildInputs = with pkgs; [
-          jdk17
-          nodejs_20
-          yarn
-        ];
-
-        # Désactiver le sandbox pour permettre le téléchargement Gradle
-        __noChroot = true;
-
-        buildPhase = ''
-          export GRADLE_USER_HOME=$TMPDIR/.gradle
-          export HOME=$TMPDIR
-
-          # Construire le WASM
-          ./gradlew :composeApp:wasmJsBrowserDistribution --no-daemon --info
-        '';
-
+        src = ./wasm-dist;
         installPhase = ''
           mkdir -p $out/share/www
-          cp -r composeApp/build/dist/wasmJs/productionExecutable/* $out/share/www/
+          cp -r $src/* $out/share/www/
         '';
       };
     in
