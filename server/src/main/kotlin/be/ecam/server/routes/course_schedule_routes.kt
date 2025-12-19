@@ -4,6 +4,8 @@ import be.ecam.server.models.CourseScheduleWriteRequest
 import be.ecam.server.services.CourseScheduleService
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -17,8 +19,26 @@ fun Route.courseScheduleRoutes() {
             call.respond(mapOf("count" to count))
         }
 
+        // 🔥 NOUVEAU: Mon horaire personnel (basé sur le PAE via JWT)
+        get("my-schedule") {
+            val principal = call.principal<JWTPrincipal>()
+            val email = principal?.payload?.getClaim("email")?.asString()
+
+            if (email.isNullOrBlank()) {
+                println("❌ my-schedule: email manquant dans le token JWT")
+                return@get call.respond(HttpStatusCode.Unauthorized, mapOf("error" to "Email missing in token"))
+            }
+
+            println("📅 Fetching personal schedule for: $email")
+            val schedules = CourseScheduleService.getScheduleForStudent(email)
+            
+            println("📅 Found ${schedules.size} events for $email")
+            call.respond(schedules)
+        }
+
         // GET /api/course-schedule?yearOptionId=...&seriesId=...&startDate=...&endDate=...
         get {
+            // ...existing code...
             val yearOptionId = call.request.queryParameters["yearOptionId"]
             val seriesId = call.request.queryParameters["seriesId"]
             val startDate = call.request.queryParameters["startDate"]

@@ -223,6 +223,92 @@ object CourseScheduleService {
     fun delete(id: Int): Boolean = transaction {
         CourseScheduleTable.deleteWhere { CourseScheduleTable.id eq id } > 0
     }
+
+    /**
+     * Récupère l'horaire personnalisé d'un étudiant via son email.
+     * 
+     * Chaîne de liaison:
+     * pae_students.course_ids (ex: "4eial40")
+     *     → sous_course.course_id (ex: "4eial40")
+     *     → sous_course.sous_course_id (ex: "AL4T-T1-2017")
+     *     → course_schedule.sous_course_id (ex: "AL4T-T1-2017")
+     */
+    fun getScheduleForStudent(email: String): List<CourseScheduleDTO> = transaction {
+        // 1. Trouver l'étudiant PAE par email
+        val paeStudent = PaeStudentsTable
+            .selectAll()
+            .where { PaeStudentsTable.email.lowerCase() eq email.lowercase() }
+            .firstOrNull()
+            ?: run {
+                println("⚠️ Aucun PAE trouvé pour email: $email")
+                return@transaction emptyList()
+            }
+
+        // 2. Extraire les IDs de cours du PAE (ex: "4eial40;4eiam40")
+        val rawCourseIds = paeStudent[PaeStudentsTable.courseIds]
+        if (rawCourseIds.isNullOrBlank()) {
+            println("⚠️ PAE trouvé mais course_ids vide pour: $email")
+            return@transaction emptyList()
+        }
+
+        val paeCourseIds = rawCourseIds
+            .split(Regex("[,;|]"))
+            .map { it.trim().lowercase() }
+            .filter { it.isNotEmpty() }
+
+        if (paeCourseIds.isEmpty()) {
+            println("⚠️ Aucun cours parsé depuis course_ids: $rawCourseIds")
+            return@transaction emptyList()
+        }
+
+        println("📚 PAE courses pour $email: $paeCourseIds")
+
+        // 3. Trouver les sous_course_id correspondants via la table sous_course
+        // sous_course.course_id = "4eial40" → sous_course.sous_course_id = "AL4T-T1-2017"
+        val sousCourseIds = SousCoursesTable
+            .selectAll()
+            .where { SousCoursesTable.courseId.lowerCase() inList paeCourseIds }
+            .map { it[SousCoursesTable.sousCourseId] }
+            .distinct()
+
+        println("📚 SousCourse IDs trouvés: $sousCourseIds (${sousCourseIds.size})")
+
+        // 4. Extraire aussi les préfixes (ex: "AL4T" depuis "AL4T-T1-2017") pour matcher course_raccourci_id
+        val raccourciPrefixes = sousCourseIds
+            .mapNotNull { it.split("-").firstOrNull()?.uppercase() }
+            .distinct()
+
+        println("📚 Raccourci prefixes extraits: $raccourciPrefixes")
+
+        // 5. Récupérer les horaires qui matchent
+        if (sousCourseIds.isEmpty() && raccourciPrefixes.isEmpty()) {
+            println("⚠️ Aucune correspondance trouvée pour les cours PAE")
+            return@transaction emptyList()
+        }
+
+        val schedules = CourseScheduleTable
+            .selectAll()
+            .where {
+                val conditions = mutableListOf<Op<Boolean>>()
+                
+                // Match exact sur sous_course_id
+                if (sousCourseIds.isNotEmpty()) {
+                    conditions.add(CourseScheduleTable.sousCourseId inList sousCourseIds)
+                }
+                
+                // Match sur le préfixe raccourci (ex: AL4T)
+                if (raccourciPrefixes.isNotEmpty()) {
+                    conditions.add(CourseScheduleTable.courseRaccourciId.upperCase() inList raccourciPrefixes)
+                }
+                
+                conditions.reduce { acc, op -> acc or op }
+            }
+            .orderBy(CourseScheduleTable.date to SortOrder.ASC)
+            .map { it.toCourseScheduleDTO() }
+
+        println("📅 ${schedules.size} séances trouvées pour $email")
+        schedules
+    }
 }
 
 // Extension pour convertir ResultRow en DTO

@@ -93,6 +93,42 @@ class CalendarRepository(
     }
 
     /**
+     * Récupère l'horaire personnel de l'utilisateur connecté (basé sur son PAE)
+     */
+    suspend fun getMySchedule(token: String?): List<CourseScheduleEvent> {
+        if (token.isNullOrBlank()) {
+            println("⚠️ getMySchedule: token manquant")
+            return emptyList()
+        }
+        
+        return try {
+            val url = "${baseUrlProvider()}/api/course-schedule/my-schedule"
+            println("🔄 GET $url")
+            
+            val response = client.get(url) {
+                header(HttpHeaders.Authorization, "Bearer ${token.trim().removeSurrounding("\"")}")
+                header(HttpHeaders.Accept, "application/json")
+            }
+            
+            println("📥 Response status: ${response.status}")
+            
+            if (response.status.isSuccess()) {
+                val dtos: List<CourseScheduleDto> = response.body()
+                println("📥 Reçu ${dtos.size} cours personnels du serveur")
+                dtos.mapNotNull { it.toCourseScheduleEvent(json) }
+            } else {
+                val body = runCatching { response.body<String>() }.getOrDefault("")
+                println("❌ Erreur my-schedule: ${response.status} - $body")
+                emptyList()
+            }
+        } catch (e: Exception) {
+            println("❌ Exception récupération my-schedule: ${e.message}")
+            e.printStackTrace()
+            emptyList()
+        }
+    }
+
+    /**
      * Récupère les year options disponibles
      */
     suspend fun getYearOptions(token: String?): List<YearOptionDto> {
