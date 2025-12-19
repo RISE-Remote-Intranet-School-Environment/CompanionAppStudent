@@ -216,7 +216,7 @@ object AuthService {
             username = row[UsersTable.username],
             email = row[UsersTable.email],
             role = row[UsersTable.role],
-            avatarUrl = row[UsersTable.avatarUrl],
+            avatarUrl = row[UsersTable.avatarUrl],  // ← Ça devrait fonctionner...
             firstName = row[UsersTable.firstName],
             lastName = row[UsersTable.lastName]
         )
