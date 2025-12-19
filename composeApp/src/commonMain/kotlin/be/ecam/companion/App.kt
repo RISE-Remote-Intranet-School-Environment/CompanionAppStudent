@@ -267,6 +267,7 @@ fun App(
                                     SettingsScreen(
                                         isColorBlindMode = isColorBlindMode,
                                         onColorBlindModeChange = { isColorBlindMode = it },
+                                        bearerToken = loginViewModel.jwtToken?.trim()?.removeSurrounding("\""),
                                         modifier = baseModifier
                                     )
                                 }
