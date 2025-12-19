@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -37,8 +40,10 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
@@ -106,6 +111,22 @@ fun CoursesResourcesScreen(
     val summaryLines = remember(courseDetail, courseTitle) { buildCourseSummary(courseDetail, courseTitle) }
     val tipsLines = remember(courseDetail) { buildStudyTips(courseDetail) }
 
+    val orderedTypes = listOf("pdf", "video", "article", "image", "link")
+    val availableGroups = remember(grouped) {
+        buildList {
+            orderedTypes.forEach { type ->
+                grouped[type]?.takeIf { it.isNotEmpty() }?.let { add(ResourceGroup(type, resourceMeta(type), it)) }
+            }
+            val remainingTypes = grouped.keys
+                .filterNot { it in orderedTypes || it == "announcement" }
+                .sorted()
+            remainingTypes.forEach { type ->
+                grouped[type]?.takeIf { it.isNotEmpty() }?.let { add(ResourceGroup(type, resourceMeta(type), it)) }
+            }
+        }
+    }
+    var selectedType by remember(availableGroups) { mutableStateOf(availableGroups.firstOrNull()?.type) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -151,35 +172,25 @@ fun CoursesResourcesScreen(
                 }
             }
 
-            val orderedTypes = listOf("pdf", "video", "article", "image", "link")
-            orderedTypes.forEach { type ->
-                grouped[type]?.takeIf { it.isNotEmpty() }?.let { list ->
-                    item {
-                        ResourceSection(
-                            title = resourceMeta(type).title,
-                            icon = resourceMeta(type).icon,
-                            accent = resourceMeta(type).color,
-                            resources = list,
-                            uri = uri
-                        )
-                    }
+            if (availableGroups.isNotEmpty()) {
+                item {
+                    ResourceTypeSelector(
+                        groups = availableGroups,
+                        selectedType = selectedType,
+                        onSelect = { selectedType = it }
+                    )
                 }
             }
 
-            val remainingTypes = grouped.keys
-                .filterNot { it in orderedTypes || it == "announcement" }
-                .sorted()
-            remainingTypes.forEach { type ->
-                grouped[type]?.let { list ->
-                    item {
-                        ResourceSection(
-                            title = resourceMeta(type).title,
-                            icon = resourceMeta(type).icon,
-                            accent = resourceMeta(type).color,
-                            resources = list,
-                            uri = uri
-                        )
-                    }
+            availableGroups.firstOrNull { it.type == selectedType }?.let { group ->
+                item {
+                    ResourceSection(
+                        title = group.meta.title,
+                        icon = group.meta.icon,
+                        accent = group.meta.color,
+                        resources = group.resources,
+                        uri = uri
+                    )
                 }
             }
 
@@ -353,6 +364,7 @@ private fun AnnouncementCard(resource: CourseResource, uri: UriHandler) {
 }
 
 @Composable
+@OptIn(ExperimentalLayoutApi::class)
 private fun ResourceSection(
     title: String,
     icon: ImageVector,
@@ -364,21 +376,12 @@ private fun ResourceSection(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(icon, contentDescription = null, tint = accent)
-            Spacer(Modifier.padding(horizontal = 4.dp))
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = accent
-            )
-        }
-        LazyRow(
+        FlowRow(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
-            items(resources) { res ->
+            resources.forEach { res ->
                 ResourceCard(res = res, accent = accent, icon = icon, uri = uri)
             }
         }
@@ -389,62 +392,77 @@ private fun ResourceSection(
 private fun ResourceCard(res: CourseResource, accent: Color, icon: ImageVector, uri: UriHandler) {
     ElevatedCard(
         modifier = Modifier
-            .size(width = 260.dp, height = 120.dp)
+            .size(width = 260.dp, height = 150.dp)
             .clickable { uri.openUri(res.url) },
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(18.dp),
         colors = CardDefaults.elevatedCardColors(
-            containerColor = accent.copy(alpha = 0.08f)
+            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.9f)
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(12.dp),
+                .padding(horizontal = 14.dp, vertical = 12.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = when (res.type.lowercase()) {
-                        "pdf" -> Icons.Filled.Description
-                        "image" -> Icons.Filled.Image
-                        "video" -> Icons.Filled.Movie
-                        "article" -> Icons.AutoMirrored.Filled.Article
-                        "link" -> Icons.Filled.Link
-                        else -> icon
-                    },
-                    contentDescription = null,
-                    tint = accent,
-                    modifier = Modifier.size(28.dp)
-                )
-                Spacer(Modifier.padding(horizontal = 6.dp))
-                Text(
-                    text = res.type.uppercase(),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = accent
-                )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Surface(
+                    color = accent.copy(alpha = 0.14f),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        Icon(
+                            imageVector = when (res.type.lowercase()) {
+                                "pdf" -> Icons.Filled.Description
+                                "image" -> Icons.Filled.Image
+                                "video" -> Icons.Filled.Movie
+                                "article" -> Icons.AutoMirrored.Filled.Article
+                                "link" -> Icons.Filled.Link
+                                else -> icon
+                            },
+                            contentDescription = null,
+                            tint = accent,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Text(
+                            text = res.type.uppercase(),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = accent
+                        )
+                    }
+                }
             }
+
             Text(
                 text = res.title,
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.SemiBold,
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.onSurface
             )
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                HorizontalDivider(
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(1.dp)
-                        .background(accent.copy(alpha = 0.4f))
-                )
-                Text(
-                    text = "Ouvrir",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = accent
+                TextButton(onClick = { uri.openUri(res.url) }) {
+                    Text("Ouvrir", color = accent, style = MaterialTheme.typography.labelMedium)
+                }
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.Article,
+                    contentDescription = null,
+                    tint = accent.copy(alpha = 0.85f)
                 )
             }
         }
@@ -476,6 +494,63 @@ private fun EmptyResourcesCard() {
         }
     }
 }
+
+@Composable
+private fun ResourceTypeSelector(
+    groups: List<ResourceGroup>,
+    selectedType: String?,
+    onSelect: (String) -> Unit
+) {
+    Text(
+        text = "Ressources par type",
+        style = MaterialTheme.typography.titleMedium,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(bottom = 8.dp)
+    )
+    LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        items(groups.size) { index ->
+            val group = groups[index]
+            val isSelected = group.type == selectedType
+            val baseColor = group.meta.color
+            val bgColor = if (isSelected) baseColor.copy(alpha = 0.30f) else baseColor.copy(alpha = 0.14f)
+            val textColor = MaterialTheme.colorScheme.onSurface
+            Surface(
+                color = bgColor,
+                shape = RoundedCornerShape(14.dp),
+                tonalElevation = 0.dp,
+                shadowElevation = 0.dp,
+                modifier = Modifier
+                    .clickable { onSelect(group.type) }
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Icon(
+                        imageVector = group.meta.icon,
+                        contentDescription = null,
+                        tint = baseColor
+                    )
+                    Column {
+                        Text(
+                            text = group.meta.title,
+                            style = MaterialTheme.typography.labelLarge,
+                            color = textColor
+                        )
+                        Text(
+                            text = "${group.resources.size} item${if (group.resources.size > 1) "s" else ""}",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = baseColor
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+private data class ResourceGroup(val type: String, val meta: ResourceMeta, val resources: List<CourseResource>)
 
 private data class ResourceMeta(val title: String, val icon: ImageVector, val color: Color)
 
