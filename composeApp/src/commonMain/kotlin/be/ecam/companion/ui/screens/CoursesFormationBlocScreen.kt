@@ -21,8 +21,9 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Assignment
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Construction
 import androidx.compose.material.icons.filled.EmojiObjects
@@ -31,13 +32,12 @@ import androidx.compose.material.icons.filled.HealthAndSafety
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PhoneIphone
-import androidx.compose.material.icons.filled.Science
 import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.Science
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.ViewWeek
 import androidx.compose.material.icons.filled.Work
-import androidx.compose.material.icons.filled.Code
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Card
@@ -324,12 +324,10 @@ private fun BlockDetails(
     modifier: Modifier = Modifier
 ) {
     BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
-        // Explicitly typed list to avoid inference errors
         val courseDetailsState = rememberCoursesDetails(authToken)
         val courseDetails: List<CourseDetail> = courseDetailsState.courses
 
         val teacherByCode = remember(courseDetails) {
-            // Explicitly typing 'detail: CourseDetail' fixes the inference issues
             courseDetails.associate { detail: CourseDetail ->
                 val teacherName = detail.responsable?.takeIf { it.isNotBlank() }
                     ?: detail.organized_activities.firstOrNull()?.teachers?.firstOrNull()
@@ -415,70 +413,155 @@ private fun TableHeader(
             .background(MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp), RoundedCornerShape(12.dp))
             .padding(12.dp)
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Row(
-                modifier = Modifier.weight(1f),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                BlocAvatar(block.name, size = 32.dp, color = accentColor)
-                Column {
-                    Text(
-                        text = blockLabel,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    Text(
-                        text = "$courseCount unité${if (courseCount > 1) "s" else ""} d'enseignement",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-            Surface(
-                shape = RoundedCornerShape(14.dp),
-                color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.4f))
-            ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+        // CORRECTION ICI : Utilisation de BoxWithConstraints pour rendre le layout responsive
+        BoxWithConstraints {
+            // Si la largeur est inférieure à 600dp (Mobile), on empile les éléments
+            if (maxWidth < 600.dp) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    FormationAvatar(program.formation.id, size = 22.dp)
-                    Text(
-                        text = program.title,
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.SemiBold
-                    )
+                    // 1. Infos du Bloc (Titre et nombre d'unités)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        BlocAvatar(block.name, size = 32.dp, color = accentColor)
+                        Column {
+                            Text(
+                                text = blockLabel,
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                            Text(
+                                text = "$courseCount unité${if (courseCount > 1) "s" else ""} d'enseignement",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+
+                    // 2. Ligne avec les Badges (Formation et Calendrier)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // Badge Formation
+                        Surface(
+                            shape = RoundedCornerShape(14.dp),
+                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.4f)),
+                            modifier = Modifier.weight(1f) // Prend de la place pour éviter d'être écrasé
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                FormationAvatar(program.formation.id, size = 22.dp)
+                                Text(
+                                    text = program.title,
+                                    style = MaterialTheme.typography.labelLarge,
+                                    fontWeight = FontWeight.SemiBold,
+                                    maxLines = 1 // Évite le retour à la ligne
+                                )
+                            }
+                        }
+
+                        // Bouton Planning
+                        Surface(
+                            modifier = Modifier
+                                .height(40.dp)
+                                .clickable { onOpenCourseCalendar(inferYearOption(block.name, program.formation.id), null) },
+                            shape = RoundedCornerShape(18.dp),
+                            color = accentColor.copy(alpha = 0.14f),
+                            border = BorderStroke(1.dp, accentColor.copy(alpha = 0.4f))
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 12.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                            ) {
+                                androidx.compose.material3.Icon(
+                                    imageVector = Icons.Filled.ViewWeek,
+                                    contentDescription = null,
+                                    tint = accentColor
+                                )
+                                Text("Planning", style = MaterialTheme.typography.labelLarge)
+                            }
+                        }
+                    }
                 }
-            }
-            Surface(
-                modifier = Modifier
-                    .height(40.dp)
-                    .clickable { onOpenCourseCalendar(inferYearOption(block.name, program.formation.id), null) },
-                shape = RoundedCornerShape(18.dp),
-                color = accentColor.copy(alpha = 0.14f),
-                border = BorderStroke(1.dp, accentColor.copy(alpha = 0.4f))
-            ) {
+            } else {
+                // Version Large (Desktop/Tablette) - Layout original en ligne
                 Row(
-                    modifier = Modifier.padding(horizontal = 12.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    androidx.compose.material3.Icon(
-                        imageVector = Icons.Filled.ViewWeek,
-                        contentDescription = null,
-                        tint = accentColor
-                    )
-                    Text("Voir planning", style = MaterialTheme.typography.labelLarge)
+                    Row(
+                        modifier = Modifier.weight(1f),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        BlocAvatar(block.name, size = 32.dp, color = accentColor)
+                        Column {
+                            Text(
+                                text = blockLabel,
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                            Text(
+                                text = "$courseCount unité${if (courseCount > 1) "s" else ""} d'enseignement",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                    Surface(
+                        shape = RoundedCornerShape(14.dp),
+                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.4f))
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            FormationAvatar(program.formation.id, size = 22.dp)
+                            Text(
+                                text = program.title,
+                                style = MaterialTheme.typography.labelLarge,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                    }
+                    Surface(
+                        modifier = Modifier
+                            .height(40.dp)
+                            .clickable { onOpenCourseCalendar(inferYearOption(block.name, program.formation.id), null) },
+                        shape = RoundedCornerShape(18.dp),
+                        color = accentColor.copy(alpha = 0.14f),
+                        border = BorderStroke(1.dp, accentColor.copy(alpha = 0.4f))
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            androidx.compose.material3.Icon(
+                                imageVector = Icons.Filled.ViewWeek,
+                                contentDescription = null,
+                                tint = accentColor
+                            )
+                            Text("Voir planning", style = MaterialTheme.typography.labelLarge)
+                        }
+                    }
                 }
             }
         }
+
         Spacer(Modifier.height(10.dp))
         Row(
             modifier = Modifier
@@ -566,11 +649,6 @@ private fun CourseRow(
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.SemiBold
             )
-            val periodsLabel = course.periods
-                .map { it.trim() }
-                .filter { it.isNotEmpty() }
-                .ifEmpty { listOf("-") }
-                .joinToString(" - ")
             val metaLine = buildString {
                 append(course.code)
                 val teacher = teacherName?.takeIf { it.isNotBlank() }
