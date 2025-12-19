@@ -30,38 +30,34 @@
         '';
       };
 
-      # 🔥 CORRECTION : Vérifier si le dossier WASM existe, sinon créer un placeholder
-      wasmDistPath = ./composeApp/build/dist/wasmJs/productionExecutable;
-      hasWasmDist = builtins.pathExists wasmDistPath;
+      # 🔥 NOUVEAU : Construction du WASM avec Gradle standard (pas gradle2nix)
+      companion-wasm-pkg = pkgs.stdenv.mkDerivation {
+        pname = "companion-wasm";
+        version = "0.1.0";
+        src = ./.;
 
-      # 🔥 Frontend WASM - Utiliser les fichiers pré-construits OU un placeholder
-      companion-wasm-pkg =
-        if hasWasmDist then
-          pkgs.stdenv.mkDerivation {
-            pname = "companion-wasm";
-            version = "0.1.0";
-            src = wasmDistPath;
-            installPhase = ''
-              mkdir -p $out/share/www
-              cp -r $src/* $out/share/www/
-            '';
-          }
-        else
-          # Placeholder si le WASM n'est pas encore construit
-          pkgs.runCommand "companion-wasm-placeholder" { } ''
-            mkdir -p $out/share/www
-            cat > $out/share/www/index.html << 'EOF'
-            <!DOCTYPE html>
-            <html>
-            <head><title>Companion App - Build Required</title></head>
-            <body style="font-family: sans-serif; text-align: center; padding: 50px;">
-              <h1>🚧 Application en cours de construction</h1>
-              <p>Le frontend WASM n'a pas encore été construit.</p>
-              <p>Exécutez: <code>./gradlew :composeApp:wasmJsBrowserDistribution</code></p>
-            </body>
-            </html>
-            EOF
-          '';
+        nativeBuildInputs = with pkgs; [
+          jdk17
+          nodejs_20
+          yarn
+        ];
+
+        # Désactiver le sandbox pour permettre le téléchargement Gradle
+        __noChroot = true;
+
+        buildPhase = ''
+          export GRADLE_USER_HOME=$TMPDIR/.gradle
+          export HOME=$TMPDIR
+
+          # Construire le WASM
+          ./gradlew :composeApp:wasmJsBrowserDistribution --no-daemon --info
+        '';
+
+        installPhase = ''
+          mkdir -p $out/share/www
+          cp -r composeApp/build/dist/wasmJs/productionExecutable/* $out/share/www/
+        '';
+      };
     in
     {
       packages.${system} = {
