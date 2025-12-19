@@ -1,10 +1,11 @@
 package be.ecam.companion.data
 
-import companion.composeapp.generated.resources.Res
+import be.ecam.companion.ui.screens.loadPaeFromServer
+import be.ecam.companion.data.defaultServerBaseUrl
+import be.ecam.companion.utils.loadToken
+import io.ktor.client.HttpClient
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @Serializable
 data class PaeDatabase(
@@ -60,15 +61,22 @@ data class PaeComponent(
 )
 
 object PaeRepository {
-    private val json = Json { ignoreUnknownKeys = true }
-    private var cache: PaeDatabase? = null
+    private val httpClient = HttpClient()
 
-    @OptIn(ExperimentalResourceApi::class)
-    suspend fun load(): PaeDatabase {
-        cache?.let { return it }
-        val bytes = Res.readBytes("files/pae_student.json")
-        val data = json.decodeFromString<PaeDatabase>(bytes.decodeToString())
-        cache = data
-        return data
+    /**
+     * Charge le PAE depuis le serveur (plus de fallback JSON local).
+     * baseUrl doit être passé par l'appelant (ex: buildBaseUrl(host, port)).
+     */
+    suspend fun load(
+        baseUrl: String = defaultServerBaseUrl(),
+        token: String? = null
+    ): PaeDatabase {
+        val resolvedToken = token?.trim()?.removeSurrounding("\"")?.takeIf { it.isNotBlank() }
+            ?: loadToken()?.trim()?.removeSurrounding("\"")?.takeIf { it.isNotBlank() }
+        return loadPaeFromServer(
+            client = httpClient,
+            baseUrl = baseUrl,
+            token = resolvedToken
+        )
     }
 }

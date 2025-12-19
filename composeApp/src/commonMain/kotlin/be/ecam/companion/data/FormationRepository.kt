@@ -1,10 +1,8 @@
 package be.ecam.companion.data
 
-import companion.composeapp.generated.resources.Res
+import io.ktor.client.HttpClient
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @Serializable
 data class FormationDatabase(
@@ -43,15 +41,20 @@ data class FormationCourse(
 )
 
 object EcamFormationsRepository {
-    private val json = Json { ignoreUnknownKeys = true }
-    private var cache: FormationDatabase? = null
+    private val httpClient = HttpClient()
 
-    @OptIn(ExperimentalResourceApi::class)
-    suspend fun load(): FormationDatabase {
-        cache?.let { return it }
-        val bytes = Res.readBytes("files/ecam_formations_2025.json")
-        val data = json.decodeFromString<FormationDatabase>(bytes.decodeToString())
-        cache = data
-        return data
+    /**
+     * Charge les formations depuis le serveur via FormationCatalogRepository.
+     */
+    suspend fun load(
+        baseUrl: String,
+        token: String? = null
+    ): FormationDatabase {
+        val repo = FormationCatalogRepository(
+            client = httpClient,
+            baseUrlProvider = { baseUrl },
+            authTokenProvider = { token }
+        )
+        return repo.load().database
     }
 }

@@ -6,19 +6,22 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import be.ecam.companion.data.ApiRepository
+import be.ecam.companion.data.CourseDetail
+import be.ecam.companion.data.CourseDetailsRepository
 import be.ecam.companion.data.PaeCourse
 import be.ecam.companion.data.PaeRepository
 import be.ecam.companion.data.PaeStudent
-import be.ecam.companion.data.CourseDetail
-import companion.composeapp.generated.resources.Res
+import be.ecam.companion.data.defaultServerBaseUrl
+import be.ecam.companion.utils.loadToken
+import io.ktor.client.HttpClient
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
-import kotlinx.serialization.json.Json
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 class HomeViewModel(
     private val repository: ApiRepository
 ) : ViewModel() {
+
+    private val httpClient = HttpClient()
 
     var helloMessage by mutableStateOf("")
         private set
@@ -44,8 +47,9 @@ class HomeViewModel(
     var selectedCourseForResources by mutableStateOf<PaeCourse?>(null)
         private set
 
-    @OptIn(ExperimentalResourceApi::class)
     fun load(userIdentifier: AuthUserDTO?) {
+        val baseUrl = defaultServerBaseUrl()
+        val bearer = loadToken()?.trim()?.removeSurrounding("\"")
 
         // 1. Hello Message
         viewModelScope.launch {
@@ -78,7 +82,7 @@ class HomeViewModel(
         // 3. PAE (Vos cours)
         viewModelScope.launch {
             try {
-                val db = PaeRepository.load()
+                val db = PaeRepository.load(baseUrl = baseUrl, token = bearer)
                 val targetStudent = db.students.find { student ->
                     student.username == userIdentifier?.username || student.email == userIdentifier?.email
                 } ?: db.students.firstOrNull()
@@ -87,7 +91,7 @@ class HomeViewModel(
 
                 val targetRecord = targetStudent?.records?.find { record ->
                     record.academicYearLabel == "2025-2026" || record.catalogYear == "2025-2026"
-                }
+                } ?: targetStudent?.records?.firstOrNull()
                 courses = targetRecord?.courses ?: emptyList()
             } catch (t: Throwable) {
                 lastErrorMessage = t.message ?: "Erreur chargement PAE"
@@ -98,9 +102,12 @@ class HomeViewModel(
         viewModelScope.launch {
             if (catalogCourses.isEmpty()) {
                 try {
-                    val bytes = Res.readBytes("files/ecam_courses_details_2025.json")
-                    val json = Json { ignoreUnknownKeys = true; isLenient = true }
-                    catalogCourses = json.decodeFromString(bytes.decodeToString())
+                    val detailsRepo = CourseDetailsRepository(
+                        client = httpClient,
+                        baseUrlProvider = { baseUrl },
+                        authTokenProvider = { bearer }
+                    )
+                    catalogCourses = detailsRepo.loadAll()
                 } catch (e: Exception) {
                     println("Erreur chargement catalogue: ${e.message}")
                 }
