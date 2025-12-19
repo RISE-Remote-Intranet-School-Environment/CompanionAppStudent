@@ -43,13 +43,50 @@ class CourseDetailsRepository(
     private suspend fun fetchFromServer(baseUrl: String): List<CourseDetail> = coroutineScope {
         val token = authTokenProvider()?.trim()?.removeSurrounding("\"")?.takeIf { it.isNotBlank() }
 
-        val coursesDeferred = async { apiGet<List<CourseDto>>(baseUrl, token, "/api/courses") }
-        val detailsDeferred = async { apiGet<List<CourseDetailsDto>>(baseUrl, token, "/api/course-details") }
-        val sousCoursesDeferred = async { apiGet<List<SousCourseDto>>(baseUrl, token, "/api/sous-courses") }
-        val evaluationsDeferred = async { apiGet<List<CourseEvaluationDto>>(baseUrl, token, "/api/course-evaluations") }
-        val professorsDeferred = async { apiGet<List<ProfessorDto>>(baseUrl, token, "/api/professors") }
-        val blocsDeferred = async { apiGet<List<BlocDto>>(baseUrl, token, "/api/blocs") }
-        val formationsDeferred = async { apiGet<List<FormationDto>>(baseUrl, token, "/api/formations") }
+        // 🔥 CORRECTION : On spécifie explicitement le type attendu dans body<...>()
+        // au lieu de passer par une fonction générique helper qui peut perdre le type.
+        
+        val coursesDeferred = async { 
+            client.get("$baseUrl/api/courses") {
+                token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+            }.body<List<CourseDto>>() 
+        }
+        
+        val detailsDeferred = async { 
+            client.get("$baseUrl/api/course-details") {
+                token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+            }.body<List<CourseDetailsDto>>() 
+        }
+        
+        val sousCoursesDeferred = async { 
+            client.get("$baseUrl/api/sous-courses") {
+                token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+            }.body<List<SousCourseDto>>() 
+        }
+        
+        val evaluationsDeferred = async { 
+            client.get("$baseUrl/api/course-evaluations") {
+                token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+            }.body<List<CourseEvaluationDto>>() 
+        }
+        
+        val professorsDeferred = async { 
+            client.get("$baseUrl/api/professors") {
+                token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+            }.body<List<ProfessorDto>>() 
+        }
+        
+        val blocsDeferred = async { 
+            client.get("$baseUrl/api/blocs") {
+                token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+            }.body<List<BlocDto>>() 
+        }
+        
+        val formationsDeferred = async { 
+            client.get("$baseUrl/api/formations") {
+                token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
+            }.body<List<FormationDto>>() 
+        }
 
         val courses = coursesDeferred.await()
         val details = detailsDeferred.await()
@@ -226,14 +263,6 @@ class CourseDetailsRepository(
     }
 
     private fun normalizeCode(value: String): String = value.lowercase().replace(" ", "")
-
-    private suspend inline fun <reified T> apiGet(
-        baseUrl: String,
-        token: String?,
-        path: String
-    ): T = client.get("$baseUrl$path") {
-        token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
-    }.body()
 }
 
 @Serializable

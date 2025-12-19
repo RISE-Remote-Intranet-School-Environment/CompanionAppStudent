@@ -18,10 +18,9 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
 class HomeViewModel(
-    private val repository: ApiRepository
+    private val repository: ApiRepository,
+    private val httpClient: HttpClient
 ) : ViewModel() {
-
-    private val httpClient = HttpClient()
 
     var helloMessage by mutableStateOf("")
         private set
