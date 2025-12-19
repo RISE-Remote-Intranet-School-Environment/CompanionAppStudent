@@ -278,7 +278,7 @@ object CourseScheduleService {
             return@transaction emptyList()
         }
 
-        // 5. Récupérer les horaires SANS DOUBLONS
+        // 5. Récupérer les horaires (Version standard sans déduplication forcée)
         val schedules = CourseScheduleTable
             .selectAll()
             .where {
@@ -295,13 +295,9 @@ object CourseScheduleService {
                 conditions.reduce { acc, op -> acc or op }
             }
             .orderBy(CourseScheduleTable.date to SortOrder.ASC)
-            .distinctBy { it[CourseScheduleTable.id] }  // 🔥 DISTINCT par ID
             .map { it.toCourseScheduleDTO() }
-            .distinctBy { schedule ->  // 🔥 DÉDUPLIQUER aussi par contenu unique
-                "${schedule.date}-${schedule.startTime}-${schedule.endTime}-${schedule.courseRaccourciId}-${schedule.title}"
-            }
 
-        println("📅 ${schedules.size} séances distinctes trouvées pour $email")
+        println("📅 ${schedules.size} séances trouvées pour $email")
         schedules
     }
 }
