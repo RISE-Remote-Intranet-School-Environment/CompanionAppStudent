@@ -113,39 +113,69 @@ fun MonPaeScreen(
             null
         }
     }
-    val students = paeDatabase?.students.orEmpty()
+val students = paeDatabase?.students.orEmpty()
 
     var selectedStudentId by remember { mutableStateOf<String?>(null) }
 
-
+    // Initialisation de la sélection (inchangé)
     LaunchedEffect(students, userIdentifier) {
-        val targetStudent = students.find {
-            it.username == userIdentifier || it.email == userIdentifier
+        val matchingStudents = students.filter {
+            it.email.equals(userIdentifier, ignoreCase = true) ||
+            it.username.equals(userIdentifier, ignoreCase = true)
         }
 
-        if (targetStudent != null) {
-            selectedStudentId = targetStudent.studentId ?: targetStudent.username
+        if (matchingStudents.isNotEmpty()) {
+            // On prend l'ID du premier, mais la logique d'affichage ci-dessous utilisera l'email pour regrouper
+            selectedStudentId = matchingStudents.first().studentId ?: matchingStudents.first().username
         } else if (selectedStudentId == null && students.isNotEmpty()) {
             selectedStudentId = students.first().studentId ?: students.first().username
         }
     }
 
+    // 🔥 CORRECTION : Récupérer TOUS les PAE liés à l'étudiant sélectionné (par email)
+    // Au lieu de filtrer juste par ID (qui ne retourne qu'une ligne), on trouve l'email associé à l'ID
+    // et on récupère toutes les entrées avec cet email.
+    val targetStudents = remember(students, selectedStudentId, userIdentifier) {
+        // 1. Trouver l'étudiant "principal" correspondant à la sélection
+        val primaryMatch = students.firstOrNull { 
+            it.studentId == selectedStudentId || it.username == selectedStudentId 
+        } ?: students.firstOrNull { 
+            it.email.equals(userIdentifier, ignoreCase = true) || it.username.equals(userIdentifier, ignoreCase = true)
+        }
 
-    val selectedStudent = students.firstOrNull { it.studentId == selectedStudentId || it.username == selectedStudentId }
-        ?: students.firstOrNull()
+        // 2. Si trouvé, récupérer TOUTES les entrées qui ont le même email
+        if (primaryMatch != null) {
+            students.filter { it.email.equals(primaryMatch.email, ignoreCase = true) }
+        } else {
+            // Fallback (ex: premier chargement ou mode démo)
+            if (students.isNotEmpty()) listOf(students.first()) else emptyList()
+        }
+    }
 
-    val sortedRecords = selectedStudent?.records?.sortedByDescending { it.catalogYear ?: it.academicYearLabel ?: "" }.orEmpty()
+    // L'étudiant à afficher (pour le header : nom, email...) - on prend le premier de la liste fusionnée
+    val selectedStudent = targetStudents.firstOrNull()
+
+    // 🔥 FUSION : On combine les records de toutes les entrées trouvées
+    val sortedRecords = remember(targetStudents) {
+        targetStudents
+            .flatMap { it.records }
+            .distinctBy { "${it.academicYearLabel}-${it.program}-${it.block}" } // Éviter doublons exacts
+            .sortedByDescending { it.catalogYear ?: it.academicYearLabel ?: "" }
+    }
+    
     var selectedCatalogYear by remember { mutableStateOf<String?>(null) }
 
-    LaunchedEffect(selectedStudent) {
-        selectedCatalogYear = sortedRecords.firstOrNull()?.catalogYear ?: sortedRecords.firstOrNull()?.academicYearLabel
+    // Sélection automatique de l'année la plus récente si rien n'est sélectionné
+    LaunchedEffect(sortedRecords) {
+        if (selectedCatalogYear == null && sortedRecords.isNotEmpty()) {
+            selectedCatalogYear = sortedRecords.first().catalogYear ?: sortedRecords.first().academicYearLabel
+        }
     }
+    
     val selectedRecord = sortedRecords.firstOrNull { it.catalogYear == selectedCatalogYear || it.academicYearLabel == selectedCatalogYear }
-        ?: sortedRecords.firstOrNull()
 
     LaunchedEffect(selectedRecord) {
-        val label = selectedRecord?.catalogYear ?: selectedRecord?.academicYearLabel
-        onContextChange(label?.let { "Mon PAE - $it" } ?: "Mon PAE")
+        onContextChange(selectedRecord?.let { "${it.program} - ${it.block}" })
     }
 
     Surface(modifier = modifier.fillMaxSize()) {
