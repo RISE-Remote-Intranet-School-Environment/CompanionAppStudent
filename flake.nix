@@ -30,21 +30,38 @@
         '';
       };
 
-      # 🔥 Frontend WASM - Fichiers statiques pré-construits
-      # Les fichiers doivent être construits localement avec:
-      # ./gradlew :composeApp:wasmJsBrowserDistribution
-      companion-wasm-pkg = pkgs.stdenv.mkDerivation {
-        pname = "companion-wasm";
-        version = "0.1.0";
+      # 🔥 CORRECTION : Vérifier si le dossier WASM existe, sinon créer un placeholder
+      wasmDistPath = ./composeApp/build/dist/wasmJs/productionExecutable;
+      hasWasmDist = builtins.pathExists wasmDistPath;
 
-        # Copier uniquement le dossier des fichiers WASM construits
-        src = ./composeApp/build/dist/wasmJs/productionExecutable;
-
-        installPhase = ''
-          mkdir -p $out/share/www
-          cp -r $src/* $out/share/www/
-        '';
-      };
+      # 🔥 Frontend WASM - Utiliser les fichiers pré-construits OU un placeholder
+      companion-wasm-pkg =
+        if hasWasmDist then
+          pkgs.stdenv.mkDerivation {
+            pname = "companion-wasm";
+            version = "0.1.0";
+            src = wasmDistPath;
+            installPhase = ''
+              mkdir -p $out/share/www
+              cp -r $src/* $out/share/www/
+            '';
+          }
+        else
+          # Placeholder si le WASM n'est pas encore construit
+          pkgs.runCommand "companion-wasm-placeholder" { } ''
+            mkdir -p $out/share/www
+            cat > $out/share/www/index.html << 'EOF'
+            <!DOCTYPE html>
+            <html>
+            <head><title>Companion App - Build Required</title></head>
+            <body style="font-family: sans-serif; text-align: center; padding: 50px;">
+              <h1>🚧 Application en cours de construction</h1>
+              <p>Le frontend WASM n'a pas encore été construit.</p>
+              <p>Exécutez: <code>./gradlew :composeApp:wasmJsBrowserDistribution</code></p>
+            </body>
+            </html>
+            EOF
+          '';
     in
     {
       packages.${system} = {
@@ -52,10 +69,8 @@
           buildGradlePackage = companion-backend-pkg;
         };
 
-        # 🔥 Paquet WASM séparé
         wasm = companion-wasm-pkg;
 
-        # 🔥 NOUVEAU : Paquet combiné backend + frontend
         full = pkgs.symlinkJoin {
           name = "companion-full";
           paths = [
@@ -68,7 +83,6 @@
         };
       };
 
-      # Module NixOS
       nixosModules.default =
         {
           config,
@@ -126,7 +140,6 @@
           };
 
           config = mkIf cfg.enable {
-            # Utilisateur système
             users.users.${cfg.user} = {
               isSystemUser = true;
               group = cfg.group;
@@ -135,7 +148,6 @@
             };
             users.groups.${cfg.group} = { };
 
-            # Service systemd pour le backend
             systemd.services.companion-backend = {
               description = "Companion App Backend";
               after = [ "network.target" ];
@@ -161,7 +173,6 @@
                 WorkingDirectory = "/var/lib/${cfg.user}";
                 Restart = "always";
 
-                # Hardening
                 NoNewPrivileges = true;
                 ProtectSystem = "strict";
                 ReadWritePaths = [ "/var/lib/${cfg.user}" ];
@@ -172,26 +183,21 @@
               };
             };
 
-            # 🔥 Configuration Nginx pour servir le WASM + proxy API
             services.nginx.virtualHosts.${cfg.domain} = {
               enableACME = true;
               forceSSL = true;
 
-              # Servir les fichiers statiques WASM
               root = "${self.packages.${pkgs.system}.wasm}/share/www";
 
-              # Headers requis pour WASM
               extraConfig = ''
                 add_header Cross-Origin-Opener-Policy "same-origin" always;
                 add_header Cross-Origin-Embedder-Policy "require-corp" always;
               '';
 
               locations = {
-                # SPA fallback pour le frontend
                 "/" = {
                   tryFiles = "$uri $uri/ /index.html";
                   extraConfig = ''
-                    # Cache pour les fichiers statiques
                     location ~* \.(wasm|js|mjs|css|png|jpg|svg|ico)$ {
                       add_header Cache-Control "public, max-age=31536000, immutable";
                       add_header Cross-Origin-Opener-Policy "same-origin" always;
@@ -200,13 +206,11 @@
                   '';
                 };
 
-                # Proxy vers le backend pour les API
                 "/api" = {
                   proxyPass = "http://127.0.0.1:${toString cfg.port}";
                   proxyWebsockets = true;
                 };
 
-                # Route pour les callbacks OAuth
                 "/auth-callback.html" = {
                   proxyPass = "http://127.0.0.1:${toString cfg.port}";
                 };
