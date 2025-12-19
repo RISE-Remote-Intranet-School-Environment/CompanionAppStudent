@@ -98,7 +98,9 @@ fun UserDashboardScreen(loginViewModel: LoginViewModel, modifier: Modifier = Mod
                     baseUrl = baseUrl,
                     token = token
                 )
-            }.getOrElse { null } ?: PaeRepository.load()
+            }.getOrElse {
+                PaeRepository.load(baseUrl = baseUrl, token = token)
+            }
 
             val targetStudent = paeDatabase.students.firstOrNull {
                 it.email.equals(user.email, ignoreCase = true) ||

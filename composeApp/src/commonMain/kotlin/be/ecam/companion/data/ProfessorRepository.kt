@@ -1,6 +1,5 @@
 package be.ecam.companion.data
 
-import companion.composeapp.generated.resources.Res
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -13,7 +12,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @Serializable
@@ -52,16 +50,21 @@ data class ProfessorCourse(
 )
 
 object EcamProfessorsRepository {
-    private val json = Json { ignoreUnknownKeys = true }
-    private var cache: ProfessorDatabase? = null
+    private val httpClient = HttpClient()
 
-    @OptIn(ExperimentalResourceApi::class)
-    suspend fun load(): ProfessorDatabase {
-        cache?.let { return it }
-        val bytes = Res.readBytes("files/ecam_professors_2025.json")
-        val data = json.decodeFromString<ProfessorDatabase>(bytes.decodeToString())
-        cache = data
-        return data
+    /**
+     * Charge les professeurs depuis le serveur via ProfessorCatalogRepository.
+     */
+    suspend fun load(
+        baseUrl: String,
+        token: String? = null
+    ): ProfessorDatabase {
+        val repo = ProfessorCatalogRepository(
+            client = httpClient,
+            baseUrlProvider = { baseUrl },
+            authTokenProvider = { token }
+        )
+        return repo.load().database
     }
 }
 
