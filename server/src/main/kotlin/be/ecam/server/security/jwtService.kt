@@ -16,18 +16,19 @@ object JwtService {
             .withSubject(user.id.toString())
             .withClaim("id", user.id)
             .withClaim("role", user.role.name)
+            .withClaim("email", user.email)  // 🔥 AJOUT DU CLAIM EMAIL
             .withIssuedAt(now)
             .withExpiresAt(Date(now.time + JwtConfig.ACCESS_TOKEN_EXPIRATION))
             .sign(algorithm)
     }
 
     fun generateRefreshToken(user: AuthUserDTO): String {
-        // Le refresh token est opaque ou simple, ici un JWT long pour simplifier la validation
         val now = Date()
         return JWT.create()
             .withIssuer(JwtConfig.issuer)
             .withAudience(JwtConfig.audience)
             .withSubject(user.id.toString())
+            .withClaim("email", user.email)  // 🔥 AJOUT pour cohérence (optionnel)
             .withIssuedAt(now)
             .withExpiresAt(Date(now.time + JwtConfig.REFRESH_TOKEN_EXPIRATION))
             .sign(algorithm)
