@@ -17,17 +17,15 @@ enum class UserRole {
 
 // Table users
 object UsersTable : IntIdTable("users") {
-
-
     val username = varchar("username", 100).uniqueIndex()
     val email = varchar("email", 255).uniqueIndex()
     val passwordHash = varchar("password_hash", 255)
-    val firstName = varchar("first_name", 100)
-    val lastName = varchar("last_name", 100)
-    val role = enumerationByName("role", 20, UserRole::class)
-    val avatarUrl = varchar("avatar_url", 512).nullable() 
-    val professorId = reference("professor_id", ProfessorsTable).nullable()
-    val studentId = reference("student_id", StudentsTable).nullable()
+    val firstName = varchar("first_name", 100).nullable()
+    val lastName = varchar("last_name", 100).nullable()
+    val role = enumerationByName<UserRole>("role", 20).default(UserRole.STUDENT)
+    val avatarUrl = text("avatar_url").nullable()
+    val professorId = integer("professor_id").nullable()
+    val studentId = integer("student_id").nullable()
 }
 
 
