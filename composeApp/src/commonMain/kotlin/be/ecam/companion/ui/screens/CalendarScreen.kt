@@ -8,6 +8,9 @@ import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.CalendarMonth
@@ -22,27 +25,23 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import kotlinx.datetime.*
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.number
+
+// --- IMPORTS CORRIGÉS ---
+import kotlin.time.Clock // Utilise l'horloge standard de Kotlin
+import kotlinx.datetime.* // Utilise la librairie pour LocalDate, TimeZone, etc.
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 const val SLIDE_DURATION_MS = 100
@@ -60,6 +59,7 @@ fun CalendarScreen(
 ) {
     var today by remember {
         mutableStateOf(
+            // Clock.System vient maintenant de kotlin.time.Clock
             Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
         )
     }
@@ -67,17 +67,23 @@ fun CalendarScreen(
     var mode by remember { mutableStateOf(initialMode ?: CalendarMode.Month) }
     var slideDirection by remember { mutableStateOf(0) } // -1 for left (next), +1 for right (prev)
     var dialogDate by remember { mutableStateOf(initialDialogDate) }
+
+    // Assure-toi que cette fonction existe dans ton projet
     val localEventsByDate = rememberCalendarEventsByDate(authToken)
+
     val eventsByDate = remember(localEventsByDate, scheduledByDate) {
         mergeCalendarEvents(localEventsByDate, scheduledByDate)
     }
     val calendarScrollState = rememberScrollState()
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
+
+    // --- CORRECTION DU CRASH IPHONE ---
     LaunchedEffect(dialogDate) {
-        if (dialogDate != null) {
+        if (dialogDate != null && mode == CalendarMode.Week) {
             bringIntoViewRequester.bringIntoView()
         }
     }
+    // ----------------------------------
 
     Column(
         modifier = modifier
@@ -193,6 +199,7 @@ fun CalendarScreen(
                 }
             }
             Spacer(Modifier.height(12.dp))
+
             if (dialogDate != null && mode == CalendarMode.Week) {
                 val items = eventsByDate[dialogDate] ?: emptyList()
                 Box(
@@ -216,9 +223,11 @@ fun CalendarScreen(
             onDismissRequest = { dialogDate = null },
             properties = DialogProperties(dismissOnClickOutside = true, usePlatformDefaultWidth = true)
         ) {
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
                 SelectedDayEvents(
                     date = dialogDate!!,
                     events = items,
@@ -717,7 +726,6 @@ private fun LocalDate.toEuropeanString(): String {
     val month = this.month.number.toString().padStart(2, '0')
     return "$day/$month/${this.year}"
 }
-
 
 @Preview
 @Composable
