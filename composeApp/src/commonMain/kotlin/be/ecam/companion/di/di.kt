@@ -41,7 +41,7 @@ val appModule = module {
     }
 
     // ViewModels
-    viewModel { HomeViewModel(get<ApiRepository>(), get<HttpClient>(), get()) }
+    viewModel { HomeViewModel(get<ApiRepository>(), get(), get<HttpClient>()) }
 }
 
 // Helper to build base URL from host and port (force HTTP scheme)
