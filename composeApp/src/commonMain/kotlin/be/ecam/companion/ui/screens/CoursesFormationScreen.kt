@@ -4,8 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,29 +17,29 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoGraph
-import androidx.compose.material.icons.filled.Timer
-import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Handshake
+import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Science
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -56,10 +58,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import be.ecam.companion.data.Formation
 import be.ecam.companion.data.FormationBlock
@@ -70,13 +72,11 @@ import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.di.buildBaseUrl
 import be.ecam.companion.ui.CourseRef
 import be.ecam.companion.ui.CoursesFicheScreen
-import io.ktor.client.HttpClient
-import org.koin.compose.koinInject
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import io.ktor.client.HttpClient
 import io.ktor.http.Url
+import org.koin.compose.koinInject
 
 @Composable
 fun CoursesFormationScreen(
@@ -196,60 +196,65 @@ fun CoursesFormationScreen(
         } else {
             // ON SÉPARE ICI : LazyColumn pour la liste, Column Scrollable pour les détails
             when (val state = uiState) {
-                // CAS 1 : LA LISTE DES FORMATIONS (Optimisé avec LazyColumn)
+                // CAS 1 : LA LISTE DES FORMATIONS (Optimisé avec LazyColumn + Responsivité)
                 is CoursesState.ProgramList -> {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        // 1. Texte d'intro (le header title est maintenant intégré dedans)
-                        item {
-                            IntroText(database)
-                            
-                            Spacer(Modifier.height(16.dp))
+                    // BoxWithConstraints pour détecter la taille de l'écran
+                    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+                        // Si écran large (> 800dp) -> 3 colonnes, sinon -> 1 colonne (Mobile)
+                        val columnCount = if (maxWidth > 800.dp) 3 else 1
 
-                            if (database == null) {
-                                if (loadError != null) {
-                                    Text(
-                                        text = loadError ?: "Erreur inconnue",
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        color = MaterialTheme.colorScheme.error,
-                                        textAlign = TextAlign.Center
-                                    )
-                                } else {
-                                    CircularProgressIndicator()
-                                }
-                            } else if (programs.isEmpty()) {
-                                Text(
-                                    text = "Aucune formation trouvée.\n",
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier.padding(20.dp)
-                                )
-                            }
-                        }
-
-                        // 2. La Grille des programmes (Rendu optimisé)
-                        if (programs.isNotEmpty()) {
-                            items(programs.chunked(3)) { rowPrograms ->
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                                ) {
-                                    rowPrograms.forEach { program ->
-                                        ProgramCard(
-                                            program = program,
-                                            modifier = Modifier.weight(1f),
-                                            onClick = { selectProgram(program) }
-                                        )
-                                    }
-                                    // Remplissage pour garder l'alignement si la ligne n'est pas pleine
-                                    repeat(3 - rowPrograms.size) {
-                                        Spacer(modifier = Modifier.weight(1f))
-                                    }
-                                }
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            // 1. Texte d'intro
+                            item {
+                                IntroText(database)
                                 Spacer(Modifier.height(16.dp))
+
+                                if (database == null) {
+                                    if (loadError != null) {
+                                        Text(
+                                            text = loadError ?: "Erreur inconnue",
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            color = MaterialTheme.colorScheme.error,
+                                            textAlign = TextAlign.Center
+                                        )
+                                    } else {
+                                        CircularProgressIndicator()
+                                    }
+                                } else if (programs.isEmpty()) {
+                                    Text(
+                                        text = "Aucune formation trouvée.\n",
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.padding(20.dp)
+                                    )
+                                }
+                            }
+
+                            // 2. La Grille des programmes (Adaptative)
+                            if (programs.isNotEmpty()) {
+                                items(programs.chunked(columnCount)) { rowPrograms ->
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                    ) {
+                                        rowPrograms.forEach { program ->
+                                            ProgramCard(
+                                                program = program,
+                                                modifier = Modifier.weight(1f),
+                                                onClick = { selectProgram(program) }
+                                            )
+                                        }
+                                        // Remplissage pour garder l'alignement si la ligne n'est pas pleine
+                                        repeat(columnCount - rowPrograms.size) {
+                                            Spacer(modifier = Modifier.weight(1f))
+                                        }
+                                    }
+                                    Spacer(Modifier.height(16.dp))
+                                }
                             }
                         }
                     }
@@ -264,7 +269,7 @@ fun CoursesFormationScreen(
                             .padding(16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        // Header (identique mais dans une Column classique)
+                        // Header
                         if (uiState !is CoursesState.BlockDetail) {
                             Text(
                                 text = headerTitle,
@@ -318,7 +323,7 @@ fun CoursesFormationScreen(
                                     onOpenCourseCalendar = onOpenCourseCalendar
                                 )
                             }
-                            else -> {} 
+                            else -> {}
                         }
                     }
                 }
@@ -395,15 +400,15 @@ private fun IntroText(database: FormationDatabase?) {
 
                         // Les deux infos côte à côte
                         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        MiniInfoCard(
-                            modifier = Modifier.weight(1f),
-                            icon = Icons.Default.Handshake,
-                            title = "Partenariat ICHEC",
-                            color = MaterialTheme.colorScheme.primary,
-                            content = {
-                                Text(
-                                    text = buildAnnotatedString {
-                                        append("Double diplôme ")
+                            MiniInfoCard(
+                                modifier = Modifier.weight(1f),
+                                icon = Icons.Default.Handshake,
+                                title = "Partenariat ICHEC",
+                                color = MaterialTheme.colorScheme.primary,
+                                content = {
+                                    Text(
+                                        text = buildAnnotatedString {
+                                            append("Double diplôme ")
                                             withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Ingénieur industriel et commercial") }
                                             append(" (6 ans) & Master ")
                                             withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Business Analyst") }
@@ -414,15 +419,15 @@ private fun IntroText(database: FormationDatabase?) {
                                     )
                                 }
                             )
-                        MiniInfoCard(
-                            modifier = Modifier.weight(1f),
-                            icon = Icons.Default.Science,
-                            title = "CERDECAM",
-                            color = MaterialTheme.colorScheme.primary,
-                            content = {
-                                Text(
-                                    text = buildAnnotatedString {
-                                        append("Le Centre de Recherche de l’ECAM, le ")
+                            MiniInfoCard(
+                                modifier = Modifier.weight(1f),
+                                icon = Icons.Default.Science,
+                                title = "CERDECAM",
+                                color = MaterialTheme.colorScheme.primary,
+                                content = {
+                                    Text(
+                                        text = buildAnnotatedString {
+                                            append("Le Centre de Recherche de l’ECAM, le ")
                                             withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("CERDECAM") }
                                             append(" , organise également des Formations Continues.")
                                         },
@@ -473,16 +478,16 @@ private fun IntroText(database: FormationDatabase?) {
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-        MiniInfoCard(
-            modifier = Modifier.fillMaxWidth(),
-            icon = Icons.Default.Handshake,
-            title = "Partenariat ICHEC",
-            color = MaterialTheme.colorScheme.primary,
-            content = {
-                Text(
-                    text = buildAnnotatedString {
-                        append("Double diplôme ")
-                        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Ingénieur industriel et commercial") }
+                        MiniInfoCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            icon = Icons.Default.Handshake,
+                            title = "Partenariat ICHEC",
+                            color = MaterialTheme.colorScheme.primary,
+                            content = {
+                                Text(
+                                    text = buildAnnotatedString {
+                                        append("Double diplôme ")
+                                        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Ingénieur industriel et commercial") }
                                         append(" (6 ans) & Master ")
                                         withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Business Analyst") }
                                         append(" dont le but est d’établir des ponts entre les utilisateurs et les équipes de développement, d’accompagner les projets et de participer à la stratégie IT de l’entreprise.")
@@ -492,15 +497,15 @@ private fun IntroText(database: FormationDatabase?) {
                                 )
                             }
                         )
-        MiniInfoCard(
-            modifier = Modifier.fillMaxWidth(),
-            icon = Icons.Default.Science,
-            title = "CERDECAM",
-            color = MaterialTheme.colorScheme.primary,
-            content = {
-                Text(
-                    text = buildAnnotatedString {
-                        append("Le Centre de Recherche de l’ECAM, le ")
+                        MiniInfoCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            icon = Icons.Default.Science,
+                            title = "CERDECAM",
+                            color = MaterialTheme.colorScheme.primary,
+                            content = {
+                                Text(
+                                    text = buildAnnotatedString {
+                                        append("Le Centre de Recherche de l’ECAM, le ")
                                         withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("CERDECAM") }
                                         append(" , organise également des Formations Continues.")
                                     },
@@ -537,31 +542,6 @@ private fun MiniInfoCard(
             Spacer(Modifier.height(4.dp))
             content()
         }
-    }
-}
-
-@Composable
-private fun ProgramGrid(
-    programs: List<ProgramCardData>,
-    onProgramSelected: (ProgramCardData) -> Unit
-) {
-    programs.chunked(3).forEach { rowPrograms ->
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            rowPrograms.forEach { program ->
-                ProgramCard(
-                    program = program,
-                    modifier = Modifier.weight(1f),
-                    onClick = { onProgramSelected(program) }
-                )
-            }
-            repeat(3 - rowPrograms.size) {
-                Spacer(modifier = Modifier.weight(1f))
-            }
-        }
-        Spacer(Modifier.height(16.dp))
     }
 }
 
@@ -610,14 +590,16 @@ private fun ProgramCard(
 ) {
     val cardHeight = 240.dp
     val imageHeight = 140.dp
+
+    // Modification pour supporter les longs titres: heightIn(min)
     Card(
-        modifier = modifier.height(cardHeight),
+        modifier = modifier.heightIn(min = cardHeight),
         onClick = onClick,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             val imageShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
-            
+
             if (program.imageUrl != null) {
                 KamelImage(
                     resource = { asyncPainterResource(Url(program.imageUrl)) },
@@ -700,7 +682,7 @@ private fun ProgramCard(
                             text = program.title,
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.SemiBold,
-                            maxLines = 2,
+                            maxLines = 3, // Augmenté pour éviter la coupure sur mobile
                             overflow = TextOverflow.Ellipsis
                         )
                         Spacer(Modifier.height(4.dp))
@@ -869,132 +851,6 @@ private fun BlockChip(
         ) {
             BlocAvatar(block.name, color = formationColor)
             Text(block.name, style = MaterialTheme.typography.labelLarge)
-        }
-    }
-}
-
-@Composable
-private fun DashboardHighlights() {
-    BoxWithConstraints(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
-        val isWide = maxWidth > 850.dp // Breakpoint pour passer en mode horizontal
-
-        if (isWide) {
-            // MODE DESKTOP : 3 cartes côte à côte
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalAlignment = Alignment.Top // Important pour aligner les cartes en haut
-            ) {
-                HighlightCard(
-                    modifier = Modifier.weight(1f),
-                    icon = Icons.Default.School,
-                    title = "Master Ingénieur",
-                    accentColor = MaterialTheme.colorScheme.primary,
-                    content = {
-                        Text(
-                            text = "Master en sciences industrielles dans l'une des finalités ci-dessous.",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                )
-                HighlightCard(
-                    modifier = Modifier.weight(1f),
-                    icon = Icons.Default.Handshake,
-                    title = "Double Diplôme",
-                    accentColor = MaterialTheme.colorScheme.tertiary,
-                    content = {
-                        Text(
-                            text = buildAnnotatedString {
-                                append("Partenariat ")
-                                withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("ICHEC") }
-                                append(" : Ingénieur commercial (6 ans) & Master Business Analyst.")
-                            },
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                )
-                HighlightCard(
-                    modifier = Modifier.weight(1f),
-                    icon = Icons.Default.Science,
-                    title = "Recherche & Continue",
-                    accentColor = MaterialTheme.colorScheme.secondary,
-                    content = {
-                        Text(
-                            text = buildAnnotatedString {
-                                append("Le ")
-                                withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("CERDECAM") }
-                                append(" organise également des Formations Continues.")
-                            },
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                )
-            }
-        } else {
-            // MODE MOBILE : Un slider horizontal (LazyRow) ou une colonne compacte
-            // Ici on choisit une colonne compacte mais stylisée pour prendre moins de place visuelle
-            Card(
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
-            ) {
-                Column(modifier = Modifier.padding(12.dp)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Default.School, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
-                        Spacer(Modifier.width(8.dp))
-                        Text("Master en sciences industrielles", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-                    }
-                    Spacer(Modifier.height(4.dp))
-                    Text(
-                        "Incluant double diplôme ICHEC et formations continues via le CERDECAM.",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun HighlightCard(
-    modifier: Modifier = Modifier,
-    icon: ImageVector,
-    title: String,
-    accentColor: Color,
-    content: @Composable () -> Unit
-) {
-    Card(
-        modifier = modifier.heightIn(min = 100.dp), // Hauteur fixe minimale pour uniformité
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
-        ),
-        shape = RoundedCornerShape(12.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(12.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Surface(
-                    color = accentColor.copy(alpha = 0.1f),
-                    shape = RoundedCornerShape(8.dp),
-                    modifier = Modifier.size(32.dp)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(icon, null, tint = accentColor, modifier = Modifier.size(18.dp))
-                    }
-                }
-                Spacer(Modifier.width(10.dp))
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            }
-            content()
         }
     }
 }
