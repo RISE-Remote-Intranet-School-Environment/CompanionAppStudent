@@ -1,5 +1,6 @@
 package be.ecam.server
 
+import be.ecam.server.config.AppConfig
 import be.ecam.server.db.DatabaseFactory
 import be.ecam.server.routes.*
 import be.ecam.server.security.JwtConfig
@@ -43,14 +44,18 @@ fun Application.module() {
 
     // cors
     install(CORS) {
-        // Dev local
+        // Dev local (toujours autorisé)
         allowHost("localhost:8080")
         allowHost("127.0.0.1:8080")
         allowHost("localhost:28088")
         allowHost("127.0.0.1:28088")
         
-        // Production
-        allowHost("clacoxygen.msrl.be", schemes = listOf("https"))
+        // Production : Utiliser le domaine configuré via le flake (AppConfig.baseUrl)
+        val prodDomain = AppConfig.domain
+        if (prodDomain != "localhost") {
+            allowHost(prodDomain, schemes = listOf("https"))
+            allowHost("www.$prodDomain", schemes = listOf("https"))  // Optionnel : sous-domaine
+        }
         
         // Headers et méthodes
         allowHeader(HttpHeaders.ContentType)

@@ -63,8 +63,9 @@ fun buildBaseUrl(host: String, port: Int): String {
         .substringBefore("/")
         .substringBefore(":") 
     
-    // Si c'est le serveur de prod, utiliser HTTPS sans port explicite
-    return if (stripped == "clacoxygen.msrl.be") {
+    val prodDomain = defaultServerBaseUrl().removePrefix("https://").substringBefore(":")
+    
+    return if (stripped == prodDomain) {
         "https://$stripped"
     } else {
         "http://$stripped:$port"
