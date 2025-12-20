@@ -5,6 +5,7 @@ import be.ecam.companion.data.CalendarRepository
 import be.ecam.companion.data.KtorApiRepository
 import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.data.UserCoursesRepository
+import be.ecam.companion.data.defaultServerBaseUrl
 import be.ecam.companion.viewmodel.HomeViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
