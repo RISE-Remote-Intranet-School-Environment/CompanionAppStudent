@@ -68,10 +68,10 @@ fun StudentCourseCalendar(
                 allCourses = coursesDeferred.await()
                 myCourses = myCoursesDeferred.await()
                 
-                println("📚 Tous les cours: ${allCourses.size}, Mes cours: ${myCourses.size}")
+                println("Tous les cours: ${allCourses.size}, Mes cours: ${myCourses.size}")
             }
         } catch (e: Exception) {
-            println("❌ Erreur chargement calendrier: ${e.message}")
+            println(" Erreur chargement calendrier: ${e.message}")
         } finally {
             isLoading = false
         }
@@ -122,7 +122,7 @@ fun StudentCourseCalendar(
             .groupBy { it.date }
             .mapValues { entry ->
                 entry.value
-                    .sortedBy { parseTimeToMinutes(it.startTime) } // 🔥 Tri numérique par minutes
+                    .sortedBy { parseTimeToMinutes(it.startTime) } //  Tri numérique par minutes
                     .map { course ->
                         buildString {
                             append("${course.courseName} (${course.courseCode})")

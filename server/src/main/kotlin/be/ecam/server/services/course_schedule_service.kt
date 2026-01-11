@@ -241,7 +241,7 @@ object CourseScheduleService {
 
         // 2. Si l'utilisateur a des cours sélectionnés, les utiliser
         val paeCourseIds = if (userCourseIds.isNotEmpty()) {
-            println("📚 Utilisation des cours sélectionnés par l'utilisateur ($userId): ${userCourseIds.size} cours")
+            println("Utilisation des cours sélectionnés par l'utilisateur ($userId): ${userCourseIds.size} cours")
             userCourseIds
         } else {
             // 3. Sinon, chercher dans pae_students
@@ -271,7 +271,7 @@ object CourseScheduleService {
             return@transaction emptyList()
         }
 
-        println("📚 Cours pour $email: ${paeCourseIds.size} cours distincts")
+        println("Cours pour $email: ${paeCourseIds.size} cours distincts")
 
         val sousCourseIds = SousCoursesTable
             .selectAll()
@@ -302,7 +302,7 @@ object CourseScheduleService {
             .orderBy(CourseScheduleTable.date to SortOrder.ASC)
             .map { it.toCourseScheduleDTO() }
 
-        println("📅 ${schedules.size} séances trouvées pour $email")
+        println(" ${schedules.size} séances trouvées pour $email")
         schedules
     }
 }

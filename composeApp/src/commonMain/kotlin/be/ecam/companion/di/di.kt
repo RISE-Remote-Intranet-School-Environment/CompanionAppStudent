@@ -35,14 +35,14 @@ val appModule = module {
     } bind ApiRepository::class
 
     // Calendar Repository
-    single<CalendarRepository> { // 🔥 CORRECTION : Spécifier le type explicitement
+    single<CalendarRepository> { //  CORRECTION : Spécifier le type explicitement
         val repo = get<SettingsRepository>()
         val baseUrlProvider = { buildBaseUrl(repo.getServerHost(), repo.getServerPort()) }
         CalendarRepository(get(), baseUrlProvider)
     }
 
     // UserCourses Repository
-    single<UserCoursesRepository> { // 🔥 CORRECTION : Séparé du CalendarRepository
+    single<UserCoursesRepository> { //  CORRECTION : Séparé du CalendarRepository
         val repo = get<SettingsRepository>()
         val baseUrlProvider = { buildBaseUrl(repo.getServerHost(), repo.getServerPort()) }
         UserCoursesRepository(get(), baseUrlProvider)

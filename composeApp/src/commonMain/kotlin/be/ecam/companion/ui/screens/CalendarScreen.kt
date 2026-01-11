@@ -225,7 +225,7 @@ fun CalendarScreen(
         ) {
             Surface(
                 modifier = Modifier
-                    // 🔥 CORRECTION : Augmenter légèrement la largeur
+                    //  CORRECTION : Augmenter légèrement la largeur
                     .widthIn(min = 320.dp, max = 450.dp)
                     .fillMaxWidth(0.92f)
                     .heightIn(max = 500.dp),

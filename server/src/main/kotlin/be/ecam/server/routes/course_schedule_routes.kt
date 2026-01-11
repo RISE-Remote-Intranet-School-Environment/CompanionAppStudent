@@ -19,21 +19,21 @@ fun Route.courseScheduleRoutes() {
             call.respond(mapOf("count" to count))
         }
 
-        // 🔥 NOUVEAU: Mon horaire personnel (basé sur le PAE via JWT)
+        //  NOUVEAU: Mon horaire personnel (basé sur le PAE via JWT)
         get("my-schedule") {
             val principal = call.principal<JWTPrincipal>()
             val email = principal?.payload?.getClaim("email")?.asString()
-            val userId = principal?.payload?.getClaim("id")?.asInt() // 🔥 AJOUTER
+            val userId = principal?.payload?.getClaim("id")?.asInt() //  AJOUTER
 
             if (email.isNullOrBlank()) {
-                println("❌ my-schedule: email manquant dans le token JWT")
+                println(" my-schedule: email manquant dans le token JWT")
                 return@get call.respond(HttpStatusCode.Unauthorized, mapOf("error" to "Email missing in token"))
             }
 
-            println("📅 Fetching personal schedule for: $email (userId=$userId)")
-            val schedules = CourseScheduleService.getScheduleForStudent(email, userId) // 🔥 MODIFIER
+            println(" Fetching personal schedule for: $email (userId=$userId)")
+            val schedules = CourseScheduleService.getScheduleForStudent(email, userId) //  MODIFIER
             
-            println("📅 Found ${schedules.size} events for $email")
+            println(" Found ${schedules.size} events for $email")
             call.respond(schedules)
         }
 
@@ -45,7 +45,7 @@ fun Route.courseScheduleRoutes() {
             val startDate = call.request.queryParameters["startDate"]
             val endDate = call.request.queryParameters["endDate"]
 
-            println("📅 GET /api/course-schedule yearOptionId=$yearOptionId seriesId=$seriesId")
+            println(" GET /api/course-schedule yearOptionId=$yearOptionId seriesId=$seriesId")
 
             val schedules = CourseScheduleService.getAllFiltered(
                 yearOptionId = yearOptionId,
@@ -54,7 +54,7 @@ fun Route.courseScheduleRoutes() {
                 endDate = endDate
             )
             
-            println("📅 Retourne ${schedules.size} cours")
+            println(" Retourne ${schedules.size} cours")
             call.respond(schedules)
         }
 

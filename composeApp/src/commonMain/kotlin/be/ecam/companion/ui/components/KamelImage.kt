@@ -27,7 +27,7 @@ fun RemoteImage(
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Fit
 ) {
-    // 🔥 Support des images base64 (data:image/...)
+    //  Support des images base64 (data:image/...)
     if (url.startsWith("data:image")) {
         Base64Image(
             base64Data = url,

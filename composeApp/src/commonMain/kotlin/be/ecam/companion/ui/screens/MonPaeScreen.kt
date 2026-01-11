@@ -81,7 +81,7 @@ import org.koin.compose.koinInject
 @Serializable
 private data class MyCoursesResponse(val courses: List<String>)
 
-// 🔥 NOUVEAU : DTO pour les détails de cours du catalogue
+//  NOUVEAU : DTO pour les détails de cours du catalogue
 @Serializable
 private data class CourseDetailDto(
     val id: Int? = null,
@@ -112,10 +112,10 @@ fun MonPaeScreen(
     val detailScrollState = rememberScrollState()
     var loadError by remember { mutableStateOf<String?>(null) }
 
-    // 🔥 Charger les cours sélectionnés manuellement
+    //  Charger les cours sélectionnés manuellement
     var userSelectedCourses by remember { mutableStateOf<List<String>>(emptyList()) }
     
-    // 🔥 NOUVEAU : Catalogue de cours pour enrichir les infos
+    //  NOUVEAU : Catalogue de cours pour enrichir les infos
     var courseCatalog by remember { mutableStateOf<Map<String, CourseDetailDto>>(emptyMap()) }
 
     val paeDatabase by produceState<PaeDatabase?>(initialValue = null) {
@@ -123,7 +123,7 @@ fun MonPaeScreen(
         value = try {
             val baseUrl = buildBaseUrl(host, port)
             
-            // 🔥 Charger le catalogue de cours
+            //  Charger le catalogue de cours
             try {
                 val catalogResponse = httpClient.get("$baseUrl/api/courses") {
                     token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
@@ -180,7 +180,7 @@ fun MonPaeScreen(
         }
     }
 
-    // 🔥 CORRECTION : Récupérer TOUS les PAE liés à l'étudiant sélectionné (par email)
+    //  CORRECTION : Récupérer TOUS les PAE liés à l'étudiant sélectionné (par email)
     val targetStudents = remember(students, selectedStudentId, userIdentifier) {
         if (selectedStudentId == "NO_PAE_FOUND") {
             return@remember emptyList<PaeStudent>()
@@ -229,7 +229,7 @@ fun MonPaeScreen(
         onContextChange(selectedRecord?.catalogYear ?: selectedRecord?.academicYearLabel)
     }
 
-    // 🔥 NOUVEAU : Créer un "faux" record PAE à partir des cours sélectionnés
+    //  NOUVEAU : Créer un "faux" record PAE à partir des cours sélectionnés
     val manualPaeRecord: PaeRecord? = remember(userSelectedCourses, courseCatalog) {
         if (userSelectedCourses.isEmpty()) return@remember null
         
@@ -253,7 +253,7 @@ fun MonPaeScreen(
         )
     }
 
-    // 🔥 NOUVEAU : Créer un "faux" étudiant pour l'affichage
+    //  NOUVEAU : Créer un "faux" étudiant pour l'affichage
     val manualStudent: PaeStudent? = remember(userIdentifier, manualPaeRecord) {
         if (manualPaeRecord == null) return@remember null
         
@@ -281,10 +281,10 @@ fun MonPaeScreen(
                 CircularProgressIndicator()
             }
             
-            // 🔥 MODIFIÉ : Si pas de PAE officiel MAIS des cours sélectionnés -> afficher comme un PAE
+            //  MODIFIÉ : Si pas de PAE officiel MAIS des cours sélectionnés -> afficher comme un PAE
             selectedStudentId == "NO_PAE_FOUND" || targetStudents.isEmpty() -> {
                 if (manualStudent != null && manualPaeRecord != null) {
-                    // 🔥 Afficher le PAE manuel avec le même style que le PAE officiel
+                    //  Afficher le PAE manuel avec le même style que le PAE officiel
                     ManualPaeContent(
                         student = manualStudent,
                         record = manualPaeRecord,
@@ -417,7 +417,7 @@ fun MonPaeScreen(
     }
 }
 
-// 🔥 NOUVEAU : Composable pour afficher le PAE manuel (même style que l'officiel)
+//  NOUVEAU : Composable pour afficher le PAE manuel (même style que l'officiel)
 @Composable
 private fun ManualPaeContent(
     student: PaeStudent,
@@ -463,7 +463,7 @@ private fun ManualPaeContent(
     }
 }
 
-// 🔥 NOUVEAU : Header card pour PAE manuel
+//  NOUVEAU : Header card pour PAE manuel
 @Composable
 private fun ManualPaeHeaderCard(student: PaeStudent) {
     val gradient = Brush.linearGradient(
@@ -481,7 +481,7 @@ private fun ManualPaeHeaderCard(student: PaeStudent) {
                 .background(gradient)
                 .padding(20.dp)
         ) {
-            // 🔥 Badge "Non officiel"
+            //  Badge "Non officiel"
             Surface(
                 color = Color.White.copy(alpha = 0.2f),
                 shape = RoundedCornerShape(8.dp)
@@ -497,7 +497,7 @@ private fun ManualPaeHeaderCard(student: PaeStudent) {
             
             Spacer(Modifier.height(12.dp))
             
-            // 🔥 CORRECTION : Utiliser orEmpty() pour éviter les nulls
+            //  CORRECTION : Utiliser orEmpty() pour éviter les nulls
             Text(
                 student.username.orEmpty().ifBlank { "Utilisateur" },
                 style = MaterialTheme.typography.headlineSmall,
@@ -505,7 +505,7 @@ private fun ManualPaeHeaderCard(student: PaeStudent) {
                 color = Color.White
             )
             
-            // 🔥 CORRECTION : Utiliser orEmpty() pour éviter les nulls
+            //  CORRECTION : Utiliser orEmpty() pour éviter les nulls
             Text(
                 student.email.orEmpty().ifBlank { "Email non disponible" },
                 style = MaterialTheme.typography.bodyMedium,
@@ -523,7 +523,7 @@ private fun ManualPaeHeaderCard(student: PaeStudent) {
     }
 }
 
-// 🔥 NOUVEAU : Detail pane pour PAE manuel
+//  NOUVEAU : Detail pane pour PAE manuel
 @Composable
 private fun ManualPaeDetailPane(record: PaeRecord) {
     Column(
@@ -538,7 +538,7 @@ private fun ManualPaeDetailPane(record: PaeRecord) {
     }
 }
 
-// 🔥 NOUVEAU : Stats strip pour PAE manuel
+//  NOUVEAU : Stats strip pour PAE manuel
 @Composable
 private fun ManualStatsStrip(record: PaeRecord) {
     val totalEcts = record.courses.sumOf { it.ects ?: 0 }
@@ -548,7 +548,7 @@ private fun ManualStatsStrip(record: PaeRecord) {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        // 🔥 Utilisation de orEmpty() ou valeurs par défaut pour éviter les null
+        //  Utilisation de orEmpty() ou valeurs par défaut pour éviter les null
         ManualStatCard(
             title = "Cours",
             value = courseCount.toString(),
@@ -567,7 +567,7 @@ private fun ManualStatsStrip(record: PaeRecord) {
     }
 }
 
-// 🔥 NOUVEAU : Version locale de StatCard pour éviter les conflits de types
+//  NOUVEAU : Version locale de StatCard pour éviter les conflits de types
 @Composable
 private fun ManualStatCard(title: String, value: String, modifier: Modifier = Modifier) {
     Card(

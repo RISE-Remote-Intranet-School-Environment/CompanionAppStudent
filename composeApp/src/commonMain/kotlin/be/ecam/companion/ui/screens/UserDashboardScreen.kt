@@ -102,12 +102,12 @@ fun UserDashboardScreen(loginViewModel: LoginViewModel, modifier: Modifier = Mod
                 PaeRepository.load(baseUrl = baseUrl, token = token)
             }
 
-            // 🔥 CORRECTION : Ne PAS prendre le premier étudiant si l'utilisateur n'a pas de PAE
+            //  CORRECTION : Ne PAS prendre le premier étudiant si l'utilisateur n'a pas de PAE
             val targetStudent = paeDatabase.students.firstOrNull {
                 it.email.equals(user.email, ignoreCase = true) ||
                         it.username.equals(user.username, ignoreCase = true)
             }
-            // 🔥 SUPPRIMÉ : ?: paeDatabase.students.firstOrNull()
+            //  SUPPRIMÉ : ?: paeDatabase.students.firstOrNull()
 
             val record = targetStudent?.records
                 ?.sortedByDescending { it.catalogYear ?: it.academicYearLabel ?: "" }

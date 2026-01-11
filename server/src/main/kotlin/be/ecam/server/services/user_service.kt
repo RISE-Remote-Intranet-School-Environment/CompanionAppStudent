@@ -69,7 +69,7 @@ object UserService {
             req.password?.let { v ->
                 it[passwordHash] = BCrypt.withDefaults().hashToString(12, v.toCharArray())
             }
-            // 🔥 CORRECTION : Utiliser une approche différente pour les champs nullable
+            //  CORRECTION : Utiliser une approche différente pour les champs nullable
             if (req.firstName != null) {
                 it[firstName] = req.firstName
             }

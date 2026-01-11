@@ -98,12 +98,12 @@ fun HomeScreen(
         if (!isSearching) {
             // Mode normal : afficher les cours inscrits
             vm.courses.map { course ->
-                // 🔥 CORRECTION : Toujours chercher dans le catalogue pour enrichir les titres
+                //  CORRECTION : Toujours chercher dans le catalogue pour enrichir les titres
                 val normalizedCode = normalizeCode(course.code)
                 val match = catalogIndex[normalizedCode]
                 CourseDisplayItem(
                     code = course.code ?: "",
-                    // 🔥 Priorité : titre du cours > titre du catalogue > code
+                    //  Priorité : titre du cours > titre du catalogue > code
                     title = course.title?.takeIf { it.isNotBlank() && it != course.code } 
                         ?: match?.title 
                         ?: course.code 
@@ -211,7 +211,7 @@ private fun HomeMainScreen(
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
         Text(
-            // 🔥 CORRECTION : Virgule APRÈS le prénom
+            //  CORRECTION : Virgule APRÈS le prénom
             text = if (searchQuery.isBlank()) "Bonjour $displayName," else "Recherche dans le catalogue",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
@@ -346,7 +346,7 @@ private fun CourseCard(
                 }
             }
 
-            // 🔥 Bouton d'ajout/suppression (visible en mode recherche)
+            //  Bouton d'ajout/suppression (visible en mode recherche)
             if (isSearching) {
                 Box(
                     modifier = Modifier

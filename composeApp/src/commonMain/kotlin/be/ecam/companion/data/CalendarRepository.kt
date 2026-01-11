@@ -82,11 +82,11 @@ class CalendarRepository(
                 dtos.mapNotNull { it.toCourseScheduleEvent(json) }
             } else {
                 val body = runCatching { response.body<String>() }.getOrDefault("")
-                println("❌ Erreur course-schedule: ${response.status} - $body")
+                println(" Erreur course-schedule: ${response.status} - $body")
                 emptyList()
             }
         } catch (e: Exception) {
-            println("❌ Exception récupération course-schedule: ${e.message}")
+            println(" Exception récupération course-schedule: ${e.message}")
             e.printStackTrace()
             emptyList()
         }
@@ -118,11 +118,11 @@ class CalendarRepository(
                 dtos.mapNotNull { it.toCourseScheduleEvent(json) }
             } else {
                 val body = runCatching { response.body<String>() }.getOrDefault("")
-                println("❌ Erreur my-schedule: ${response.status} - $body")
+                println(" Erreur my-schedule: ${response.status} - $body")
                 emptyList()
             }
         } catch (e: Exception) {
-            println("❌ Exception récupération my-schedule: ${e.message}")
+            println(" Exception récupération my-schedule: ${e.message}")
             e.printStackTrace()
             emptyList()
         }
@@ -234,7 +234,7 @@ data class CourseScheduleDto(
         val parsedDate = try {
             parseFlexibleDate(date)
         } catch (e: Exception) {
-            println("❌ Erreur parsing date '$date': ${e.message}")
+            println(" Erreur parsing date '$date': ${e.message}")
             return null
         }
         

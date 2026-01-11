@@ -36,7 +36,7 @@ class HomeViewModel(
     // Cours PAE bruts (depuis le serveur)
     private var paeCourses by mutableStateOf<List<PaeCourse>>(emptyList())
 
-    // 🔥 Cours affichés = PAE + sélection manuelle (fusionnés)
+    //  Cours affichés = PAE + sélection manuelle (fusionnés)
     var courses by mutableStateOf<List<PaeCourse>>(emptyList())
         private set
 
@@ -66,15 +66,15 @@ class HomeViewModel(
     private var currentToken: String? = null
     private var userCoursesRepo: UserCoursesRepository? = null
     
-    // 🔥 CORRECTION : Stocker l'ID de l'utilisateur actuellement chargé
+    //  CORRECTION : Stocker l'ID de l'utilisateur actuellement chargé
     private var loadedUserId: Int? = null
 
     fun load(userIdentifier: AuthUserDTO?, authToken: String? = null) {
-        // 🔥 CORRECTION : Vérifier si c'est un nouvel utilisateur
+        //  CORRECTION : Vérifier si c'est un nouvel utilisateur
         val newUserId = userIdentifier?.id
         if (newUserId != null && newUserId != loadedUserId) {
             // Nouvel utilisateur -> reset complet
-            println("📚 Nouvel utilisateur détecté (${loadedUserId} -> $newUserId), reset de l'état")
+            println("Nouvel utilisateur détecté (${loadedUserId} -> $newUserId), reset de l'état")
             resetState()
         }
 
@@ -93,7 +93,7 @@ class HomeViewModel(
             }
         }
 
-        // 🔥 Charger tout en parallèle puis fusionner
+        //  Charger tout en parallèle puis fusionner
         viewModelScope.launch {
             try {
                 coroutineScope {
@@ -156,13 +156,13 @@ class HomeViewModel(
                     myCourseIds = selectedDeferred.await()
                     catalogCourses = catalogDeferred.await()
 
-                    // 🔥 FUSIONNER : PAE + cours sélectionnés manuellement
+                    //  FUSIONNER : PAE + cours sélectionnés manuellement
                     courses = mergePaeAndSelectedCourses(paeCourses, myCourseIds, catalogCourses)
                     
-                    // 🔥 Marquer cet utilisateur comme chargé
+                    //  Marquer cet utilisateur comme chargé
                     loadedUserId = newUserId
                     
-                    println("📚 Utilisateur $newUserId - Cours PAE: ${paeCourses.size}, Sélectionnés: ${myCourseIds.size}, Total affiché: ${courses.size}")
+                    println("Utilisateur $newUserId - Cours PAE: ${paeCourses.size}, Sélectionnés: ${myCourseIds.size}, Total affiché: ${courses.size}")
                 }
             } catch (e: Exception) {
                 println("Erreur chargement HomeViewModel: ${e.message}")
@@ -171,7 +171,7 @@ class HomeViewModel(
     }
 
     /**
-     * 🔥 NOUVEAU : Reset complet de l'état lors d'un changement d'utilisateur
+     *  NOUVEAU : Reset complet de l'état lors d'un changement d'utilisateur
      */
     private fun resetState() {
         paeCourses = emptyList()
@@ -184,7 +184,7 @@ class HomeViewModel(
     }
 
     /**
-     * 🔥 Fusionne les cours du PAE avec les cours sélectionnés manuellement
+     *  Fusionne les cours du PAE avec les cours sélectionnés manuellement
      */
     private fun mergePaeAndSelectedCourses(
         pae: List<PaeCourse>,
@@ -240,7 +240,7 @@ class HomeViewModel(
                     myCourseIds = myCourseIds + courseCode.lowercase()
                     feedbackMessage = "Cours ajouté !"
 
-                    // 🔥 Refusionner les cours
+                    //  Refusionner les cours
                     courses = mergePaeAndSelectedCourses(paeCourses, myCourseIds, catalogCourses)
                 } else {
                     feedbackMessage = "Cours déjà ajouté"
@@ -266,7 +266,7 @@ class HomeViewModel(
                     myCourseIds = myCourseIds - courseCode.lowercase()
                     feedbackMessage = "Cours retiré"
 
-                    // 🔥 Refusionner les cours
+                    //  Refusionner les cours
                     courses = mergePaeAndSelectedCourses(paeCourses, myCourseIds, catalogCourses)
                 }
             } catch (e: Exception) {
@@ -297,7 +297,7 @@ class HomeViewModel(
         selectedCourseForResources = null
     }
 
-    // 🔥 Force le rechargement (utile après changement de page)
+    //  Force le rechargement (utile après changement de page)
     fun forceReload(userIdentifier: AuthUserDTO?, authToken: String? = null) {
         loadedUserId = null // Force le reset
         load(userIdentifier, authToken)

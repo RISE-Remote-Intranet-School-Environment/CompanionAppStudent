@@ -12,11 +12,15 @@ import kotlinx.coroutines.launch
 import org.koin.dsl.module
 import java.awt.Desktop
 import java.net.URI
+import companion.composeapp.generated.resources.Res
+import companion.composeapp.generated.resources.favicon_32x32
+import org.jetbrains.compose.resources.painterResource
 
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "companion",
+        title = "ClacO₂",
+        icon = painterResource(Res.drawable.favicon_32x32)
     ) {
         val desktopModule = module {
             single<SettingsRepository> { PersistentSettingsRepository() }

@@ -46,7 +46,7 @@ class CourseDetailsRepository(
     private suspend fun fetchFromServer(baseUrl: String): List<CourseDetail> = coroutineScope {
         val token = authTokenProvider()?.trim()?.removeSurrounding("\"")?.takeIf { it.isNotBlank() }
 
-        // 🔥 CORRECTION : On spécifie explicitement le type attendu dans body<...>()
+        //  CORRECTION : On spécifie explicitement le type attendu dans body<...>()
         // au lieu de passer par une fonction générique helper qui peut perdre le type.
         
         val coursesDeferred = async { 

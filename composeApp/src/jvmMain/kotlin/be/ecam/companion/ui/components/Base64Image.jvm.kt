@@ -28,7 +28,7 @@ actual fun Base64Image(
             val bytes = Base64.getDecoder().decode(base64Pure)
             SkiaImage.makeFromEncoded(bytes).toComposeImageBitmap()
         } catch (e: Exception) {
-            println("❌ Erreur décodage base64: ${e.message}")
+            println(" Erreur décodage base64: ${e.message}")
             null
         }
     }

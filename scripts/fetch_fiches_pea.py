@@ -215,5 +215,5 @@ if __name__ == "__main__":
         print("\n⛔ Interrompu")
         sys.exit(0)
     except Exception as e:
-        print(f"[❌] Erreur critique: {e}")
+        print(f"[] Erreur critique: {e}")
         sys.exit(1)

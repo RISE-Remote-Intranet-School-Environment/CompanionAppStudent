@@ -7,7 +7,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
-import io.ktor.http.isSuccess // 🔥 AJOUTER CET IMPORT
+import io.ktor.http.isSuccess //  AJOUTER CET IMPORT
 import be.ecam.companion.utils.loadToken
 
 class KtorApiRepository(
@@ -18,7 +18,7 @@ class KtorApiRepository(
     override suspend fun getHello(): String {
         return try {
             val response = client.get("${baseUrlProvider()}/api/hello")
-            if (response.status.isSuccess()) { // 🔥 Maintenant ça fonctionne avec l'import
+            if (response.status.isSuccess()) { //  Maintenant ça fonctionne avec l'import
                 val body: Map<String, String> = response.body()
                 body["message"] ?: "Hello!"
             } else {
