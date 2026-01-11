@@ -65,6 +65,11 @@ composeApp/
 |   |   |   |   |   |-- screens/                    # écrans principaux
 |   |   |   |   |   |-- components/                 # composants réutilisables
 |   |   |   |   |   |-- theme/                      # thème et accessibilité
+|   |   |   |   |   |   |-- ThemeMode.kt            # thèmes clair/sombre
+|   |   |   |   |   |   |-- TextScaleMode.kt        # échelle texte
+|   |   |   |   |   |   |-- ScreenSizeMode.kt       # échelle écran
+|   |   |   |   |   |   |-- AppSettingsController.kt # contrôleur des réglages
+|   |   |   |   |   |   |-- PlatformInsets.kt       # padding par plateforme
 |   |   |   |   |-- utils/
 |   |   |   |   |   |-- TokenStorage.kt             # token par plateforme
 |   |   |-- composeResources/
@@ -79,6 +84,7 @@ composeApp/
 |   |   |   |-- utils/TokenStorage.kt               # stockage token Android (TODO)
 |   |   |   |-- ui/components/Base64Image.android.kt # rendu image Base64 Android
 |   |   |   |-- ui/theme/ScreenSizeMode.android.kt  # taille ecran Android
+|   |   |   |-- ui/theme/PlatformInsets.android.kt  # insets Android
 |   |-- iosMain/
 |   |   |-- kotlin/be/ecam/companion/
 |   |   |   |-- MainViewController.kt               # entry point iOS
@@ -87,6 +93,7 @@ composeApp/
 |   |   |   |-- utils/TokenStorage.kt             # stockage token iOS
 |   |   |   |-- ui/components/Base64Image.ios.kt  # rendu image Base64 iOS
 |   |   |   |-- ui/theme/ScreenSizeMode.ios.kt    # taille ecran iOS
+|   |   |   |-- ui/theme/PlatformInsets.ios.kt    # insets iOS
 |   |-- jvmMain/
 |   |   |-- kotlin/be/ecam/companion/
 |   |   |   |-- main.kt                             # entry point Desktop
@@ -96,6 +103,7 @@ composeApp/
 |   |   |   |-- utils/TokenStorage.kt             # stockage token Desktop
 |   |   |   |-- ui/components/Base64Image.jvm.kt  # rendu image Base64 Desktop
 |   |   |   |-- ui/theme/ScreenSizeMode.jvm.kt    # taille ecran Desktop
+|   |   |   |-- ui/theme/PlatformInsets.jvm.kt    # insets Desktop
 |   |-- wasmJsMain/
 |   |   |-- kotlin/be/ecam/companion/
 |   |   |   |-- main.kt                             # entry point Web/Wasm
@@ -103,6 +111,7 @@ composeApp/
 |   |   |   |-- utils/TokenStorage.kt              # stockage token Web
 |   |   |   |-- ui/components/Base64Image.wasmJs.kt # rendu image Base64 Web
 |   |   |   |-- ui/theme/ScreenSizeMode.wasmJs.kt  # taille ecran Web
+|   |   |   |-- ui/theme/PlatformInsets.wasmJs.kt  # insets Web
 ```
 
 Organisation logique :
@@ -390,8 +399,6 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
   - actions `onAddCourse`/`onRemoveCourse`
   - message d’état vide
   - boutons top/bottom
-- Bugs :
-  - Retirer les icônes d'options UI et mettre ces options dans les paramètres
 - Améliorations futures :
   - ajouter la sélection d’événements personnalisés par l’étudiant
 
@@ -545,13 +552,14 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 - Écran : `composeApp/src/commonMain/kotlin/be/ecam/companion/ui/screens/SettingsScreen.kt`
 - Composants : switch, carte token
 - Modifiable :
+  - sliders de taille écran et taille de texte (`SettingsSliderRow`)
+  - toggle de thème (`SettingsToggleRow`)
   - switch daltonien
-  - carte token
-  - libellés et disposition dans `SettingsScreen`
+  - carte token (afficher/masquer/copier)
+  - libellés, descriptions et disposition dans `SettingsScreen`
 - Bugs à corriger :
   - retirer l'affichage du token JWT dans les paramètres
 - Améliorations futures :
-  - retirer les icônes d'options UI et les regrouper ici (thème, taille texte, densité)
   - centraliser les réglages serveur (host/port)
   - Utiliser les paramètres pré-existant sur du UI mobile 
 

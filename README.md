@@ -1,6 +1,6 @@
 # CompanionAppStudent
 
-Application compagnon pour étudiants ECAM. Client Kotlin Compose Multiplatform, backend Ktor, base SQLite. Le but est de fournir un point d’entrée unique pour l’horaire, les cours, les ressources et le suivi académique.
+Companion App Student centralise l'expérience étudiante ECAM dans une application unique. Le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web) s'appuie sur un backend Ktor et une base SQLite pour synchroniser l'horaire, les cours, les ressources et le suivi académique. Le projet vise un usage quotidien : accès rapide aux informations clés, parcours clair, données unifiées et mêmes fonctionnalités sur chaque plateforme.
 
 ## Sommaire
 
@@ -201,16 +201,16 @@ Pour assembler l'application avant l'installation
 ---
 
 ```shell
-.\gradlew.bat :composeApp:assembleDebug
+.\gradlew.bat :composeApp:assembleDebug --no-daemon --no-configuration-cache
 ```
 
-Puis lancer la commande d'installation
+Puis lancer la commande d'installation avec le téléphone relié avec un câble usb(-c)
 ---
 
 ```shell
-.\gradlew.bat :composeApp:assembleDebug
+.\gradlew.bat :composeApp:installDebug
 ```
-
+**Note**: Pour que l'installation fonctionne sur le téléphone, installez le mode développeur dessus. Puis, accepter le FTP du lien USB.
 ## 14. Lancer l’app iOS
 
 Ouvrir `iosApp/` dans Xcode et lancer.
@@ -249,7 +249,6 @@ Ouvrir `iosApp/` dans Xcode et lancer.
 - Un scraping automatique doit s’exécuter à intervalle avec un indicateur d’heure de mise à jour dans l’UI, ou être remplacé par un accès à l’API calendar.
 - Le local du professeur doit être lié au local du cours en temps réel.
 - L’UX doit éviter un menu à gauche ou une bottom bar selon le format retenu.
-- Les icônes en haut à droite doivent être déplacées vers les paramètres.
 - La lisibilité du calendrier sur smartphone doit être alignée sur la taille d’écran et les capacités de l’appareil.
 - Les relations entre tables SQL doivent être renforcées pour éviter les doublons et les incohérences.
 - La création de compte sans Microsoft doit être supprimée et les informations disponibles via Microsoft doivent être exploitées pour personnaliser l’expérience et la monétisation.
