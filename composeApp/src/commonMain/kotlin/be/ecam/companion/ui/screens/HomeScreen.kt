@@ -39,6 +39,7 @@ import kotlin.math.absoluteValue
 import be.ecam.companion.data.PaeCourse
 import be.ecam.companion.ui.components.BottomBar
 import be.ecam.companion.ui.components.BottomItem
+import be.ecam.companion.ui.theme.shouldRemoveTopInsetsForContent
 import be.ecam.companion.viewmodel.HomeViewModel
 import be.ecam.companion.viewmodel.LoginViewModel
 import kotlinx.coroutines.delay
@@ -133,7 +134,12 @@ fun HomeScreen(
     }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        contentWindowInsets = if (shouldRemoveTopInsetsForContent()) {
+            WindowInsets(0.dp)
+        } else {
+            ScaffoldDefaults.contentWindowInsets
+        }
     ) { paddingValues ->
         Column(modifier = modifier.fillMaxSize().padding(paddingValues)) {
 

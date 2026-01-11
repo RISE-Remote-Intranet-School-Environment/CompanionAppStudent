@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -42,9 +43,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -64,6 +67,7 @@ import be.ecam.companion.di.buildBaseUrl
 import be.ecam.companion.ui.CourseRef
 import be.ecam.companion.ui.CoursesFicheScreen
 import be.ecam.companion.ui.rememberCoursesDetails
+import be.ecam.companion.ui.theme.shouldRemoveTopInsetsForContent
 import io.ktor.client.HttpClient
 import org.koin.compose.koinInject
 
@@ -142,8 +146,18 @@ fun CoursesResourcesScreen(
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
                     }
+                },
+                windowInsets = if (shouldRemoveTopInsetsForContent()) {
+                    WindowInsets(0.dp)
+                } else {
+                    TopAppBarDefaults.windowInsets
                 }
             )
+        },
+        contentWindowInsets = if (shouldRemoveTopInsetsForContent()) {
+            WindowInsets(0.dp)
+        } else {
+            ScaffoldDefaults.contentWindowInsets
         }
     ) { padding ->
         LazyColumn(

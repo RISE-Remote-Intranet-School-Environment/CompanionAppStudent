@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -39,6 +40,7 @@ import be.ecam.companion.data.EvaluatedActivity
 import be.ecam.companion.data.OrganizedActivity
 import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.di.buildBaseUrl
+import be.ecam.companion.ui.theme.shouldRemoveTopInsetsForDetails
 import io.ktor.client.HttpClient
 import org.koin.compose.koinInject
 
@@ -125,8 +127,18 @@ fun CoursesFicheScreen(
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface
-                )
+                ),
+                windowInsets = if (shouldRemoveTopInsetsForDetails()) {
+                    WindowInsets(0.dp)
+                } else {
+                    TopAppBarDefaults.windowInsets
+                }
             )
+        },
+        contentWindowInsets = if (shouldRemoveTopInsetsForDetails()) {
+            WindowInsets(0.dp)
+        } else {
+            ScaffoldDefaults.contentWindowInsets
         }
     ) { padding ->
         if (course == null) {
