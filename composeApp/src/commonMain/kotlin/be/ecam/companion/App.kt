@@ -12,6 +12,8 @@ import be.ecam.companion.data.SettingsRepository
 import be.ecam.companion.di.appModule
 
 import be.ecam.companion.ui.components.*
+import be.ecam.companion.ui.theme.AppSettingsController
+import be.ecam.companion.ui.theme.LocalAppSettingsController
 import be.ecam.companion.ui.theme.TextScaleMode
 import be.ecam.companion.ui.theme.ThemeMode
 import be.ecam.companion.ui.theme.ScreenSizeMode
@@ -71,11 +73,22 @@ fun App(
             LocalDensity provides Density(
                 density = baseDensity.density * screenSizeMode.scale,
                 fontScale = textScaleMode.fontScale
+            ),
+            LocalAppSettingsController provides AppSettingsController(
+                screenSizeMode = screenSizeMode,
+                textScaleMode = textScaleMode,
+                themeMode = themeMode,
+                onZoomChange = { screenSizeMode = screenSizeMode.next() },
+                onToggleTextScale = { textScaleMode = textScaleMode.next() },
+                onToggleTheme = { themeMode = themeMode.toggle() },
+                setScreenSizeMode = { screenSizeMode = it },
+                setTextScaleMode = { textScaleMode = it },
+                setThemeMode = { themeMode = it }
             )
         ) {
             // Application du thème (on pourrait modifier le colorScheme ici si isColorBlindMode est true)
             MaterialTheme(
-                colorScheme = themeMode.colorScheme()
+                colorScheme = themeMode.colorScheme(isColorBlindMode)
             ) {
 
                 var isLoggedIn by remember { mutableStateOf(false) }
@@ -174,12 +187,6 @@ fun App(
                                 showPaePage = showPaePage,
                                 coursesTitleSuffix = coursesTitleSuffix,
                                 paeTitleSuffix = paeTitleSuffix,
-                                screenSizeMode = screenSizeMode,
-                                onZoomChange = { screenSizeMode = screenSizeMode.next() },
-                                textScaleMode = textScaleMode,
-                                onToggleTextScale = { textScaleMode = textScaleMode.next() },
-                                themeMode = themeMode,
-                                onToggleTheme = { themeMode = themeMode.toggle() },
                                 onMenuClick = { scope.launch { drawerState.open() } },
                                 showNotifications = showNotifications,
                                 onNotificationsClick = { showNotifications = !showNotifications }
