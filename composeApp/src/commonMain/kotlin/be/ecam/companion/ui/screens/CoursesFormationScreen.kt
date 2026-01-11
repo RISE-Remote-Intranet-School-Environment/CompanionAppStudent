@@ -77,6 +77,10 @@ import io.kamel.image.asyncPainterResource
 import io.ktor.client.HttpClient
 import io.ktor.http.Url
 import org.koin.compose.koinInject
+import androidx.compose.foundation.Image
+import companion.composeapp.generated.resources.Res
+import companion.composeapp.generated.resources.o2_svg
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun CoursesFormationScreen(
@@ -194,7 +198,6 @@ fun CoursesFormationScreen(
                 onBack = { selectedCourseRef = null }
             )
         } else {
-            // ON SÉPARE ICI : LazyColumn pour la liste, Column Scrollable pour les détails
             when (val state = uiState) {
                 // CAS 1 : LA LISTE DES FORMATIONS (Optimisé avec LazyColumn + Responsivité)
                 is CoursesState.ProgramList -> {
@@ -348,23 +351,20 @@ private fun IntroText(database: FormationDatabase?) {
             shape = RoundedCornerShape(16.dp)
         ) {
             if (isWide) {
-                // MODE LARGE : Titre à gauche, tout le contenu à droite
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(24.dp),
                     horizontalArrangement = Arrangement.spacedBy(32.dp)
                 ) {
-                    // GAUCHE : Titre "Formations" avec icône - plus grand
                     Column(
                         modifier = Modifier.width(230.dp),
                         horizontalAlignment = Alignment.Start,
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.School,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
+                        Image(
+                            painter = painterResource(Res.drawable.o2_svg),
+                            contentDescription = "ClacO₂",
                             modifier = Modifier.size(64.dp)
                         )
                         Text(
@@ -440,13 +440,11 @@ private fun IntroText(database: FormationDatabase?) {
                     }
                 }
             } else {
-                // MODE MOBILE : Empilé verticalement
                 Column(modifier = Modifier.padding(20.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            Icons.Default.School,
-                            null,
-                            tint = MaterialTheme.colorScheme.primary,
+                        Image(
+                            painter = painterResource(Res.drawable.o2_svg),
+                            contentDescription = "ClacO₂",
                             modifier = Modifier.size(40.dp)
                         )
                         Spacer(Modifier.width(12.dp))

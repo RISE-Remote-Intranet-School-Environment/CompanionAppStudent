@@ -1,8 +1,8 @@
-# CompanionAppStudent — Backend Server
+# ClacOxgen — Backend Server
 
 ## 1. Contexte et rôle du backend
 
-Le backend du projet **CompanionAppStudent** constitue le cœur logique et technique de l’application.
+Le backend du projet **ClacOxygen** constitue le cœur logique et technique de l’application.
 Il est responsable de la gestion des données académiques, de l’authentification des utilisateurs,
 de l’application des règles métier et de l’exposition d’une API sécurisée à destination du frontend.
 

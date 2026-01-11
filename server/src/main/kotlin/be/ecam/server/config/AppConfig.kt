@@ -29,6 +29,6 @@ object AppConfig {
     
     /** Nom de l'application */
     const val APP_NAME = "ClacOxygen"
-    const val APP_DESCRIPTION = "ECAM Student Companion App"
+    const val APP_DESCRIPTION = "ClacOxgen App"
     const val APP_VERSION = "1.0.0"
 }

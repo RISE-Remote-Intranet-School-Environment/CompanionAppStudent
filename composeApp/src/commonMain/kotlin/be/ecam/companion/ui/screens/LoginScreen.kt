@@ -19,7 +19,9 @@ import be.ecam.companion.ui.components.EcamBackground
 import be.ecam.companion.viewmodel.LoginViewModel
 import companion.composeapp.generated.resources.Res
 import companion.composeapp.generated.resources.microsoft_logo
+import companion.composeapp.generated.resources.claco2_slogan_svg
 import org.jetbrains.compose.resources.painterResource
+import androidx.compose.ui.layout.ContentScale
 
 
 @Composable
@@ -28,7 +30,7 @@ fun LoginScreen(
     onNavigateToRegister: () -> Unit,
     viewModel: LoginViewModel,
     loginUrlGenerator: (() -> String)? = null,
-    navigateToUrl: ((String) -> Unit)? = null // Nouveau paramètre pour navigation platform-specific
+    navigateToUrl: ((String) -> Unit)? = null
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -64,7 +66,6 @@ fun LoginScreen(
                         val microsoftLoginUrl = loginUrlGenerator?.invoke() 
                             ?: "${defaultServerBaseUrl()}/api/auth/microsoft/login?platform=web"
                         
-                        // Utiliser la navigation platform-specific si disponible
                         if (navigateToUrl != null) {
                             navigateToUrl(microsoftLoginUrl)
                         } else {
@@ -126,6 +127,17 @@ fun LoginCard(
             modifier = Modifier.padding(32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Image(
+                painter = painterResource(Res.drawable.claco2_slogan_svg),
+                contentDescription = "ClacO₂ - Breathe",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp),
+                contentScale = ContentScale.Fit
+            )
+            
+            Spacer(Modifier.height(16.dp))
+
             Text(
                 "Connexion",
                 style = MaterialTheme.typography.headlineMedium,
@@ -192,7 +204,6 @@ fun LoginCard(
 
             Spacer(Modifier.height(16.dp))
 
-            // Bouton Microsoft OAuth - Style officiel
             MicrosoftSignInButton(
                 onClick = onMicrosoftLoginClick,
                 modifier = Modifier
@@ -203,9 +214,6 @@ fun LoginCard(
     }
 }
 
-/**
- * Bouton "Continuer avec Microsoft" avec style moderne
- */
 @Composable
 fun MicrosoftSignInButton(
     onClick: () -> Unit,
@@ -235,7 +243,6 @@ fun MicrosoftSignInButton(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxWidth()
         ) {
-            // Logo Microsoft
             Image(
                 painter = painterResource(Res.drawable.microsoft_logo),
                 contentDescription = "Microsoft Logo",

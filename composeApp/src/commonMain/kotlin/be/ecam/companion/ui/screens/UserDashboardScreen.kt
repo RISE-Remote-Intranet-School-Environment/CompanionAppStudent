@@ -1,5 +1,6 @@
 package be.ecam.companion.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,6 +41,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -55,6 +57,9 @@ import be.ecam.companion.viewmodel.AuthUserDTO
 import be.ecam.companion.viewmodel.LoginViewModel
 import io.ktor.client.HttpClient
 import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.painterResource
+import companion.composeapp.generated.resources.Res
+import companion.composeapp.generated.resources.claco2_svg
 
 private data class DashboardData(
     val user: AuthUserDTO,
@@ -102,12 +107,10 @@ fun UserDashboardScreen(loginViewModel: LoginViewModel, modifier: Modifier = Mod
                 PaeRepository.load(baseUrl = baseUrl, token = token)
             }
 
-            //  CORRECTION : Ne PAS prendre le premier étudiant si l'utilisateur n'a pas de PAE
             val targetStudent = paeDatabase.students.firstOrNull {
                 it.email.equals(user.email, ignoreCase = true) ||
                         it.username.equals(user.username, ignoreCase = true)
             }
-            //  SUPPRIMÉ : ?: paeDatabase.students.firstOrNull()
 
             val record = targetStudent?.records
                 ?.sortedByDescending { it.catalogYear ?: it.academicYearLabel ?: "" }
@@ -193,7 +196,6 @@ fun UserDashboardScreen(loginViewModel: LoginViewModel, modifier: Modifier = Mod
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
 
-            // HEADER
             Row(verticalAlignment = Alignment.CenterVertically) {
                 val avatarUrl = loginViewModel.currentUser?.avatarUrl
                 if (!avatarUrl.isNullOrBlank()) {

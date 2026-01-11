@@ -15,12 +15,23 @@ import java.net.URI
 import companion.composeapp.generated.resources.Res
 import companion.composeapp.generated.resources.favicon_32x32
 import org.jetbrains.compose.resources.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowPlacement
+import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
 
 fun main() = application {
+    val windowState = rememberWindowState(
+        width = 1200.dp,
+        height = 900.dp,
+        position = androidx.compose.ui.window.WindowPosition.Aligned(androidx.compose.ui.Alignment.Center) 
+    )
     Window(
         onCloseRequest = ::exitApplication,
-        title = "ClacO₂",
-        icon = painterResource(Res.drawable.favicon_32x32)
+        title = "ClacOxygen - Companion Student",
+        state = windowState,
+        icon = painterResource(Res.drawable.claco2_svg)
     ) {
         val desktopModule = module {
             single<SettingsRepository> { PersistentSettingsRepository() }

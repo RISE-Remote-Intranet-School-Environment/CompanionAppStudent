@@ -115,7 +115,7 @@ fun Application.module() {
         // Routes publiques simples
         get("/") {
             call.respondText(
-                "Backend CompanionAppStudent is running.",
+                "Backend ClacOxygen is running.",
                 ContentType.Text.Plain
             )
         }
@@ -129,7 +129,7 @@ fun Application.module() {
 
             // Routes publiques
             get("/hello") {
-                call.respond(HttpStatusCode.OK, mapOf("message" to "Hello from Companion backend"))
+                call.respond(HttpStatusCode.OK, mapOf("message" to "Hello from ClacOxgen backend"))
             }
             get("/schedule") {
                 call.respond(HttpStatusCode.OK, emptyMap<String, List<String>>())

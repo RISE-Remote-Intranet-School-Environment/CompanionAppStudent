@@ -13,6 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import be.ecam.companion.viewmodel.AuthUserDTO
+import androidx.compose.foundation.Image
+import androidx.compose.ui.layout.ContentScale
+import companion.composeapp.generated.resources.Res
+import companion.composeapp.generated.resources.claco2_slogan_svg
+import org.jetbrains.compose.resources.painterResource
 
 
 @Composable
@@ -29,13 +34,32 @@ fun AppDrawer(
     ModalDrawerSheet(
         modifier = Modifier
             .fillMaxHeight()
-            .widthIn(min = 140.dp, max = 200.dp)
+            .widthIn(min = 280.dp),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxHeight()
                 .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 24.dp, horizontal = 8.dp),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                Image(
+                    painter = painterResource(Res.drawable.claco2_slogan_svg),
+                    contentDescription = "ClacO₂ Branding",
+                    modifier = Modifier
+                        .width(180.dp) 
+                        .height(60.dp),
+                    contentScale = ContentScale.Fit,
+                    alignment = Alignment.CenterStart
+                )
+            }
+            
+            HorizontalDivider(modifier = Modifier.padding(bottom = 16.dp))
+
             Column(
                 modifier = Modifier
                     .weight(1f)

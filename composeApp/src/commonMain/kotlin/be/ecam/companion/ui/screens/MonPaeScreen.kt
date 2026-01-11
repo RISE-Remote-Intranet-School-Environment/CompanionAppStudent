@@ -77,11 +77,14 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.koin.compose.koinInject
+import androidx.compose.foundation.Image
+import companion.composeapp.generated.resources.Res
+import companion.composeapp.generated.resources.o2_svg
+import org.jetbrains.compose.resources.painterResource
 
 @Serializable
 private data class MyCoursesResponse(val courses: List<String>)
 
-//  NOUVEAU : DTO pour les détails de cours du catalogue
 @Serializable
 private data class CourseDetailDto(
     val id: Int? = null,
@@ -112,10 +115,8 @@ fun MonPaeScreen(
     val detailScrollState = rememberScrollState()
     var loadError by remember { mutableStateOf<String?>(null) }
 
-    //  Charger les cours sélectionnés manuellement
     var userSelectedCourses by remember { mutableStateOf<List<String>>(emptyList()) }
     
-    //  NOUVEAU : Catalogue de cours pour enrichir les infos
     var courseCatalog by remember { mutableStateOf<Map<String, CourseDetailDto>>(emptyMap()) }
 
     val paeDatabase by produceState<PaeDatabase?>(initialValue = null) {
@@ -123,7 +124,6 @@ fun MonPaeScreen(
         value = try {
             val baseUrl = buildBaseUrl(host, port)
             
-            //  Charger le catalogue de cours
             try {
                 val catalogResponse = httpClient.get("$baseUrl/api/courses") {
                     token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
@@ -137,7 +137,6 @@ fun MonPaeScreen(
                 println("Erreur chargement catalogue: ${e.message}")
             }
             
-            // Charger les cours sélectionnés manuellement
             try {
                 val response = httpClient.get("$baseUrl/api/my-courses") {
                     token?.let { header(HttpHeaders.Authorization, "Bearer $it") }
@@ -166,7 +165,6 @@ fun MonPaeScreen(
 
     var selectedStudentId by remember { mutableStateOf<String?>(null) }
 
-    // Initialisation de la sélection
     LaunchedEffect(students, userIdentifier) {
         val matchingStudents = students.filter {
             it.email.equals(userIdentifier, ignoreCase = true) ||
@@ -180,7 +178,6 @@ fun MonPaeScreen(
         }
     }
 
-    //  CORRECTION : Récupérer TOUS les PAE liés à l'étudiant sélectionné (par email)
     val targetStudents = remember(students, selectedStudentId, userIdentifier) {
         if (selectedStudentId == "NO_PAE_FOUND") {
             return@remember emptyList<PaeStudent>()
@@ -229,7 +226,6 @@ fun MonPaeScreen(
         onContextChange(selectedRecord?.catalogYear ?: selectedRecord?.academicYearLabel)
     }
 
-    //  NOUVEAU : Créer un "faux" record PAE à partir des cours sélectionnés
     val manualPaeRecord: PaeRecord? = remember(userSelectedCourses, courseCatalog) {
         if (userSelectedCourses.isEmpty()) return@remember null
         
@@ -244,7 +240,7 @@ fun MonPaeScreen(
         }
         
         PaeRecord(
-            catalogYear = "2024-2025", // Année courante
+            catalogYear = "2025-2026",
             academicYearLabel = "Sélection manuelle",
             program = "Cours sélectionnés",
             formationSlug = null,
@@ -253,7 +249,6 @@ fun MonPaeScreen(
         )
     }
 
-    //  NOUVEAU : Créer un "faux" étudiant pour l'affichage
     val manualStudent: PaeStudent? = remember(userIdentifier, manualPaeRecord) {
         if (manualPaeRecord == null) return@remember null
         
@@ -331,7 +326,6 @@ fun MonPaeScreen(
             }
             
             else -> {
-                // PAE officiel existant - code existant...
                 BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
                     val isWide = maxWidth > 800.dp
                     if (isWide) {
@@ -417,7 +411,6 @@ fun MonPaeScreen(
     }
 }
 
-//  NOUVEAU : Composable pour afficher le PAE manuel (même style que l'officiel)
 @Composable
 private fun ManualPaeContent(
     student: PaeStudent,
@@ -463,12 +456,11 @@ private fun ManualPaeContent(
     }
 }
 
-//  NOUVEAU : Header card pour PAE manuel
 @Composable
 private fun ManualPaeHeaderCard(student: PaeStudent) {
     val gradient = Brush.linearGradient(
         listOf(
-            Color(0xFFFF9800), // Orange pour distinguer du PAE officiel
+            Color(0xFFFF9800),
             Color(0xFFF57C00)
         )
     )
@@ -481,7 +473,6 @@ private fun ManualPaeHeaderCard(student: PaeStudent) {
                 .background(gradient)
                 .padding(20.dp)
         ) {
-            //  Badge "Non officiel"
             Surface(
                 color = Color.White.copy(alpha = 0.2f),
                 shape = RoundedCornerShape(8.dp)
@@ -497,7 +488,6 @@ private fun ManualPaeHeaderCard(student: PaeStudent) {
             
             Spacer(Modifier.height(12.dp))
             
-            //  CORRECTION : Utiliser orEmpty() pour éviter les nulls
             Text(
                 student.username.orEmpty().ifBlank { "Utilisateur" },
                 style = MaterialTheme.typography.headlineSmall,
@@ -505,7 +495,6 @@ private fun ManualPaeHeaderCard(student: PaeStudent) {
                 color = Color.White
             )
             
-            //  CORRECTION : Utiliser orEmpty() pour éviter les nulls
             Text(
                 student.email.orEmpty().ifBlank { "Email non disponible" },
                 style = MaterialTheme.typography.bodyMedium,
@@ -523,7 +512,6 @@ private fun ManualPaeHeaderCard(student: PaeStudent) {
     }
 }
 
-//  NOUVEAU : Detail pane pour PAE manuel
 @Composable
 private fun ManualPaeDetailPane(record: PaeRecord) {
     Column(
@@ -538,7 +526,6 @@ private fun ManualPaeDetailPane(record: PaeRecord) {
     }
 }
 
-//  NOUVEAU : Stats strip pour PAE manuel
 @Composable
 private fun ManualStatsStrip(record: PaeRecord) {
     val totalEcts = record.courses.sumOf { it.ects ?: 0 }
@@ -548,7 +535,6 @@ private fun ManualStatsStrip(record: PaeRecord) {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        //  Utilisation de orEmpty() ou valeurs par défaut pour éviter les null
         ManualStatCard(
             title = "Cours",
             value = courseCount.toString(),
@@ -567,7 +553,6 @@ private fun ManualStatsStrip(record: PaeRecord) {
     }
 }
 
-//  NOUVEAU : Version locale de StatCard pour éviter les conflits de types
 @Composable
 private fun ManualStatCard(title: String, value: String, modifier: Modifier = Modifier) {
     Card(
@@ -682,7 +667,6 @@ suspend fun loadPaeFromServer(
         header(HttpHeaders.Accept, "application/json")
     }.body<List<PaeStudentDto>>()
 
-    // Charger les notes pour enrichir ECTS/notes/composants
     val notesByStudent: Map<Int, List<NotesStudentDto>> = students.associate { dto ->
         val notes: List<NotesStudentDto> = runCatching {
             client.get("$baseUrl/api/notes-students/by-student/${dto.studentId}") {
@@ -693,7 +677,6 @@ suspend fun loadPaeFromServer(
         dto.studentId to notes
     }
 
-    // Métadonnées cours et blocs pour enrichir l'affichage
     val coursesMeta: Map<String, CourseMetaDto> = runCatching {
         client.get("$baseUrl/api/courses") {
             bearer?.let { header(HttpHeaders.Authorization, "Bearer $it") }
@@ -725,7 +708,6 @@ suspend fun loadPaeFromServer(
         val scopedNotes = if (filteredNotes.isNotEmpty()) filteredNotes else notes
         val blocName = dto.blocId?.let { blocNameById[it.lowercase()] ?: it }
 
-        // Construire un record par année de notes si disponibles, sinon fallback enrolYear
         val records: List<PaeRecord> = scopedNotes
             .groupBy { it.academicYear }
             .filterKeys { !it.isNullOrBlank() }
@@ -777,14 +759,12 @@ private fun buildCoursesFromNotes(
     courseMeta: Map<String, CourseMetaDto>,
     sousCoursesByCourse: Map<String, List<SousCourseDto>>
 ): List<PaeCourse> {
-    // Start from courseIds list if provided; otherwise derive from notes
     val fromList: Set<String> = courseIdsRaw
         ?.split(';', ',', '|')
         ?.mapNotNull { it.trim().takeIf { it.isNotEmpty() }?.lowercase() }
         ?.toSet()
         ?: emptySet()
 
-    // Normalise en lowercase pour matcher quelles que soient les capitalisations
     val noteCourses: Map<String, List<NotesStudentDto>> = notes.groupBy { it.courseId.lowercase() }
 
     val allCodes: List<String> = if (fromList.isNotEmpty()) fromList.toList() else noteCourses.keys.toList()
@@ -793,7 +773,6 @@ private fun buildCoursesFromNotes(
         val entries = noteCourses[code].orEmpty()
         val meta = courseMeta[code.lowercase()]
         val base = entries.firstOrNull()
-        // Utiliser un code affiché cohérent : soit le code des notes, soit celui de la liste
         val displayCode = base?.courseId?.takeIf { it.isNotBlank() } ?: code.uppercase()
 
         fun pickSession(values: List<String?>): String? {
@@ -862,7 +841,6 @@ private fun buildCoursesFromNotes(
     }
 }
 
-// Pick the latest available numeric score (sep > jun > jan)
 private fun PaeCourse.bestNumericScore(): Double? {
     fun PaeSessions.latestNumeric(): Double? {
         val ordered = listOf(sep, jun, jan)

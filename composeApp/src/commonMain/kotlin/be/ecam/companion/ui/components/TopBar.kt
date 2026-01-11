@@ -11,6 +11,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.unit.dp
 import be.ecam.companion.ui.components.NotificationWidget
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.layout.ContentScale
+import companion.composeapp.generated.resources.Res
+import companion.composeapp.generated.resources.claco2_svg
+import org.jetbrains.compose.resources.painterResource
+import be.ecam.companion.ui.components.BottomItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,7 +34,6 @@ fun TopBar(
     onNotificationsClick: () -> Unit
 ) {
     TopAppBar(
-        
         title = {
             when {
                 showCoursesPage ->
@@ -37,6 +44,18 @@ fun TopBar(
 
                 showPaePage ->
                     Text(paeTitleSuffix ?: "Mon PAE")
+
+                selectedScreen == BottomItem.HOME || selectedScreen == BottomItem.DASHBOARD -> {
+                    Image(
+                        painter = painterResource(Res.drawable.claco2_svg),
+                        contentDescription = "ClacO₂",
+                        modifier = Modifier
+                            .height(28.dp)
+                            .width(100.dp),
+                        contentScale = ContentScale.Fit,
+                        alignment = androidx.compose.ui.Alignment.CenterStart
+                    )
+                }
 
                 else ->
                     Text(selectedScreen.getLabel())

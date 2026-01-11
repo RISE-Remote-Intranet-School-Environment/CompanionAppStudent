@@ -21,6 +21,12 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import be.ecam.companion.ui.theme.LocalAppSettingsController
 import be.ecam.companion.ui.theme.ThemeMode
+import androidx.compose.foundation.Image
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.draw.alpha
+import companion.composeapp.generated.resources.Res
+import companion.composeapp.generated.resources.claco2_slogan_svg
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun SettingsScreen(
@@ -167,14 +173,27 @@ fun SettingsScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp),
+                .padding(top = 24.dp, bottom = 16.dp),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = "Companion App Student v1.0.0",
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.outline
-            )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(
+                    painter = painterResource(Res.drawable.claco2_slogan_svg),
+                    contentDescription = "ClacO₂",
+                    modifier = Modifier
+                        .width(140.dp)
+                        .height(50.dp),
+                    contentScale = ContentScale.Fit
+                )
+                
+                Spacer(Modifier.height(8.dp))
+                
+                Text(
+                    text = "v1.0.0 - ECAM Student Companion",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.outline
+                )
+            }
         }
     }
 }

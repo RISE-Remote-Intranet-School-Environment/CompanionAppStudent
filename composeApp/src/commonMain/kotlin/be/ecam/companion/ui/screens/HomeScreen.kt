@@ -43,6 +43,10 @@ import be.ecam.companion.ui.theme.shouldRemoveTopInsetsForContent
 import be.ecam.companion.viewmodel.HomeViewModel
 import be.ecam.companion.viewmodel.LoginViewModel
 import kotlinx.coroutines.delay
+import androidx.compose.foundation.Image
+import companion.composeapp.generated.resources.Res
+import companion.composeapp.generated.resources.o2_svg
+import org.jetbrains.compose.resources.painterResource
 
 private fun normalizeCode(code: String?): String =
     code.orEmpty().trim().lowercase().replace(" ", "")
@@ -97,14 +101,11 @@ fun HomeScreen(
     // Liste des cours à afficher
     val displayedItems: List<CourseDisplayItem> = remember(vm.courses, vm.catalogCourses, searchQuery, vm.myCourseIds) {
         if (!isSearching) {
-            // Mode normal : afficher les cours inscrits
             vm.courses.map { course ->
-                //  CORRECTION : Toujours chercher dans le catalogue pour enrichir les titres
                 val normalizedCode = normalizeCode(course.code)
                 val match = catalogIndex[normalizedCode]
                 CourseDisplayItem(
                     code = course.code ?: "",
-                    //  Priorité : titre du cours > titre du catalogue > code
                     title = course.title?.takeIf { it.isNotBlank() && it != course.code } 
                         ?: match?.title 
                         ?: course.code 
@@ -150,7 +151,6 @@ fun HomeScreen(
             ) { selectedCourse ->
 
                 if (selectedCourse == null) {
-                    // 🎯 ÉCRAN D'ACCUEIL
                     HomeMainScreen(
                         displayName = displayName,
                         searchQuery = searchQuery,
@@ -168,7 +168,6 @@ fun HomeScreen(
                     )
 
                 } else {
-                    // ÉCRAN RESSOURCES
                     CoursesResourcesScreen(
                         courseCode = selectedCourse.code ?: "",
                         courseTitle = selectedCourse.title ?: "",
@@ -217,7 +216,6 @@ private fun HomeMainScreen(
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
         Text(
-            //  CORRECTION : Virgule APRÈS le prénom
             text = if (searchQuery.isBlank()) "Bonjour $displayName," else "Recherche dans le catalogue",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,

@@ -5,7 +5,7 @@ import java.io.File
 object JwtConfig {
     const val issuer = "be.ecam.server"
     const val audience = "be.ecam.client"
-    const val realm = "ECAM Companion API"
+    const val realm = "ClacOxygen API"
 
     // 15 minutes pour l'access token
     const val ACCESS_TOKEN_EXPIRATION = 1000L * 60 * 15 

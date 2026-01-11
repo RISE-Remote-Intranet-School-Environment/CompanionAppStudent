@@ -1,6 +1,6 @@
-# CompanionAppStudent
+# ClacOxygen
 
-Companion App Student centralise l'expérience étudiante ECAM dans une application unique. Le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web) s'appuie sur un backend Ktor et une base SQLite pour synchroniser l'horaire, les cours, les ressources et le suivi académique. Le projet vise un usage quotidien : accès rapide aux informations clés, parcours clair, données unifiées et mêmes fonctionnalités sur chaque plateforme.
+ClacOxygen (ClacO₂) centralise l'expérience étudiante ECAM dans une application unique. Le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web) s'appuie sur un backend Ktor et une base SQLite pour synchroniser l'horaire, les cours, les ressources et le suivi académique. Le projet vise un usage quotidien : accès rapide aux informations clés, parcours clair, données unifiées et mêmes fonctionnalités sur chaque plateforme.
 
 ## Sommaire
 

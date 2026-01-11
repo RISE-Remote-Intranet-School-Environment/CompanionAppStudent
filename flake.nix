@@ -1,5 +1,5 @@
 {
-  description = "Clacoxygen - ECAM Student Companion App";
+  description = "ClacOxygen - ECAM Student Companion App";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -73,7 +73,7 @@
         in
         {
           options.services.clacoxygen = {
-            enable = mkEnableOption "Clacoxygen - ECAM Student Companion App";
+            enable = mkEnableOption "ClacOxygen - ECAM Student Companion App";
 
             port = mkOption {
               type = types.int;
