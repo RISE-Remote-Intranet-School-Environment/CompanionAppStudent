@@ -196,6 +196,9 @@ fun App(
                                     paeTitleSuffix = null
                                     courseCalendarInitialYearOption = null
                                     courseCalendarInitialSeries = null
+                                    if (item == BottomItem.HOME) {
+                                        vm.closeCourseResources()
+                                    }
                                     selectedScreen = item
                                 }
                             )
