@@ -217,7 +217,7 @@ fun SettingsScreen(
                 Spacer(Modifier.height(8.dp))
                 
                 Text(
-                    text = "v1.0.0 - ECAM Student Companion",
+                    text = "v1.0.0 - ClacOxygen",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.outline
                 )

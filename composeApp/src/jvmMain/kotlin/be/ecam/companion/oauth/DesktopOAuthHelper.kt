@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpServer
 import java.net.InetSocketAddress
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
+import java.io.ByteArrayOutputStream
 
 /**
  * Helper pour OAuth sur Desktop.
@@ -20,18 +21,21 @@ object DesktopOAuthHelper {
         val error: String?
     )
     
-    /**
-     * Démarre le serveur local et retourne le port utilisé.
-     */
     fun start(): Int {
-        // Arrêter tout serveur existant
         stop()
         
-        // Trouver un port disponible
         val port = findAvailablePort()
         
         server = HttpServer.create(InetSocketAddress("localhost", port), 0)
         callbackFuture = CompletableFuture()
+
+        server?.createContext("/logo.svg") { exchange ->
+            val logoBytes = javaClass.getResourceAsStream("/claco2_slogan_svg.svg")?.readBytes()
+                ?: "".toByteArray()
+            exchange.responseHeaders.add("Content-Type", "image/svg+xml")
+            exchange.sendResponseHeaders(200, logoBytes.size.toLong())
+            exchange.responseBody.use { it.write(logoBytes) }
+        }
         
         server?.createContext("/callback") { exchange ->
             val query = exchange.requestURI.query ?: ""
@@ -60,7 +64,7 @@ object DesktopOAuthHelper {
                 <head>
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>$title - ECAM</title>
+                    <title>$title - ClacO₂</title>
                     <style>
                         :root {
                             --ecam-blue: #003366;
@@ -90,11 +94,15 @@ object DesktopOAuthHelper {
                             from { transform: translateY(30px); opacity: 0; }
                             to { transform: translateY(0); opacity: 1; }
                         }
-                        .logo {
-                            height: 60px;
-                            margin-bottom: 24px;
-                            object-fit: contain;
+                        
+                        .logo-svg {
+                            display: block;
+                            margin: 0 auto 24px auto;
+                            height: 80px;
+                            width: 100%;
+                            max-width: 280px;
                         }
+
                         h2 {
                             color: var(--ecam-blue);
                             margin: 0 0 12px 0;
@@ -116,7 +124,8 @@ object DesktopOAuthHelper {
                 </head>
                 <body>
                     <div class="card">
-                        <img src="https://www.ecam.be/wp-content/uploads/2023/12/logo_ECAM_entier_sansfond-2.png" alt="ECAM Bruxelles" class="logo">
+                        <img class="logo-svg" src="/logo.svg" alt="ClacO₂">
+
                         <span class="status-icon $iconClass">$icon</span>
                         <h2 class="${if(accessToken == null) "error" else ""}">$message</h2>
                         <p>$details</p>
