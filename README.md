@@ -249,7 +249,6 @@ Ouvrir `iosApp/` dans Xcode et lancer.
 - Un scraping automatique doit s’exécuter à intervalle avec un indicateur d’heure de mise à jour dans l’UI, ou être remplacé par un accès à l’API calendar.
 - Le local du professeur doit être lié au local du cours en temps réel.
 - L’UX doit éviter un menu à gauche ou une bottom bar selon le format retenu.
-- La lisibilité du calendrier sur smartphone doit être alignée sur la taille d’écran et les capacités de l’appareil.
 - Les relations entre tables SQL doivent être renforcées pour éviter les doublons et les incohérences.
 - La création de compte sans Microsoft doit être supprimée et les informations disponibles via Microsoft doivent être exploitées pour personnaliser l’expérience et la monétisation.
 - Les attributs Microsoft doivent être utilisés pour préremplir le profil et relier un compte existant par email.
@@ -267,7 +266,7 @@ Ouvrir `iosApp/` dans Xcode et lancer.
 - Les professeurs doivent pouvoir moduler leur page de cours et ajouter des ressources.
 - Les professeurs doivent pouvoir publier des notifications liées à leurs cours.
 - Des deadlines de projets doivent être liées au calendrier étudiant et professeur.
-- Les liens entre cours, professeurs, horaires, locaux et ressources doivent être consolidés.
+- Les liens entre cours, professeurs, horaires, locaux et ressources doivent être consolidés lors de l'ajout des méthode CRUD.
 - Les rôles `admin`, `professeur`, `étudiant` doivent être appliqués avec des droits cohérents.
 - Les données des étudiants (PAE, parcours) doivent être enrichies et consolidées.
 - Le PAE doit afficher des indicateurs de progression par bloc.
@@ -275,6 +274,7 @@ Ouvrir `iosApp/` dans Xcode et lancer.
 - Les paramètres doivent centraliser le réglage du serveur (host/port).
 - Les assets doivent être standardisés par plateforme avec des variantes d’icônes pour l’accessibilité.
 - Les notifications doivent être branchées sur des événements serveur avec un historique consultable et un lien vers le cours.
+- Dans l'ensemble, l'ajout de méthode CRUD rendrait l'application plus user friendly pour les admins, professeurs et étudiants.
 
 ## 20. Reprendre le projet
 

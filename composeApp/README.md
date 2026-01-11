@@ -95,6 +95,7 @@ composeApp/
 |   |   |   |   |   |   |-- TextScaleMode.kt        # échelle texte
 |   |   |   |   |   |   |-- ScreenSizeMode.kt       # échelle écran
 |   |   |   |   |   |   |-- AppSettingsController.kt # contrôleur des réglages
+|   |   |   |   |   |   |-- SystemSettings.kt       # détection réglages système
 |   |   |   |   |   |   |-- PlatformInsets.kt       # padding par plateforme
 |   |   |   |   |-- utils/
 |   |   |   |   |   |-- TokenStorage.kt             # token par plateforme
@@ -111,6 +112,7 @@ composeApp/
 |   |   |   |-- ui/components/Base64Image.android.kt # rendu image Base64 Android
 |   |   |   |-- ui/theme/ScreenSizeMode.android.kt  # taille ecran Android
 |   |   |   |-- ui/theme/PlatformInsets.android.kt  # insets Android
+|   |   |   |-- ui/theme/SystemSettings.android.kt  # réglages système Android
 |   |-- iosMain/
 |   |   |-- kotlin/be/ecam/companion/
 |   |   |   |-- MainViewController.kt               # entry point iOS
@@ -120,6 +122,7 @@ composeApp/
 |   |   |   |-- ui/components/Base64Image.ios.kt  # rendu image Base64 iOS
 |   |   |   |-- ui/theme/ScreenSizeMode.ios.kt    # taille ecran iOS
 |   |   |   |-- ui/theme/PlatformInsets.ios.kt    # insets iOS
+|   |   |   |-- ui/theme/SystemSettings.ios.kt    # réglages système iOS
 |   |-- jvmMain/
 |   |   |-- kotlin/be/ecam/companion/
 |   |   |   |-- main.kt                             # entry point Desktop
@@ -130,6 +133,7 @@ composeApp/
 |   |   |   |-- ui/components/Base64Image.jvm.kt  # rendu image Base64 Desktop
 |   |   |   |-- ui/theme/ScreenSizeMode.jvm.kt    # taille ecran Desktop
 |   |   |   |-- ui/theme/PlatformInsets.jvm.kt    # insets Desktop
+|   |   |   |-- ui/theme/SystemSettings.jvm.kt    # réglages système Desktop
 |   |-- wasmJsMain/
 |   |   |-- kotlin/be/ecam/companion/
 |   |   |   |-- main.kt                             # entry point Web/Wasm
@@ -138,6 +142,7 @@ composeApp/
 |   |   |   |-- ui/components/Base64Image.wasmJs.kt # rendu image Base64 Web
 |   |   |   |-- ui/theme/ScreenSizeMode.wasmJs.kt  # taille ecran Web
 |   |   |   |-- ui/theme/PlatformInsets.wasmJs.kt  # insets Web
+|   |   |   |-- ui/theme/SystemSettings.wasmJs.kt  # réglages système Web
 ```
 
 Organisation logique :
@@ -263,6 +268,12 @@ La base URL est construite via :
   - `InMemorySettingsRepository` (Web/Wasm)
 - `buildBaseUrl()` dans `di/di.kt`
   - choisit `https` pour le domaine public, `http://host:port` pour le local.
+
+`SettingsRepository` stocke aussi les réglages UI :
+
+- `themeMode`, `textScaleMode`, `screenSizeMode`
+- `colorBlindMode`
+- `followSystemSettings` (suivi des réglages système)
 
 Changer l'URL de production :
 
@@ -520,8 +531,6 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
   - tableau (`CoursesTable`, `CourseRow`, `ComponentRow`, `ScoreBadge`)
 - Bugs à corriger :
   - gestion des points des étudiants
-- Améliorations futures :
-  - ajouter des indicateurs de progression par bloc
 
 15.9 Professeurs - Liste
 ---
@@ -578,6 +587,7 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 - Écran : `composeApp/src/commonMain/kotlin/be/ecam/companion/ui/screens/SettingsScreen.kt`
 - Composants : switch, carte token
 - Modifiable :
+  - toggle "suivre les réglages système" (liaison avec `followSystemSettings`)
   - sliders de taille écran et taille de texte (`SettingsSliderRow`)
   - toggle de thème (`SettingsToggleRow`)
   - switch daltonien
@@ -587,7 +597,6 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
   - retirer l'affichage du token JWT dans les paramètres
 - Améliorations futures :
   - centraliser les réglages serveur (host/port)
-  - Utiliser les paramètres pré-existant sur du UI mobile 
 
 15.13 Drawable
 ---

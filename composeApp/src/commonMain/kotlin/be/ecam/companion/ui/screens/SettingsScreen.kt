@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package be.ecam.companion.ui.screens
 
 import androidx.compose.foundation.layout.*
@@ -67,14 +69,38 @@ fun SettingsScreen(
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = "Suivre les réglages de l’appareil",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            text = "Synchronise le thème et la taille du texte avec le système.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Switch(
+                        checked = settings.followSystemSettings,
+                        onCheckedChange = settings.setFollowSystemSettings
+                    )
+                }
+
                 SettingsSliderRow(
                     icon = Icons.Filled.DisplaySettings,
-                    title = "Taille d'écran",
+                    title = "Taille d’écran",
                     description = "Zoom: ${(screenPresets[screenIndex] * 100).toInt()}%",
                     value = screenIndex.toFloat(),
                     steps = screenPresets.size - 2,
                     valueRange = 0f..(screenPresets.size - 1).toFloat(),
-                    onValueChange = { settings.setScreenSizeMode(be.ecam.companion.ui.theme.ScreenSizeMode.fromScale(screenPresets[it.toInt()])) }
+                    onValueChange = { settings.setScreenSizeMode(be.ecam.companion.ui.theme.ScreenSizeMode.fromScale(screenPresets[it.toInt()])) },
+                    enabled = !settings.followSystemSettings
                 )
 
                 SettingsSliderRow(
@@ -84,7 +110,8 @@ fun SettingsScreen(
                     value = textIndex.toFloat(),
                     steps = textPresets.size - 2,
                     valueRange = 0f..(textPresets.size - 1).toFloat(),
-                    onValueChange = { settings.setTextScaleMode(textPresets[it.toInt()]) }
+                    onValueChange = { settings.setTextScaleMode(textPresets[it.toInt()]) },
+                    enabled = !settings.followSystemSettings
                 )
 
                 SettingsToggleRow(
@@ -92,7 +119,8 @@ fun SettingsScreen(
                     title = "Thème",
                     description = if (isDark) "Mode sombre" else "Mode clair",
                     isDark = isDark,
-                    onToggle = { settings.setThemeMode(if (it) ThemeMode.DARK else ThemeMode.LIGHT) }
+                    onToggle = { settings.setThemeMode(if (it) ThemeMode.DARK else ThemeMode.LIGHT) },
+                    enabled = !settings.followSystemSettings
                 )
             }
         }
@@ -206,7 +234,8 @@ private fun SettingsSliderRow(
     value: Float,
     steps: Int,
     valueRange: ClosedFloatingPointRange<Float>,
-    onValueChange: (Float) -> Unit
+    onValueChange: (Float) -> Unit,
+    enabled: Boolean
 ) {
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -221,7 +250,8 @@ private fun SettingsSliderRow(
             value = value,
             onValueChange = onValueChange,
             valueRange = valueRange,
-            steps = steps
+            steps = steps,
+            enabled = enabled
         )
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text("Petit", style = MaterialTheme.typography.labelSmall)
@@ -236,7 +266,8 @@ private fun SettingsToggleRow(
     title: String,
     description: String,
     isDark: Boolean,
-    onToggle: (Boolean) -> Unit
+    onToggle: (Boolean) -> Unit,
+    enabled: Boolean
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -251,7 +282,7 @@ private fun SettingsToggleRow(
                 Text(description, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
-        Switch(checked = isDark, onCheckedChange = onToggle)
+        Switch(checked = isDark, onCheckedChange = onToggle, enabled = enabled)
     }
 }
 
