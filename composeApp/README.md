@@ -63,7 +63,33 @@ composeApp/
 |   |   |   |   |   |-- DefaultServer.kt            # base URL attendue
 |   |   |   |   |-- ui/
 |   |   |   |   |   |-- screens/                    # écrans principaux
+|   |   |   |   |   |   |-- LoginScreen.kt          # connexion + OAuth
+|   |   |   |   |   |   |-- RegisterScreen.kt       # inscription locale
+|   |   |   |   |   |   |-- HomeScreen.kt           # accueil + cours + recherche
+|   |   |   |   |   |   |-- CoursesFormationScreen.kt # formations + blocs
+|   |   |   |   |   |   |-- CoursesFormationBlocScreen.kt # détails bloc + cours
+|   |   |   |   |   |   |-- CoursesFicheScreen.kt   # fiche cours (ECTS)
+|   |   |   |   |   |   |-- CoursesResourcesScreen.kt # ressources de cours
+|   |   |   |   |   |   |-- CoursesComponentScreen.kt # composants de cours
+|   |   |   |   |   |   |-- CalendarScreen.kt       # calendrier principal
+|   |   |   |   |   |   |-- CalendarEvents.kt       # modèles et helpers calendrier
+|   |   |   |   |   |   |-- MonPaeScreen.kt         # PAE + notes
+|   |   |   |   |   |   |-- ProfessorsScreen.kt     # annuaire professeurs
+|   |   |   |   |   |   |-- UserDashboardScreen.kt  # tableau de bord utilisateur
+|   |   |   |   |   |   |-- SettingsScreen.kt       # réglages UI + token
 |   |   |   |   |   |-- components/                 # composants réutilisables
+|   |   |   |   |   |   |-- TopBar.kt               # barre du haut
+|   |   |   |   |   |   |-- BottomBar.kt            # barre du bas
+|   |   |   |   |   |   |-- BottomItem.kt           # items de navigation
+|   |   |   |   |   |   |-- AppDrawer.kt            # menu latéral
+|   |   |   |   |   |   |-- StudentCourseCalendar.kt # calendrier étudiant
+|   |   |   |   |   |   |-- CourseFilterBar.kt      # filtres calendrier
+|   |   |   |   |   |   |-- CourseEvent.kt          # modèle événement cours
+|   |   |   |   |   |   |-- CourseEventExtensions.kt # extensions événements
+|   |   |   |   |   |   |-- CourseEventsLoader.kt   # loader événements
+|   |   |   |   |   |   |-- NotificationWidget.kt   # notifications UI
+|   |   |   |   |   |   |-- KamelImage.kt           # affichage images
+|   |   |   |   |   |   |-- EcamBackground.kt       # fond écran login
 |   |   |   |   |   |-- theme/                      # thème et accessibilité
 |   |   |   |   |   |   |-- ThemeMode.kt            # thèmes clair/sombre
 |   |   |   |   |   |   |-- TextScaleMode.kt        # échelle texte
@@ -576,6 +602,7 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
   - standardiser les tailles d’assets par plateforme
   - ajouter des variantes d’icônes pour l’accessibilité
   - afficher une image pour l'utilisateur
+  - choisir entre un drawable et un bottom bar
 
 15.14 Cours
 ---
