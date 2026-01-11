@@ -17,6 +17,8 @@ import be.ecam.companion.ui.theme.LocalAppSettingsController
 import be.ecam.companion.ui.theme.TextScaleMode
 import be.ecam.companion.ui.theme.ThemeMode
 import be.ecam.companion.ui.theme.ScreenSizeMode
+import be.ecam.companion.ui.theme.systemFontScale
+import be.ecam.companion.ui.theme.systemPrefersDarkTheme
 
 import be.ecam.companion.ui.screens.CalendarScreen
 import be.ecam.companion.ui.screens.CoursesFormationScreen
@@ -50,6 +52,7 @@ fun App(
     KoinApplication(application = { modules(appModule + extraModules) }) {
 
         val vm = koinInject<HomeViewModel>()
+        val settingsRepo = koinInject<SettingsRepository>()
         // Initialize LoginViewModel here so it survives across screens
         val loginViewModel = remember { LoginViewModel() }
 
@@ -62,12 +65,35 @@ fun App(
             }
         }
 
-        var themeMode by remember { mutableStateOf(ThemeMode.LIGHT) }
-        var isColorBlindMode by remember { mutableStateOf(false) } // État pour le mode daltonien
-        var textScaleMode by remember { mutableStateOf(TextScaleMode.NORMAL) }
-        var screenSizeMode by remember { mutableStateOf(ScreenSizeMode.Default) }
+        val themeMode by settingsRepo.themeModeFlow.collectAsState(settingsRepo.getThemeMode())
+        val isColorBlindMode by settingsRepo.colorBlindModeFlow.collectAsState(settingsRepo.getColorBlindMode())
+        val textScaleMode by settingsRepo.textScaleModeFlow.collectAsState(settingsRepo.getTextScaleMode())
+        val screenSizeMode by settingsRepo.screenSizeModeFlow.collectAsState(settingsRepo.getScreenSizeMode())
+        val followSystemSettings by settingsRepo.followSystemSettingsFlow.collectAsState(settingsRepo.getFollowSystemSettings())
         var showNotifications by remember { mutableStateOf(false) }
         val baseDensity = LocalDensity.current
+        val systemDark = systemPrefersDarkTheme()
+        val systemFontScale = systemFontScale()
+
+        LaunchedEffect(followSystemSettings, systemDark, systemFontScale) {
+            if (followSystemSettings) {
+                systemDark?.let {
+                    val target = if (it) ThemeMode.DARK else ThemeMode.LIGHT
+                    if (themeMode != target) {
+                        settingsRepo.setThemeMode(target)
+                    }
+                }
+                systemFontScale?.let {
+                    val target = TextScaleMode.fromScale(it)
+                    if (textScaleMode != target) {
+                        settingsRepo.setTextScaleMode(target)
+                    }
+                }
+                if (screenSizeMode != ScreenSizeMode.Default) {
+                    settingsRepo.setScreenSizeMode(ScreenSizeMode.Default)
+                }
+            }
+        }
 
         CompositionLocalProvider(
             LocalDensity provides Density(
@@ -78,12 +104,14 @@ fun App(
                 screenSizeMode = screenSizeMode,
                 textScaleMode = textScaleMode,
                 themeMode = themeMode,
-                onZoomChange = { screenSizeMode = screenSizeMode.next() },
-                onToggleTextScale = { textScaleMode = textScaleMode.next() },
-                onToggleTheme = { themeMode = themeMode.toggle() },
-                setScreenSizeMode = { screenSizeMode = it },
-                setTextScaleMode = { textScaleMode = it },
-                setThemeMode = { themeMode = it }
+                followSystemSettings = followSystemSettings,
+                onZoomChange = { settingsRepo.setScreenSizeMode(screenSizeMode.next()) },
+                onToggleTextScale = { settingsRepo.setTextScaleMode(textScaleMode.next()) },
+                onToggleTheme = { settingsRepo.setThemeMode(themeMode.toggle()) },
+                setScreenSizeMode = { settingsRepo.setScreenSizeMode(it) },
+                setTextScaleMode = { settingsRepo.setTextScaleMode(it) },
+                setThemeMode = { settingsRepo.setThemeMode(it) },
+                setFollowSystemSettings = { settingsRepo.setFollowSystemSettings(it) }
             )
         ) {
             // Application du thème (on pourrait modifier le colorScheme ici si isColorBlindMode est true)
@@ -276,7 +304,7 @@ fun App(
                                 BottomItem.SETTINGS -> {
                                     SettingsScreen(
                                         isColorBlindMode = isColorBlindMode,
-                                        onColorBlindModeChange = { isColorBlindMode = it },
+                                        onColorBlindModeChange = { settingsRepo.setColorBlindMode(it) },
                                         bearerToken = loginViewModel.jwtToken?.trim()?.removeSurrounding("\""),
                                         modifier = baseModifier
                                     )

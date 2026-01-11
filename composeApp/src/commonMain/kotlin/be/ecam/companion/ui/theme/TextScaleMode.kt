@@ -16,4 +16,10 @@ enum class TextScaleMode(val fontScale: Float) {
         LARGE -> "Taille de texte: large"
         XL -> "Taille de texte: x-large"
     }
+
+    companion object {
+        fun fromScale(value: Float): TextScaleMode {
+            return entries.minByOrNull { kotlin.math.abs(it.fontScale - value) } ?: NORMAL
+        }
+    }
 }
