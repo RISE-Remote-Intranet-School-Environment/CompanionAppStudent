@@ -1,161 +1,296 @@
-# Objectives and evaluation
+# CompanionAppStudent
 
-## Objective
+Companion App Student centralise l'expérience étudiante ECAM dans une application unique. Le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web) s'appuie sur un backend Ktor et une base SQLite pour synchroniser l'horaire, les cours, les ressources et le suivi académique. Le projet vise un usage quotidien : accès rapide aux informations clés, parcours clair, données unifiées et mêmes fonctionnalités sur chaque plateforme.
 
-Build a student-facing “companion” application using this template. Your solution must use:
-- Kotlin Compose Multiplatform for the client UI (Android, iOS, Desktop/JVM, Web/Wasm).
-- Ktor for the backend server provided in this repository.
+## Sommaire
 
-Purpose
-The app should help students with day-to-day school-related matters. Example features (pick a realistic subset):
-- Schedule and calendar: courses, exams, reminders, notifications.
-- Coursework: assignments, deadlines, submissions checklist, grade tracking.
-- Information hub: announcements, news feed, FAQs, campus map/contacts.
-- Productivity: simple notes/to-dos, bookmarks/links, offline-first for key data.
-- Communication: read-only messages/alerts from the school or a mock feed.
+1. [Objectif](#1-objectif)
+2. [Histoire du logo](#2-histoire-du-logo)
+3. [Vue d’ensemble](#3-vue-densemble)
+4. [Fonctionnement du site](#4-fonctionnement-du-site)
+5. [Parcours utilisateur](#5-parcours-utilisateur)
+6. [Données, API et base](#6-donnees-api-et-base)
+7. [Architecture et flux](#7-architecture-et-flux)
+8. [Prérequis](#8-prerequis)
+9. [Installation locale](#9-installation-locale)
+10. [Lancer le serveur](#10-lancer-le-serveur)
+11. [Lancer l’app Desktop](#11-lancer-lapp-desktop)
+12. [Lancer l’app Web](#12-lancer-lapp-web)
+13. [Lancer l’app Android](#13-lancer-lapp-android)
+14. [Lancer l’app iOS](#14-lancer-lapp-ios)
+15. [Identifiants de test](#15-identifiants-de-test)
+16. [Organisation du dépôt](#16-organisation-du-depot)
+17. [Dépannage](#17-depannage)
+18. [Bugs et corrections](#18-bugs-et-corrections)
+19. [Évolutions futures](#19-evolutions-futures)
+20. [Reprendre le projet](#20-reprendre-le-projet)
+21. [Auteurs et rôles](#21-auteurs-et-roles)
 
-Constraints
-- Keep the baseline stack: Kotlin Compose Multiplatform + Ktor. You may refactor, rewrite, or delete example code, but do not replace the core technologies.
-- Favor official JetBrains/Google libraries. Third-party dependencies beyond these must be justified and pre-approved (during meeting).
-- Aim for accessibility (scalable text, contrast), basic security (no secrets in client; validate on server), and performance (smooth UI at 60fps on modest devices).
+## 1. Objectif
 
-Deliverable outcome
-- A functional prototype demonstrating a coherent student companion experience across supported platforms.
+Centraliser l’expérience étudiant autour d’un client multiplateforme et d’un serveur unique, avec des données académiques structurées, un calendrier exploitable et un parcours simple pour gérer ses cours et ses ressources.
 
-## Evaluation
+## 2. Histoire du logo
 
-Group project with mandatory check-ins every two weeks. Meetings are for scope tracking, blockers, and feedback.
+<img src="server/image/logo.png" alt="Logo" width="140">
 
-Milestones
-- First meeting: present a realistic scope proposal for the deadline. Define target platforms for the demo, user stories, and a mini roadmap.
-- Iterations: show incremental progress at each meeting (UI walkthroughs, server endpoints, tests, or usability improvements).
-- Final session: live demo of the agreed scope running on the declared platforms.
+## 3. Vue d’ensemble
 
-Grading rubric (indicative weights)
-- Group criteria (70%)
-  - Attendance and preparation for meetings (10%)
-  - Collaboration and organization: task board, commits, PRs, reviews (10%)
-  - Product scope and delivery: implements the agreed features by the deadline (20%)
-  - Cross-platform readiness: runs on declared targets; graceful fallbacks if a platform is dropped with justification (10%)
-  - Code quality: architecture, readability, tests where relevant, stable builds (15%)
-  - UX and creativity: thoughtful flows, polish, accessibility basics (5%)
-- Individual criteria (30%)
-  - Demonstrated contribution and ownership: commits, issues, documentation, initiative (25%)
-  - Professionalism: communication, reliability, responsiveness to feedback (5%)
+Le projet est découpé en deux blocs :
 
-Definition of Done (for each feature)
-- Implemented and integrated on the declared platforms.
-- Basic tests or manual test notes, and a short demo scenario.
-- No critical bugs or crashes; acceptable performance.
-- Documented in README or a SHORT_SCOPE.md (feature description, how to use, known limitations).
+- un client Compose Multiplatform (Android, iOS, Desktop, Web),
+- un serveur Ktor qui expose l’API et alimente une base SQLite.
 
-Submission and demo
-- Prepare a demo focused on user value, not only code.
-- Include a short written scope summary and platform matrix in the README.
-- Provide instructions to run the app and server; ensure the final commit builds.
+Le Web est servi par le serveur après génération du bundle WebAssembly. Le même backend alimente toutes les plateformes.
 
-Policies
-- Use of AI is allowed but must be clearly disclosed in the repo (WHAT was generated, WHERE it’s used, and any manual edits).
-- Respect academic integrity. Cite assets and sources. Avoid sensitive data; use mock data.
-- Late or missed milestones must be discussed in advance; scope may be reduced rather than slipping the deadline.
+## 4. Fonctionnement du site
 
-## A few notes
+Le site correspond à l’application Web. Il est hébergé et servi par le serveur Ktor.
 
-Usage of AI is authorized but should be fully disclosed.
+Adresse de référence : `https://clacoxygen.msrl.be/`
 
-To limit the risk of supply chain attack, code dependencies (libraries) are limited to official Google/jetBrains ones.
+Étapes côté site :
 
-# Technical aspect
+- génération du bundle WebAssembly,
+- démarrage du serveur,
+- accès via `http://localhost:28088` en local.
 
-## Project architecture
+## 5. Parcours utilisateur
 
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop (JVM), Server.
+Le parcours est pensé pour un étudiant qui veut accéder vite à ses informations :
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-    - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-    - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-      For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-      the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-      Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-      folder is the appropriate location.
+1. Connexion par email/mot de passe ou OAuth Microsoft.
+2. Accueil avec tableau de bord, cours suivis, recherche dans le catalogue et gestion des cours.
+3. Navigation formations → blocs → cours pour consulter les fiches.
+4. Accès aux ressources de cours et aux supports associés.
+5. Consultation du calendrier global et de l’horaire de cours, avec filtres par année et série.
+6. Lecture du PAE, des notes et de l’état de validation.
+7. Recherche dans l’annuaire des professeurs et accès aux détails.
+8. Paramètres avec mode daltonien et informations de session.
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+## 6. Données, API et base
 
-* [/server](./server/src/main/kotlin) is for the Ktor server application.
+L’API est disponible sous `/api` et alimente une base SQLite.
 
-* [/shared](./shared/src) is for the code that will be shared between all targets in the project.
-  The most important subfolder is [commonMain](./shared/src/commonMain/kotlin). If preferred, you
-  can add code to the platform-specific folders here too.
+Sources de données :
 
-## Build and Run Android Application
+- Seeds serveur dans `server/data` (formations, cours, horaires, professeurs, événements).
+- Ressources client dans `composeApp/src/commonMain/composeResources/files`.
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
+Exemples d’API utilisées par le client :
 
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+- Auth : `/api/auth/login`, `/api/auth/register`, `/api/auth/microsoft/login`, `/api/auth/me`
+- Formations : `/api/formations/with-courses`, `/api/blocs`
+- Cours : `/api/courses`, `/api/courses/{id}/details`
+- Horaires : `/api/course-schedule`, `/api/course-schedule/my-schedule`
+- Calendrier : `/api/calendar`
+- Professeurs : `/api/professors`
+- Cours utilisateur : `/api/my-courses`
+- PAE : `/api/pae-students`, `/api/notes-students/by-student/{studentId}`
+- Ressources : `/api/courses/{code}/resources`, `/api/course-resources`
 
-## Build and Run Desktop (JVM) Application
+Base de données : `server/data/app.db`.
 
-To build and run the development version of the desktop app, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
+L'explication complète du backend se trouve dans `server/README.md`.
+La documentation du UI client se trouve dans `composeApp/README.md`.
 
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:run
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:run
-  ```
+## 7. Architecture et flux
 
-## Build and Run Server
+Schéma logique :
 
-To build and run the development version of the server, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
+- Client (Compose) → API Ktor → SQLite
+- Client Web (Wasm) → API Ktor → SQLite
 
-- on macOS/Linux
-  ```shell
-  ./gradlew :server:run
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :server:run
-  ```
+Flux principaux :
 
-## Build and Run Web Application
+- Authentification : formulaire → `/api/auth/login` → JWT → appels protégés.
+- Catalogue : `/api/formations/with-courses` → affichage formations/blocs/cours.
+- Cours étudiant : `/api/my-courses` → ajout, suppression, affichage.
+- Ressources : `/api/courses/{code}/resources` → liste filtrée par cours.
+- Horaire : `/api/course-schedule` + filtres année/série → vue calendrier.
+- PAE et notes : `/api/pae-students` + `/api/notes-students/by-student/{id}`.
 
-The Ktor server is configured to host an existing wasm distribution of the Compose app.
-Before running the server, run this:
+## 8. Prérequis
 
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:wasmJsBrowserDistribution
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:wasmJsBrowserDistribution
-  ```
+- JDK 17
+- Android Studio pour Android
+- Xcode pour iOS
+- Gradle via le wrapper du dépôt
 
-## Build and Run iOS Application
+## 9. Installation locale
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+1) Cloner le dépôt.
+2) Ouvrir le projet dans l’IDE.
+3) Vérifier que JDK 17 est bien sélectionné.
 
+## 10. Lancer le serveur
+
+Le serveur écoute sur le port `28088` (variable `PORT`).
+
+Windows :
+
+```shell
+.\gradlew.bat :server:run
+```
+
+macOS/Linux :
+
+```shell
+./gradlew :server:run
+```
+
+## 11. Lancer l’app Desktop
+
+Windows :
+
+```shell
+.\gradlew.bat :composeApp:run
+```
+
+macOS/Linux :
+
+```shell
+./gradlew :composeApp:run
+```
+
+## 12. Lancer l’app Web
+
+1) Générer le bundle Wasm
+
+Windows :
+
+```shell
+.\gradlew.bat :composeApp:wasmJsBrowserDistribution
+```
+
+macOS/Linux :
+
+```shell
+./gradlew :composeApp:wasmJsBrowserDistribution
+```
+
+2) Démarrer le serveur
+
+Windows :
+
+```shell
+.\gradlew.bat :server:run
+```
+
+macOS/Linux :
+
+```shell
+./gradlew :server:run
+```
+
+Ouvrir `http://localhost:28088`.
+
+## 13. Lancer l'app Android
+
+### Configuration Android (local.properties)
+
+Pour compiler et installer l'app sur un appareil Android, le fichier `local.properties` doit exister à la racine du projet et contenir le chemin vers le SDK Android.
+
+Exemple (Windows) :
+
+```
+sdk.dir=C:\\Users\\<votre_user>\\AppData\\Local\\Android\\Sdk
+```
+
+Pour assembler l'application avant l'installation
 ---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+```shell
+.\gradlew.bat :composeApp:assembleDebug --no-daemon --no-configuration-cache
+```
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack
-channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [YouTrack](https://youtrack.jetbrains.com/newIssue?project=CMP).
+Puis lancer la commande d'installation avec le téléphone relié avec un câble usb(-c)
+---
+
+```shell
+.\gradlew.bat :composeApp:installDebug
+```
+**Note**: Pour que l'installation fonctionne sur le téléphone, installez le mode développeur dessus. Puis, accepter le FTP du lien USB.
+## 14. Lancer l’app iOS
+
+Ouvrir `iosApp/` dans Xcode et lancer.
+
+## 15. Identifiants de test
+
+- `nschell@ecam.be` / `nicolas`
+- `ncrepin@ecam.be` / `nirina`
+
+## 16. Organisation du dépôt
+
+- `composeApp/` : client Kotlin Compose Multiplatform.
+- `iosApp/` : point d’entrée iOS.
+- `server/` : serveur Ktor, routes, services, base SQLite.
+- `shared/` : code partagé.
+
+## 17. Dépannage
+
+- Port occupé : définir `PORT` avant de lancer le serveur.
+- Web vide : relancer `:composeApp:wasmJsBrowserDistribution`, puis `:server:run`.
+- Auth échoue : vérifier que le serveur est démarré et que le client pointe vers `http://localhost:28088`.
+- Gradle bloqué : exécuter `.\gradlew.bat --stop` (Windows) ou `./gradlew --stop` (macOS/Linux), puis relancer la tâche.
+
+## 18. Bugs et corrections
+
+- La backdoor admin hardcodée doit être supprimée pour éviter un accès non contrôlé.
+- Le token JWT ne doit plus être affiché dans les paramètres de l’application.
+- La validation des données dans les DTO doit être renforcée pour éviter des états incohérents.
+- Les entrées PAE doivent être reliées aux cours ajoutés manuellement en base.
+- La gestion des points des étudiants doit être corrigée et vérifiable.
+- Les photos de professeurs doivent être mises en cache pour réduire les requêtes.
+
+## 19. Recommendations futures
+
+- Un navigateur intégré doit ouvrir Claco sur l’onglet folder du cours sans passer par le navigateur par défaut, avec une solution pour la double connexion validée par les gestionnaires de Claco.
+- Un scraping automatique doit s’exécuter à intervalle avec un indicateur d’heure de mise à jour dans l’UI, ou être remplacé par un accès à l’API calendar.
+- Le local du professeur doit être lié au local du cours en temps réel.
+- L’UX doit éviter un menu à gauche ou une bottom bar selon le format retenu.
+- La lisibilité du calendrier sur smartphone doit être alignée sur la taille d’écran et les capacités de l’appareil.
+- Les relations entre tables SQL doivent être renforcées pour éviter les doublons et les incohérences.
+- La création de compte sans Microsoft doit être supprimée et les informations disponibles via Microsoft doivent être exploitées pour personnaliser l’expérience et la monétisation.
+- Les attributs Microsoft doivent être utilisés pour préremplir le profil et relier un compte existant par email.
+- Un monitoring doit signaler une hausse des requêtes en échec avec un système d’alerte.
+- Un panel admin doit permettre la gestion des utilisateurs depuis l’app sans modification du code ni de la base.
+- Un panel admin doit aussi permettre d’ajouter et modifier les professeurs.
+- L’application doit proposer une séparation fonctionnelle par rôle entre admin, professor et student.
+- Les étudiants et professeurs doivent pouvoir ajouter des événements personnalisés.
+- Une option doit indiquer l’occupation des locaux.
+- La version prof doit afficher l’horaire du professeur connecté.
+- La version étudiant doit afficher l’horaire du professeur.
+- Un accès direct avec recherche vers l’horaire des professeurs doit être disponible.
+- Des photos d’étudiants doivent être gérées dans le profil.
+- Les photos de professeurs doivent être mises en cache.
+- Les professeurs doivent pouvoir moduler leur page de cours et ajouter des ressources.
+- Les professeurs doivent pouvoir publier des notifications liées à leurs cours.
+- Des deadlines de projets doivent être liées au calendrier étudiant et professeur.
+- Les liens entre cours, professeurs, horaires, locaux et ressources doivent être consolidés.
+- Les rôles `admin`, `professeur`, `étudiant` doivent être appliqués avec des droits cohérents.
+- Les données des étudiants (PAE, parcours) doivent être enrichies et consolidées.
+- Le PAE doit afficher des indicateurs de progression par bloc.
+- Le dashboard utilisateur doit avoir une mise en forme plus lisible.
+- Les paramètres doivent centraliser le réglage du serveur (host/port).
+- Les assets doivent être standardisés par plateforme avec des variantes d’icônes pour l’accessibilité.
+- Les notifications doivent être branchées sur des événements serveur avec un historique consultable et un lien vers le cours.
+
+## 20. Reprendre le projet
+
+Pour reprendre rapidement :
+
+1. Démarrer le serveur et vérifier `http://localhost:28088`.
+2. Lancer l’app Desktop pour valider l’UI sans émulateur.
+3. Tester l’API avec les routes listées dans la section Données et API.
+4. Lire `server/README.md` pour le détail des modèles et des routes.
+5. Explorer `composeApp/src/commonMain` pour comprendre les écrans et la navigation.
+
+## 21. Auteurs et rôles
+
+- Chokayri Omar : UI Desktop
+- Crépin Nirina : Scrum master + UI Android
+- Masureel Bruno : Backend
+- Schell Nicolas : UI iOS
+- Yaya Libis Issakha : Backend
+- Yildirim Arifcan : UI Web

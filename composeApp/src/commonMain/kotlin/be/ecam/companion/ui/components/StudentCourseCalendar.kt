@@ -51,7 +51,10 @@ fun StudentCourseCalendar(
     var selectedSeries by remember(initialSeries) { mutableStateOf(initialSeries) }
     
     var resolvedUser by remember { mutableStateOf(displayName ?: username) }
-    var showOnlyUserCourses by remember { mutableStateOf(true) }
+    val startInExplorer = remember(initialYearOption, initialSeries) {
+        initialYearOption != null || initialSeries != null
+    }
+    var showOnlyUserCourses by remember(startInExplorer) { mutableStateOf(!startInExplorer) }
 
     // Charger les données initiales (Calendrier global + Personnel)
     LaunchedEffect(baseUrl, bearer) {
@@ -113,6 +116,16 @@ fun StudentCourseCalendar(
             
             if (fromCourses.isNotEmpty()) fromCourses.sorted()
             else seriesNames.map { it.seriesId }.sorted()
+        }
+    }
+    
+    LaunchedEffect(showOnlyUserCourses, selectedSeries, availableSeriesForYear) {
+        if (!showOnlyUserCourses) {
+            val normalizedSeries = availableSeriesForYear.filter { it.isNotBlank() }
+            val hasValidSelection = selectedSeries?.let { it in normalizedSeries } == true
+            if (!hasValidSelection && normalizedSeries.isNotEmpty()) {
+                selectedSeries = normalizedSeries.first()
+            }
         }
     }
 
