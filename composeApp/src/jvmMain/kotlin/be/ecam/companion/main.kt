@@ -13,7 +13,7 @@ import org.koin.dsl.module
 import java.awt.Desktop
 import java.net.URI
 import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.favicon_32x32
+import companion.composeapp.generated.resources.claco2_svg
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window

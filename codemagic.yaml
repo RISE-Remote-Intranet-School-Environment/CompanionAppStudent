@@ -9,7 +9,7 @@ workflows:
       cocoapods: default
       vars:
         IOS_DIR: "iosApp"
-        SCHEME: "iosApp"   # ⚠️ change si ton scheme réel est différent
+        SCHEME: "iosApp"
         DERIVED: "$CM_BUILD_DIR/build/DerivedData"
         DEST: "platform=iOS Simulator,name=iPhone 15"
     scripts:

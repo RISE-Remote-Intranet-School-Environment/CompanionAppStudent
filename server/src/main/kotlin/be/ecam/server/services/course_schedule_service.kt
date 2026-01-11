@@ -251,7 +251,7 @@ object CourseScheduleService {
                 .toList()
 
             if (paeEntries.isEmpty()) {
-                println("⚠️ Aucun PAE et aucun cours sélectionné pour: $email (userId=$userId)")
+                println("Aucun PAE et aucun cours sélectionné pour: $email (userId=$userId)")
                 return@transaction emptyList()
             }
 
@@ -265,9 +265,8 @@ object CourseScheduleService {
                 .distinct()
         }
 
-        // ...reste du code existant pour récupérer les horaires...
         if (paeCourseIds.isEmpty()) {
-            println("⚠️ Aucun cours trouvé pour: $email")
+            println("Aucun cours trouvé pour: $email")
             return@transaction emptyList()
         }
 

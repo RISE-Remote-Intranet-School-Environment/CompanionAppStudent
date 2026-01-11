@@ -65,7 +65,7 @@ class CalendarRepository(
                 }
             }
             
-            println("🔄 GET $url")
+            println("GET $url")
             
             val response = client.get(url) {
                 token?.let { 
@@ -74,11 +74,11 @@ class CalendarRepository(
                 header(HttpHeaders.Accept, "application/json")
             }
             
-            println("📥 Response status: ${response.status}")
+            println("Response status: ${response.status}")
             
             if (response.status.isSuccess()) {
                 val dtos: List<CourseScheduleDto> = response.body()
-                println("📥 Reçu ${dtos.size} cours du serveur")
+                println("Reçu ${dtos.size} cours du serveur")
                 dtos.mapNotNull { it.toCourseScheduleEvent(json) }
             } else {
                 val body = runCatching { response.body<String>() }.getOrDefault("")
@@ -97,24 +97,24 @@ class CalendarRepository(
      */
     suspend fun getMySchedule(token: String?): List<CourseScheduleEvent> {
         if (token.isNullOrBlank()) {
-            println("⚠️ getMySchedule: token manquant")
+            println("getMySchedule: token manquant")
             return emptyList()
         }
         
         return try {
             val url = "${baseUrlProvider()}/api/course-schedule/my-schedule"
-            println("🔄 GET $url")
+            println("GET $url")
             
             val response = client.get(url) {
                 header(HttpHeaders.Authorization, "Bearer ${token.trim().removeSurrounding("\"")}")
                 header(HttpHeaders.Accept, "application/json")
             }
             
-            println("📥 Response status: ${response.status}")
+            println("Response status: ${response.status}")
             
             if (response.status.isSuccess()) {
                 val dtos: List<CourseScheduleDto> = response.body()
-                println("📥 Reçu ${dtos.size} cours personnels du serveur")
+                println("Reçu ${dtos.size} cours personnels du serveur")
                 dtos.mapNotNull { it.toCourseScheduleEvent(json) }
             } else {
                 val body = runCatching { response.body<String>() }.getOrDefault("")
