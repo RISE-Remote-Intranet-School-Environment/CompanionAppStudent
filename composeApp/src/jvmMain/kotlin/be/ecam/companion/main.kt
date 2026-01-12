@@ -13,7 +13,7 @@ import org.koin.dsl.module
 import java.awt.Desktop
 import java.net.URI
 import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.claco2_svg
+import companion.composeapp.generated.resources.o2_svg
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
@@ -29,9 +29,9 @@ fun main() = application {
     )
     Window(
         onCloseRequest = ::exitApplication,
-        title = "ClacOxygen - Companion Student",
+        title = "ClacOxygen",
         state = windowState,
-        icon = painterResource(Res.drawable.claco2_svg)
+        icon = painterResource(Res.drawable.o2_svg)
     ) {
         val desktopModule = module {
             single<SettingsRepository> { PersistentSettingsRepository() }
