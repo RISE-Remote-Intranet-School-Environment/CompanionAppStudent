@@ -1,7 +1,7 @@
 # ClacOxygen - Documentation client
 
 Ce dossier contient le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web/Wasm).
-Le client consomme l'API Ktor du serveur et partage un maximum de code UI et métier dans `commonMain`.
+Le client consomme l'API Ktor du serveur et partage un maximum de code UI et métier dans [src/commonMain](src/commonMain).
 
 **Liens utiles :**
 - [Retour à la documentation générale](../README.md)
@@ -149,126 +149,126 @@ composeApp/
 
 Organisation logique :
 
-- UI : `composeApp/src/commonMain/kotlin/be/ecam/companion/ui`
-- ViewModels : `composeApp/src/commonMain/kotlin/be/ecam/companion/viewmodel`
-- Data / API : `composeApp/src/commonMain/kotlin/be/ecam/companion/data`
-- DI : `composeApp/src/commonMain/kotlin/be/ecam/companion/di`
-- Utils : `composeApp/src/commonMain/kotlin/be/ecam/companion/utils`
+- UI : [src/commonMain/kotlin/be/ecam/companion/ui](src/commonMain/kotlin/be/ecam/companion/ui)
+- ViewModels : [src/commonMain/kotlin/be/ecam/companion/viewmodel](src/commonMain/kotlin/be/ecam/companion/viewmodel)
+- Data / API : [src/commonMain/kotlin/be/ecam/companion/data](src/commonMain/kotlin/be/ecam/companion/data)
+- DI : [src/commonMain/kotlin/be/ecam/companion/di](src/commonMain/kotlin/be/ecam/companion/di)
+- Utils : [src/commonMain/kotlin/be/ecam/companion/utils](src/commonMain/kotlin/be/ecam/companion/utils)
 
 ## 3. Points d'entrée par plateforme
 
 Android
 ---
 
-- `composeApp/src/androidMain/kotlin/be/ecam/companion/MainActivity.kt`
+- [MainActivity.kt](src/androidMain/kotlin/be/ecam/companion/MainActivity.kt)
 - Injecte `SettingsRepository` persistant.
 - Gère un deep link OAuth (schéma `be.ecam.companion://auth-callback`).
 
 iOS
 ---
 
-- `composeApp/src/iosMain/kotlin/be/ecam/companion/MainViewController.kt`
+- [MainViewController.kt](src/iosMain/kotlin/be/ecam/companion/MainViewController.kt)
 - Monte l'app Compose via `ComposeUIViewController`.
 - Injecte `SettingsRepository` persistant.
 
 Desktop (JVM)
 ---
 
-- `composeApp/src/jvmMain/kotlin/be/ecam/companion/main.kt`
+- [main.kt](src/jvmMain/kotlin/be/ecam/companion/main.kt)
 - Monte la fenêtre Compose.
-- Démarre un serveur local OAuth via `DesktopOAuthHelper`.
+- Démarre un serveur local OAuth via [DesktopOAuthHelper.kt](src/jvmMain/kotlin/be/ecam/companion/oauth/DesktopOAuthHelper.kt).
 - Injecte `SettingsRepository` persistant.
 
 Web/Wasm
 ---
 
-- `composeApp/src/wasmJsMain/kotlin/be/ecam/companion/main.kt`
+- [main.kt](src/wasmJsMain/kotlin/be/ecam/companion/main.kt)
 - Monte l'app avec `ComposeViewport`.
 - Lit les tokens OAuth dans l'URL, les stocke dans `localStorage`.
 - Injecte `SettingsRepository` en mémoire.
 
 ## 4. Navigation et écrans
 
-La navigation est gérée dans `composeApp/src/commonMain/kotlin/be/ecam/companion/App.kt`.
-Les écrans sont des composables `@Composable` dans `ui/screens/`.
+La navigation est gérée dans [App.kt](src/commonMain/kotlin/be/ecam/companion/App.kt).
+Les écrans sont des composables `@Composable` dans [src/commonMain/kotlin/be/ecam/companion/ui/screens/](src/commonMain/kotlin/be/ecam/companion/ui/screens/).
 
 Écrans principaux :
 ---
 
-- `LoginScreen.kt` : connexion email/mot de passe + OAuth Microsoft.
-- `RegisterScreen.kt` : inscription locale.
-- `HomeScreen.kt` : tableau de bord des cours + recherche catalogue.
-- `CoursesFormationScreen.kt` : parcours formations → blocs → cours.
-- `CoursesFormationBlocScreen.kt` : bloc d'une formation.
-- `CoursesFicheScreen.kt` : fiche détaillée de cours.
-- `CoursesResourcesScreen.kt` : ressources de cours.
-- `CalendarScreen.kt` : calendrier global.
-- `MonPaeScreen.kt` : PAE, notes, validation.
-- `ProfessorsScreen.kt` : annuaire professeurs.
-- `UserDashboardScreen.kt` : résumé utilisateur.
-- `SettingsScreen.kt` : accessibilité et token (à retirer plus tard).
+- [LoginScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/LoginScreen.kt) : connexion email/mot de passe + OAuth Microsoft.
+- [RegisterScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/RegisterScreen.kt) : inscription locale.
+- [HomeScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/HomeScreen.kt) : tableau de bord des cours + recherche catalogue.
+- [CoursesFormationScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFormationScreen.kt) : parcours formations → blocs → cours.
+- [CoursesFormationBlocScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFormationBlocScreen.kt) : bloc d'une formation.
+- [CoursesFicheScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFicheScreen.kt) : fiche détaillée de cours.
+- [CoursesResourcesScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesResourcesScreen.kt) : ressources de cours.
+- [CalendarScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CalendarScreen.kt) : calendrier global.
+- [MonPaeScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/MonPaeScreen.kt) : PAE, notes, validation.
+- [ProfessorsScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/ProfessorsScreen.kt) : annuaire professeurs.
+- [UserDashboardScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/UserDashboardScreen.kt) : résumé utilisateur.
+- [SettingsScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/SettingsScreen.kt) : accessibilité et token (à retirer plus tard).
 
 Navigation UI :
 ---
 
-- Bottom bar : `ui/components/BottomBar.kt` + `BottomItem.kt`
-- Drawer latéral : `ui/components/AppDrawer.kt`
-- Top bar : `ui/components/TopBar.kt`
+- Bottom bar : [BottomBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/BottomBar.kt) + [BottomItem.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/BottomItem.kt)
+- Drawer latéral : [AppDrawer.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/AppDrawer.kt)
+- Top bar : [TopBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/TopBar.kt)
 
 ## 5. État, ViewModels et logique métier
 
 LoginViewModel
 ---
 
-- Fichier : `viewmodel/LoginViewModel.kt`
+- Fichier : [LoginViewModel.kt](src/commonMain/kotlin/be/ecam/companion/viewmodel/LoginViewModel.kt)
 - Gère login, register, refresh session et `currentUser`.
-- Stocke le token via `utils/TokenStorage`.
+- Stocke le token via [TokenStorage.kt](src/commonMain/kotlin/be/ecam/companion/utils/TokenStorage.kt).
 - Appels principaux : `/api/auth/login`, `/api/auth/register`, `/api/auth/me`.
 
 HomeViewModel
 ---
 
-- Fichier : `viewmodel/HomeViewModel.kt`
+- Fichier : [HomeViewModel.kt](src/commonMain/kotlin/be/ecam/companion/viewmodel/HomeViewModel.kt)
 - Charge le PAE, le catalogue et les cours sélectionnés.
 - Fusionne PAE + cours manuels.
-- Gère l'ajout/suppression via `UserCoursesRepository`.
+- Gère l'ajout/suppression via [UserCoursesRepository.kt](src/commonMain/kotlin/be/ecam/companion/data/UserCoursesRepository.kt).
 
 ## 6. Couche données et repositories
 
-Liste des repositories (fichiers dans `data/`) :
+Liste des repositories (fichiers dans [src/commonMain/kotlin/be/ecam/companion/data/](src/commonMain/kotlin/be/ecam/companion/data/)) :
 
-- `ApiRepository.kt` + `KtorApiRepository.kt`
+- [ApiRepository.kt](src/commonMain/kotlin/be/ecam/companion/data/ApiRepository.kt) + [KtorApiRepository.kt](src/commonMain/kotlin/be/ecam/companion/data/KtorApiRepository.kt)
   - endpoints basiques `/api/hello` et `/api/schedule`.
-- `CalendarRepository.kt`
+- [CalendarRepository.kt](src/commonMain/kotlin/be/ecam/companion/data/CalendarRepository.kt)
   - `/api/calendar`, `/api/course-schedule`, `/api/course-schedule/my-schedule`,
     `/api/year-options`, `/api/series`.
-- `CourseDetailsRepository.kt`
+- [CourseDetailsRepository.kt](src/commonMain/kotlin/be/ecam/companion/data/CourseDetailsRepository.kt)
   - Agrège `/api/courses`, `/api/course-details`, `/api/sous-courses`,
     `/api/course-evaluations`, `/api/professors`, `/api/blocs`, `/api/formations`.
   - Construit la fiche complète (activités organisées, évaluations, responsables).
-- `CourseResourceRepository.kt`
+- [CourseResourceRepository.kt](src/commonMain/kotlin/be/ecam/companion/data/CourseResourceRepository.kt)
   - `/api/courses/{code}/resources` avec fallback `/api/course-resources`.
-- `FormationCatalogRepository.kt`
+- [FormationCatalogRepository.kt](src/commonMain/kotlin/be/ecam/companion/data/FormationCatalogRepository.kt)
   - `/api/formations/with-courses`, regroupement par blocs.
-- `ProfessorCatalogRepository.kt`
+- [ProfessorRepository.kt](src/commonMain/kotlin/be/ecam/companion/data/ProfessorRepository.kt)
   - `/api/professors` + `/api/courses` pour enrichir la liste des cours.
-- `PaeRepository.kt`
-  - charge via `loadPaeFromServer` dans `MonPaeScreen.kt`.
-- `UserCoursesRepository.kt`
+- [PaeRepository.kt](src/commonMain/kotlin/be/ecam/companion/data/PaeRepository.kt)
+  - charge via `loadPaeFromServer` dans [MonPaeScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/MonPaeScreen.kt).
+- [UserCoursesRepository.kt](src/commonMain/kotlin/be/ecam/companion/data/UserCoursesRepository.kt)
   - `/api/my-courses` pour ajouter, retirer, synchroniser les cours.
 
-Ces classes sont instanciées via Koin dans `di/di.kt`.
+Ces classes sont instanciées via Koin dans [di.kt](src/commonMain/kotlin/be/ecam/companion/di/di.kt).
 
 ## 7. Configuration du serveur et base URL
 
 La base URL est construite via :
 
 - `defaultServerBaseUrl()` (platform-specific)
-  - Android, iOS, JVM, Wasm : `composeApp/src/*Main/kotlin/.../data/DefaultServer.*.kt`
+  - Android, iOS, JVM, Wasm : [DefaultServer.android.kt](src/androidMain/kotlin/be/ecam/companion/data/DefaultServer.android.kt), etc.
 - `SettingsRepository` pour stocker host/port
   - `PersistentSettingsRepository.*` (Android, iOS, JVM)
-  - `InMemorySettingsRepository` (Web/Wasm)
-- `buildBaseUrl()` dans `di/di.kt`
+  - [InMemorySettingsRepository.kt](src/commonMain/kotlin/be/ecam/companion/data/InMemorySettingsRepository.kt) (Web/Wasm)
+- `buildBaseUrl()` dans [di.kt](src/commonMain/kotlin/be/ecam/companion/di/di.kt)
   - choisit `https` pour le domaine public, `http://host:port` pour le local.
 
 `SettingsRepository` stocke aussi les réglages UI :
@@ -280,10 +280,10 @@ La base URL est construite via :
 Changer l'URL de production :
 
 - Modifier `defaultServerBaseUrl()` dans :
-  - `composeApp/src/androidMain/kotlin/.../DefaultServer.android.kt`
-  - `composeApp/src/iosMain/kotlin/.../DefaultServer.ios.kt`
-  - `composeApp/src/jvmMain/kotlin/.../DefaultServer.jvm.kt`
-  - `composeApp/src/wasmJsMain/kotlin/.../DefaultServer.wasmJs.kt`
+  - [DefaultServer.android.kt](src/androidMain/kotlin/be/ecam/companion/data/DefaultServer.android.kt)
+  - [DefaultServer.ios.kt](src/iosMain/kotlin/be/ecam/companion/data/DefaultServer.ios.kt)
+  - [DefaultServer.jvm.kt](src/jvmMain/kotlin/be/ecam/companion/data/DefaultServer.jvm.kt)
+  - [DefaultServer.wasmJs.kt](src/wasmJsMain/kotlin/be/ecam/companion/data/DefaultServer.wasmJs.kt)
 
 Changer le serveur local :
 
@@ -293,7 +293,7 @@ Changer le serveur local :
 
 Token JWT :
 
-- Stockage abstrait : `utils/TokenStorage.kt`
+- Stockage abstrait : [TokenStorage.kt](src/commonMain/kotlin/be/ecam/companion/utils/TokenStorage.kt)
 - Implémentations :
   - Android : TODO (actuellement vide)
   - JVM : `Preferences`
@@ -310,21 +310,21 @@ Login :
 Web/Wasm
 ---
 
-- `wasmJsMain/main.kt` lit `accessToken` et `refreshToken` dans l'URL.
+- [main.kt](src/wasmJsMain/kotlin/be/ecam/companion/main.kt) lit `accessToken` et `refreshToken` dans l'URL.
 - Les tokens sont stockés dans `localStorage`.
 - Redirection vers `/api/auth/microsoft/login?platform=web&returnUrl=...`.
 
 Desktop
 ---
 
-- `DesktopOAuthHelper.kt` démarre un serveur local `http://localhost:18080-18100/callback`.
-- `jvmMain/main.kt` ouvre l'URL OAuth avec `platform=desktop`.
-- Le callback injecte `pendingOAuthResult` dans `App`.
+- [DesktopOAuthHelper.kt](src/jvmMain/kotlin/be/ecam/companion/oauth/DesktopOAuthHelper.kt) démarre un serveur local `http://localhost:18080-18100/callback`.
+- [main.kt](src/jvmMain/kotlin/be/ecam/companion/main.kt) ouvre l'URL OAuth avec `platform=desktop`.
+- Le callback injecte `pendingOAuthResult` dans [App.kt](src/commonMain/kotlin/be/ecam/companion/App.kt).
 
 Android
 ---
 
-- `MainActivity.kt` capture le deep link `be.ecam.companion://auth-callback`.
+- [MainActivity.kt](src/androidMain/kotlin/be/ecam/companion/MainActivity.kt) capture le deep link `be.ecam.companion://auth-callback`.
 - Les tokens sont relayés via `OAuthCallbackHandler`.
 
 iOS
@@ -334,21 +334,21 @@ iOS
 
 ## 10. Composants UI réutilisables
 
-Fichiers utiles dans `ui/components/` :
+Fichiers utiles dans [src/commonMain/kotlin/be/ecam/companion/ui/components/](src/commonMain/kotlin/be/ecam/companion/ui/components/) :
 
-- `BottomBar.kt` et `BottomItem.kt` : navigation principale.
-- `TopBar.kt` : actions globales (thème, taille, notifications).
-- `AppDrawer.kt` : navigation latérale.
-- `StudentCourseCalendar.kt` : calendrier personnalisé et filtre.
-- `CourseFilterBar.kt` : filtres sur le calendrier.
-- `NotificationWidget.kt` : alertes UI.
-- `KamelImage.kt` : affichage d'images.
-- `EcamBackground.kt` : fond de login.
+- [BottomBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/BottomBar.kt) et [BottomItem.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/BottomItem.kt) : navigation principale.
+- [TopBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/TopBar.kt) : actions globales (thème, taille, notifications).
+- [AppDrawer.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/AppDrawer.kt) : navigation latérale.
+- [StudentCourseCalendar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/StudentCourseCalendar.kt) : calendrier personnalisé et filtre.
+- [CourseFilterBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/CourseFilterBar.kt) : filtres sur le calendrier.
+- [NotificationWidget.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/NotificationWidget.kt) : alertes UI.
+- [KamelImage.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/KamelImage.kt) : affichage d'images.
+- [EcamBackground.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/EcamBackground.kt) : fond de login.
 - `Base64Image.*.kt` : rendu images encodées par plateforme.
 
 ## 11. Ressources et assets
 
-`composeResources/` contient :
+[src/commonMain/composeResources/](src/commonMain/composeResources/) contient :
 
 - images (`drawable/`)
 - fichiers JSON (`files/`) pour formations, professeurs, calendriers, etc.
@@ -360,27 +360,27 @@ Ces ressources sont accessibles via `Res` et peuvent servir d'assets, d'exemples
 
 Changer un écran :
 
-- Modifier le composable dans `ui/screens/`.
-- Si l'écran est dans la navigation principale, mettre à jour `App.kt`,
-  `BottomItem.kt`, `BottomBar.kt` et/ou `AppDrawer.kt`.
+- Modifier le composable dans [src/commonMain/kotlin/be/ecam/companion/ui/screens/](src/commonMain/kotlin/be/ecam/companion/ui/screens/).
+- Si l'écran est dans la navigation principale, mettre à jour [App.kt](src/commonMain/kotlin/be/ecam/companion/App.kt),
+  [BottomItem.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/BottomItem.kt), [BottomBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/BottomBar.kt) et/ou [AppDrawer.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/AppDrawer.kt).
 
 Modifier la top bar ou les actions globales :
 
-- `ui/components/TopBar.kt`
+- [TopBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/TopBar.kt)
 
 Modifier le style et les thèmes :
 
-- `ui/theme/ThemeMode.kt` pour les color schemes.
-- `ui/theme/TextScaleMode.kt`, `ScreenSizeMode.kt` pour l'accessibilité.
+- [ThemeMode.kt](src/commonMain/kotlin/be/ecam/companion/ui/theme/ThemeMode.kt) pour les color schemes.
+- [TextScaleMode.kt](src/commonMain/kotlin/be/ecam/companion/ui/theme/TextScaleMode.kt), [ScreenSizeMode.kt](src/commonMain/kotlin/be/ecam/companion/ui/theme/ScreenSizeMode.kt) pour l'accessibilité.
 
 Modifier les textes et labels :
 
-- Les labels de navigation sont dans `BottomItem.kt`.
+- Les labels de navigation sont dans [BottomItem.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/BottomItem.kt).
 - Les textes d'écrans sont dans les composables correspondants.
 
 Modifier l'API utilisée par un écran :
 
-- Mettre à jour le repository dans `data/`.
+- Mettre à jour le repository dans [src/commonMain/kotlin/be/ecam/companion/data/](src/commonMain/kotlin/be/ecam/companion/data/).
 - Appeler le repository depuis le ViewModel ou directement dans l'écran.
 
 ## 13. Ajouter une nouvelle fonctionnalité
@@ -388,9 +388,9 @@ Modifier l'API utilisée par un écran :
 Exemple : ajouter un écran "Ressources globales"
 
 1. Créer `ui/screens/GlobalResourcesScreen.kt`.
-2. Créer un repository ou étendre `CourseResourceRepository`.
-3. Ajouter une entrée dans `BottomItem.kt` si l'écran est principal.
-4. Mettre à jour `BottomBar.kt` + `App.kt` pour la navigation.
+2. Créer un repository ou étendre [CourseResourceRepository.kt](src/commonMain/kotlin/be/ecam/companion/data/CourseResourceRepository.kt).
+3. Ajouter une entrée dans [BottomItem.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/BottomItem.kt) si l'écran est principal.
+4. Mettre à jour [BottomBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/BottomBar.kt) + [App.kt](src/commonMain/kotlin/be/ecam/companion/App.kt) pour la navigation.
 5. Ajouter un test manuel ou une note de test dans la doc.
 
 ## 14. Dépannage côté client
@@ -410,8 +410,8 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 
 <img src="../server/image/website/login.png" alt="Login" width="720">
 
-- Écran : `composeApp/src/commonMain/kotlin/be/ecam/companion/ui/screens/LoginScreen.kt`
-- Composants : `ui/components/EcamBackground.kt`, `MicrosoftSignInButton` (dans LoginScreen)
+- Écran : [LoginScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/LoginScreen.kt)
+- Composants : [EcamBackground.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/EcamBackground.kt), `MicrosoftSignInButton` (dans [LoginScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/LoginScreen.kt))
 - Modifiable :
   - états `email`/`password`
   - validation dans `onLoginClick`
@@ -428,8 +428,8 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 
 <img src="../server/image/website/home.png" alt="Home" width="720">
 
-- Écran : `composeApp/src/commonMain/kotlin/be/ecam/companion/ui/screens/HomeScreen.kt`
-- Composants : `ui/components/BottomBar.kt`, `ui/components/TopBar.kt`
+- Écran : [HomeScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/HomeScreen.kt)
+- Composants : [BottomBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/BottomBar.kt), [TopBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/TopBar.kt)
 - Modifiable :
   - recherche (`searchQuery`, `isSearching`)
   - mapping des cours (`displayedItems`, `CourseDisplayItem`)
@@ -446,8 +446,8 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 
 <img src="../server/image/website/formations.png" alt="Formations" width="720">
 
-- Écran : `composeApp/src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFormationScreen.kt`
-- Composants : `ui/components/TopBar.kt`
+- Écran : [CoursesFormationScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFormationScreen.kt)
+- Composants : [TopBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/TopBar.kt)
 - Modifiable :
   - intro (`IntroText`)
   - cartes info (`MiniInfoCard`)
@@ -461,7 +461,7 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 
 <img src="../server/image/website/formationsblocs.png" alt="Formations Blocs" width="720">
 
-- Écran : `composeApp/src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFormationBlocScreen.kt`
+- Écran : [CoursesFormationBlocScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFormationBlocScreen.kt)
 - Composants : listes internes de cours
 - Modifiable :
   - filtres (`FilterPanel`)
@@ -476,7 +476,7 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 
 <img src="../server/image/website/ectfiche.png" alt="Fiche de cours" width="720">
 
-- Écran : `composeApp/src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFicheScreen.kt`
+- Écran : [CoursesFicheScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFicheScreen.kt)
 - Composants : sections de détail et cartes internes
 - Modifiable :
   - chargement (`rememberCoursesDetails`)
@@ -490,8 +490,8 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 
 <img src="../server/image/website/calendar.png" alt="Calendrier" width="720">
 
-- Écran : `composeApp/src/commonMain/kotlin/be/ecam/companion/ui/screens/CalendarScreen.kt`
-- Composants : `ui/components/StudentCourseCalendar.kt`, `ui/components/CourseFilterBar.kt`
+- Écran : [CalendarScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CalendarScreen.kt)
+- Composants : [StudentCourseCalendar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/StudentCourseCalendar.kt), [CourseFilterBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/CourseFilterBar.kt)
 - Modifiable :
   - contrôles (`CalendarControls`)
   - entêtes (`WeekDayHeader`)
@@ -511,7 +511,7 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 
 <img src="../server/image/website/calendarwindow.png" alt="Calendrier - fenêtre" width="720">
 
-- Écran : `composeApp/src/commonMain/kotlin/be/ecam/companion/ui/screens/CalendarScreen.kt`
+- Écran : [CalendarScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CalendarScreen.kt)
 - Composants : `CalendarEventDetailCard`, `SelectedDayEvents`
 - Modifiable :
   - contenu de la fenêtre (title, meta, description)
@@ -522,7 +522,7 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 
 <img src="../server/image/website/monpae.png" alt="Mon PAE" width="720">
 
-- Écran : `composeApp/src/commonMain/kotlin/be/ecam/companion/ui/screens/MonPaeScreen.kt`
+- Écran : [MonPaeScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/MonPaeScreen.kt)
 - Composants : tableaux internes, sections PAE
 - Modifiable :
   - chargement serveur (`loadPaeFromServer`)
@@ -539,13 +539,13 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 
 <img src="../server/image/website/professeurs.png" alt="Professeurs" width="720">
 
-- Écran : `composeApp/src/commonMain/kotlin/be/ecam/companion/ui/screens/ProfessorsScreen.kt`
-- Composants : `ui/components/KamelImage.kt`
+- Écran : [ProfessorsScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/ProfessorsScreen.kt)
+- Composants : [KamelImage.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/KamelImage.kt)
 - Modifiable :
   - écran principal (`ProfessorsMainScreen`)
   - cartes (`ProfessorCard`)
   - recherche/filtre
-  - photos via `KamelImage`
+  - photos via [KamelImage.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/KamelImage.kt)
   - couleurs via `randomColorFor`
 - Améliorations futures :
   - cache des photos de professeurs
@@ -556,7 +556,7 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 
 <img src="../server/image/website/professeurfiche.png" alt="Fiche professeur" width="720">
 
-- Écran : `composeApp/src/commonMain/kotlin/be/ecam/companion/ui/screens/ProfessorsScreen.kt`
+- Écran : [ProfessorsScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/ProfessorsScreen.kt)
 - Composants : sections internes de détail
 - Modifiable :
   - popup (`ProfessorDetailsDialog`)
@@ -570,7 +570,7 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 
 <img src="../server/image/website/userdashboard.png" alt="User Dashboard" width="720">
 
-- Écran : `composeApp/src/commonMain/kotlin/be/ecam/companion/ui/screens/UserDashboardScreen.kt`
+- Écran : [UserDashboardScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/UserDashboardScreen.kt)
 - Composants : widgets internes de résumé
 - Modifiable :
   - cartes (`DashboardMiniCard`, `DashboardSectionCard`)
@@ -586,7 +586,7 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 
 <img src="../server/image/website/settings.png" alt="Settings" width="720">
 
-- Écran : `composeApp/src/commonMain/kotlin/be/ecam/companion/ui/screens/SettingsScreen.kt`
+- Écran : [SettingsScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/SettingsScreen.kt)
 - Composants : switch, carte token
 - Modifiable :
   - toggle "suivre les réglages système" (liaison avec `followSystemSettings`)
@@ -594,7 +594,7 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
   - toggle de thème (`SettingsToggleRow`)
   - switch daltonien
   - carte token (afficher/masquer/copier)
-  - libellés, descriptions et disposition dans `SettingsScreen`
+  - libellés, descriptions et disposition dans [SettingsScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/SettingsScreen.kt)
 - Bugs à corriger :
   - retirer l'affichage du token JWT dans les paramètres
 - Améliorations futures :
@@ -605,10 +605,10 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 
 <img src="../server/image/website/drawable.png" alt="Assets" width="720">
 
-- Fichiers : `composeApp/src/commonMain/composeResources/drawable/`
+- Fichiers : [src/commonMain/composeResources/drawable/](src/commonMain/composeResources/drawable/)
 - Modifiable :
-  - images dans `composeResources/drawable/`
-  - références dans les écrans, `KamelImage` et `EcamBackground`
+  - images dans [src/commonMain/composeResources/drawable/](src/commonMain/composeResources/drawable/)
+  - références dans les écrans, [KamelImage.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/KamelImage.kt) et [EcamBackground.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/EcamBackground.kt)
 - Améliorations futures :
   - standardiser les tailles d’assets par plateforme
   - ajouter des variantes d’icônes pour l’accessibilité
@@ -620,11 +620,11 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 
 <img src="../server/image/website/cours.png" alt="Cours" width="720">
 
-- Écran : `composeApp/src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFormationScreen.kt`
+- Écran : [CoursesFormationScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFormationScreen.kt)
 - Composants : listes de cours et cartes internes
 - Modifiable :
-  - affichage des cours dans `CoursesFormationScreen` (cartes programme, blocs, chips)
-  - détails dans `CoursesFormationBlocScreen` (tri, filtres, lignes)
+  - affichage des cours dans [CoursesFormationScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFormationScreen.kt) (cartes programme, blocs, chips)
+  - détails dans [CoursesFormationBlocScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFormationBlocScreen.kt) (tri, filtres, lignes)
 - Améliorations futures :
   - permettre au professeur d'ajouter des ressources
   - permettre au professeur de moduler la page de son cours à sa convenance
@@ -636,11 +636,11 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 
 <img src="../server/image/website/notifications.png" alt="Notifications" width="720">
 
-- Écran : notifications liées à la top bar dans `composeApp/src/commonMain/kotlin/be/ecam/companion/App.kt`
-- Composants : `ui/components/TopBar.kt`, `ui/components/NotificationWidget.kt`
+- Écran : notifications liées à la top bar dans [App.kt](src/commonMain/kotlin/be/ecam/companion/App.kt)
+- Composants : [TopBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/TopBar.kt), [NotificationWidget.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/NotificationWidget.kt)
 - Modifiable :
-  - icône et comportement d'ouverture dans `TopBar.kt`
-  - contenu des notifications dans `NotificationWidget.kt`
+  - icône et comportement d'ouverture dans [TopBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/TopBar.kt)
+  - contenu des notifications dans [NotificationWidget.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/NotificationWidget.kt)
 - Améliorations futures :
   - brancher les notifications sur de vrais événements serveur
   - ajouter un historique consultable
