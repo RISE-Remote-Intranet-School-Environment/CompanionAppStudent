@@ -28,7 +28,7 @@
 
 Le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web) s'appuie sur un backend Ktor et une base SQLite pour synchroniser l'horaire, les cours, les ressources et le suivi académique. Le projet vise un usage quotidien : accès rapide aux informations clés, parcours clair, données unifiées et mêmes fonctionnalités sur chaque plateforme.
 
-**Fonctionnalites :**
+**Fonctionnalités :**
 
 - Affichage des formations, blocs et cours
 - Consultation des fiches ECTS, ressources et professeurs
@@ -38,16 +38,16 @@ Le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web) s'appuie sur
 
 ---
 
-## Table des matieres
+## Table des matières
 
 - [Objectif](#objectif)
 - [Histoire du logo](#histoire-du-logo)
 - [Vue d'ensemble](#vue-densemble)
 - [Fonctionnement du site](#fonctionnement-du-site)
 - [Parcours utilisateur](#parcours-utilisateur)
-- [Donnees, API et base](#donnees-api-et-base)
+- [Données, API et base](#données-api-et-base)
 - [Architecture et flux](#architecture-et-flux)
-- [Prerequis](#prerequis)
+- [Prérequis](#prérequis)
 - [Installation locale](#installation-locale)
 - [Lancer le serveur](#lancer-le-serveur)
 - [Lancer l'app Desktop](#lancer-lapp-desktop)
@@ -56,7 +56,7 @@ Le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web) s'appuie sur
 - [Lancer l'app iOS](#lancer-lapp-ios)
 - [Identifiants de test](#identifiants-de-test)
 - [Organisation du depot](#organisation-du-depot)
-- [Depannage](#depannage)
+- [Dépannage](#dépannage)
 - [Bugs et corrections](#bugs-et-corrections)
 - [Recommendations futures](#recommendations-futures)
 - [Reprendre le projet](#reprendre-le-projet)
@@ -261,7 +261,9 @@ macOS/Linux :
 ```properties
 sdk.dir=C:\\Users\\<user>\\AppData\\Local\\Android\\Sdk
 ```
-
+2. Activer le mode développeur sur le téléphone.
+3. Brancher le téléphone à l'ordinateur.
+4. Utiliser l'USB pour le transfert de fichiers.
 2. Assembler et installer :
 ```sh
 ./gradlew :composeApp:assembleDebug
