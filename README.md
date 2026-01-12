@@ -252,6 +252,7 @@ Ouvrir `iosApp/` dans Xcode et lancer.
 - SQLite est parfait pour ce prototype mais limite la scalabilité horizontale. Une migration vers PostgreSQL est à envisager.
 - Intégrer Redis pour le caching.
 - Augmenter la couverture des tests.
+- Mettre en place des pools de connexion (comme HikariCP).
 - Remplacer les onglets folders par ceux de Claco (soit un lien vers claco directement soit un navigateur intégré dans l'app (demander à bypass la connexion à claco via l'OAuth)).
 - Un scraping automatique doit s’exécuter à intervalle avec un indicateur d’heure de mise à jour dans l’UI, ou être remplacé par un accès à l’API calendar.
 - Le local du professeur doit être lié au local du cours en temps réel.
