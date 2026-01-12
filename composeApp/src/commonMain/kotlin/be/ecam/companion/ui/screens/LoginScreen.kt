@@ -22,6 +22,7 @@ import companion.composeapp.generated.resources.microsoft_logo
 import companion.composeapp.generated.resources.claco2_slogan_xml
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.layout.ContentScale
+import be.ecam.companion.utils.getPlatformName
 
 
 @Composable
@@ -63,8 +64,9 @@ fun LoginScreen(
                             viewModel.login(emailOrUsername = email, password = password)
                     },
                     onMicrosoftLoginClick = {
+                        val platform = getPlatformName()
                         val microsoftLoginUrl = loginUrlGenerator?.invoke() 
-                            ?: "${defaultServerBaseUrl()}/api/auth/microsoft/login?platform=web"
+                            ?: "${defaultServerBaseUrl()}/api/auth/microsoft/login?platform=$platform"
                         
                         if (navigateToUrl != null) {
                             navigateToUrl(microsoftLoginUrl)
@@ -207,7 +209,7 @@ fun LoginCard(
             MicrosoftSignInButton(
                 onClick = onMicrosoftLoginClick,
                 modifier = Modifier
-                    .width(350.dp)
+                    .fillMaxWidth()
                     .height(48.dp)
             )
         }
@@ -236,7 +238,7 @@ fun MicrosoftSignInButton(
             defaultElevation = 1.dp,
             pressedElevation = 0.dp
         ),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
+        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 12.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -249,12 +251,13 @@ fun MicrosoftSignInButton(
                 modifier = Modifier.size(20.dp)
             )
             
-            Spacer(Modifier.width(12.dp))
+            Spacer(Modifier.width(8.dp))
             
             Text(
                 text = "Continuer avec Microsoft",
                 color = Color(0xFF3C3C3C),
-                style = MaterialTheme.typography.titleMedium.copy(
+                maxLines = 1,
+                style = MaterialTheme.typography.labelLarge.copy(
                     fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold
                 )
             )
