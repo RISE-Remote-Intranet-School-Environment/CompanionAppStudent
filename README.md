@@ -180,6 +180,9 @@ L'API est disponible sous `/api` et alimente une base SQLite.
 - Xcode (pour iOS)
 - Gradle via le wrapper du dépôt
 
+> [!IMPORTANT]
+> Ce projet nécessite **JDK 17** ou supérieur. Assurez-vous que votre variable `JAVA_HOME` pointe vers une installation compatible avant de lancer les commandes Gradle.
+
 ---
 
 ## Installation locale
@@ -256,6 +259,9 @@ macOS/Linux :
 ```
 
 3. Ouvrir `http://localhost:28088`
+
+> [!TIP]
+> Si la page Web reste blanche ou vide, c'est souvent parce que les ressources statiques n'ont pas été régénérées ou ne sont pas servies depuis le bon dossier. Relancez la tâche `wasmJsBrowserDistribution` pour corriger cela.
 
 ---
 
