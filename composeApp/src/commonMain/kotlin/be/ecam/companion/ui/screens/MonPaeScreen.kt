@@ -79,7 +79,7 @@ import kotlinx.serialization.json.Json
 import org.koin.compose.koinInject
 import androidx.compose.foundation.Image
 import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.o2_svg
+import companion.composeapp.generated.resources.o2_xml
 import org.jetbrains.compose.resources.painterResource
 
 @Serializable

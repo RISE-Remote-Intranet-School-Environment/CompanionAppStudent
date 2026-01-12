@@ -72,7 +72,7 @@ import io.ktor.client.HttpClient
 import org.koin.compose.koinInject
 import androidx.compose.foundation.Image
 import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.o2_svg
+import companion.composeapp.generated.resources.o2_xml
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -240,7 +240,7 @@ private fun CourseIntroCard(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
-                    painter = painterResource(Res.drawable.o2_svg),
+                    painter = painterResource(Res.drawable.o2_xml),
                     contentDescription = "ClacO₂",
                     modifier = Modifier.size(24.dp)
                 )

@@ -43,7 +43,7 @@ import org.koin.compose.koinInject
 import kotlin.math.absoluteValue
 import androidx.compose.foundation.Image
 import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.o2_svg
+import companion.composeapp.generated.resources.o2_xml
 import org.jetbrains.compose.resources.painterResource
 
 /* --------------------------- SCREEN CONTAINER --------------------------- */
@@ -189,7 +189,7 @@ private fun ProfessorsMainScreen(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Image(
-                painter = painterResource(Res.drawable.o2_svg),
+                painter = painterResource(Res.drawable.o2_xml),
                 contentDescription = "ClacO₂",
                 modifier = Modifier.size(36.dp)
             )

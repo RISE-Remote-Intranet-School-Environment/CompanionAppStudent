@@ -45,7 +45,7 @@ import be.ecam.companion.viewmodel.LoginViewModel
 import kotlinx.coroutines.delay
 import androidx.compose.foundation.Image
 import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.o2_svg
+import companion.composeapp.generated.resources.o2_xml
 import org.jetbrains.compose.resources.painterResource
 
 private fun normalizeCode(code: String?): String =
