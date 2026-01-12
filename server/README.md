@@ -9,20 +9,21 @@ Ce dossier contient le serveur backend Ktor, qui expose l'API REST, gère la log
 ## Sommaire
 
 1. [Objectif et contexte](#1-objectif-et-contexte)
-2. [Rôle par rapport au frontend](#2-role-par-rapport-au-frontend)
-3. [Architecture générale](#3-architecture-generale)
+2. [Rôle par rapport au frontend](#2-rôle-par-rapport-au-frontend)
+3. [Architecture générale](#3-architecture-générale)
 4. [Organisation du code et fichiers](#4-organisation-du-code-et-fichiers)
-5. [Base de données et Modélisation](#5-base-de-donnees-et-modelisation)
-6. [Accès aux données (Exposed)](#6-acces-aux-donnees-exposed)
-7. [API, DTOs et Sérialisation](#7-api-dtos-et-serialisation)
-8. [Services et logique métier](#8-services-et-logique-metier)
-9. [Sécurité et Authentification](#9-securite-et-authentification)
-10. [Configuration et Point d'entrée](#10-configuration-et-point-dentree)
-11. [Dépendances et build.gradle](#11-dependances-et-buildgradle)
-12. [Principes SOLID appliqués](#12-principes-solid-appliques)
-13. [CI/CD (Intégration Continue)](#13-cicd-integration-continue)
-14. [Déploiement NixOS (Optionnel)](#14-deploiement-nixos-optionnel)
-15. [Diagrammes et limites](#15-diagrammes-et-limites)
+5. [Base de données et Modélisation](#5-base-de-données-et-modélisation)
+6. [Accès aux données (Exposed)](#6-accès-aux-données-exposed)
+7. [API, DTOs et Sérialisation](#7-api-dtos-et-sérialisation)
+8. [Services et logique métier](#8-services-et-logique-métier)
+9. [Sécurité et Authentification](#9-sécurité-et-authentification)
+10. [Configuration et Point d'entrée](#10-configuration-et-point-dentrée)
+11. [Dépendances et build.gradle](#11-dépendances-et-buildgradle)
+12. [Principes SOLID appliqués](#12-principes-solid-appliqués)
+13. [CI/CD (Intégration Continue)](#13-cicd-intégration-continue)
+14. [Déploiement NixOS (Optionnel)](#14-déploiement-nixos-optionnel)
+15. [Diagrammes et modélisation](#15-diagrammes-et-modélisation)
+16. [Limites et évolutions](#16-limites-et-évolutions)
 
 ---
 
@@ -120,18 +121,18 @@ server/
 
 ### Principaux fichiers expliqués
 
-- **Application.kt** : Initialise le serveur Ktor, charge les plugins (CORS, ContentNegotiation, Auth JWT), connecte la base de données et enregistre les routes.
-- **DatabaseFactory.kt** : Singleton qui établit la connexion SQLite directe et crée les tables via `SchemaUtils.create()`. Gère également les migrations simples (ajout de colonnes) et le seeding initial.
-- **models/*.kt** : Contient les objets `Table` et `IntIdTable` de Exposed (définition SQL) ainsi que les classes de données internes et les DTO.
-- **routes/*.kt** : Définit les verbes HTTP (`get`, `post`, `put`, `delete`) et délègue le traitement aux Services. Transforme les exceptions en codes HTTP appropriés.
-- **services/*.kt** : Contient la logique métier pure. Ne connaît pas HTTP, uniquement des objets métier.
+- **[Application.kt](src/main/kotlin/be/ecam/server/Application.kt)** : Initialise le serveur Ktor, charge les plugins (CORS, ContentNegotiation, Auth JWT), connecte la base de données et enregistre les routes.
+- **[DatabaseFactory.kt](src/main/kotlin/be/ecam/server/db/DatabaseFactory.kt)** : Singleton qui établit la connexion SQLite directe et crée les tables via `SchemaUtils.create()`. Gère également les migrations simples (ajout de colonnes) et le seeding initial.
+- **[models/](src/main/kotlin/be/ecam/server/models)** : Contient les objets `Table` et `IntIdTable` de Exposed (définition SQL) ainsi que les classes de données internes et les DTO.
+- **[routes/](src/main/kotlin/be/ecam/server/routes)** : Définit les verbes HTTP (`get`, `post`, `put`, `delete`) et délègue le traitement aux Services. Transforme les exceptions en codes HTTP appropriés.
+- **[services/](src/main/kotlin/be/ecam/server/services)** : Contient la logique métier pure. Ne connaît pas HTTP, uniquement des objets métier.
 
 ---
 
 ## 5. Base de données et Modélisation
 
 La base de données est **SQLite**.
-Ce choix assure la portabilité (un seul fichier `data/app.db`) et ne nécessite aucune installation serveur externe.
+Ce choix assure la portabilité (un seul fichier [data/app.db](data/app.db)) et ne nécessite aucune installation serveur externe.
 
 ### Connexion
 
@@ -173,6 +174,61 @@ Les **DTO** (Data Transfer Objects) sont cruciaux :
 
 Une route renvoie toujours un DTO ou une liste de DTOs, jamais une entité de base de données brute.
 
+### Exemples de formats JSON
+
+**Authentification**
+
+```json
+// POST /api/auth/register
+{ "username": "john", "email": "john@ecam.be", "password": "secret123" }
+
+// POST /api/auth/login
+{ "emailOrUsername": "john@ecam.be", "password": "secret123" }
+
+// Réponse Auth (login/register)
+{
+  "user": {
+    "id": 1,
+    "username": "john",
+    "email": "john@ecam.be",
+    "role": "USER",
+    "avatarUrl": null,
+    "firstName": "John",
+    "lastName": "Doe"
+  },
+  "message": "Connexion OK",
+  "accessToken": "eyJhbGciOiJIUzI1NiIs...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIs..."
+}
+
+// POST /api/auth/refresh
+{ "refreshToken": "eyJhbGciOiJIUzI1NiIs..." }
+```
+
+**Cours**
+
+```json
+// GET /api/courses
+[
+  {
+    "id": 453,
+    "courseId": "UB4T",
+    "courseRaccourciId": "UB4T",
+    "title": "Urbanisme",
+    "credits": 5,
+    "periods": "Q2",
+    "detailsUrl": "https://www.ichec.be/fr/master-business-analyst-en-alternance-ichec-ecam",
+    "mandatory": true,
+    "blocId": "bloc_18",
+    "formationId": "business_analyst",
+    "language": "FR",
+    "icon": "Build"
+  }
+]
+```
+
+**Rôles utilisateur** : `USER`, `ADMIN`
+
 ## 8. Services et logique métier
 
 Les services centralisent l'intelligence du backend :
@@ -202,6 +258,44 @@ Les mots de passe sont hachés avec **BCrypt** avant stockage.
 3.  **Routing** : Définition de l'arborescence URL.
 
 Le serveur écoute sur le port défini par la variable d'environnement `PORT` (défaut `28088`).
+
+### Variables d'environnement
+
+Le serveur utilise les variables d'environnement suivantes :
+
+| Variable | Fichier | Description | Défaut |
+|----------|---------|-------------|--------|
+| `PORT` | [`AppConfig.kt`](src/main/kotlin/be/ecam/server/config/AppConfig.kt) | Port d'écoute du serveur | `28088` |
+| `APP_DOMAIN` | [`AppConfig.kt`](src/main/kotlin/be/ecam/server/config/AppConfig.kt) | Domaine de l'application | `localhost` |
+| `APP_BASE_URL` | [`AppConfig.kt`](src/main/kotlin/be/ecam/server/config/AppConfig.kt) | URL de base (ex: `https://clacoxygen.msrl.be`) | Construit depuis domain |
+| `DEV_MODE` | [`AppConfig.kt`](src/main/kotlin/be/ecam/server/config/AppConfig.kt) | Active le mode développement (`true`/`false`) | `false` |
+| `JWT_SECRET` | [`jwtConfig.kt`](src/main/kotlin/be/ecam/server/security/jwtConfig.kt) | Secret JWT (dev/docker) | Fallback dev |
+| `JWT_SECRET_FILE` | [`jwtConfig.kt`](src/main/kotlin/be/ecam/server/security/jwtConfig.kt) | Chemin vers fichier secret JWT (prod/sops) | - |
+| `MS_CLIENT_ID` | [`microsoftConfig.kt`](src/main/kotlin/be/ecam/server/security/microsoftConfig.kt) | Client ID Microsoft OAuth (dev) | - |
+| `MS_CLIENT_ID_FILE` | [`microsoftConfig.kt`](src/main/kotlin/be/ecam/server/security/microsoftConfig.kt) | Chemin fichier Client ID (prod/sops) | - |
+| `MS_CLIENT_SECRET` | [`microsoftConfig.kt`](src/main/kotlin/be/ecam/server/security/microsoftConfig.kt) | Client Secret Microsoft (dev) | - |
+| `MS_CLIENT_SECRET_FILE` | [`microsoftConfig.kt`](src/main/kotlin/be/ecam/server/security/microsoftConfig.kt) | Chemin fichier Client Secret (prod/sops) | - |
+| `MS_REDIRECT_URI` | [`microsoftConfig.kt`](src/main/kotlin/be/ecam/server/security/microsoftConfig.kt) | URI de redirection OAuth | `{APP_BASE_URL}/api/auth/microsoft/callback` |
+
+> [!NOTE]
+> Les variables `*_FILE` sont conçues pour l'intégration avec **sops-nix** en production.
+> En développement, utilisez directement `JWT_SECRET`, `MS_CLIENT_ID` et `MS_CLIENT_SECRET`.
+
+### Seeding initial
+
+Au démarrage, [`DatabaseFactory.init()`](src/main/kotlin/be/ecam/server/db/DatabaseFactory.kt) :
+1. Crée les tables via `SchemaUtils.create()` si elles n'existent pas.
+2. Exécute des migrations simples (ajout de colonnes `avatar_url`, `icon`).
+3. Crée un **utilisateur admin par défaut** si la table `users` est vide :
+   - Email : `admin@example.com`
+   - Mot de passe : `1234`
+   - Rôle : `ADMIN`
+
+> [!IMPORTANT]
+> Le seeding complet depuis les fichiers JSON (`DatabaseSeeder.seedAll()`) est **commenté** dans le code par défaut.
+> Pour peupler la base avec les données académiques complètes, il faut soit :
+> - Décommenter l'appel dans [`DatabaseFactory.kt`](src/main/kotlin/be/ecam/server/db/DatabaseFactory.kt)
+> - Importer manuellement les CSV depuis le dossier [data/](data/)
 
 ---
 
@@ -324,7 +418,8 @@ Le projet propose une intégration avec l'écosystème Nix pour garantir la repr
 }
 ```
 
-L'import flake correspond généralement à : `clacoxygen.url = "github:RISE-Remote-Intranet-School-Environment/ClacOxygen/";`.
+L'import flake correspond généralement à :
+`clacoxygen.url = "github:RISE-Remote-Intranet-School-Environment/ClacOxygen/";`.
 
 ---
 
@@ -429,7 +524,7 @@ Ce diagramme permet de visualiser clairement :
 
 ---
 
-## 16. Limites et evolutions
+## 16. Limites et évolutions
 
 ### Limites actuelles
 
