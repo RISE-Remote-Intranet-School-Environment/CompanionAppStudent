@@ -12,7 +12,8 @@ import kotlinx.coroutines.launch
 import org.koin.dsl.module
 import java.awt.Desktop
 import java.net.URI
-import be.ecam.companion.ui.resources.appLogoMark
+import companion.composeapp.generated.resources.Res
+import companion.composeapp.generated.resources.claco2_svg
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
@@ -30,7 +31,7 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "ClacOxygen",
         state = windowState,
-        icon = painterResource(appLogoMark())
+        icon = painterResource(Res.drawable.claco2_svg)
     ) {
         val desktopModule = module {
             single<SettingsRepository> { PersistentSettingsRepository() }

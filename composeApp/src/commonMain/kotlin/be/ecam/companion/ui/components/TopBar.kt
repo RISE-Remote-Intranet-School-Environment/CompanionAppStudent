@@ -15,7 +15,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.ui.layout.ContentScale
-import be.ecam.companion.ui.resources.appLogoMark
+import companion.composeapp.generated.resources.Res
+import companion.composeapp.generated.resources.claco2_svg
 import org.jetbrains.compose.resources.painterResource
 import be.ecam.companion.ui.components.BottomItem
 
@@ -46,7 +47,7 @@ fun TopBar(
 
                 selectedScreen == BottomItem.HOME || selectedScreen == BottomItem.DASHBOARD -> {
                     Image(
-                        painter = painterResource(appLogoMark()),
+                        painter = painterResource(Res.drawable.claco2_svg),
                         contentDescription = "ClacO₂",
                         modifier = Modifier
                             .height(28.dp)

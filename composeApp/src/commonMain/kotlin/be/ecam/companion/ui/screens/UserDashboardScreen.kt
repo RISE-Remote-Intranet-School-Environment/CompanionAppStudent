@@ -57,7 +57,9 @@ import be.ecam.companion.viewmodel.AuthUserDTO
 import be.ecam.companion.viewmodel.LoginViewModel
 import io.ktor.client.HttpClient
 import org.koin.compose.koinInject
+import org.jetbrains.compose.resources.painterResource
 import companion.composeapp.generated.resources.Res
+import companion.composeapp.generated.resources.claco2_svg
 
 private data class DashboardData(
     val user: AuthUserDTO,

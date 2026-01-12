@@ -26,7 +26,8 @@ import be.ecam.companion.ui.theme.ThemeMode
 import androidx.compose.foundation.Image
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.draw.alpha
-import be.ecam.companion.ui.resources.appLogoSlogan
+import companion.composeapp.generated.resources.Res
+import companion.composeapp.generated.resources.claco2_slogan_svg
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -205,7 +206,7 @@ fun SettingsScreen(
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(
-                    painter = painterResource(appLogoSlogan()),
+                    painter = painterResource(Res.drawable.claco2_slogan_svg),
                     contentDescription = "ClacO₂",
                     modifier = Modifier
                         .width(140.dp)
