@@ -1,5 +1,9 @@
 <div align="center">
-    <img alt="ClacO2 logo" src="composeApp/src/wasmJsMain/resources/claco2_slogan_svg.svg" width="250px" />
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="composeApp/src/commonMain/composeResources/drawable/claco2_slogan_bg_png.png">
+        <source media="(prefers-color-scheme: light)" srcset="composeApp/src/wasmJsMain/resources/claco2_slogan_svg.svg">
+        <img alt="ClacO2 logo" src="composeApp/src/wasmJsMain/resources/claco2_slogan_svg.svg" width="300px">
+    </picture>
 </div>
 
 <br>
@@ -70,7 +74,7 @@ Centraliser l’expérience étudiant autour d’un client multiplateforme et d�
 
 <div align="center">
     <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="composeApp/src/commonMain/composeResources/drawable/claco2_slogan_bg_svg.svg">
+        <source media="(prefers-color-scheme: dark)" srcset="composeApp/src/commonMain/composeResources/drawable/claco2_slogan_bg_png.png">
         <source media="(prefers-color-scheme: light)" srcset="composeApp/src/wasmJsMain/resources/claco2_slogan_svg.svg">
         <img alt="ClacO2 logo" src="composeApp/src/wasmJsMain/resources/claco2_slogan_svg.svg" width="250px">
     </picture>
