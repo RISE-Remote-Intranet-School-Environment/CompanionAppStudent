@@ -324,7 +324,7 @@ Le projet propose une intégration avec l'écosystème Nix pour garantir la repr
 }
 ```
 
-L'import flake correspond généralement à : `clacoxygen.url = "github:RISE-Remote-Intranet-School-Environment/CompanionAppStudent/";`.
+L'import flake correspond généralement à : `clacoxygen.url = "github:RISE-Remote-Intranet-School-Environment/ClacOxygen/";`.
 
 ---
 

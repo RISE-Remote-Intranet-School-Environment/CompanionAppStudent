@@ -8,13 +8,13 @@
 
 <br>
 <div align="center">
-    <a href="https://github.com/RISE-Remote-Intranet-School-Environment/CompanionAppStudent/releases">
-        <img src="https://img.shields.io/github/v/release/RISE-Remote-Intranet-School-Environment/CompanionAppStudent?style=for-the-badge&color=D32F2F&labelColor=1a1a1a">
+    <a href="https://github.com/RISE-Remote-Intranet-School-Environment/ClacOxygen/releases">
+        <img src="https://img.shields.io/github/v/release/RISE-Remote-Intranet-School-Environment/ClacOxygen?style=for-the-badge&color=D32F2F&labelColor=1a1a1a">
     </a>
     <a href="https://kotlinlang.org/">
         <img src="https://img.shields.io/badge/Kotlin-Multiplatform-7F52FF.svg?style=for-the-badge&labelColor=1a1a1a&logo=kotlin&logoColor=7F52FF">
     </a>
-    <a href="https://github.com/RISE-Remote-Intranet-School-Environment/CompanionAppStudent/blob/main/LICENSE">
+    <a href="https://github.com/RISE-Remote-Intranet-School-Environment/ClacOxygen/blob/main/LICENSE">
         <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=MIT&colorA=1a1a1a&colorB=D32F2F"/>
     </a>
 </div>
@@ -177,8 +177,8 @@ L'API est disponible sous `/api` et alimente une base SQLite.
 ## Installation locale
 
 ```sh
-git clone https://github.com/RISE-Remote-Intranet-School-Environment/CompanionAppStudent.git
-cd CompanionAppStudent
+git clone https://github.com/RISE-Remote-Intranet-School-Environment/ClacOxygen.git
+cd ClacOxygen
 ```
 
 Verifier que JDK 17 est bien sélectionné.
@@ -282,7 +282,7 @@ Ouvrir iosApp dans Xcode et lancer.
 ## Organisation du depot
 
 ```
-CompanionAppStudent/
+ClacOxygen/
 ├── composeApp/          # Client Kotlin Compose Multiplatform
 ├── iosApp/              # Point d'entrée iOS
 ├── server/              # Serveur Ktor, routes, services, base SQLite
