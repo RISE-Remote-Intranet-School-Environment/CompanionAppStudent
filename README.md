@@ -32,7 +32,11 @@ Centraliser l’expérience étudiant autour d’un client multiplateforme et d�
 
 ## 2. Histoire du logo
 
-<img src="server/image/logo.png" alt="Logo" width="140">
+<img src="composeApp/src/wasmJsMain/resources/claco2_slogan_svg.svg" alt="Logo" width="280">
+
+Pour nous éloigner un peu de notre très subtile allusion à une plateforme concurrente, nous avons ajouté deux thématiques : l'`Oxygène` et le `Clac`. Symbolisés respectivement par le `rouge` pour l'`O₂` et par l'assemblage de deux pièces de `puzzle` pour le son `Clac`.
+
+Le slogan vient encore souligner ces deux concepts avec `Breathe` qui incite l'utilisateur à se relaxer et à accepter la bouffée d'oxygène qu'est notre application. Ainsi que l'onomatopée jumelle à `Clac`, `Clic`, qui évoque l'immédiateté de notre solution.
 
 ## 3. Vue d’ensemble
 
@@ -91,8 +95,8 @@ Exemples d’API utilisées par le client :
 
 Base de données : `server/data/app.db`.
 
-L'explication complète du backend se trouve dans `server/README.md`.
-La documentation du UI client se trouve dans `composeApp/README.md`.
+L'explication complète du backend se trouve dans [server/README.md](server/README.md).
+La documentation du UI client se trouve dans [composeApp/README.md](composeApp/README.md).
 
 ## 7. Architecture et flux
 
@@ -245,13 +249,15 @@ Ouvrir `iosApp/` dans Xcode et lancer.
 
 ## 19. Recommendations futures
 
-- Un navigateur intégré doit ouvrir Claco sur l’onglet folder du cours sans passer par le navigateur par défaut, avec une solution pour la double connexion validée par les gestionnaires de Claco.
+- SQLite est parfait pour ce prototype mais limite la scalabilité horizontale. Une migration vers PostgreSQL est à envisager.
+- Intégrer Redis pour le caching.
+- Augmenter la couverture des tests.
+- Remplacer les onglets folders par ceux de Claco (soit un lien vers claco directement soit un navigateur intégré dans l'app (demander à bypass la connexion à claco via l'OAuth)).
 - Un scraping automatique doit s’exécuter à intervalle avec un indicateur d’heure de mise à jour dans l’UI, ou être remplacé par un accès à l’API calendar.
 - Le local du professeur doit être lié au local du cours en temps réel.
-- L’UX doit éviter un menu à gauche ou une bottom bar selon le format retenu.
+- L’UX doit éviter d'avoir à la fois un menu à gauche ou une bottom bar selon le format retenu.
 - Les relations entre tables SQL doivent être renforcées pour éviter les doublons et les incohérences.
-- La création de compte sans Microsoft doit être supprimée et les informations disponibles via Microsoft doivent être exploitées pour personnaliser l’expérience et la monétisation.
-- Les attributs Microsoft doivent être utilisés pour préremplir le profil et relier un compte existant par email.
+- Utiliser plus d'attributs Microsoft (OAuth) pour préremplir les comptes en DB.
 - Un monitoring doit signaler une hausse des requêtes en échec avec un système d’alerte.
 - Un panel admin doit permettre la gestion des utilisateurs depuis l’app sans modification du code ni de la base.
 - Un panel admin doit aussi permettre d’ajouter et modifier les professeurs.
@@ -261,20 +267,15 @@ Ouvrir `iosApp/` dans Xcode et lancer.
 - La version prof doit afficher l’horaire du professeur connecté.
 - La version étudiant doit afficher l’horaire du professeur.
 - Un accès direct avec recherche vers l’horaire des professeurs doit être disponible.
-- Des photos d’étudiants doivent être gérées dans le profil.
 - Les photos de professeurs doivent être mises en cache.
 - Les professeurs doivent pouvoir moduler leur page de cours et ajouter des ressources.
 - Les professeurs doivent pouvoir publier des notifications liées à leurs cours.
 - Des deadlines de projets doivent être liées au calendrier étudiant et professeur.
 - Les liens entre cours, professeurs, horaires, locaux et ressources doivent être consolidés lors de l'ajout des méthode CRUD.
-- Les rôles `admin`, `professeur`, `étudiant` doivent être appliqués avec des droits cohérents.
 - Les données des étudiants (PAE, parcours) doivent être enrichies et consolidées.
 - Le PAE doit afficher des indicateurs de progression par bloc.
-- Le dashboard utilisateur doit avoir une mise en forme plus lisible.
-- Les paramètres doivent centraliser le réglage du serveur (host/port).
+- Uniformiser le PAE manuel et l'officiel.
 - Les assets doivent être standardisés par plateforme avec des variantes d’icônes pour l’accessibilité.
-- Les notifications doivent être branchées sur des événements serveur avec un historique consultable et un lien vers le cours.
-- Dans l'ensemble, l'ajout de méthode CRUD rendrait l'application plus user friendly pour les admins, professeurs et étudiants.
 
 ## 20. Reprendre le projet
 

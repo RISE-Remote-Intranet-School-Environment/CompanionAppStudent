@@ -1,516 +1,213 @@
-# ClacOxgen — Backend Server
+# ClacOxygen - Documentation Serveur
 
-## 1. Contexte et rôle du backend
+Ce dossier contient le serveur backend Ktor, qui expose l'API REST, gère la logique métier et maintient la base de données SQLite.
 
-Le backend du projet **ClacOxygen** constitue le cœur logique et technique de l’application.
-Il est responsable de la gestion des données académiques, de l’authentification des utilisateurs,
-de l’application des règles métier et de l’exposition d’une API sécurisée à destination du frontend.
+**Liens utiles :**
+- [Retour à la documentation générale](../README.md)
+- [Voir la documentation du Client (App)](../composeApp/README.md)
 
-Ce backend a été développé dans un **contexte académique**, avec pour objectif :
-- de mettre en pratique une architecture backend moderne,
-- d’assurer une séparation claire des responsabilités,
-- et de rester évolutif vers une solution dite *production ready*.
+## Sommaire
 
-Les choix techniques ont été guidés par la lisibilité, la maintenabilité et la cohérence avec les contraintes du projet.
+1. [Objectif du module](#1-objectif-du-module)
+2. [Architecture du serveur](#2-architecture-du-serveur)
+3. [Organisation du code](#3-organisation-du-code)
+4. [Base de données et Modélisation](#4-base-de-donnees-et-modelisation)
+5. [API et DTOs](#5-api-et-dtos)
+6. [Sécurité et Authentification](#6-securite-et-authentification)
+7. [Configuration et Démarrage](#7-configuration-et-demarrage)
+8. [Déploiement NixOS (Optionnel)](#8-deploiement-nixos-optionnel)
+9. [Principes de conception (SOLID)](#9-principes-de-conception-solid)
+10. [Diagrammes et limites](#10-diagrammes-et-limites)
 
----
+## 1. Objectif du module
 
-## 2. Rôle du backend par rapport au frontend
-
-Le backend joue le rôle de **source unique de vérité** pour l’application.
-Le frontend ne communique jamais directement avec la base de données.
+Le backend joue le rôle de source unique de vérité pour l'application. Le frontend ne communique jamais directement avec la base de données.
 
 Les responsabilités du backend incluent :
-- l’authentification et l’autorisation des utilisateurs,
-- la validation des données entrantes,
-- l’application des règles métier,
-- l’accès et la transformation des données,
-- la sécurisation des routes via JWT,
-- l’exposition de réponses JSON stables via des DTO.
+- L'authentification et l'autorisation des utilisateurs (Email/Password + OAuth Microsoft).
+- La validation des données entrantes.
+- L'application des règles métier.
+- L'accès et la transformation des données.
+- La sécurisation des routes via JWT.
+- L'exposition de réponses JSON stables via des DTO.
 
-Le frontend se limite à :
-- l’affichage des données,
-- l’interaction utilisateur,
-- l’appel des endpoints API.
+## 2. Architecture du serveur
 
-Cette séparation garantit :
-- une meilleure sécurité,
-- une indépendance frontend/backend,
-- une API stable et testable.
+Le backend repose sur une architecture en couches (layered architecture), séparant nettement les responsabilités.
 
----
+- **Routes** : Définissent les endpoints HTTP, gèrent les requêtes/réponses et appellent les services. Elles ne contiennent aucune logique métier complexe.
+- **Services** : Cœur fonctionnel. Ils contiennent la logique métier, appliquent les règles et orchestrent l'accès aux données.
+- **Accès aux données (DAO/Table)** : Interaction avec la base SQLite via Exposed.
+- **DTO (Data Transfer Objects)** : Modèles exposés au frontend via l'API, découplés de la structure interne de la base.
 
-## 3. Architecture générale du backend
+### Structure des sources
 
-Le backend repose sur une **architecture en couches (layered architecture)**,
-largement utilisée dans les applications backend professionnelles.
+```
+server/
+|-- src/
+|   |-- main/
+|   |   |-- resources/
+|   |   |   |-- application.conf      # Configuration Ktor
+|   |   |   |-- logback.xml           # Configuration des logs
+|   |   |   |-- static/               # Fichiers statiques (HTML callbacks)
+|   |   |-- kotlin/be/ecam/server/
+|   |   |   |-- Application.kt        # Point d'entrée
+|   |   |   |-- config/               # Configuration typée
+|   |   |   |-- db/
+|   |   |   |   |-- DatabaseFactory.kt # Connexion SQLite
+|   |   |   |-- models/
+|   |   |   |   |-- *_models.kt       # Tables Exposed et entités internes
+|   |   |   |-- routes/
+|   |   |   |   |-- *_routes.kt       # Endpoints API (Ktor Routing)
+|   |   |   |-- services/
+|   |   |   |   |-- *_service.kt      # Logique métier
+|   |   |   |-- security/
+|   |   |   |   |-- PasswordHasher.kt # BCrypt
+|   |   |   |   |-- TokenService.kt   # Gestion JWT
+```
 
-Les principales couches sont :
+## 3. Organisation du code
 
-- **Routes**
-  - Définissent les endpoints HTTP
-  - Gèrent les requêtes et réponses
-  - Ne contiennent aucune logique métier
+Le code est organisé de manière modulaire. Pour chaque entité principale (ex: Cours, Professeur, Auth) :
 
-    ![alt text](image/image-1.png)
+1.  Un fichier **model** définit la table SQL.
+2.  Un **service** contient la logique métier.
+3.  Une **route** expose l'API correspondante.
+
+Cette organisation facilite la navigation et limite le couplage.
 
-- **Services**
-  - Contiennent la logique métier
-  - Appliquent les règles fonctionnelles
-  - Orchestrent l’accès aux données
+## 4. Base de données et Modélisation
+
+La base de données utilisée est **SQLite**.
+Ce choix a été motivé par le contexte académique : aucune configuration serveur requise, portabilité via un fichier unique (`app.db`), et rapidité de mise en place.
 
-    ![alt text](image/image-2.png)
+### Modélisation
+
+La modélisation distingue :
+- **Identifiants techniques** : `id` auto-incrémentés.
+- **Identifiants métier** : codes uniques (ex: `Q2`, `4MIN`, `C1234`).
+
+### JetBrains Exposed (ORM)
+
+L'accès aux données utilise le framework Exposed. Il permet d'écrire des requêtes type-safe en Kotlin. Les résultats (`ResultRow`) sont immédiatement transformés en objets métier ou DTO pour ne pas exposer la structure SQL.
+
+## 5. API et DTOs
+
+La communication s'effectue exclusivement en JSON via **Kotlinx Serialization**.
+
+Les **DTO (Data Transfer Objects)** définissent le contrat d'interface avec le client. Ils permettent :
+- De masquer les champs sensibles (hash de mot de passe, sels).
+- De stabiliser l'API même si le schéma de base de données change.
+- D'adapter le format des données aux besoins de l'UI (ex: dates formatées, listes imbriquées).
 
-- **Accès aux données (Exposed / ORM)**
-  - Interaction avec la base SQLite
-  - Exécution des transactions
-  - Mapping des résultats SQL
+## 6. Sécurité et Authentification
+
+La sécurité repose sur **JWT (JSON Web Token)**.
 
-- **DTO (Data Transfer Objects)**
-  - Modèles exposés au frontend
-  - Découplés des tables SQL
-  - Garantissent la stabilité de l’API
+Flux d'authentification :
+1. L'utilisateur s'authentifie (Login standard ou OAuth).
+2. Le backend vérifie l'identité.
+3. Un `AccessToken` (courte durée) et un `RefreshToken` (longue durée) sont générés.
+4. Le client doit inclure le token dans le header `Authorization: Bearer <token>` pour les routes protégées.
 
-Cette architecture permet :
-- une meilleure lisibilité du code,
-- une facilité de maintenance,
-- une évolutivité sans refonte majeure.
+Les mots de passe locaux sont hachés via **BCrypt**.
 
----
+## 7. Configuration et Démarrage
 
-## 4. Organisation du code (structure des dossiers)
+Le fichier `Application.kt` est le point d'entrée. Il configure :
+- Les plugins Ktor (ContentNegotiation, CORS, Auth, CallLogging).
+- La connexion DB via `DatabaseFactory`.
+- L'enregistrement des routes.
 
-Le code est organisé de manière cohérente et modulaire afin de refléter
-la séparation des responsabilités.
+Le serveur écoute par défaut sur le port défini par la variable d'environnement `PORT` (défaut: 28088).
 
-Structure principale :
+## 8. Déploiement NixOS (Optionnel)
 
-![alt text](image/image.png)
+Le projet propose une intégration avec l'écosystème Nix pour garantir la reproductibilité du build et faciliter le déploiement. Bien que le serveur puisse être déployé via un JAR standard ou un conteneur Docker classique, l'approche NixOS est privilégiée pour l'infrastructure de production.
 
- - db: coonexion DB, DatabaseFactory
- - models: Tables Exposed (mapping DB)
- - services: Logique métier
- - routes: endpoints HTTP
- - security : JWT, auth, hashing
- - Application.kt : point d'entrée du serveur 
- - README.md : documentation
-Pour chaque entité principale :
-- un fichier **model** définit la table,
-- un **service** contient la logique métier,
-- une **route** expose l’API correspondante.
-
-Cette organisation :
-- facilite la navigation dans le projet,
-- limite le couplage entre les composants,
-- applique naturellement plusieurs principes SOLID.
-
----
-
-## 5. Base de données & choix de SQLite
-
-La base de données utilisée dans le projet est **SQLite**.
-Ce choix a été motivé par le contexte académique et les contraintes du projet.
-
-SQLite présente plusieurs avantages :
-- aucune configuration serveur requise,
-- base de données contenue dans un simple fichier (`app.db`),
-- rapidité de mise en place,
-- intégration simple avec Kotlin et Exposed.
-
-Initialement, une base **MariaDB/MySQL** avait été envisagée.
-Cependant, certaines contraintes techniques et de compatibilité avec l’environnement du projet
-ont conduit à privilégier SQLite pour garantir la stabilité et la portabilité du backend.
-
-Ce choix est **assumé et justifié** dans le cadre d’un prototype académique.
-
----
-
-## 6. Modélisation des données (tables & relations)
-
-La modélisation des données repose sur une distinction claire entre :
-- **identifiants techniques** (`id` auto-incrémentés),
-- **identifiants métier** (`formation_id`, `bloc_id`, `course_raccourci_id`, etc.).
-
-Certaines relations sont implémentées sous forme de :
-- clés étrangères réelles (via Exposed),
-- identifiants métier stockés en `String`,
-- listes stockées en `TEXT` ou `JSON`.
-
-Ce choix permet :
-- une plus grande flexibilité du modèle,
-- une meilleure compatibilité avec des sources de données externes,
-- une évolution plus simple du schéma sans migrations lourdes.
-
-Les contraintes relationnelles strictes ne sont donc pas systématiquement imposées au niveau SQL,
-mais **gérées côté application**, dans les services.
-
----
-
-## 7. Accès aux données avec Exposed (ORM / DSL SQL)
-
-L’accès à la base de données est réalisé à l’aide de **JetBrains Exposed**,
-un framework ORM/DSL SQL adapté à Kotlin.
-
-Exposed permet :
-- une écriture type-safe des requêtes SQL,
-- une intégration native avec Kotlin,
-- un contrôle précis sur les transactions,
-- une lisibilité accrue par rapport au SQL brut.
-
-Chaque table est définie via un objet `Table` ou `IntIdTable`
-et les accès sont encapsulés dans des transactions explicites.
-
-Les résultats des requêtes (`ResultRow`) sont ensuite transformés
-en **DTO**, garantissant que les structures internes de la base
-ne sont jamais exposées directement au frontend.
-
-Cette approche renforce :
-- la sécurité,
-- la maintenabilité,
-- la stabilité de l’API.
-
----
-
-## 8. DTO (Data Transfer Objects)
-
-Les **DTO (Data Transfer Objects)** jouent un rôle central dans l’architecture du backend.
-Ils définissent **les structures de données exposées au frontend**, indépendamment
-de la structure réelle de la base de données.
-
-L’utilisation des DTO permet :
-- de ne jamais exposer directement les tables SQL,
-- de masquer les champs sensibles (ex. `passwordHash`),
-- de stabiliser l’API même si la base évolue,
-- d’adapter les réponses aux besoins du frontend.
-
-Par exemple :
-- une table peut contenir des champs techniques ou internes,
-- le DTO correspondant expose uniquement les données utiles à l’interface utilisateur.
-
-Les DTO sont construits à partir des résultats Exposed (`ResultRow`)
-et servent de **contrat clair entre le backend et le frontend**.
-
-Cette approche facilite :
-- la maintenance,
-- l’évolution du modèle de données,
-- la collaboration avec l’équipe frontend.
-
----
-
-## 9. Sérialisation JSON
-
-La communication entre le backend et le frontend s’effectue exclusivement en **JSON**.
-
-La sérialisation est gérée par **Kotlinx Serialization**, intégré à Ktor via le plugin
-`ContentNegotiation`.
-
-Chaque DTO est annoté avec `@Serializable`, ce qui permet :
-- une conversion automatique Kotlin ↔ JSON,
-- une gestion explicite des champs exposés,
-- une meilleure compatibilité avec le frontend.
-
-La sérialisation JSON garantit :
-- des réponses cohérentes,
-- un format standard et lisible,
-- une indépendance totale vis-à-vis du langage du frontend.
-
-Cette couche constitue un élément clé de la stabilité de l’API,
-en assurant une séparation stricte entre les données internes et les données exposées.
-
----
-
-## 10. Services (logique métier)
-
-Les **services** constituent le cœur fonctionnel du backend.
-Ils contiennent l’ensemble de la **logique métier**, indépendamment des routes HTTP
-et de la structure de la base de données.
-
-Le rôle des services est de :
-- appliquer les règles fonctionnelles,
-- valider la cohérence des données,
-- orchestrer les accès à la base de données,
-- centraliser les traitements métier.
-
-Les routes se limitent à :
-- recevoir les requêtes HTTP,
-- extraire les paramètres,
-- appeler les services appropriés,
-- renvoyer la réponse au client.
-
-Cette séparation garantit :
-- un code plus lisible,
-- une meilleure testabilité,
-- une réduction du couplage entre les couches.
-
-Les services constituent ainsi le point central de l’application
-et facilitent l’évolution future du backend.
-
----
-
-## 11. Sécurité & authentification (JWT)
-
-La sécurité du backend repose sur un mécanisme d’authentification
-basé sur **JWT (JSON Web Token)**.
-
-Le processus d’authentification est le suivant :
-1. l’utilisateur s’authentifie via une route publique,
-2. le backend vérifie les identifiants,
-3. un token JWT est généré et signé,
-4. le token est envoyé au client,
-5. le client inclut le token dans l’en-tête `Authorization` des requêtes protégées.
-
-Les tokens JWT permettent :
-- une authentification stateless,
-- une bonne scalabilité,
-- une séparation claire entre authentification et logique métier.
-
-Les routes sensibles sont protégées via le middleware d’authentification Ktor.
-Le rôle de l’utilisateur (ex. `ADMIN`, `STUDENT`, `PROFESSOR`) est inclus dans le token
-et peut être utilisé pour appliquer des règles d’autorisation.
-
-Ce mécanisme assure un niveau de sécurité adapté au contexte du projet
-tout en restant extensible vers des solutions plus avancées.
----
-
-## 12. Application.kt & DatabaseFactory
-
-Le fichier `Application.kt` constitue le **point d’entrée du backend**.
-Il est responsable de l’initialisation globale de l’application Ktor.
-
-Ses principales responsabilités sont :
-- l’installation des plugins Ktor (logging, CORS, JSON, authentification),
-- la configuration de la sérialisation JSON,
-- la mise en place de la sécurité JWT,
-- l’enregistrement des routes publiques et protégées,
-- le démarrage du serveur.
-
-La connexion à la base de données est centralisée dans la classe `DatabaseFactory`.
-
-Le rôle de `DatabaseFactory` est de :
-- établir la connexion à la base SQLite,
-- créer les tables si elles n’existent pas,
-- gérer les transactions d’initialisation,
-- encapsuler toute la logique liée à la base de données.
-
-Cette centralisation permet :
-- une meilleure lisibilité du cycle de vie de l’application,
-- une gestion claire des dépendances,
-- une séparation nette entre configuration et logique métier.
-
----
-
-## 13. Dépendances & build.gradle
-
-La gestion des dépendances est assurée via **Gradle**.
-Le fichier `build.gradle` définit l’ensemble des bibliothèques nécessaires
-au fonctionnement du backend.
-
-Les principales dépendances utilisées sont :
-- **Ktor** : framework serveur HTTP,
-- **Kotlinx Serialization** : sérialisation JSON,
-- **Exposed** : ORM / DSL SQL pour Kotlin,
-- **SQLite JDBC** : accès à la base de données,
-- **JWT (Auth0)** : authentification sécurisée,
-- **BCrypt** : hachage des mots de passe,
-- **Logback** : gestion des logs.
-
-Ce découpage permet :
-- une gestion claire des responsabilités de chaque bibliothèque,
-- une maintenance simplifiée,
-- une évolution contrôlée du projet.
-
-Les versions des dépendances sont choisies pour assurer
-la stabilité et la compatibilité de l’ensemble du backend.
-## 12. Application.kt & DatabaseFactory
-
-Le fichier `Application.kt` constitue le **point d’entrée du backend**.
-Il est responsable de l’initialisation globale de l’application Ktor.
-
-Ses principales responsabilités sont :
-- l’installation des plugins Ktor (logging, CORS, JSON, authentification),
-- la configuration de la sérialisation JSON,
-- la mise en place de la sécurité JWT,
-- l’enregistrement des routes publiques et protégées,
-- le démarrage du serveur.
-
-La connexion à la base de données est centralisée dans la classe `DatabaseFactory`.
-
-Le rôle de `DatabaseFactory` est de :
-- établir la connexion à la base SQLite,
-- créer les tables si elles n’existent pas,
-- gérer les transactions d’initialisation,
-- encapsuler toute la logique liée à la base de données.
-
-Cette centralisation permet :
-- une meilleure lisibilité du cycle de vie de l’application,
-- une gestion claire des dépendances,
-- une séparation nette entre configuration et logique métier.
-
----
-
-## 13. Dépendances & build.gradle
-
-La gestion des dépendances est assurée via **Gradle**.
-Le fichier `build.gradle` définit l’ensemble des bibliothèques nécessaires
-au fonctionnement du backend.
-
-Les principales dépendances utilisées sont :
-- **Ktor** : framework serveur HTTP,
-- **Kotlinx Serialization** : sérialisation JSON,
-- **Exposed** : ORM / DSL SQL pour Kotlin,
-- **SQLite JDBC** : accès à la base de données,
-- **JWT (Auth0)** : authentification sécurisée,
-- **BCrypt** : hachage des mots de passe,
-- **Logback** : gestion des logs.
-
-Ce découpage permet :
-- une gestion claire des responsabilités de chaque bibliothèque,
-- une maintenance simplifiée,
-- une évolution contrôlée du projet.
-
-Les versions des dépendances sont choisies pour assurer
-la stabilité et la compatibilité de l’ensemble du backend.
----
-## 14. Principes SOLID appliqués
-
-Le backend a été conçu en appliquant plusieurs **principes SOLID**,
-afin d’assurer une architecture claire, maintenable et évolutive.
-
-- **Single Responsibility Principle (SRP)**  
-  Chaque composant a une responsabilité unique :
-  - les routes gèrent uniquement les requêtes HTTP,
-  - les services contiennent la logique métier,
-  - les modèles définissent la structure des données,
-  - les DTO définissent les structures exposées.
-
-- **Open/Closed Principle (OCP)**  
-  Le code est ouvert à l’extension mais fermé à la modification.
-  De nouvelles fonctionnalités peuvent être ajoutées
-  sans modifier le comportement existant.
-
-- **Liskov Substitution Principle (LSP)**  
-  Les abstractions et structures utilisées permettent
-  de remplacer des implémentations sans casser le fonctionnement global.
-
-- **Interface Segregation Principle (ISP)**  
-  Les composants n’exposent que les méthodes nécessaires,
-  évitant des dépendances inutiles.
-
-- **Dependency Inversion Principle (DIP)**  
-  Les couches haut niveau (routes, services)
-  ne dépendent pas directement des détails d’implémentation bas niveau,
-  mais de contrats clairement définis.
-
-Ces principes renforcent la qualité du code
-et facilitent la compréhension du projet par des développeurs tiers.
-
----
-
-## 15. Gestion Git & retour d’expérience
-
-Le projet a été géré à l’aide de **Git** avec une organisation en branches
-permettant de séparer les développements backend et frontend.
-
-Au cours du projet, plusieurs situations réelles ont été rencontrées :
-- gestion de branches distantes multiples,
-- résolution de conflits lors de merges,
-- récupération de commits supprimés par erreur,
-- synchronisation entre équipes.
-
-Ces situations ont permis de renforcer :
-- la maîtrise des outils Git,
-- la compréhension des workflows collaboratifs,
-- l’importance des commits atomiques et documentés.
-
-Ce retour d’expérience constitue un apprentissage essentiel
-pour des projets logiciels à plus grande échelle.
----
-## 16. Diagrammes (relations & séquences)
-
-Afin de faciliter la compréhension du backend, deux types de diagrammes ont été utilisés.
-
-### Diagramme de relations (modèle de données)
-
-Deux représentations complémentaires sont fournies :
-
-- **Diagramme logique (dbdiagram.io)**  
-  Il met en évidence les entités principales du backend
-  ainsi que leurs relations métier.
-  Ce diagramme est volontairement simplifié pour la soutenance
-  afin de rester lisible et pédagogique.
-
-  ![alt text](data/Untitled.png)
-
-- **Diagramme physique (DBeaver)**  
-  Généré automatiquement à partir de la base SQLite,
-  il reflète exactement la structure réelle des tables
-  et les clés étrangères effectivement implémentées.
-
-  ![alt text](data/image.png)
-
-
-
-Ces deux diagrammes sont complémentaires :
-- le diagramme logique explique l’architecture et les choix conceptuels,
-- le diagramme physique montre la réalité technique de la base.
-
-### Diagramme de séquence
-
-Un diagramme de séquence est utilisé pour illustrer
-le fonctionnement des flux principaux, notamment :
-- l’authentification utilisateur (login + JWT),
-- l’accès à une route protégée.
-
-Ce diagramme permet de visualiser clairement :
-- l’interaction entre le frontend et le backend,
-- le rôle des routes, services et mécanismes de sécurité,
-- la circulation des données et des tokens.
-
----
-
-## 17. Limites actuelles & évolutions possibles
-
-### Limites actuelles
-
-Le backend répond pleinement aux besoins du projet académique,
-mais certaines limites techniques sont connues et assumées.
-
-- **Base de données**
-  - SQLite limite la concurrence en écriture
-  - absence de scalabilité horizontale
-  - relations complexes gérées côté application
-
-- **Sécurité**
-  - authentification JWT basique
-  - absence de rotation avancée des tokens
-  - pas de rate limiting
-
-- **Architecture**
-  - backend monolithique
-  - absence de cache ou de file de messages
-  - couverture de tests partielle
-
----
-
-### Évolutions possibles
-
-Avec plus de temps ou dans un contexte de production,
-plusieurs améliorations seraient envisageables :
-
-- migration vers **PostgreSQL** avec clés étrangères strictes,
-- ajout d’un **cache Redis**,
-- mise en place d’un **RBAC** plus fin,
-- amélioration de la gestion des tokens (refresh, rotation),
-- ajout de tests unitaires et d’intégration,
-- dockerisation et CI/CD.
-
----
-
-### Vision globale
-
-Le backend a été conçu avec une vision évolutive.
-Les choix actuels ne bloquent pas une transition vers
-une architecture plus robuste et scalable.
-
-> Ce backend n’est pas encore *production ready*,
-> mais il est **production-ready dans sa conception**.
+### Packaging
+
+Le serveur est packagé via `gradle2nix` qui verrouille toutes les dépendances Gradle. Le `flake.nix` à la racine du projet expose le package `default` (serveur) et un package `full` (serveur + client web statique).
+
+### Module NixOS
+
+Un module NixOS est exporté par le Flake pour configurer le service, le reverse proxy Nginx, et la gestion des secrets via `sops-nix` automatiquement.
+
+### Exemple de configuration
+
+Voici comment importer et configurer le module dans un système NixOS :
+
+```nix
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+
+{
+  imports = [
+    # Import du module depuis le flake inputs
+    inputs.clacoxygen.nixosModules.default
+  ];
+
+  # Gestion des secrets (Tokens, Clés API) via sops
+  sops.secrets.clacoxygen_jwt_secret = {
+    owner = "clacoxygen";
+    mode = "0400";
+  };
+  sops.secrets.clacoxygen_ms_client_id = {
+    owner = "clacoxygen";
+    mode = "0400";
+  };
+  sops.secrets.clacoxygen_ms_client_secret = {
+    owner = "clacoxygen";
+    mode = "0400";
+  };
+
+  # Configuration du service
+  services.clacoxygen = {
+    enable = true;
+    port = 28088;
+    domain = "clacoxygen.msrl.be";
+    user = "clacoxygen";
+    group = "clacoxygen";
+
+    # Chemins vers les secrets (obligatoire en prod)
+    jwtSecretFile = config.sops.secrets.clacoxygen_jwt_secret.path;
+    msClientIdFile = config.sops.secrets.clacoxygen_ms_client_id.path;
+    msClientSecretFile = config.sops.secrets.clacoxygen_ms_client_secret.path;
+
+    # Configuration automatique du Reverse Proxy et SSL
+    nginx = {
+      enable = true;
+      enableACME = true; # Certificats Let's Encrypt automatiques
+    };
+  };
+}
+```
+
+L'import dans le flake.nix de l'infrastructure ressemblerait à ceci :
+
+```nix
+inputs.clacoxygen.url = "github:RISE-Remote-Intranet-School-Environment/CompanionAppStudent/";
+```
+
+## 9. Principes de conception (SOLID)
+
+Le backend respecte les principes SOLID pour assurer la maintenabilité :
+
+- **SRP** : Séparation stricte Routes / Services / Modèles.
+- **OCP** : L'ajout de nouvelles fonctionnalités (ex: nouvelles routes) ne nécessite pas de modifier le noyau existant.
+- **DIP** : Les services dépendent d'abstractions (interfaces implicites par injection) plutôt que de détails d'implémentation.
+
+## 10. Diagrammes et limites
+
+### Diagrammes
+Des diagrammes de base de données (Logique et Physique) sont disponibles dans le dossier `data/` à la racine du module serveur. Ils illustrent les relations entre Formations, Blocs, Cours, Professeurs et Étudiants.
+
+### Limites actuelles et évolutions
+- **Base de données** : SQLite est parfait pour ce prototype mais limite la scalabilité horizontale. Une migration vers PostgreSQL est l'évolution naturelle.
+- **Cache** : Absence actuelle de cache (Redis).
+- **Tests** : La couverture de tests backend se concentre sur les tests d'intégration des routes critiques.

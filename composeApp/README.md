@@ -1,9 +1,11 @@
-# composeApp - Documentation client
+# ClacOxygen - Documentation client
 
 Ce dossier contient le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web/Wasm).
 Le client consomme l'API Ktor du serveur et partage un maximum de code UI et métier dans `commonMain`.
 
-Pour la documentation du backend et des routes, voir `server/README.md`.
+**Liens utiles :**
+- [Retour à la documentation générale](../README.md)
+- [Voir la documentation du Backend (Server)](../server/README.md)
 
 ## Sommaire
 
@@ -43,106 +45,106 @@ composeApp/
 |   |-- commonMain/
 |   |   |-- kotlin/
 |   |   |   |-- be/ecam/companion/
-|   |   |   |   |-- App.kt                         # orchestration UI, navigation, thèmes
-|   |   |   |   |-- di/di.kt                        # injection Koin + buildBaseUrl
+|   |   |   |   |-- App.kt                            # orchestration UI, navigation, thèmes
+|   |   |   |   |-- di/di.kt                          # injection Koin + buildBaseUrl
 |   |   |   |   |-- viewmodel/
-|   |   |   |   |   |-- LoginViewModel.kt           # auth, session, token
-|   |   |   |   |   |-- HomeViewModel.kt            # PAE + cours + catalogue
+|   |   |   |   |   |-- LoginViewModel.kt             # auth, session, token
+|   |   |   |   |   |-- HomeViewModel.kt              # PAE + cours + catalogue
 |   |   |   |   |-- data/
-|   |   |   |   |   |-- ApiRepository.kt            # endpoints de base
-|   |   |   |   |   |-- KtorApiRepository.kt        # impl HTTP
-|   |   |   |   |   |-- CalendarRepository.kt       # calendrier + horaires
-|   |   |   |   |   |-- CourseDetailsRepository.kt  # agrégation fiches de cours
-|   |   |   |   |   |-- CourseResourceRepository.kt # ressources de cours
+|   |   |   |   |   |-- ApiRepository.kt              # endpoints de base
+|   |   |   |   |   |-- KtorApiRepository.kt          # impl HTTP
+|   |   |   |   |   |-- CalendarRepository.kt         # calendrier + horaires
+|   |   |   |   |   |-- CourseDetailsRepository.kt    # agrégation fiches de cours
+|   |   |   |   |   |-- CourseResourceRepository.kt   # ressources de cours
 |   |   |   |   |   |-- FormationCatalogRepository.kt # formations + blocs
-|   |   |   |   |   |-- ProfessorRepository.kt      # professeurs + cours
-|   |   |   |   |   |-- PaeRepository.kt            # PAE et notes
-|   |   |   |   |   |-- UserCoursesRepository.kt    # cours sélectionnés
-|   |   |   |   |   |-- SettingsRepository.kt       # host/port serveur
+|   |   |   |   |   |-- ProfessorRepository.kt        # professeurs + cours
+|   |   |   |   |   |-- PaeRepository.kt              # PAE et notes
+|   |   |   |   |   |-- UserCoursesRepository.kt      # cours sélectionnés
+|   |   |   |   |   |-- SettingsRepository.kt         # host/port serveur
 |   |   |   |   |   |-- InMemorySettingsRepository.kt # settings web
-|   |   |   |   |   |-- DefaultServer.kt            # base URL attendue
+|   |   |   |   |   |-- DefaultServer.kt              # base URL attendue
 |   |   |   |   |-- ui/
-|   |   |   |   |   |-- screens/                    # écrans principaux
-|   |   |   |   |   |   |-- LoginScreen.kt          # connexion + OAuth
-|   |   |   |   |   |   |-- RegisterScreen.kt       # inscription locale
-|   |   |   |   |   |   |-- HomeScreen.kt           # accueil + cours + recherche
+|   |   |   |   |   |-- screens/                      # écrans principaux
+|   |   |   |   |   |   |-- LoginScreen.kt            # connexion + OAuth
+|   |   |   |   |   |   |-- RegisterScreen.kt         # inscription locale
+|   |   |   |   |   |   |-- HomeScreen.kt             # accueil + cours + recherche
 |   |   |   |   |   |   |-- CoursesFormationScreen.kt # formations + blocs
 |   |   |   |   |   |   |-- CoursesFormationBlocScreen.kt # détails bloc + cours
-|   |   |   |   |   |   |-- CoursesFicheScreen.kt   # fiche cours (ECTS)
+|   |   |   |   |   |   |-- CoursesFicheScreen.kt     # fiche cours (ECTS)
 |   |   |   |   |   |   |-- CoursesResourcesScreen.kt # ressources de cours
 |   |   |   |   |   |   |-- CoursesComponentScreen.kt # composants de cours
-|   |   |   |   |   |   |-- CalendarScreen.kt       # calendrier principal
-|   |   |   |   |   |   |-- CalendarEvents.kt       # modèles et helpers calendrier
-|   |   |   |   |   |   |-- MonPaeScreen.kt         # PAE + notes
-|   |   |   |   |   |   |-- ProfessorsScreen.kt     # annuaire professeurs
-|   |   |   |   |   |   |-- UserDashboardScreen.kt  # tableau de bord utilisateur
-|   |   |   |   |   |   |-- SettingsScreen.kt       # réglages UI + token
-|   |   |   |   |   |-- components/                 # composants réutilisables
-|   |   |   |   |   |   |-- TopBar.kt               # barre du haut
-|   |   |   |   |   |   |-- BottomBar.kt            # barre du bas
-|   |   |   |   |   |   |-- BottomItem.kt           # items de navigation
-|   |   |   |   |   |   |-- AppDrawer.kt            # menu latéral
-|   |   |   |   |   |   |-- StudentCourseCalendar.kt # calendrier étudiant
-|   |   |   |   |   |   |-- CourseFilterBar.kt      # filtres calendrier
-|   |   |   |   |   |   |-- CourseEvent.kt          # modèle événement cours
-|   |   |   |   |   |   |-- CourseEventExtensions.kt # extensions événements
-|   |   |   |   |   |   |-- CourseEventsLoader.kt   # loader événements
-|   |   |   |   |   |   |-- NotificationWidget.kt   # notifications UI
-|   |   |   |   |   |   |-- KamelImage.kt           # affichage images
-|   |   |   |   |   |   |-- EcamBackground.kt       # fond écran login
-|   |   |   |   |   |-- theme/                      # thème et accessibilité
-|   |   |   |   |   |   |-- ThemeMode.kt            # thèmes clair/sombre
-|   |   |   |   |   |   |-- TextScaleMode.kt        # échelle texte
-|   |   |   |   |   |   |-- ScreenSizeMode.kt       # échelle écran
-|   |   |   |   |   |   |-- AppSettingsController.kt # contrôleur des réglages
-|   |   |   |   |   |   |-- SystemSettings.kt       # détection réglages système
-|   |   |   |   |   |   |-- PlatformInsets.kt       # padding par plateforme
+|   |   |   |   |   |   |-- CalendarScreen.kt         # calendrier principal
+|   |   |   |   |   |   |-- CalendarEvents.kt         # modèles et helpers calendrier
+|   |   |   |   |   |   |-- MonPaeScreen.kt           # PAE + notes
+|   |   |   |   |   |   |-- ProfessorsScreen.kt       # annuaire professeurs
+|   |   |   |   |   |   |-- UserDashboardScreen.kt    # tableau de bord utilisateur
+|   |   |   |   |   |   |-- SettingsScreen.kt         # réglages UI + token
+|   |   |   |   |   |-- components/                   # composants réutilisables
+|   |   |   |   |   |   |-- TopBar.kt                 # barre du haut
+|   |   |   |   |   |   |-- BottomBar.kt              # barre du bas
+|   |   |   |   |   |   |-- BottomItem.kt             # items de navigation
+|   |   |   |   |   |   |-- AppDrawer.kt              # menu latéral
+|   |   |   |   |   |   |-- StudentCourseCalendar.kt  # calendrier étudiant
+|   |   |   |   |   |   |-- CourseFilterBar.kt        # filtres calendrier
+|   |   |   |   |   |   |-- CourseEvent.kt            # modèle événement cours
+|   |   |   |   |   |   |-- CourseEventExtensions.kt  # extensions événements
+|   |   |   |   |   |   |-- CourseEventsLoader.kt     # loader événements
+|   |   |   |   |   |   |-- NotificationWidget.kt     # notifications UI
+|   |   |   |   |   |   |-- KamelImage.kt             # affichage images
+|   |   |   |   |   |   |-- EcamBackground.kt         # fond écran login
+|   |   |   |   |   |-- theme/                        # thème et accessibilité
+|   |   |   |   |   |   |-- ThemeMode.kt              # thèmes clair/sombre
+|   |   |   |   |   |   |-- TextScaleMode.kt          # échelle texte
+|   |   |   |   |   |   |-- ScreenSizeMode.kt         # échelle écran
+|   |   |   |   |   |   |-- AppSettingsController.kt  # contrôleur des réglages
+|   |   |   |   |   |   |-- SystemSettings.kt         # détection réglages système
+|   |   |   |   |   |   |-- PlatformInsets.kt         # padding par plateforme
 |   |   |   |   |-- utils/
-|   |   |   |   |   |-- TokenStorage.kt             # token par plateforme
+|   |   |   |   |   |-- TokenStorage.kt               # token par plateforme
 |   |   |-- composeResources/
-|   |   |   |-- drawable/                           # images
-|   |   |   |-- files/                              # JSON de données
-|   |   |   |-- values/                             # strings.xml
+|   |   |   |-- drawable/                             # images
+|   |   |   |-- files/                                # JSON de données
+|   |   |   |-- values/                               # strings.xml
 |   |-- androidMain/
 |   |   |-- kotlin/be/ecam/companion/
-|   |   |   |-- MainActivity.kt                     # entry point Android
+|   |   |   |-- MainActivity.kt                       # entry point Android
 |   |   |   |-- data/PersistentSettingsRepository.android.kt # settings persistants Android
-|   |   |   |-- data/DefaultServer.android.kt       # URL serveur par defaut Android
-|   |   |   |-- utils/TokenStorage.kt               # stockage token Android (TODO)
-|   |   |   |-- ui/components/Base64Image.android.kt # rendu image Base64 Android
-|   |   |   |-- ui/theme/ScreenSizeMode.android.kt  # taille ecran Android
-|   |   |   |-- ui/theme/PlatformInsets.android.kt  # insets Android
-|   |   |   |-- ui/theme/SystemSettings.android.kt  # réglages système Android
+|   |   |   |-- data/DefaultServer.android.kt         # URL serveur par defaut Android
+|   |   |   |-- utils/TokenStorage.kt                 # stockage token Android (TODO)
+|   |   |   |-- ui/components/Base64Image.android.kt  # rendu image Base64 Android
+|   |   |   |-- ui/theme/ScreenSizeMode.android.kt    # taille ecran Android
+|   |   |   |-- ui/theme/PlatformInsets.android.kt    # insets Android
+|   |   |   |-- ui/theme/SystemSettings.android.kt    # réglages système Android
 |   |-- iosMain/
 |   |   |-- kotlin/be/ecam/companion/
-|   |   |   |-- MainViewController.kt               # entry point iOS
+|   |   |   |-- MainViewController.kt                 # entry point iOS
 |   |   |   |-- data/PersistentSettingsRepository.ios.kt # settings persistants iOS
-|   |   |   |-- data/DefaultServer.ios.kt         # URL serveur par defaut iOS
-|   |   |   |-- utils/TokenStorage.kt             # stockage token iOS
-|   |   |   |-- ui/components/Base64Image.ios.kt  # rendu image Base64 iOS
-|   |   |   |-- ui/theme/ScreenSizeMode.ios.kt    # taille ecran iOS
-|   |   |   |-- ui/theme/PlatformInsets.ios.kt    # insets iOS
-|   |   |   |-- ui/theme/SystemSettings.ios.kt    # réglages système iOS
+|   |   |   |-- data/DefaultServer.ios.kt             # URL serveur par defaut iOS
+|   |   |   |-- utils/TokenStorage.kt                 # stockage token iOS
+|   |   |   |-- ui/components/Base64Image.ios.kt      # rendu image Base64 iOS
+|   |   |   |-- ui/theme/ScreenSizeMode.ios.kt        # taille ecran iOS
+|   |   |   |-- ui/theme/PlatformInsets.ios.kt        # insets iOS
+|   |   |   |-- ui/theme/SystemSettings.ios.kt        # réglages système iOS
 |   |-- jvmMain/
 |   |   |-- kotlin/be/ecam/companion/
-|   |   |   |-- main.kt                             # entry point Desktop
+|   |   |   |-- main.kt                               # entry point Desktop
 |   |   |   |-- data/PersistentSettingsRepository.jvm.kt # settings persistants Desktop
-|   |   |   |-- data/DefaultServer.jvm.kt         # URL serveur par defaut Desktop
-|   |   |   |-- oauth/DesktopOAuthHelper.kt         # OAuth Desktop
-|   |   |   |-- utils/TokenStorage.kt             # stockage token Desktop
-|   |   |   |-- ui/components/Base64Image.jvm.kt  # rendu image Base64 Desktop
-|   |   |   |-- ui/theme/ScreenSizeMode.jvm.kt    # taille ecran Desktop
-|   |   |   |-- ui/theme/PlatformInsets.jvm.kt    # insets Desktop
-|   |   |   |-- ui/theme/SystemSettings.jvm.kt    # réglages système Desktop
+|   |   |   |-- data/DefaultServer.jvm.kt             # URL serveur par defaut Desktop
+|   |   |   |-- oauth/DesktopOAuthHelper.kt           # OAuth Desktop
+|   |   |   |-- utils/TokenStorage.kt                 # stockage token Desktop
+|   |   |   |-- ui/components/Base64Image.jvm.kt      # rendu image Base64 Desktop
+|   |   |   |-- ui/theme/ScreenSizeMode.jvm.kt        # taille ecran Desktop
+|   |   |   |-- ui/theme/PlatformInsets.jvm.kt        # insets Desktop
+|   |   |   |-- ui/theme/SystemSettings.jvm.kt        # réglages système Desktop
 |   |-- wasmJsMain/
 |   |   |-- kotlin/be/ecam/companion/
-|   |   |   |-- main.kt                             # entry point Web/Wasm
-|   |   |   |-- data/DefaultServer.wasmJs.kt       # URL serveur par defaut Web
-|   |   |   |-- utils/TokenStorage.kt              # stockage token Web
-|   |   |   |-- ui/components/Base64Image.wasmJs.kt # rendu image Base64 Web
-|   |   |   |-- ui/theme/ScreenSizeMode.wasmJs.kt  # taille ecran Web
-|   |   |   |-- ui/theme/PlatformInsets.wasmJs.kt  # insets Web
-|   |   |   |-- ui/theme/SystemSettings.wasmJs.kt  # réglages système Web
+|   |   |   |-- main.kt                               # entry point Web/Wasm
+|   |   |   |-- data/DefaultServer.wasmJs.kt          # URL serveur par defaut Web
+|   |   |   |-- utils/TokenStorage.kt                 # stockage token Web
+|   |   |   |-- ui/components/Base64Image.wasmJs.kt   # rendu image Base64 Web
+|   |   |   |-- ui/theme/ScreenSizeMode.wasmJs.kt     # taille ecran Web
+|   |   |   |-- ui/theme/PlatformInsets.wasmJs.kt     # insets Web
+|   |   |   |-- ui/theme/SystemSettings.wasmJs.kt     # réglages système Web
 ```
 
 Organisation logique :
