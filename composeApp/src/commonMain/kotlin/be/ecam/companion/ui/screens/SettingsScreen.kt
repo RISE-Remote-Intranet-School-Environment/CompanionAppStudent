@@ -27,7 +27,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.draw.alpha
 import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.claco2_slogan_svg
+import companion.composeapp.generated.resources.claco2_slogan_xml
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -206,7 +206,7 @@ fun SettingsScreen(
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(
-                    painter = painterResource(Res.drawable.claco2_slogan_svg),
+                    painter = painterResource(Res.drawable.claco2_slogan_xml),
                     contentDescription = "ClacO₂",
                     modifier = Modifier
                         .width(140.dp)

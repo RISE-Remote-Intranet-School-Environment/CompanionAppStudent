@@ -19,7 +19,7 @@ import be.ecam.companion.ui.components.EcamBackground
 import be.ecam.companion.viewmodel.LoginViewModel
 import companion.composeapp.generated.resources.Res
 import companion.composeapp.generated.resources.microsoft_logo
-import companion.composeapp.generated.resources.claco2_slogan_svg
+import companion.composeapp.generated.resources.claco2_slogan_xml
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.layout.ContentScale
 
@@ -128,7 +128,7 @@ fun LoginCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(Res.drawable.claco2_slogan_svg),
+                painter = painterResource(Res.drawable.claco2_slogan_xml),
                 contentDescription = "ClacO₂ - Breathe",
                 modifier = Modifier
                     .fillMaxWidth()
