@@ -95,7 +95,7 @@ object DesktopOAuthHelper {
                             to { transform: translateY(0); opacity: 1; }
                         }
                         
-                        .logo-svg {
+                        .logo-image {
                             display: block;
                             margin: 0 auto 24px auto;
                             height: 80px;
@@ -124,7 +124,7 @@ object DesktopOAuthHelper {
                 </head>
                 <body>
                     <div class="card">
-                        <img class="logo-svg" src="/logo.svg" alt="ClacO₂">
+                        <img class="logo-image" src="/logo.svg" alt="ClacO₂">
 
                         <span class="status-icon $iconClass">$icon</span>
                         <h2 class="${if(accessToken == null) "error" else ""}">$message</h2>

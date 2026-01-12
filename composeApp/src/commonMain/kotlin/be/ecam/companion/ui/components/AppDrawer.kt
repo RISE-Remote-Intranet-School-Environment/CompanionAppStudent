@@ -15,8 +15,7 @@ import androidx.compose.ui.unit.dp
 import be.ecam.companion.viewmodel.AuthUserDTO
 import androidx.compose.foundation.Image
 import androidx.compose.ui.layout.ContentScale
-import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.claco2_slogan_svg
+import be.ecam.companion.ui.resources.appLogoSlogan
 import org.jetbrains.compose.resources.painterResource
 
 
@@ -48,7 +47,7 @@ fun AppDrawer(
                 contentAlignment = Alignment.CenterStart
             ) {
                 Image(
-                    painter = painterResource(Res.drawable.claco2_slogan_svg),
+                    painter = painterResource(appLogoSlogan()),
                     contentDescription = "ClacO₂ Branding",
                     modifier = Modifier
                         .width(180.dp) 
