@@ -1,133 +1,187 @@
+<div align="center">
+    <img alt="ClacO2 logo" src="composeApp/src/wasmJsMain/resources/claco2_slogan_svg.svg" width="250px" />
+</div>
+
+<br>
+
 # ClacOxygen
 
-ClacOxygen (ClacO₂) centralise l'expérience étudiante ECAM dans une application unique. Le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web) s'appuie sur un backend Ktor et une base SQLite pour synchroniser l'horaire, les cours, les ressources et le suivi académique. Le projet vise un usage quotidien : accès rapide aux informations clés, parcours clair, données unifiées et mêmes fonctionnalités sur chaque plateforme.
+<br>
+<div align="center">
+    <a href="https://github.com/RISE-Remote-Intranet-School-Environment/CompanionAppStudent/releases">
+        <img src="https://img.shields.io/github/v/release/RISE-Remote-Intranet-School-Environment/CompanionAppStudent?style=for-the-badge&color=D32F2F&labelColor=1a1a1a">
+    </a>
+    <a href="https://kotlinlang.org/">
+        <img src="https://img.shields.io/badge/Kotlin-Multiplatform-7F52FF.svg?style=for-the-badge&labelColor=1a1a1a&logo=kotlin&logoColor=7F52FF">
+    </a>
+    <a href="https://github.com/RISE-Remote-Intranet-School-Environment/CompanionAppStudent/blob/main/LICENSE">
+        <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=MIT&colorA=1a1a1a&colorB=D32F2F"/>
+    </a>
+</div>
+<br>
 
-## Sommaire
+> **ClacO2** centralise l'expérience étudiante ECAM dans une application unique.
 
-1. [Objectif](#1-objectif)
-2. [Histoire du logo](#2-histoire-du-logo)
-3. [Vue d’ensemble](#3-vue-densemble)
-4. [Fonctionnement du site](#4-fonctionnement-du-site)
-5. [Parcours utilisateur](#5-parcours-utilisateur)
-6. [Données, API et base](#6-donnees-api-et-base)
-7. [Architecture et flux](#7-architecture-et-flux)
-8. [Prérequis](#8-prerequis)
-9. [Installation locale](#9-installation-locale)
-10. [Lancer le serveur](#10-lancer-le-serveur)
-11. [Lancer l’app Desktop](#11-lancer-lapp-desktop)
-12. [Lancer l’app Web](#12-lancer-lapp-web)
-13. [Lancer l’app Android](#13-lancer-lapp-android)
-14. [Lancer l’app iOS](#14-lancer-lapp-ios)
-15. [Identifiants de test](#15-identifiants-de-test)
-16. [Organisation du dépôt](#16-organisation-du-depot)
-17. [Dépannage](#17-depannage)
-18. [Bugs et corrections](#18-bugs-et-corrections)
-19. [Évolutions futures](#19-evolutions-futures)
-20. [Reprendre le projet](#20-reprendre-le-projet)
-21. [Auteurs et rôles](#21-auteurs-et-roles)
+Le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web) s'appuie sur un backend Ktor et une base SQLite pour synchroniser l'horaire, les cours, les ressources et le suivi académique. Le projet vise un usage quotidien : accès rapide aux informations clés, parcours clair, données unifiées et mêmes fonctionnalités sur chaque plateforme.
 
-## 1. Objectif
+**Fonctionnalites :**
+
+- Affichage des formations, blocs et cours
+- Consultation des fiches ECTS, ressources et professeurs
+- Calendrier global et horaire de cours
+- Gestion des cours personnels (PAE)
+- Authentification JWT et OAuth Microsoft
+
+---
+
+## Table des matieres
+
+- [Objectif](#objectif)
+- [Histoire du logo](#histoire-du-logo)
+- [Vue d'ensemble](#vue-densemble)
+- [Fonctionnement du site](#fonctionnement-du-site)
+- [Parcours utilisateur](#parcours-utilisateur)
+- [Donnees, API et base](#donnees-api-et-base)
+- [Architecture et flux](#architecture-et-flux)
+- [Prerequis](#prerequis)
+- [Installation locale](#installation-locale)
+- [Lancer le serveur](#lancer-le-serveur)
+- [Lancer l'app Desktop](#lancer-lapp-desktop)
+- [Lancer l'app Web](#lancer-lapp-web)
+- [Lancer l'app Android](#lancer-lapp-android)
+- [Lancer l'app iOS](#lancer-lapp-ios)
+- [Identifiants de test](#identifiants-de-test)
+- [Organisation du depot](#organisation-du-depot)
+- [Depannage](#depannage)
+- [Bugs et corrections](#bugs-et-corrections)
+- [Recommendations futures](#recommendations-futures)
+- [Reprendre le projet](#reprendre-le-projet)
+- [Auteurs](#auteurs)
+
+---
+
+## Objectif
 
 Centraliser l’expérience étudiant autour d’un client multiplateforme et d’un serveur unique, avec des données académiques structurées, un calendrier exploitable et un parcours simple pour gérer ses cours et ses ressources.
 
-## 2. Histoire du logo
+---
 
-<img src="composeApp/src/wasmJsMain/resources/claco2_slogan_svg.svg" alt="Logo" width="280">
+## Histoire du logo
+
+<div align="center">
+    <img src="composeApp/src/wasmJsMain/resources/claco2_slogan_svg.svg" alt="Logo ClacO2" width="280">
+</div>
+
+<br>
 
 Pour nous éloigner un peu de notre très subtile allusion à une plateforme concurrente, nous avons ajouté deux thématiques : l'`Oxygène` et le `Clac`. Symbolisés respectivement par le `rouge` pour l'`O₂` et par l'assemblage de deux pièces de `puzzle` pour le son `Clac`.
 
 Le slogan vient encore souligner ces deux concepts avec `Breathe` qui incite l'utilisateur à se relaxer et à accepter la bouffée d'oxygène qu'est notre application. Ainsi que l'onomatopée jumelle à `Clac`, `Clic`, qui évoque l'immédiateté de notre solution.
 
-## 3. Vue d’ensemble
+---
+
+## Vue d'ensemble
 
 Le projet est découpé en deux blocs :
 
-- un client Compose Multiplatform (Android, iOS, Desktop, Web),
-- un serveur Ktor qui expose l’API et alimente une base SQLite.
+| Module | Description |
+|--------|-------------|
+| `composeApp/` | Client Compose Multiplatform (Android, iOS, Desktop, Web) |
+| `server/` | Serveur Ktor + API REST + Base SQLite |
 
 Le Web est servi par le serveur après génération du bundle WebAssembly. Le même backend alimente toutes les plateformes.
 
-## 4. Fonctionnement du site
+---
+
+## Fonctionnement du site
 
 Le site correspond à l’application Web. Il est hébergé et servi par le serveur Ktor.
 
-Adresse de référence : `https://clacoxygen.msrl.be/`
+**Adresse de reference :** `https://clacoxygen.msrl.be/`
 
-Étapes côté site :
+**Etapes cote site :**
+1. Génération du bundle WebAssembly
+2. Démarrage du serveur
+3. Accès via `http://localhost:28088` en local
 
-- génération du bundle WebAssembly,
-- démarrage du serveur,
-- accès via `http://localhost:28088` en local.
+---
 
-## 5. Parcours utilisateur
+## Parcours utilisateur
 
-Le parcours est pensé pour un étudiant qui veut accéder vite à ses informations :
+1. Connexion par email/mot de passe ou OAuth Microsoft
+2. Accueil avec tableau de bord, cours suivis, recherche dans le catalogue
+3. Navigation formations → blocs → cours pour consulter les fiches
+4. Accès aux ressources de cours et aux supports associés
+5. Consultation du calendrier global et de l'horaire de cours
+6. Lecture du PAE, des notes et de l'état de validation
+7. Recherche dans l'annuaire des professeurs
+8. Paramètres avec mode daltonien et informations de session
 
-1. Connexion par email/mot de passe ou OAuth Microsoft.
-2. Accueil avec tableau de bord, cours suivis, recherche dans le catalogue et gestion des cours.
-3. Navigation formations → blocs → cours pour consulter les fiches.
-4. Accès aux ressources de cours et aux supports associés.
-5. Consultation du calendrier global et de l’horaire de cours, avec filtres par année et série.
-6. Lecture du PAE, des notes et de l’état de validation.
-7. Recherche dans l’annuaire des professeurs et accès aux détails.
-8. Paramètres avec mode daltonien et informations de session.
+---
 
-## 6. Données, API et base
+## Données, API et base
 
-L’API est disponible sous `/api` et alimente une base SQLite.
+L'API est disponible sous `/api` et alimente une base SQLite.
 
-Sources de données :
+**Sources de donnees :**
+- Seeds serveur dans `server/data`
+- Ressources client dans `composeApp/src/commonMain/composeResources/files`
 
-- Seeds serveur dans `server/data` (formations, cours, horaires, professeurs, événements).
-- Ressources client dans `composeApp/src/commonMain/composeResources/files`.
+**Exemples d'API :**
 
-Exemples d’API utilisées par le client :
+| Categorie | Endpoints |
+|-----------|-----------|
+| Auth | `/api/auth/login`, `/api/auth/register`, `/api/auth/microsoft/login` |
+| Formations | `/api/formations/with-courses`, `/api/blocs` |
+| Cours | `/api/courses`, `/api/courses/{id}/details` |
+| Horaires | `/api/course-schedule`, `/api/course-schedule/my-schedule` |
+| Calendrier | `/api/calendar` |
+| Professeurs | `/api/professors` |
+| PAE | `/api/pae-students`, `/api/notes-students/by-student/{studentId}` |
 
-- Auth : `/api/auth/login`, `/api/auth/register`, `/api/auth/microsoft/login`, `/api/auth/me`
-- Formations : `/api/formations/with-courses`, `/api/blocs`
-- Cours : `/api/courses`, `/api/courses/{id}/details`
-- Horaires : `/api/course-schedule`, `/api/course-schedule/my-schedule`
-- Calendrier : `/api/calendar`
-- Professeurs : `/api/professors`
-- Cours utilisateur : `/api/my-courses`
-- PAE : `/api/pae-students`, `/api/notes-students/by-student/{studentId}`
-- Ressources : `/api/courses/{code}/resources`, `/api/course-resources`
+**Base de donnees :** `server/data/app.db`
 
-Base de données : `server/data/app.db`.
+---
 
-L'explication complète du backend se trouve dans [server/README.md](server/README.md).
-La documentation du UI client se trouve dans [composeApp/README.md](composeApp/README.md).
+## Architecture et flux
 
-## 7. Architecture et flux
+```
+┌─────────────────┐     ┌─────────────┐     ┌──────────┐
+│ Client Compose  │────>│  API Ktor   │────>│  SQLite  │
+│ (Android/iOS/   │<────│  (Backend)  │<────│   (DB)   │
+│  Desktop/Web)   │     └─────────────┘     └──────────┘
+└─────────────────┘
+```
 
-Schéma logique :
+**Flux principaux :**
+- **Authentification** : formulaire → `/api/auth/login` → JWT → appels protégés
+- **Catalogue** : `/api/formations/with-courses` → affichage formations/blocs/cours
+- **Cours étudiant** : `/api/my-courses` → ajout, suppression, affichage
+- **Horaire** : `/api/course-schedule` + filtres année/série → vue calendrier
 
-- Client (Compose) → API Ktor → SQLite
-- Client Web (Wasm) → API Ktor → SQLite
+---
 
-Flux principaux :
+## Prérequis
 
-- Authentification : formulaire → `/api/auth/login` → JWT → appels protégés.
-- Catalogue : `/api/formations/with-courses` → affichage formations/blocs/cours.
-- Cours étudiant : `/api/my-courses` → ajout, suppression, affichage.
-- Ressources : `/api/courses/{code}/resources` → liste filtrée par cours.
-- Horaire : `/api/course-schedule` + filtres année/série → vue calendrier.
-- PAE et notes : `/api/pae-students` + `/api/notes-students/by-student/{id}`.
-
-## 8. Prérequis
-
-- JDK 17
-- Android Studio pour Android
-- Xcode pour iOS
+- JDK 17+
+- Android Studio (pour Android)
+- Xcode (pour iOS)
 - Gradle via le wrapper du dépôt
 
-## 9. Installation locale
+---
 
-1) Cloner le dépôt.
-2) Ouvrir le projet dans l’IDE.
-3) Vérifier que JDK 17 est bien sélectionné.
+## Installation locale
 
-## 10. Lancer le serveur
+```sh
+git clone https://github.com/RISE-Remote-Intranet-School-Environment/CompanionAppStudent.git
+cd CompanionAppStudent
+```
+
+Verifier que JDK 17 est bien sélectionné.
+
+---
+
+## Lancer le serveur
 
 Le serveur écoute sur le port `28088` (variable `PORT`).
 
@@ -143,7 +197,7 @@ macOS/Linux :
 ./gradlew :server:run
 ```
 
-## 11. Lancer l’app Desktop
+## Lancer l’app Desktop
 
 Windows :
 
@@ -153,11 +207,13 @@ Windows :
 
 macOS/Linux :
 
-```shell
+```sh
 ./gradlew :composeApp:run
 ```
 
-## 12. Lancer l’app Web
+---
+
+## Lancer l'app Web
 
 1) Générer le bundle Wasm
 
@@ -187,58 +243,65 @@ macOS/Linux :
 ./gradlew :server:run
 ```
 
-Ouvrir `http://localhost:28088`.
+3. Ouvrir `http://localhost:28088`
 
-## 13. Lancer l'app Android
-
-### Configuration Android (local.properties)
-
-Pour compiler et installer l'app sur un appareil Android, le fichier `local.properties` doit exister à la racine du projet et contenir le chemin vers le SDK Android.
-
-Exemple (Windows) :
-
-```
-sdk.dir=C:\\Users\\<votre_user>\\AppData\\Local\\Android\\Sdk
-```
-
-Pour assembler l'application avant l'installation
 ---
 
-```shell
-.\gradlew.bat :composeApp:assembleDebug --no-daemon --no-configuration-cache
+## Lancer l'app Android
+
+1. Configurer local.properties avec le chemin SDK :
+```properties
+sdk.dir=C:\\Users\\<user>\\AppData\\Local\\Android\\Sdk
 ```
 
-Puis lancer la commande d'installation avec le téléphone relié avec un câble usb(-c)
+2. Assembler et installer :
+```sh
+./gradlew :composeApp:assembleDebug
+./gradlew :composeApp:installDebug
+```
+
 ---
 
-```shell
-.\gradlew.bat :composeApp:installDebug
+## Lancer l'app iOS
+
+Ouvrir iosApp dans Xcode et lancer.
+
+## Identifiants de test
+
+| Email | Mot de passe |
+|-------|--------------|
+| `nschell@ecam.be` | `nicolas` |
+| `ncrepin@ecam.be` | `nirina` |
+
+---
+
+## Organisation du depot
+
 ```
-**Note**: Pour que l'installation fonctionne sur le téléphone, installez le mode développeur dessus. Puis, accepter le FTP du lien USB.
-## 14. Lancer l’app iOS
+CompanionAppStudent/
+├── composeApp/          # Client Kotlin Compose Multiplatform
+├── iosApp/              # Point d'entrée iOS
+├── server/              # Serveur Ktor, routes, services, base SQLite
+├── shared/              # Code partage
+├── wasm-dist/           # Bundle WebAssembly (généré)
+├── flake.nix            # Configuration NixOS
+└── README.md            # Ce fichier
+```
 
-Ouvrir `iosApp/` dans Xcode et lancer.
+---
 
-## 15. Identifiants de test
+## Dépannage
 
-- `nschell@ecam.be` / `nicolas`
-- `ncrepin@ecam.be` / `nirina`
+| Probleme | Solution |
+|----------|----------|
+| Port occupé | Definir `PORT` avant de lancer le serveur |
+| Web vide | Relancer `:composeApp:wasmJsBrowserDistribution` puis `:server:run` |
+| Auth échoué | Verifier que le serveur est demarre sur `http://localhost:28088` |
+| Gradle bloque | Executer `./gradlew --stop` puis relancer |
 
-## 16. Organisation du dépôt
+---
 
-- `composeApp/` : client Kotlin Compose Multiplatform.
-- `iosApp/` : point d’entrée iOS.
-- `server/` : serveur Ktor, routes, services, base SQLite.
-- `shared/` : code partagé.
-
-## 17. Dépannage
-
-- Port occupé : définir `PORT` avant de lancer le serveur.
-- Web vide : relancer `:composeApp:wasmJsBrowserDistribution`, puis `:server:run`.
-- Auth échoue : vérifier que le serveur est démarré et que le client pointe vers `http://localhost:28088`.
-- Gradle bloqué : exécuter `.\gradlew.bat --stop` (Windows) ou `./gradlew --stop` (macOS/Linux), puis relancer la tâche.
-
-## 18. Bugs et corrections
+## Bugs et corrections
 
 - La backdoor admin hardcodée doit être supprimée pour éviter un accès non contrôlé.
 - Le token JWT ne doit plus être affiché dans les paramètres de l’application.
@@ -247,7 +310,7 @@ Ouvrir `iosApp/` dans Xcode et lancer.
 - La gestion des points des étudiants doit être corrigée et vérifiable.
 - Les photos de professeurs doivent être mises en cache pour réduire les requêtes.
 
-## 19. Recommendations futures
+## Recommendations futures
 
 - SQLite est parfait pour ce prototype mais limite la scalabilité horizontale. Une migration vers PostgreSQL est à envisager.
 - Intégrer Redis pour le caching.
@@ -278,7 +341,7 @@ Ouvrir `iosApp/` dans Xcode et lancer.
 - Uniformiser le PAE manuel et l'officiel.
 - Les assets doivent être standardisés par plateforme avec des variantes d’icônes pour l’accessibilité.
 
-## 20. Reprendre le projet
+## Reprendre le projet
 
 Pour reprendre rapidement :
 
@@ -288,11 +351,14 @@ Pour reprendre rapidement :
 4. Lire `server/README.md` pour le détail des modèles et des routes.
 5. Explorer `composeApp/src/commonMain` pour comprendre les écrans et la navigation.
 
-## 21. Auteurs et rôles
 
-- Chokayri Omar : UI Desktop
-- Crépin Nirina : Scrum master + UI Android
-- Masureel Bruno : Backend
-- Schell Nicolas : UI iOS
-- Yaya Libis Issakha : Backend
-- Yildirim Arifcan : UI Web
+## Auteurs
+
+| Nom | Role |
+|-----|------|
+| Chokayri Omar | UI Desktop |
+| Crépin Nirina | Scrum master + UI Android |
+| Masureel Bruno | Backend |
+| Schell Nicolas | UI iOS |
+| Yaya Libis Issakha | Backend |
+| Yildirim Arifcan | UI Web |
