@@ -94,10 +94,14 @@ Le projet est découpé en deux blocs :
 
 | Module | Description |
 |--------|-------------|
-| `composeApp/` | Client Compose Multiplatform (Android, iOS, Desktop, Web) |
-| `server/` | Serveur Ktor + API REST + Base SQLite |
+| [composeApp/](composeApp/) | Client Compose Multiplatform (Android, iOS, Desktop, Web) |
+| [server/](server/) | Serveur Ktor + API REST + Base SQLite |
 
 Le Web est servi par le serveur après génération du bundle WebAssembly. Le même backend alimente toutes les plateformes.
+
+**Liens utiles :**
+- [Voir la documentation du Client (App)](composeApp/README.md)
+- [Voir la documentation du Backend (Server)](server/README.md)
 
 ---
 
@@ -105,7 +109,7 @@ Le Web est servi par le serveur après génération du bundle WebAssembly. Le m�
 
 Le site correspond à l’application Web. Il est hébergé et servi par le serveur Ktor.
 
-**Adresse de reference :** `https://clacoxygen.msrl.be/`
+**Adresse de reference :** [https://clacoxygen.msrl.be/](https://clacoxygen.msrl.be/)
 
 **Etapes cote site :**
 1. Génération du bundle WebAssembly
@@ -132,8 +136,8 @@ Le site correspond à l’application Web. Il est hébergé et servi par le serv
 L'API est disponible sous `/api` et alimente une base SQLite.
 
 **Sources de donnees :**
-- Seeds serveur dans `server/data`
-- Ressources client dans `composeApp/src/commonMain/composeResources/files`
+- Seeds serveur dans [server/data](server/data)
+- Ressources client dans [composeApp/src/commonMain/composeResources/files](composeApp/src/commonMain/composeResources/files)
 
 **Exemples d'API :**
 
@@ -147,7 +151,7 @@ L'API est disponible sous `/api` et alimente une base SQLite.
 | Professeurs | `/api/professors` |
 | PAE | `/api/pae-students`, `/api/notes-students/by-student/{studentId}` |
 
-**Base de donnees :** `server/data/app.db`
+**Base de donnees :** [server/data/app.db](server/data/app.db)
 
 ---
 
@@ -358,8 +362,8 @@ Pour reprendre rapidement :
 1. Démarrer le serveur et vérifier `http://localhost:28088`.
 2. Lancer l’app Desktop pour valider l’UI sans émulateur.
 3. Tester l’API avec les routes listées dans la section Données et API.
-4. Lire `server/README.md` pour le détail des modèles et des routes.
-5. Explorer `composeApp/src/commonMain` pour comprendre les écrans et la navigation.
+4. Lire [server/README.md](server/README.md) pour le détail des modèles et des routes.
+5. Explorer [composeApp/src/commonMain](composeApp/src/commonMain) pour comprendre les écrans et la navigation.
 
 
 ## Auteurs
