@@ -69,9 +69,11 @@ Centraliser l’expérience étudiant autour d’un client multiplateforme et d�
 ## Histoire du logo
 
 <div align="center">
-    <div style="display: inline-block; background-color: #ffffff; padding: 20px; border-radius: 16px;">
-        <img alt="ClacO2 logo" src="composeApp/src/wasmJsMain/resources/claco2_slogan_svg.svg" width="250px">
-    </div>
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="composeApp/src/wasmJsMain/resources/claco2_slogan_svg.svg">
+        <source media="(prefers-color-scheme: light)" srcset="composeApp/src/wasmJsMain/resources/claco2_slogan_svg.svg">
+        <img alt="ClacO2 logo" src="composeApp/src/wasmJsMain/resources/claco2_slogan_svg.svg" width="250px" style="background-color: white; padding: 16px; border-radius: 12px;">
+    </picture>
 </div>
 
 <br>
