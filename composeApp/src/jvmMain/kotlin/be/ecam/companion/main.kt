@@ -28,7 +28,7 @@ fun main() = application {
     )
     Window(
         onCloseRequest = ::exitApplication,
-        title = "ClacOxygen - Companion Student",
+        title = "ClacOxygen",
         state = windowState,
         icon = painterResource(appLogoMark())
     ) {

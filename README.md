@@ -28,7 +28,7 @@
 
 Le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web) s'appuie sur un backend Ktor et une base SQLite pour synchroniser l'horaire, les cours, les ressources et le suivi académique. Le projet vise un usage quotidien : accès rapide aux informations clés, parcours clair, données unifiées et mêmes fonctionnalités sur chaque plateforme.
 
-**Fonctionnalites :**
+**Fonctionnalités :**
 
 - Affichage des formations, blocs et cours
 - Consultation des fiches ECTS, ressources et professeurs
@@ -38,16 +38,16 @@ Le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web) s'appuie sur
 
 ---
 
-## Table des matieres
+## Table des matières
 
 - [Objectif](#objectif)
 - [Histoire du logo](#histoire-du-logo)
 - [Vue d'ensemble](#vue-densemble)
 - [Fonctionnement du site](#fonctionnement-du-site)
 - [Parcours utilisateur](#parcours-utilisateur)
-- [Donnees, API et base](#donnees-api-et-base)
+- [Données, API et base](#données-api-et-base)
 - [Architecture et flux](#architecture-et-flux)
-- [Prerequis](#prerequis)
+- [Prérequis](#prérequis)
 - [Installation locale](#installation-locale)
 - [Lancer le serveur](#lancer-le-serveur)
 - [Lancer l'app Desktop](#lancer-lapp-desktop)
@@ -56,7 +56,7 @@ Le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web) s'appuie sur
 - [Lancer l'app iOS](#lancer-lapp-ios)
 - [Identifiants de test](#identifiants-de-test)
 - [Organisation du depot](#organisation-du-depot)
-- [Depannage](#depannage)
+- [Dépannage](#dépannage)
 - [Bugs et corrections](#bugs-et-corrections)
 - [Recommendations futures](#recommendations-futures)
 - [Reprendre le projet](#reprendre-le-projet)
@@ -94,10 +94,14 @@ Le projet est découpé en deux blocs :
 
 | Module | Description |
 |--------|-------------|
-| `composeApp/` | Client Compose Multiplatform (Android, iOS, Desktop, Web) |
-| `server/` | Serveur Ktor + API REST + Base SQLite |
+| [composeApp/](composeApp/) | Client Compose Multiplatform (Android, iOS, Desktop, Web) |
+| [server/](server/) | Serveur Ktor + API REST + Base SQLite |
 
 Le Web est servi par le serveur après génération du bundle WebAssembly. Le même backend alimente toutes les plateformes.
+
+**Liens utiles :**
+- [Voir la documentation du Client (App)](composeApp/README.md)
+- [Voir la documentation du Backend (Server)](server/README.md)
 
 ---
 
@@ -105,7 +109,7 @@ Le Web est servi par le serveur après génération du bundle WebAssembly. Le m�
 
 Le site correspond à l’application Web. Il est hébergé et servi par le serveur Ktor.
 
-**Adresse de reference :** `https://clacoxygen.msrl.be/`
+**Adresse de reference :** [https://clacoxygen.msrl.be/](https://clacoxygen.msrl.be/)
 
 **Etapes cote site :**
 1. Génération du bundle WebAssembly
@@ -132,8 +136,8 @@ Le site correspond à l’application Web. Il est hébergé et servi par le serv
 L'API est disponible sous `/api` et alimente une base SQLite.
 
 **Sources de donnees :**
-- Seeds serveur dans `server/data`
-- Ressources client dans `composeApp/src/commonMain/composeResources/files`
+- Seeds serveur dans [server/data](server/data)
+- Ressources client dans [composeApp/src/commonMain/composeResources/files](composeApp/src/commonMain/composeResources/files)
 
 **Exemples d'API :**
 
@@ -147,7 +151,7 @@ L'API est disponible sous `/api` et alimente une base SQLite.
 | Professeurs | `/api/professors` |
 | PAE | `/api/pae-students`, `/api/notes-students/by-student/{studentId}` |
 
-**Base de donnees :** `server/data/app.db`
+**Base de donnees :** [server/data/app.db](server/data/app.db)
 
 ---
 
@@ -261,7 +265,9 @@ macOS/Linux :
 ```properties
 sdk.dir=C:\\Users\\<user>\\AppData\\Local\\Android\\Sdk
 ```
-
+2. Activer le mode développeur sur le téléphone.
+3. Brancher le téléphone à l'ordinateur.
+4. Utiliser l'USB pour le transfert de fichiers.
 2. Assembler et installer :
 ```sh
 ./gradlew :composeApp:assembleDebug
@@ -356,8 +362,8 @@ Pour reprendre rapidement :
 1. Démarrer le serveur et vérifier `http://localhost:28088`.
 2. Lancer l’app Desktop pour valider l’UI sans émulateur.
 3. Tester l’API avec les routes listées dans la section Données et API.
-4. Lire `server/README.md` pour le détail des modèles et des routes.
-5. Explorer `composeApp/src/commonMain` pour comprendre les écrans et la navigation.
+4. Lire [server/README.md](server/README.md) pour le détail des modèles et des routes.
+5. Explorer [composeApp/src/commonMain](composeApp/src/commonMain) pour comprendre les écrans et la navigation.
 
 
 ## Auteurs
