@@ -324,7 +324,6 @@ ClacOxygen/
 ## Bugs et corrections
 
 - La backdoor admin hardcodée doit être supprimée pour éviter un accès non contrôlé.
-- Le token JWT ne doit plus être affiché dans les paramètres de l’application.
 - La validation des données dans les DTO doit être renforcée pour éviter des états incohérents.
 - Les entrées PAE doivent être reliées aux cours ajoutés manuellement en base.
 - La gestion des points des étudiants doit être corrigée et vérifiable.

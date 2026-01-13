@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.alpha
 import companion.composeapp.generated.resources.Res
 import companion.composeapp.generated.resources.claco2_slogan_xml
 import org.jetbrains.compose.resources.painterResource
+import be.ecam.companion.BuildConfig
 
 @Composable
 fun SettingsScreen(
@@ -172,7 +173,7 @@ fun SettingsScreen(
                 Spacer(Modifier.height(8.dp))
                 
                 Text(
-                    text = "v1.0.0 - ClacOxygen",
+                    text = "v${BuildConfig.VERSION_NAME} - ClacOxygen",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.outline
                 )

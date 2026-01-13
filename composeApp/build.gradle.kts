@@ -11,6 +11,27 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+val appVersion: String by rootProject.extra
+val appVersionCode: Int by rootProject.extra
+
+val generateBuildConfig by tasks.registering {
+    val outputDir = layout.buildDirectory.dir("generated/buildConfig/commonMain/kotlin")
+    outputs.dir(outputDir)
+    
+    doLast {
+        val dir = outputDir.get().asFile.resolve("be/ecam/companion")
+        dir.mkdirs()
+        dir.resolve("BuildConfig.kt").writeText("""
+            package be.ecam.companion
+            
+            object BuildConfig {
+                const val VERSION_NAME = "$appVersion"
+                const val VERSION_CODE = $appVersionCode
+            }
+        """.trimIndent())
+    }
+}
+
 kotlin {
     androidTarget {
         compilerOptions {
@@ -40,36 +61,34 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            // Ktor Android engine (choose exactly one)
             implementation(libs.ktor.client.android)
-            // Ktor client logging (debug diagnostics)
             implementation(libs.ktor.client.logging)
         }
-        commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.materialIconsExtended)
-            implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel.compose)
-            implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(projects.shared)
-            implementation(libs.kotlinx.datetime)
-            implementation(libs.koin.core)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
-            // Ktor client
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            // Remote images
-            implementation(libs.coil3.compose)
-            implementation(libs.coil3.network.ktor)
-            implementation("media.kamel:kamel-image:1.0.8") 
-            implementation("media.kamel:kamel-image-default:1.0.8")
-
+        commonMain {
+            kotlin.srcDir(generateBuildConfig.map { it.outputs.files.singleFile })
+            dependencies {
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(compose.materialIconsExtended)
+                implementation(compose.components.uiToolingPreview)
+                implementation(libs.androidx.lifecycle.viewmodel.compose)
+                implementation(libs.androidx.lifecycle.runtime.compose)
+                implementation(projects.shared)
+                implementation(libs.kotlinx.datetime)
+                implementation(libs.koin.core)
+                implementation(libs.koin.compose)
+                implementation(libs.koin.compose.viewmodel)
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.serialization.kotlinx.json)
+                implementation(libs.coil3.compose)
+                implementation(libs.coil3.network.ktor)
+                implementation("media.kamel:kamel-image:1.0.8")
+                implementation("media.kamel:kamel-image-default:1.0.8")
+            }
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -84,11 +103,9 @@ kotlin {
             implementation(libs.jna.platform)
         }
         iosMain.dependencies {
-            // Ktor iOS engine (Darwin)
             implementation(libs.ktor.client.darwin)
         }
         wasmJsMain.dependencies {
-            // Ktor JS engine for Wasm/JS target
             implementation(libs.ktor.client.js)
         }
     }
@@ -135,4 +152,8 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    dependsOn(generateBuildConfig)
 }
