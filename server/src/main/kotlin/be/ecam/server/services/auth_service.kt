@@ -6,6 +6,7 @@ import be.ecam.server.security.JwtConfig
 import be.ecam.server.security.JwtService
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.less
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object AuthService {
@@ -261,5 +262,21 @@ object AuthService {
             firstName = current[UsersTable.firstName],
             lastName = current[UsersTable.lastName]
         )
+    }
+
+    /**
+     * Révoque un refresh token (logout)
+     */
+    fun revokeRefreshToken(token: String) = transaction {
+        RefreshTokensTable.deleteWhere { RefreshTokensTable.token eq token }
+    }
+
+    /**
+     * Nettoyage des tokens expirés (à appeler périodiquement)
+     */
+    fun cleanupExpiredTokens() = transaction {
+        RefreshTokensTable.deleteWhere { 
+            RefreshTokensTable.expiresAt less System.currentTimeMillis() 
+        }
     }
 }

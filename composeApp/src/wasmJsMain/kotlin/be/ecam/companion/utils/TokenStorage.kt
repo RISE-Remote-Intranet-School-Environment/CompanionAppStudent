@@ -13,7 +13,6 @@ actual fun loadToken(): String? {
 
 actual fun clearToken() {
     window.localStorage.removeItem("jwt_token")
-    window.localStorage.removeItem("refresh_token")
     window.localStorage.removeItem("oauth_success")
 }
 
@@ -26,6 +25,14 @@ fun checkOAuthSuccess(): Boolean {
     return false
 }
 
-fun loadRefreshToken(): String? {
-    return window.localStorage.getItem("refresh_token")
+// Pour le web, le refresh token est dans un cookie HttpOnly
+// Cette fonction est conservée pour la compatibilité de l'interface
+actual fun saveRefreshToken(token: String) {
+    // Ne rien faire - le serveur gère le cookie
+}
+
+actual fun loadRefreshToken(): String? {
+    // Le refresh token n'est pas accessible en JS (HttpOnly)
+    // Le client doit appeler /api/auth/refresh directement
+    return null
 }

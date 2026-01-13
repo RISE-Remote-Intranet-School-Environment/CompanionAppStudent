@@ -17,8 +17,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import be.ecam.companion.utils.saveToken
 import be.ecam.companion.utils.loadToken
-import be.ecam.companion.utils.clearToken 
-
+import be.ecam.companion.utils.clearToken
+import be.ecam.companion.utils.saveRefreshToken
+import be.ecam.companion.utils.loadRefreshToken 
 
 
 @Serializable
@@ -66,7 +67,7 @@ data class UpdateMeResponse(
 
 class LoginViewModel : ViewModel() {
     private val client = HttpClient {
-        expectSuccess = false // let us handle non-2xx instead of throwing
+        expectSuccess = false
         install(ContentNegotiation) { json() }
     }
 
@@ -118,33 +119,56 @@ class LoginViewModel : ViewModel() {
         if (!savedToken.isNullOrBlank()) {
             jwtToken = savedToken
             viewModelScope.launch {
-                try {
-                    val response: HttpResponse = client.get("${defaultServerBaseUrl()}/api/auth/me") {
-                        val token = savedToken.trim().removeSurrounding("\"")
-                        header(HttpHeaders.Authorization, "Bearer $token")
-                    }
-                    if (response.status.isSuccess()) {
-                        currentUser = response.body()
-                        loginSuccess = true
-                    } else {
-                        // Token invalide, on le supprime
-                        clearToken()
-                        jwtToken = null
-                    }
-                } catch (e: Exception) {
-                    // Erreur réseau, on garde le token pour réessayer plus tard
-                    println("Erreur de validation du token: ${e.message}")
+                if (!validateAndRefreshToken(savedToken)) {
+                    clearToken()
+                    jwtToken = null
                 }
             }
         }
     }
 
     /**
+     * Valide le token et le rafraîchit si nécessaire
+     * @return true si la session est valide, false sinon
+     */
+    private suspend fun validateAndRefreshToken(token: String): Boolean {
+        return try {
+            val response: HttpResponse = client.get("${defaultServerBaseUrl()}/api/auth/me") {
+                val cleanToken = token.trim().removeSurrounding("\"")
+                header(HttpHeaders.Authorization, "Bearer $cleanToken")
+            }
+            
+            when (response.status.value) {
+                in 200..299 -> {
+                    currentUser = response.body()
+                    loginSuccess = true
+                    true
+                }
+                401 -> {
+                    // Token expiré, tenter un refresh
+                    refreshAccessToken()
+                }
+                else -> false
+            }
+        } catch (e: Exception) {
+            println("Erreur de validation du token: ${e.message}")
+            // Erreur réseau, on garde le token pour réessayer plus tard
+            true
+        }
+    }
+
+    /**
      * Restaure la session à partir d'un token stocké (utile après OAuth callback)
      */
-    fun restoreSession(accessToken: String) {
+    fun restoreSession(accessToken: String, refreshToken: String? = null) {
         jwtToken = accessToken
         saveToken(accessToken)
+        
+        // Sauvegarder le refresh token s'il est fourni
+        if (!refreshToken.isNullOrBlank()) {
+            saveRefreshToken(refreshToken)
+        }
+        
         viewModelScope.launch {
             try {
                 val response: HttpResponse = client.get("${defaultServerBaseUrl()}/api/auth/me") {
@@ -165,7 +189,7 @@ class LoginViewModel : ViewModel() {
     }
 
     /**
-     * 🔐 Login via POST /api/auth/login
+     * Login via POST /api/auth/login
      */
     fun login(
         baseUrl: String = defaultServerBaseUrl(),
@@ -190,6 +214,11 @@ class LoginViewModel : ViewModel() {
                     currentUser = authResponse.user
                     
                     saveToken(authResponse.accessToken)
+                    
+                    // Le refresh token peut être vide si le serveur utilise des cookies
+                    if (authResponse.refreshToken.isNotBlank()) {
+                        saveRefreshToken(authResponse.refreshToken)
+                    }
                     
                     loginSuccess = true
                 } else {
@@ -261,8 +290,95 @@ class LoginViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Rafraîchit l'access token en utilisant le refresh token
+     * Pour le web, le refresh token est dans un cookie HttpOnly
+     */
+    suspend fun refreshAccessToken(): Boolean {
+        val refreshToken = loadRefreshToken()
+        
+        return try {
+            val response: HttpResponse = client.post("${defaultServerBaseUrl()}/api/auth/refresh") {
+                contentType(ContentType.Application.Json)
+                // Envoyer le refresh token dans le body si disponible (mobile/desktop)
+                // Sinon le serveur utilisera le cookie (web)
+                if (!refreshToken.isNullOrBlank()) {
+                    setBody(mapOf("refreshToken" to refreshToken))
+                } else {
+                    setBody(emptyMap<String, String>())
+                }
+            }
+            
+            if (response.status.isSuccess()) {
+                val authResponse: AuthResponse = response.body()
+                jwtToken = authResponse.accessToken
+                saveToken(authResponse.accessToken)
+                
+                // Mettre à jour le refresh token si fourni
+                if (authResponse.refreshToken.isNotBlank()) {
+                    saveRefreshToken(authResponse.refreshToken)
+                }
+                
+                // Recharger les infos utilisateur
+                fetchMe()
+                loginSuccess = true
+                true
+            } else {
+                clearToken()
+                loginSuccess = false
+                false
+            }
+        } catch (e: Exception) {
+            println("Erreur refresh token: ${e.message}")
+            false
+        }
+    }
+
+    /**
+     * Exécute une requête API avec refresh automatique en cas de 401
+     */
+    suspend fun <T> executeWithRefresh(
+        request: suspend () -> HttpResponse,
+        onSuccess: suspend (HttpResponse) -> T,
+        onError: (String) -> T
+    ): T {
+        val response = request()
+        
+        return when (response.status.value) {
+            in 200..299 -> onSuccess(response)
+            401 -> {
+                // Tenter un refresh
+                if (refreshAccessToken()) {
+                    // Réessayer la requête avec le nouveau token
+                    val retryResponse = request()
+                    if (retryResponse.status.isSuccess()) {
+                        onSuccess(retryResponse)
+                    } else {
+                        onError("Erreur après refresh: ${retryResponse.status.value}")
+                    }
+                } else {
+                    logout()
+                    onError("Session expirée, veuillez vous reconnecter")
+                }
+            }
+            else -> onError("Erreur ${response.status.value}: ${response.bodyAsText()}")
+        }
+    }
 
     fun logout() {
+        viewModelScope.launch {
+            // Appeler le serveur pour révoquer le refresh token
+            try {
+                client.post("${defaultServerBaseUrl()}/api/auth/logout") {
+                    jwtToken?.let {
+                        header(HttpHeaders.Authorization, "Bearer ${it.trim().removeSurrounding("\"")}")
+                    }
+                }
+            } catch (e: Exception) {
+                // Ignorer les erreurs de logout côté serveur
+            }
+        }
+        
         jwtToken = null
         currentUser = null
         loginSuccess = false
@@ -270,7 +386,6 @@ class LoginViewModel : ViewModel() {
         isLoading = false
         clearToken()
     }
-
 }
 
 

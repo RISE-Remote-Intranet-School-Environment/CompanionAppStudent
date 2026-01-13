@@ -60,7 +60,7 @@ fun App(
         LaunchedEffect(pendingOAuthResult) {
             if (pendingOAuthResult != null) {
                 val (accessToken, refreshToken) = pendingOAuthResult
-                loginViewModel.restoreSession(accessToken)
+                loginViewModel.restoreSession(accessToken, refreshToken)
                 onOAuthResultConsumed?.invoke()
             }
         }
@@ -305,7 +305,6 @@ fun App(
                                     SettingsScreen(
                                         isColorBlindMode = isColorBlindMode,
                                         onColorBlindModeChange = { settingsRepo.setColorBlindMode(it) },
-                                        bearerToken = loginViewModel.jwtToken?.trim()?.removeSurrounding("\""),
                                         modifier = baseModifier
                                     )
                                 }

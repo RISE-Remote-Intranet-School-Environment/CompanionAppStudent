@@ -4,8 +4,8 @@ import java.util.prefs.Preferences
 
 private val prefs: Preferences = Preferences.userNodeForPackage(TokenStorageHelper::class.java)
 private const val TOKEN_KEY = "jwt_token"
+private const val REFRESH_TOKEN_KEY = "refresh_token"
 
-// Objet factice pour obtenir le package
 private object TokenStorageHelper
 
 actual fun saveToken(token: String) {
@@ -18,4 +18,13 @@ actual fun loadToken(): String? {
 
 actual fun clearToken() {
     prefs.remove(TOKEN_KEY)
+    prefs.remove(REFRESH_TOKEN_KEY)
+}
+
+actual fun saveRefreshToken(token: String) {
+    prefs.put(REFRESH_TOKEN_KEY, token)
+}
+
+actual fun loadRefreshToken(): String? {
+    return prefs.get(REFRESH_TOKEN_KEY, null)
 }

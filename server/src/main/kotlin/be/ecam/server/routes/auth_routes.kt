@@ -11,6 +11,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.serialization.Serializable
+import io.ktor.util.date.GMTDate
 
 @Serializable
 data class UpdateMeRequest(
@@ -54,30 +55,87 @@ fun Route.authRoutes() {
 
         try {
             val response = AuthService.login(body)
-            call.respond(response)
+            
+            // Définir le refresh token en cookie HttpOnly
+            call.response.cookies.append(
+                Cookie(
+                    name = "refresh_token",
+                    value = response.refreshToken,
+                    httpOnly = true,
+                    secure = true, // HTTPS uniquement
+                    path = "/api/auth",
+                    maxAge = 7 * 24 * 60 * 60, // 7 jours
+                    extensions = mapOf("SameSite" to "Strict")
+                )
+            )
+            
+            // Réponse sans le refresh token (il est dans le cookie)
+            call.respond(response.copy(refreshToken = ""))
         } catch (e: Exception) {
             call.respond(HttpStatusCode.Unauthorized, "Identifiants invalides")
         }
     }
 
-    // POST /api/auth/refresh (NOUVEAU)
+    // POST /api/auth/refresh
     post("/auth/refresh") {
-        // On attend { "refreshToken": "..." }
-        val body = call.receive<Map<String, String>>()
-        val refreshToken = body["refreshToken"]
+        val refreshToken = call.request.cookies["refresh_token"]
 
         if (refreshToken.isNullOrBlank()) {
-            call.respond(HttpStatusCode.BadRequest, "Refresh token manquant")
+            call.respond(HttpStatusCode.Unauthorized, "Refresh token manquant")
             return@post
         }
 
         val newAuthResponse = AuthService.refreshToken(refreshToken)
 
         if (newAuthResponse != null) {
-            call.respond(newAuthResponse)
+            // Mettre à jour le cookie avec le nouveau refresh token
+            call.response.cookies.append(
+                Cookie(
+                    name = "refresh_token",
+                    value = newAuthResponse.refreshToken,
+                    httpOnly = true,
+                    secure = true,
+                    path = "/api/auth",
+                    maxAge = 7 * 24 * 60 * 60,
+                    extensions = mapOf("SameSite" to "Strict")
+                )
+            )
+            
+            call.respond(newAuthResponse.copy(refreshToken = ""))
         } else {
+            call.response.cookies.append(
+                Cookie(
+                    name = "refresh_token",
+                    value = "",
+                    path = "/api/auth",
+                    expires = GMTDate.START,
+                    httpOnly = true,
+                    secure = true
+                )
+            )
             call.respond(HttpStatusCode.Unauthorized, "Refresh token invalide ou expiré")
         }
+    }
+
+    // POST /api/auth/logout
+    post("/auth/logout") {
+        val refreshToken = call.request.cookies["refresh_token"]
+        
+        if (!refreshToken.isNullOrBlank()) {
+            AuthService.revokeRefreshToken(refreshToken)
+        }
+        
+        call.response.cookies.append(
+            Cookie(
+                name = "refresh_token",
+                value = "",
+                path = "/api/auth",
+                expires = GMTDate.START,
+                httpOnly = true,
+                secure = true
+            )
+        )
+        call.respond(HttpStatusCode.OK, mapOf("message" to "Déconnecté"))
     }
 
     // me routes (PROTECTED)

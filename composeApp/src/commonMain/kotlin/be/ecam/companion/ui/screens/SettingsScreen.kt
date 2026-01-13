@@ -34,10 +34,8 @@ import org.jetbrains.compose.resources.painterResource
 fun SettingsScreen(
     isColorBlindMode: Boolean,
     onColorBlindModeChange: (Boolean) -> Unit,
-    bearerToken: String? = null,
     modifier: Modifier = Modifier
 ) {
-    var tokenVisible by remember { mutableStateOf(false) }
     val settings = LocalAppSettingsController.current
 
     val screenPresets = listOf(0.5f, 0.75f, 1f, 1.25f, 1.5f)
@@ -158,43 +156,6 @@ fun SettingsScreen(
         }
 
         Spacer(Modifier.height(24.dp))
-
-        bearerToken?.takeIf { it.isNotBlank() }?.let { token ->
-            val clipboard = LocalClipboardManager.current
-            Card(
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-                ),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Text("JWT token", style = MaterialTheme.typography.titleMedium)
-                    OutlinedTextField(
-                        value = if (tokenVisible) token else "**********",
-                        onValueChange = {},
-                        readOnly = true,
-                        modifier = Modifier.fillMaxWidth(),
-                        textStyle = MaterialTheme.typography.bodySmall,
-                        trailingIcon = {
-                            TextButton(onClick = { tokenVisible = !tokenVisible }) {
-                                Text(if (tokenVisible) "Masquer" else "Afficher")
-                            }
-                        }
-                    )
-                    TextButton(
-                        onClick = { clipboard.setText(AnnotatedString(token)) },
-                        modifier = Modifier.align(Alignment.End)
-                    ) {
-                        Text("Copier")
-                    }
-                }
-            }
-
-            Spacer(Modifier.height(24.dp))
-        }
 
         HorizontalDivider()
 
