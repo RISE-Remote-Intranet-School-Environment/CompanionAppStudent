@@ -41,10 +41,6 @@ import be.ecam.companion.ui.CoursesFicheScreen
 import io.ktor.client.HttpClient
 import org.koin.compose.koinInject
 import kotlin.math.absoluteValue
-import androidx.compose.foundation.Image
-import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.o2_xml
-import org.jetbrains.compose.resources.painterResource
 
 /* --------------------------- SCREEN CONTAINER --------------------------- */
 
@@ -182,24 +178,6 @@ private fun ProfessorsMainScreen(
     var selectedProfessor by remember { mutableStateOf<Professor?>(null) }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Image(
-                painter = painterResource(Res.drawable.o2_xml),
-                contentDescription = "ClacO₂",
-                modifier = Modifier.size(36.dp)
-            )
-            Text(
-                text = "Annuaire des Professeurs",
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
 
         /* -------- SEARCH -------- */
         OutlinedTextField(

@@ -77,10 +77,6 @@ import io.kamel.image.asyncPainterResource
 import io.ktor.client.HttpClient
 import io.ktor.http.Url
 import org.koin.compose.koinInject
-import androidx.compose.foundation.Image
-import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.o2_xml
-import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun CoursesFormationScreen(
@@ -362,9 +358,10 @@ private fun IntroText(database: FormationDatabase?) {
                         horizontalAlignment = Alignment.Start,
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        Image(
-                            painter = painterResource(Res.drawable.o2_xml),
-                            contentDescription = "ClacO₂",
+                        Icon(
+                            imageVector = Icons.Default.School,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(64.dp)
                         )
                         Text(
@@ -442,9 +439,10 @@ private fun IntroText(database: FormationDatabase?) {
             } else {
                 Column(modifier = Modifier.padding(20.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Image(
-                            painter = painterResource(Res.drawable.o2_xml),
-                            contentDescription = "ClacO₂",
+                        Icon(
+                            imageVector = Icons.Default.School,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(40.dp)
                         )
                         Spacer(Modifier.width(12.dp))

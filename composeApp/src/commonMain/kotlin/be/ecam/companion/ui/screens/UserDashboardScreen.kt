@@ -217,7 +217,7 @@ fun UserDashboardScreen(loginViewModel: LoginViewModel, modifier: Modifier = Mod
                         .joinToString(" ")
                         .ifBlank { user.username }
                     Text(
-                        "Bonjour, $displayName",
+                        "Bonjour $displayName,",
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold
                     )

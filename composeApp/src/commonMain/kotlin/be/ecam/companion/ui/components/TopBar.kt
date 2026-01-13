@@ -12,11 +12,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.ui.unit.dp
 import be.ecam.companion.ui.components.NotificationWidget
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.layout.ContentScale
 import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.claco2_xml
+import companion.composeapp.generated.resources.o2_xml
 import org.jetbrains.compose.resources.painterResource
 import be.ecam.companion.ui.components.BottomItem
 
@@ -44,19 +43,6 @@ fun TopBar(
 
                 showPaePage ->
                     Text(paeTitleSuffix ?: "Mon PAE")
-
-                selectedScreen == BottomItem.HOME || selectedScreen == BottomItem.DASHBOARD -> {
-                    Image(
-                        painter = painterResource(Res.drawable.claco2_xml),
-                        contentDescription = "ClacO₂",
-                        modifier = Modifier
-                            .height(28.dp)
-                            .width(100.dp),
-                        contentScale = ContentScale.Fit,
-                        alignment = androidx.compose.ui.Alignment.CenterStart
-                    )
-                }
-
                 else ->
                     Text(selectedScreen.getLabel())
             }
@@ -88,6 +74,14 @@ fun TopBar(
                 )
             }
 
+            Image(
+                painter = painterResource(Res.drawable.o2_xml),
+                contentDescription = "App logo",
+                modifier = Modifier
+                    .padding(start = 8.dp, end = 12.dp)
+                    .size(24.dp),
+                contentScale = ContentScale.Fit
+            )
 
         }
     )

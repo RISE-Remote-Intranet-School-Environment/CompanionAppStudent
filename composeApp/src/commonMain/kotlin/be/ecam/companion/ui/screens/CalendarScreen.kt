@@ -35,6 +35,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 
@@ -664,50 +665,75 @@ private fun DayCell(
         isOtherMonth -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
         else -> MaterialTheme.colorScheme.onSurface
     }
-    Column(
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
             .padding(2.dp)
             .clip(RoundedCornerShape(6.dp))
             .background(backgroundColor)
             .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier)
-            .padding(horizontal = 8.dp, vertical = 8.dp),
-        horizontalAlignment = Alignment.Start
     ) {
-        Text(text = date.day.toString(), color = textColor)
-        if (events.isNotEmpty()) {
-            Spacer(Modifier.height(4.dp))
-            events.take(3).forEach { event ->
-                CalendarEventBadge(event)
-                Spacer(Modifier.height(2.dp))
-            }
-            if (events.size > 3) {
-                Text(
-                    text = "+${events.size - 3} more",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+        val isCompact = maxWidth < 65.dp
+        val horizontalPadding = if (isCompact) 2.dp else 8.dp
+        val verticalPadding = if (isCompact) 5.dp else 8.dp
+        val maxVisible = if (isCompact) 2 else 3
+        val dayStyle = if (isCompact) MaterialTheme.typography.labelSmall else MaterialTheme.typography.bodyMedium
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = horizontalPadding, vertical = verticalPadding),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text(
+                text = date.day.toString(),
+                color = textColor,
+                style = dayStyle,
+                fontWeight = if (isCompact) FontWeight.SemiBold else FontWeight.Normal
+            )
+            if (events.isNotEmpty()) {
+                Spacer(Modifier.height(if (isCompact) 3.dp else 4.dp))
+                events.take(maxVisible).forEach { event ->
+                    CalendarEventBadge(event, compact = isCompact)
+                    Spacer(Modifier.height(2.dp))
+                }
+                val remaining = events.size - maxVisible
+                if (remaining > 0) {
+                    Text(
+                        text = if (isCompact) "+$remaining" else "+$remaining more",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-private fun CalendarEventBadge(event: CalendarEvent) {
+private fun CalendarEventBadge(event: CalendarEvent, compact: Boolean = false) {
     val meta = event.extractEventMeta()
     val baseColor = event.category.color
     val displayText = event.displayTitle(meta)
+    val horizontalPadding = if (compact) 2.dp else 6.dp
+    val verticalPadding = if (compact) 1.dp else 2.dp
+    val textStyle = if (compact) {
+        MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, lineHeight = 12.sp)
+    } else {
+        MaterialTheme.typography.labelSmall
+    }
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(4.dp))
+            .clip(RoundedCornerShape(if (compact) 3.dp else 4.dp))
             .background(baseColor.copy(alpha = 0.2f))
     ) {
         Text(
             text = displayText,
-            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
-            style = MaterialTheme.typography.labelSmall,
+            modifier = Modifier.padding(horizontal = horizontalPadding, vertical = verticalPadding),
+            style = textStyle,
             color = baseColor,
+            fontWeight = if (compact) FontWeight.SemiBold else FontWeight.Normal,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )

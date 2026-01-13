@@ -70,10 +70,6 @@ import be.ecam.companion.ui.rememberCoursesDetails
 import be.ecam.companion.ui.theme.shouldRemoveTopInsetsForContent
 import io.ktor.client.HttpClient
 import org.koin.compose.koinInject
-import androidx.compose.foundation.Image
-import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.o2_xml
-import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun CoursesResourcesScreen(
@@ -239,12 +235,12 @@ private fun CourseIntroCard(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(Res.drawable.o2_xml),
-                    contentDescription = "ClacO₂",
-                    modifier = Modifier.size(24.dp)
+                Icon(
+                    imageVector = Icons.Filled.AutoGraph,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
                 )
-                Spacer(Modifier.width(8.dp))
+                Spacer(Modifier.padding(horizontal = 4.dp))
                 Text(
                     text = "Présentation du cours",
                     style = MaterialTheme.typography.titleMedium,
