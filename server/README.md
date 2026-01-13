@@ -244,9 +244,11 @@ La sécurité repose sur **JWT (JSON Web Token)**.
 
 Flux :
 1.  **Login** : L'utilisateur envoie ses crédits ou un code OAuth.
-2.  **Vérification** : Le backend valide et génère un `AccessToken` signé (HMAC SHA-256).
-3.  **Transport** : Le token est renvoyé au client.
-4.  **Usage** : Le client envoie `Authorization: Bearer <token>` pour chaque requête.
+2.  **Vérification** : Le backend valide et génère un `AccessToken` (15min) et un `RefreshToken` (7 jours).
+3.  **Stockage** : 
+    - Le Refresh Token est haché/stocké en DB pour permettre la révocation.
+    - Pour le Web, le Refresh Token est envoyé dans un **Cookie HttpOnly Secure**.
+4.  **Rotation** : À chaque utilisation du refresh token, un nouveau couple Access/Refresh est généré (Refresh Token Rotation).
 
 Les mots de passe sont hachés avec **BCrypt** avant stockage.
 

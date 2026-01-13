@@ -56,6 +56,7 @@ Le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web) s'appuie sur
 - [Lancer l'app iOS](#lancer-lapp-ios)
 - [Identifiants de test](#identifiants-de-test)
 - [Organisation du depot](#organisation-du-depot)
+- [Versioning](#versioning)
 - [Dépannage](#dépannage)
 - [Bugs et corrections](#bugs-et-corrections)
 - [Recommendations futures](#recommendations-futures)
@@ -302,11 +303,23 @@ ClacOxygen/
 ├── composeApp/          # Client Kotlin Compose Multiplatform
 ├── iosApp/              # Point d'entrée iOS
 ├── server/              # Serveur Ktor, routes, services, base SQLite
-├── shared/              # Code partage
+├── shared/              # Code partagé
 ├── wasm-dist/           # Bundle WebAssembly (généré)
 ├── flake.nix            # Configuration NixOS
 └── README.md            # Ce fichier
 ```
+
+---
+
+## Versioning
+
+La version de l'application est centralisée dans le fichier [build.gradle.kts](build.gradle.kts) racine.
+Un hook Gradle génère automatiquement la classe `BuildConfig` pour le client.
+
+Pour créer une nouvelle release :
+1. Incrémenter `appVersion` et `appVersionCode` dans [build.gradle.kts](build.gradle.kts).
+2. Commit et tag sur master (ex: `v2.1.42`).
+3. GitHub Actions construit et publie la release automatiquement.
 
 ---
 

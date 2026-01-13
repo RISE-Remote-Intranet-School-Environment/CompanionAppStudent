@@ -15,18 +15,24 @@ val appVersion: String by rootProject.extra
 val appVersionCode: Int by rootProject.extra
 
 val generateBuildConfig by tasks.registering {
-    val outputDir = layout.buildDirectory.dir("generated/buildConfig/commonMain/kotlin")
-    outputs.dir(outputDir)
-    
+    val version = appVersion
+    val code = appVersionCode
+    val outputDirProvider = layout.buildDirectory.dir("generated/buildConfig/commonMain/kotlin")
+
+    inputs.property("appVersion", version)
+    inputs.property("appVersionCode", code)
+    outputs.dir(outputDirProvider)
+
     doLast {
-        val dir = outputDir.get().asFile.resolve("be/ecam/companion")
+        val rootDir = outputDirProvider.get().asFile
+        val dir = rootDir.resolve("be/ecam/companion")
         dir.mkdirs()
         dir.resolve("BuildConfig.kt").writeText("""
             package be.ecam.companion
             
             object BuildConfig {
-                const val VERSION_NAME = "$appVersion"
-                const val VERSION_CODE = $appVersionCode
+                const val VERSION_NAME = "$version"
+                const val VERSION_CODE = $code
             }
         """.trimIndent())
     }

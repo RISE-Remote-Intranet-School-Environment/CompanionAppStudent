@@ -11,19 +11,19 @@ Le client consomme l'API Ktor du serveur et partage un maximum de code UI et mé
 
 1. [Objectif du module](#1-objectif-du-module)
 2. [Architecture du client](#2-architecture-du-client)
-3. [Points d'entrée par plateforme](#3-points-dentree-par-plateforme)
-4. [Navigation et écrans](#4-navigation-et-ecrans)
-5. [État, ViewModels et logique métier](#5-etat-viewmodels-et-logique-metier)
-6. [Couche données et repositories](#6-couche-donnees-et-repositories)
+3. [Points d'entrée par plateforme](#3-points-dentrée-par-plateforme)
+4. [Navigation et écrans](#4-navigation-et-écrans)
+5. [État, ViewModels et logique métier](#5-état-viewmodels-et-logique-métier)
+6. [Couche données et repositories](#6-couche-données-et-repositories)
 7. [Configuration du serveur et base URL](#7-configuration-du-serveur-et-base-url)
 8. [Authentification et stockage des tokens](#8-authentification-et-stockage-des-tokens)
 9. [OAuth par plateforme](#9-oauth-par-plateforme)
-10. [Composants UI réutilisables](#10-composants-ui-reutilisables)
+10. [Composants UI réutilisables](#10-composants-ui-réutilisables)
 11. [Ressources et assets](#11-ressources-et-assets)
-12. [Où modifier quoi](#12-ou-modifier-quoi)
-13. [Ajouter une nouvelle fonctionnalité](#13-ajouter-une-nouvelle-fonctionnalite)
-14. [Dépannage côté client](#14-depannage-cote-client)
-15. [Pages illustrées et modifications](#15-pages-illustrees-et-modifications)
+12. [Où modifier quoi](#12-où-modifier-quoi)
+13. [Ajouter une nouvelle fonctionnalité](#13-ajouter-une-nouvelle-fonctionnalité)
+14. [Dépannage côté client](#14-dépannage-côté-client)
+15. [Pages illustrées et modifications](#15-pages-illustrées-et-modifications)
 
 ## 1. Objectif du module
 
@@ -222,6 +222,7 @@ LoginViewModel
 
 - Fichier : [LoginViewModel.kt](src/commonMain/kotlin/be/ecam/companion/viewmodel/LoginViewModel.kt)
 - Gère login, register, refresh session et `currentUser`.
+- Gère la logique de refresh token automatique (intercept 401).
 - Stocke le token via [TokenStorage.kt](src/commonMain/kotlin/be/ecam/companion/utils/TokenStorage.kt).
 - Appels principaux : `/api/auth/login`, `/api/auth/register`, `/api/auth/me`.
 
@@ -291,14 +292,14 @@ Changer le serveur local :
 
 ## 8. Authentification et stockage des tokens
 
-Token JWT :
+L'application implémente une sécurité stricte pour les JWT :
 
-- Stockage abstrait : [TokenStorage.kt](src/commonMain/kotlin/be/ecam/companion/utils/TokenStorage.kt)
-- Implémentations :
-  - Android : TODO (actuellement vide)
-  - JVM : `Preferences`
-  - iOS : `NSUserDefaults`
-  - Web : `localStorage`
+- **Abstaction** : [TokenStorage.kt](src/commonMain/kotlin/be/ecam/companion/utils/TokenStorage.kt) définit `saveToken`, `loadToken` et leur équivalents pour le Refresh Token.
+- **Implémentations sécurisées** :
+  - **Android** : `AndroidKeyStore` (AES/GCM/NoPadding) via `EncryptedSharedPreferences` custom. Initialisé dans `MainActivity`.
+  - **iOS** : `Keychain` système natif.
+  - **Desktop** : `java.util.prefs.Preferences` (stockage user).
+  - **Web** : `localStorage` pour l'Access Token, **Cookie HttpOnly** pour le Refresh Token (géré par le navigateur).
 
 Login :
 
