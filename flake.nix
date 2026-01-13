@@ -17,7 +17,7 @@
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
 
-      appVersion = "1.3.42";
+      appVersion = "1.4.42";
 
       clacoxygen-backend-pkg = gradle2nix.builders.${system}.buildGradlePackage {
         pname = "clacoxygen-backend";

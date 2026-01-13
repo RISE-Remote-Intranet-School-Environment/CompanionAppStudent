@@ -20,6 +20,7 @@ env:
 jobs:
   # Job 1: Détecter les changements
   changes:
+    if: ${{ !startsWith(github.ref, 'refs/tags/') }}
     runs-on: ubuntu-latest
     outputs:
       frontend: ${{ steps.filter.outputs.frontend }}
@@ -37,10 +38,10 @@ jobs:
               - 'server/**'
               - 'shared/**'
 
-  # Job 2: Build WASM (si frontend modifié)
+  # Job 2: Build WASM
   build-wasm:
     needs: changes
-    if: needs.changes.outputs.frontend == 'true' || github.event.inputs.force_rebuild == 'true'
+    if: ${{ !startsWith(github.ref, 'refs/tags/') && (needs.changes.outputs.frontend == 'true' || github.event.inputs.force_rebuild == 'true') }}
     runs-on: ubuntu-latest
     
     steps:
@@ -97,7 +98,7 @@ jobs:
   # Job 3: Build Backend (validation uniquement)
   build-backend:
     needs: changes
-    if: needs.changes.outputs.backend == 'true'
+    if: ${{ !startsWith(github.ref, 'refs/tags/') && needs.changes.outputs.backend == 'true' }}
     runs-on: ubuntu-latest
     
     steps:
@@ -126,7 +127,7 @@ jobs:
   # Job 4: Notifier le serveur (optionnel)
   notify-server:
     needs: [build-wasm]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: ${{ !startsWith(github.ref, 'refs/tags/') && github.event_name == 'push' && github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     
     steps:
@@ -161,13 +162,20 @@ jobs:
             
             Voir les commits depuis la dernière release.
             
-            ## Installation
+            ## Téléchargements
             
             - **Web** : https://clacoxygen.msrl.be
             - **Android** : Télécharger l'APK ci-dessous
             - **Windows** : Télécharger le MSI ci-dessous
             - **macOS** : Télécharger le DMG ci-dessous
             - **Linux** : Télécharger le DEB ci-dessous
+
+            ### Installation
+            
+            - **Android** : Téléchargez l'APK et autorisez les sources inconnues dans les paramètres.
+            - **Windows** : Exécutez le fichier MSI. Windows SmartScreen peut demander confirmation.
+            - **macOS** : Ouvrez le DMG et glissez l'application dans Applications.
+            - **Linux** : `sudo dpkg -i ClacOxygen-*.deb`
           draft: false
           prerelease: false
         env:
@@ -189,7 +197,16 @@ jobs:
           distribution: 'temurin'
           cache: 'gradle'
       
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > ${{ github.workspace }}/clacoxygen-release.jks
+      
       - name: Build Android APK
+        env:
+          KEYSTORE_PATH: ${{ github.workspace }}/clacoxygen-release.jks
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: ./gradlew :composeApp:assembleRelease --no-daemon
       
       - name: Upload APK to Release

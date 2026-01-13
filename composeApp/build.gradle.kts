@@ -163,6 +163,13 @@ compose.desktop {
             packageName = "ClacOxygen"
             packageVersion = appVersion
         }
+        
+        buildTypes.release {
+            proguard {
+                isEnabled.set(true)
+                configurationFiles.from(project.file("proguard-desktop.pro"))
+            }
+        }
     }
 }
 
