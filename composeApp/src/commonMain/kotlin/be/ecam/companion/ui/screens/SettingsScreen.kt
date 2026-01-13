@@ -50,12 +50,6 @@ fun SettingsScreen(
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        Text(
-            text = "Paramètres",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 24.dp)
-        )
-
         Card(
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
@@ -92,7 +86,7 @@ fun SettingsScreen(
 
                 SettingsSliderRow(
                     icon = Icons.Filled.DisplaySettings,
-                    title = "Taille d’écran",
+                    title = "Taille d'écran",
                     description = "Zoom: ${(screenPresets[screenIndex] * 100).toInt()}%",
                     value = screenIndex.toFloat(),
                     steps = screenPresets.size - 2,

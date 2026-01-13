@@ -80,6 +80,8 @@ kotlin {
             implementation(libs.ktor.client.java)
             implementation(libs.coil3.network.okhttp)
             implementation(libs.okhttp)
+            implementation(libs.jna)
+            implementation(libs.jna.platform)
         }
         iosMain.dependencies {
             // Ktor iOS engine (Darwin)

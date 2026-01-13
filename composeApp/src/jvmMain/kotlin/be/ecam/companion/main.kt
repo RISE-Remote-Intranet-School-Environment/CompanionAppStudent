@@ -13,7 +13,7 @@ import org.koin.dsl.module
 import java.awt.Desktop
 import java.net.URI
 import companion.composeapp.generated.resources.Res
-import companion.composeapp.generated.resources.claco2_xml
+import companion.composeapp.generated.resources.android_chrome_512x512
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
@@ -31,7 +31,7 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "ClacOxygen",
         state = windowState,
-        icon = painterResource(Res.drawable.claco2_xml)
+        icon = painterResource(Res.drawable.android_chrome_512x512)
     ) {
         val desktopModule = module {
             single<SettingsRepository> { PersistentSettingsRepository() }
