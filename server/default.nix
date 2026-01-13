@@ -1,11 +1,12 @@
 {
   pkgs ? import <nixpkgs> { },
   buildGradlePackage,
+  version ? "1.1.42",
 }:
 
 pkgs.stdenv.mkDerivation {
   pname = "clacoxygen-backend";
-  version = "0.1.0";
+  inherit version;
 
   dontUnpack = true;
 

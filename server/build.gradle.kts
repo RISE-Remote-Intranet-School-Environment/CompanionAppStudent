@@ -5,8 +5,11 @@ plugins {
     application
 }
 
+val appVersion: String by rootProject.extra
+
 group = "be.ecam.server"
-version = "1.0.0"
+version = appVersion
+
 application {
     mainClass.set("be.ecam.server.ApplicationKt")
 

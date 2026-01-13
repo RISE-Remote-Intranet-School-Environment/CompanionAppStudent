@@ -4,7 +4,7 @@ on:
   push:
     branches: [master, main]
     tags:
-      - 'v*'  # Déclencher aussi sur les tags de version
+      - 'v*'
   pull_request:
     branches: [master, main]
   workflow_dispatch:
@@ -140,6 +140,9 @@ jobs:
   create-release:
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      version: ${{ steps.version.outputs.VERSION }}
     
     steps:
       - uses: actions/checkout@v4
@@ -149,6 +152,7 @@ jobs:
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
       
       - name: Create GitHub Release
+        id: create_release
         uses: softprops/action-gh-release@v1
         with:
           name: "ClacOxygen v${{ steps.version.outputs.VERSION }}"
@@ -160,8 +164,149 @@ jobs:
             ## Installation
             
             - **Web** : https://clacoxygen.msrl.be
-            - **Desktop** : Télécharger le JAR ci-dessous
+            - **Android** : Télécharger l'APK ci-dessous
+            - **Windows** : Télécharger le MSI ci-dessous
+            - **macOS** : Télécharger le DMG ci-dessous
+            - **Linux** : Télécharger le DEB ci-dessous
           draft: false
           prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Job 6: Build et upload APK Android
+  build-android:
+    needs: create-release
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'gradle'
+      
+      - name: Build Android APK
+        run: ./gradlew :composeApp:assembleRelease --no-daemon
+      
+      - name: Upload APK to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: composeApp/build/outputs/apk/release/*.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Job 7: Build et upload Windows MSI
+  build-windows:
+    needs: create-release
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: windows-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'gradle'
+      
+      - name: Build Windows MSI
+        run: ./gradlew :composeApp:packageReleaseMsi --no-daemon
+      
+      - name: Upload MSI to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: composeApp/build/compose/binaries/main-release/msi/*.msi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Job 8: Build et upload macOS DMG
+  build-macos:
+    needs: create-release
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: macos-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'gradle'
+      
+      - name: Build macOS DMG
+        run: ./gradlew :composeApp:packageReleaseDmg --no-daemon
+      
+      - name: Upload DMG to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: composeApp/build/compose/binaries/main-release/dmg/*.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Job 9: Build et upload Linux DEB
+  build-linux:
+    needs: create-release
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'gradle'
+      
+      - name: Install packaging dependencies
+        run: sudo apt-get update && sudo apt-get install -y fakeroot
+      
+      - name: Build Linux DEB
+        run: ./gradlew :composeApp:packageReleaseDeb --no-daemon
+      
+      - name: Upload DEB to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: composeApp/build/compose/binaries/main-release/deb/*.deb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Job 10: Build et upload Server JAR
+  build-server-jar:
+    needs: create-release
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'gradle'
+      
+      - name: Build Server JAR
+        run: ./gradlew :server:shadowJar --no-daemon
+      
+      - name: Rename JAR with version
+        run: |
+          VERSION=${{ needs.create-release.outputs.version }}
+          mv server/build/libs/*.jar server/build/libs/clacoxygen-server-${VERSION}.jar
+      
+      - name: Upload JAR to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: server/build/libs/*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

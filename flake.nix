@@ -17,10 +17,11 @@
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
 
-      # Construction du JAR backend avec gradle2nix
+      appVersion = "1.1.42";
+
       clacoxygen-backend-pkg = gradle2nix.builders.${system}.buildGradlePackage {
         pname = "clacoxygen-backend";
-        version = "0.1.0";
+        version = appVersion;
         src = ./.;
         lockFile = ./gradle.lock;
         gradleBuildFlags = [ ":server:shadowJar" ];
@@ -32,7 +33,7 @@
 
       clacoxygen-wasm-pkg = pkgs.stdenv.mkDerivation {
         pname = "clacoxygen-wasm";
-        version = "0.1.0";
+        version = appVersion;
         src = ./wasm-dist;
         installPhase = ''
           mkdir -p $out/share/www
@@ -44,6 +45,7 @@
       packages.${system} = {
         default = pkgs.callPackage ./server/default.nix {
           buildGradlePackage = clacoxygen-backend-pkg;
+          version = appVersion;
         };
 
         wasm = clacoxygen-wasm-pkg;
