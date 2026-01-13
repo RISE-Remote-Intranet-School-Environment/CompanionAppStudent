@@ -37,6 +37,7 @@ import kotlinx.coroutines.launch
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.module.Module
+import be.ecam.companion.utils.PlatformBackHandler
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -206,6 +207,34 @@ fun App(
                         )
                     }
                 ) {
+                    // Intercepter le geste de retour
+                    PlatformBackHandler(
+                        enabled = showCoursesPage || showProfessorsPage || showPaePage || 
+                                  selectedScreen != BottomItem.HOME || drawerState.isOpen
+                    ) {
+                        when {
+                            drawerState.isOpen -> {
+                                scope.launch { drawerState.close() }
+                            }
+                            showCoursesPage -> {
+                                showCoursesPage = false
+                                coursesTitleSuffix = null
+                            }
+                            showProfessorsPage -> {
+                                showProfessorsPage = false
+                            }
+                            showPaePage -> {
+                                showPaePage = false
+                                paeTitleSuffix = null
+                            }
+                            selectedScreen != BottomItem.HOME -> {
+                                selectedScreen = BottomItem.HOME
+                                courseCalendarInitialYearOption = null
+                                courseCalendarInitialSeries = null
+                            }
+                        }
+                    }
+
                     Scaffold(
                         topBar = {
                             TopBar(
