@@ -13,13 +13,15 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import be.ecam.companion.data.CacheHelper
+
+private const val CACHE_KEY_COURSE_DETAILS = "course_details"
 
 class CourseDetailsRepository(
     private val client: HttpClient,
     private val baseUrlProvider: () -> String,
     private val authTokenProvider: () -> String? = { null }
-    ) {
-
+) {
     private val json = Json { ignoreUnknownKeys = true; isLenient = true }
     private val mutex = Mutex()
     private var cachedBaseUrl: String? = null
@@ -29,10 +31,29 @@ class CourseDetailsRepository(
         val base = baseUrlProvider().removeSuffix("/")
         cached?.takeIf { cachedBaseUrl == base }?.let { return it }
 
-        val merged = fetchFromServer(base)
-        cachedBaseUrl = base
-        cached = merged
-        merged
+        return try {
+            val merged = fetchFromServer(base)
+            // Sauvegarder dans le cache offline
+            CacheHelper.save(CACHE_KEY_COURSE_DETAILS, merged)
+            // Signaler que le réseau fonctionne
+            ConnectivityState.reportSuccess()
+            
+            cachedBaseUrl = base
+            cached = merged
+            merged
+        } catch (e: Exception) {
+            println("Erreur réseau course-details: ${e.message}, chargement du cache...")
+            // Signaler l'erreur réseau
+            ConnectivityState.reportNetworkError(e.message)
+            
+            val cachedData = CacheHelper.load<List<CourseDetail>>(CACHE_KEY_COURSE_DETAILS)
+            if (cachedData != null) {
+                cached = cachedData
+                cachedData
+            } else {
+                emptyList()
+            }
+        }
     }
 
     suspend fun findCourse(code: String): CourseDetail? {

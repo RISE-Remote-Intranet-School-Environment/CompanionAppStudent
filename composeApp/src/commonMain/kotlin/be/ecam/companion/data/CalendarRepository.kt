@@ -10,6 +10,13 @@ import kotlinx.datetime.LocalDate
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import be.ecam.companion.data.CacheHelper
+import be.ecam.companion.data.CacheKeys
+
+@Serializable
+data class CachedCourseSchedule(
+    val events: List<CourseScheduleDto>
+)
 
 class CalendarRepository(
     private val client: HttpClient,
@@ -31,15 +38,26 @@ class CalendarRepository(
             
             if (response.status.isSuccess()) {
                 val dtos: List<CalendarEventDto> = response.body()
+                // Sauvegarder dans le cache
+                CacheHelper.save(CacheKeys.CALENDAR_EVENTS, dtos)
+                // Signaler que le réseau fonctionne
+                ConnectivityState.reportSuccess()
                 dtos.mapNotNull { it.toCalendarEvent() }
             } else {
                 println("Erreur calendrier: ${response.status}")
-                emptyList()
+                ConnectivityState.reportNetworkError("Erreur calendrier: ${response.status}")
+                loadCachedCalendarEvents()
             }
         } catch (e: Exception) {
-            println("Erreur récupération calendrier: ${e.message}")
-            emptyList()
+            println("Erreur récupération calendrier: ${e.message}, chargement du cache...")
+            ConnectivityState.reportNetworkError(e.message)
+            loadCachedCalendarEvents()
         }
+    }
+
+    private fun loadCachedCalendarEvents(): List<CalendarEvent> {
+        val cached = CacheHelper.load<List<CalendarEventDto>>(CacheKeys.CALENDAR_EVENTS)
+        return cached?.mapNotNull { it.toCalendarEvent() } ?: emptyList()
     }
 
     /**
@@ -65,8 +83,6 @@ class CalendarRepository(
                 }
             }
             
-            println("GET $url")
-            
             val response = client.get(url) {
                 token?.let { 
                     header(HttpHeaders.Authorization, "Bearer ${it.trim().removeSurrounding("\"")}")
@@ -74,22 +90,27 @@ class CalendarRepository(
                 header(HttpHeaders.Accept, "application/json")
             }
             
-            println("Response status: ${response.status}")
-            
             if (response.status.isSuccess()) {
                 val dtos: List<CourseScheduleDto> = response.body()
-                println("Reçu ${dtos.size} cours du serveur")
+                // Sauvegarder dans le cache
+                CacheHelper.save(CacheKeys.COURSE_SCHEDULE, dtos)
+                // Signaler que le réseau fonctionne
+                ConnectivityState.reportSuccess()
                 dtos.mapNotNull { it.toCourseScheduleEvent(json) }
             } else {
-                val body = runCatching { response.body<String>() }.getOrDefault("")
-                println(" Erreur course-schedule: ${response.status} - $body")
-                emptyList()
+                ConnectivityState.reportNetworkError("Erreur course-schedule: ${response.status}")
+                loadCachedCourseSchedule()
             }
         } catch (e: Exception) {
-            println(" Exception récupération course-schedule: ${e.message}")
-            e.printStackTrace()
-            emptyList()
+            println("Erreur course-schedule: ${e.message}, chargement du cache...")
+            ConnectivityState.reportNetworkError(e.message)
+            loadCachedCourseSchedule()
         }
+    }
+
+    private fun loadCachedCourseSchedule(): List<CourseScheduleEvent> {
+        val cached = CacheHelper.load<List<CourseScheduleDto>>(CacheKeys.COURSE_SCHEDULE)
+        return cached?.mapNotNull { it.toCourseScheduleEvent(json) } ?: emptyList()
     }
 
     /**
@@ -97,35 +118,38 @@ class CalendarRepository(
      */
     suspend fun getMySchedule(token: String?): List<CourseScheduleEvent> {
         if (token.isNullOrBlank()) {
-            println("getMySchedule: token manquant")
-            return emptyList()
+            return loadCachedMySchedule()
         }
         
         return try {
             val url = "${baseUrlProvider()}/api/course-schedule/my-schedule"
-            println("GET $url")
             
             val response = client.get(url) {
                 header(HttpHeaders.Authorization, "Bearer ${token.trim().removeSurrounding("\"")}")
                 header(HttpHeaders.Accept, "application/json")
             }
             
-            println("Response status: ${response.status}")
-            
             if (response.status.isSuccess()) {
                 val dtos: List<CourseScheduleDto> = response.body()
-                println("Reçu ${dtos.size} cours personnels du serveur")
+                // Sauvegarder dans un cache séparé pour "my schedule"
+                CacheHelper.save("my_schedule", dtos)
+                // Signaler que le réseau fonctionne
+                ConnectivityState.reportSuccess()
                 dtos.mapNotNull { it.toCourseScheduleEvent(json) }
             } else {
-                val body = runCatching { response.body<String>() }.getOrDefault("")
-                println(" Erreur my-schedule: ${response.status} - $body")
-                emptyList()
+                ConnectivityState.reportNetworkError("Erreur my-schedule: ${response.status}")
+                loadCachedMySchedule()
             }
         } catch (e: Exception) {
-            println(" Exception récupération my-schedule: ${e.message}")
-            e.printStackTrace()
-            emptyList()
+            println("Erreur my-schedule: ${e.message}, chargement du cache...")
+            ConnectivityState.reportNetworkError(e.message)
+            loadCachedMySchedule()
         }
+    }
+
+    private fun loadCachedMySchedule(): List<CourseScheduleEvent> {
+        val cached = CacheHelper.load<List<CourseScheduleDto>>("my_schedule")
+        return cached?.mapNotNull { it.toCourseScheduleEvent(json) } ?: emptyList()
     }
 
     /**

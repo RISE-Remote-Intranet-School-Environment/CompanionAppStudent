@@ -8,6 +8,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import be.ecam.companion.data.CacheHelper
 
 @Serializable
 data class PaeDatabase(
@@ -62,6 +63,8 @@ data class PaeComponent(
     val sessions: PaeSessions = PaeSessions()
 )
 
+private const val CACHE_KEY_PAE = "pae_database"
+
 object PaeRepository {
     private val httpClient = HttpClient {
         install(ContentNegotiation) {
@@ -79,10 +82,23 @@ object PaeRepository {
     ): PaeDatabase {
         val resolvedToken = token?.trim()?.removeSurrounding("\"")?.takeIf { it.isNotBlank() }
             ?: loadToken()?.trim()?.removeSurrounding("\"")?.takeIf { it.isNotBlank() }
-        return loadPaeFromServer(
-            client = httpClient,
-            baseUrl = baseUrl,
-            token = resolvedToken
-        )
+        
+        return try {
+            val result = loadPaeFromServer(
+                client = httpClient,
+                baseUrl = baseUrl,
+                token = resolvedToken
+            )
+            // Sauvegarder dans le cache
+            CacheHelper.save(CACHE_KEY_PAE, result)
+            // Signaler que le réseau fonctionne
+            ConnectivityState.reportSuccess()
+            result
+        } catch (e: Exception) {
+            println("Erreur PAE: ${e.message}, chargement du cache...")
+            // Signaler l'erreur réseau
+            ConnectivityState.reportNetworkError(e.message)
+            CacheHelper.load<PaeDatabase>(CACHE_KEY_PAE) ?: PaeDatabase(emptyList())
+        }
     }
 }

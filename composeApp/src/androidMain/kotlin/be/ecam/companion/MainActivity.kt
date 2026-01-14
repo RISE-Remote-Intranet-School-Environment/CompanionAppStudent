@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import be.ecam.companion.data.PersistentSettingsRepository
 import be.ecam.companion.data.SettingsRepository
+import be.ecam.companion.data.initOfflineCache
 import be.ecam.companion.utils.initTokenStorage
 import org.koin.dsl.module
 
@@ -17,6 +18,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+
+        initOfflineCache(applicationContext)
 
         initTokenStorage(applicationContext)
 

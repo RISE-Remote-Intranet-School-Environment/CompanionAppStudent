@@ -2,6 +2,8 @@ package be.ecam.companion
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -38,6 +40,9 @@ import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.module.Module
 import be.ecam.companion.utils.PlatformBackHandler
+
+import be.ecam.companion.data.ConnectivityState
+import be.ecam.companion.ui.components.OfflineBanner
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -267,82 +272,85 @@ fun App(
                                 }
                             )
                         }
-                    ) { paddingValues ->
-
-                        val baseModifier = Modifier
+                    ) { innerPadding ->
+                    Column(
+                        modifier = Modifier
                             .fillMaxSize()
-                            .padding(paddingValues)
-                            .padding(16.dp)
+                            .padding(innerPadding)
+                    ) {
+                        OfflineBanner(isOffline = ConnectivityState.isOffline)
+                        
+                        Box(modifier = Modifier.weight(1f)) {
+                            val baseModifier = Modifier.fillMaxSize()
 
-                        when {
-                            showCoursesPage -> CoursesFormationScreen(
-                                modifier = baseModifier,
-                                resetTrigger = coursesResetCounter,
-                                authToken = loginViewModel.jwtToken,
-                                onContextChange = { coursesTitleSuffix = it },
-                                onOpenCourseCalendar = { yearOption, series ->
-                                    showCoursesPage = false
-                                    showProfessorsPage = false
-                                    showPaePage = false
-                                    coursesTitleSuffix = null
-                                    courseCalendarInitialYearOption = yearOption
-                                    courseCalendarInitialSeries = series
-                                    selectedScreen = BottomItem.COURSECALENDAR
-                                }
-                            )
-
-                            showProfessorsPage -> ProfessorsScreen(
-                                modifier = baseModifier,
-                                authToken = loginViewModel.jwtToken
-                            )
-
-                            showPaePage -> MonPaeScreen(
-                                modifier = baseModifier,
-                                userIdentifier = connectedUser?.username?:"",
-                                authToken = loginViewModel.jwtToken,
-                                onContextChange = { paeTitleSuffix = it }
-                            )
-
-                            else -> when (selectedScreen) {
-                                BottomItem.HOME -> {
-                                    // Remove the manual vm.load() call here
-                                    // HomeScreen now handles loading internally via its LaunchedEffect
-                                    HomeScreen(
-                                        modifier = baseModifier,
-                                        vm = vm,
-                                        loginViewModel = loginViewModel,
-                                        
-                                    )
-                                }
-
-                            BottomItem.COURSECALENDAR -> {
-                                StudentCourseCalendar(
+                            when {
+                                showCoursesPage -> CoursesFormationScreen(
                                     modifier = baseModifier,
-                                    initialYearOption = courseCalendarInitialYearOption,
-                                    initialSeries = courseCalendarInitialSeries,
-                                    username = connectedUser?.username?:"",
-                                    displayName = connectedUser?.let {
-                                        listOfNotNull(it.firstName, it.lastName)
-                                            .joinToString(" ")
-                                            .ifBlank { it.username }
-                                    },
+                                    resetTrigger = coursesResetCounter,
+                                    authToken = loginViewModel.jwtToken,
+                                    onContextChange = { coursesTitleSuffix = it },
+                                    onOpenCourseCalendar = { yearOption, series ->
+                                        showCoursesPage = false
+                                        showProfessorsPage = false
+                                        showPaePage = false
+                                        coursesTitleSuffix = null
+                                        courseCalendarInitialYearOption = yearOption
+                                        courseCalendarInitialSeries = series
+                                        selectedScreen = BottomItem.COURSECALENDAR
+                                    }
+                                )
+
+                                showProfessorsPage -> ProfessorsScreen(
+                                    modifier = baseModifier,
                                     authToken = loginViewModel.jwtToken
                                 )
-                            }
 
-                                BottomItem.SETTINGS -> {
-                                    SettingsScreen(
-                                        isColorBlindMode = isColorBlindMode,
-                                        onColorBlindModeChange = { settingsRepo.setColorBlindMode(it) },
-                                        modifier = baseModifier
+                                showPaePage -> MonPaeScreen(
+                                    modifier = baseModifier,
+                                    userIdentifier = connectedUser?.username?:"",
+                                    authToken = loginViewModel.jwtToken,
+                                    onContextChange = { paeTitleSuffix = it }
+                                )
+
+                                else -> when (selectedScreen) {
+                                    BottomItem.HOME -> {
+                                        HomeScreen(
+                                            modifier = baseModifier,
+                                            vm = vm,
+                                            loginViewModel = loginViewModel,
+                                            
+                                        )
+                                    }
+
+                                BottomItem.COURSECALENDAR -> {
+                                    StudentCourseCalendar(
+                                        modifier = baseModifier,
+                                        initialYearOption = courseCalendarInitialYearOption,
+                                        initialSeries = courseCalendarInitialSeries,
+                                        username = connectedUser?.username?:"",
+                                        displayName = connectedUser?.let {
+                                            listOfNotNull(it.firstName, it.lastName)
+                                                .joinToString(" ")
+                                                .ifBlank { it.username }
+                                        },
+                                        authToken = loginViewModel.jwtToken
                                     )
                                 }
 
-                                BottomItem.DASHBOARD -> {
-                                    UserDashboardScreen(
-                                        loginViewModel = loginViewModel,
-                                        modifier = baseModifier
-                                    )
+                                    BottomItem.SETTINGS -> {
+                                        SettingsScreen(
+                                            isColorBlindMode = isColorBlindMode,
+                                            onColorBlindModeChange = { settingsRepo.setColorBlindMode(it) },
+                                            modifier = baseModifier
+                                        )
+                                    }
+
+                                    BottomItem.DASHBOARD -> {
+                                        UserDashboardScreen(
+                                            loginViewModel = loginViewModel,
+                                            modifier = baseModifier
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -351,4 +359,5 @@ fun App(
             }
         }
     }
+}
 }

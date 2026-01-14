@@ -11,6 +11,8 @@ import io.ktor.http.isSuccess
 import io.ktor.http.path
 import kotlinx.serialization.Serializable
 
+private const val CACHE_KEY_COURSE_RESOURCES = "course_resources_all"
+
 class CourseResourceRepository(
     private val client: HttpClient,
     private val baseUrlProvider: () -> String
@@ -41,6 +43,8 @@ class CourseResourceRepository(
 
                 if (response.status.isSuccess()) {
                     val dtos: List<CourseResourceDto> = response.body()
+                    // Signaler que le réseau fonctionne
+                    ConnectivityState.reportSuccess()
                     dtos.map { CourseResource(title = it.title, type = it.type, url = it.url) }
                 } else {
                     println("Erreur course-resources (${response.status}) pour code '$candidate'")
@@ -67,7 +71,9 @@ class CourseResourceRepository(
             }
         }
 
-        return emptyList()
+        // Fallback cache offline
+        ConnectivityState.reportNetworkError("Aucune ressource trouvée pour $courseCode")
+        return loadCachedResourcesForCourse(courseCode)
     }
 
     private suspend fun fetchAllResources(token: String?): List<CourseResourceDto> {
@@ -79,15 +85,34 @@ class CourseResourceRepository(
                 header(HttpHeaders.Accept, "application/json")
             }
             if (response.status.isSuccess()) {
-                response.body<List<CourseResourceDto>>()
+                val resources = response.body<List<CourseResourceDto>>()
+                // Sauvegarder dans le cache
+                CacheHelper.save(CACHE_KEY_COURSE_RESOURCES, resources)
+                // Signaler que le réseau fonctionne
+                ConnectivityState.reportSuccess()
+                resources
             } else {
                 println("Erreur course-resources/all (${response.status})")
-                emptyList()
+                ConnectivityState.reportNetworkError("Erreur course-resources: ${response.status}")
+                loadCachedAllResources()
             }
         }.getOrElse { e ->
-            println("Erreur récupération course-resources/all: ${e.message}")
-            emptyList()
+            println("Erreur récupération course-resources/all: ${e.message}, chargement du cache...")
+            ConnectivityState.reportNetworkError(e.message)
+            loadCachedAllResources()
         }
+    }
+
+    private fun loadCachedAllResources(): List<CourseResourceDto> {
+        return CacheHelper.load<List<CourseResourceDto>>(CACHE_KEY_COURSE_RESOURCES) ?: emptyList()
+    }
+
+    private fun loadCachedResourcesForCourse(courseCode: String): List<CourseResource> {
+        val all = loadCachedAllResources()
+        val normalizedCode = normalizeCode(courseCode)
+        return all.filter { dto ->
+            normalizeCode(dto.courseId ?: "") == normalizedCode
+        }.map { CourseResource(title = it.title, type = it.type, url = it.url) }
     }
 
     private fun normalizeCode(raw: String): String =

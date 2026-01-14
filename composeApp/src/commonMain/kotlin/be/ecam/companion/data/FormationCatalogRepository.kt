@@ -12,6 +12,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import be.ecam.companion.data.ConnectivityState
 
 data class FormationCatalogResult(
     val database: FormationDatabase,
@@ -35,12 +36,10 @@ class FormationCatalogRepository(
     suspend fun load(): FormationCatalogResult = mutex.withLock {
         val base = baseUrlProvider().removeSuffix("/")
 
-        // If we already have server data for this base URL, reuse it
         cached?.let { result ->
             if (cachedBaseUrl == base && result.fromServer) return result
         }
 
-        // Tenter le réseau d'abord
         return try {
             val remote = fetchFromServer(base)
             val result = FormationCatalogResult(database = remote, fromServer = true)
@@ -48,11 +47,17 @@ class FormationCatalogRepository(
             // Sauvegarder dans le cache offline
             CacheHelper.save(CacheKeys.FORMATIONS, remote)
             
+            // Signaler que le réseau fonctionne
+            ConnectivityState.reportSuccess()
+            
             cachedBaseUrl = base
             cached = result
             result
         } catch (e: Exception) {
             println("Erreur réseau, tentative de chargement depuis le cache: ${e.message}")
+            
+            // Signaler l'erreur réseau
+            ConnectivityState.reportNetworkError(e.message)
             
             // Fallback sur le cache offline
             val cachedData = CacheHelper.load<FormationDatabase>(CacheKeys.FORMATIONS)
@@ -61,7 +66,6 @@ class FormationCatalogRepository(
                 cached = result
                 result
             } else {
-                // Pas de cache -> renvoyer des données vides
                 FormationCatalogResult(
                     database = FormationDatabase(
                         year = "",

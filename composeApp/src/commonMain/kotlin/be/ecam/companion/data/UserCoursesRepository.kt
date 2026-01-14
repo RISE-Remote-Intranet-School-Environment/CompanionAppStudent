@@ -18,14 +18,24 @@ class UserCoursesRepository(
             }
             if (response.status.isSuccess()) {
                 val body: MyCoursesResponse = response.body()
+                // Sauvegarder dans le cache
+                CacheHelper.save(CacheKeys.USER_COURSES, body.courses)
+                // Signaler que le réseau fonctionne
+                ConnectivityState.reportSuccess()
                 body.courses
             } else {
-                emptyList()
+                ConnectivityState.reportNetworkError("Erreur my-courses: ${response.status}")
+                loadCachedCourses()
             }
         } catch (e: Exception) {
-            println("Erreur getMyCourses: ${e.message}")
-            emptyList()
+            println("Erreur getMyCourses: ${e.message}, chargement du cache...")
+            ConnectivityState.reportNetworkError(e.message)
+            loadCachedCourses()
         }
+    }
+
+    private fun loadCachedCourses(): List<String> {
+        return CacheHelper.load<List<String>>(CacheKeys.USER_COURSES) ?: emptyList()
     }
 
     suspend fun addCourse(token: String, courseId: String): Boolean {
@@ -35,9 +45,16 @@ class UserCoursesRepository(
                 contentType(ContentType.Application.Json)
                 setBody(AddCourseRequest(courseId))
             }
-            response.status.isSuccess()
+            if (response.status.isSuccess()) {
+                ConnectivityState.reportSuccess()
+                true
+            } else {
+                ConnectivityState.reportNetworkError("Erreur addCourse: ${response.status}")
+                false
+            }
         } catch (e: Exception) {
             println("Erreur addCourse: ${e.message}")
+            ConnectivityState.reportNetworkError(e.message)
             false
         }
     }
@@ -47,9 +64,16 @@ class UserCoursesRepository(
             val response = client.delete("${baseUrlProvider()}/api/my-courses/$courseId") {
                 header(HttpHeaders.Authorization, "Bearer ${token.trim().removeSurrounding("\"")}")
             }
-            response.status.isSuccess()
+            if (response.status.isSuccess()) {
+                ConnectivityState.reportSuccess()
+                true
+            } else {
+                ConnectivityState.reportNetworkError("Erreur removeCourse: ${response.status}")
+                false
+            }
         } catch (e: Exception) {
             println("Erreur removeCourse: ${e.message}")
+            ConnectivityState.reportNetworkError(e.message)
             false
         }
     }
@@ -61,9 +85,16 @@ class UserCoursesRepository(
                 contentType(ContentType.Application.Json)
                 setBody(SetCoursesRequest(courseIds))
             }
-            response.status.isSuccess()
+            if (response.status.isSuccess()) {
+                ConnectivityState.reportSuccess()
+                true
+            } else {
+                ConnectivityState.reportNetworkError("Erreur setCourses: ${response.status}")
+                false
+            }
         } catch (e: Exception) {
             println("Erreur setCourses: ${e.message}")
+            ConnectivityState.reportNetworkError(e.message)
             false
         }
     }

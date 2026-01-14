@@ -41,7 +41,7 @@ fun OfflineBanner(
             )
             Spacer(Modifier.width(8.dp))
             Text(
-                text = "Mode hors ligne - Données en cache",
+                text = "Mode hors ligne",
                 color = Color.White,
                 style = MaterialTheme.typography.labelMedium
             )

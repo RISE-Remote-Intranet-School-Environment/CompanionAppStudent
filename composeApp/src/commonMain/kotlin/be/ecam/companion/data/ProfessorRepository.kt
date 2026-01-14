@@ -93,11 +93,37 @@ class ProfessorCatalogRepository(
             if (cachedBaseUrl == base && result.fromServer) return result
         }
 
-        val remoteDb = fetchFromServer(base)
-        val result = ProfessorCatalogResult(database = remoteDb, fromServer = true)
-        cachedBaseUrl = base
-        cached = result
-        result
+        return try {
+            val remoteDb = fetchFromServer(base)
+            // Sauvegarder dans le cache offline
+            CacheHelper.save(CacheKeys.PROFESSORS, remoteDb)
+            
+            val result = ProfessorCatalogResult(database = remoteDb, fromServer = true)
+            cachedBaseUrl = base
+            cached = result
+            result
+        } catch (e: Exception) {
+            println("Erreur réseau professeurs: ${e.message}, chargement du cache...")
+            
+            // Fallback sur le cache offline
+            val cachedData = CacheHelper.load<ProfessorDatabase>(CacheKeys.PROFESSORS)
+            if (cachedData != null) {
+                val result = ProfessorCatalogResult(database = cachedData, fromServer = false)
+                cached = result
+                result
+            } else {
+                // Pas de cache -> renvoyer des données vides
+                ProfessorCatalogResult(
+                    database = ProfessorDatabase(
+                        year = "",
+                        generatedAt = "",
+                        source = "",
+                        professors = emptyList()
+                    ),
+                    fromServer = false
+                )
+            }
+        }
     }
 
     suspend fun refresh(): ProfessorCatalogResult {
