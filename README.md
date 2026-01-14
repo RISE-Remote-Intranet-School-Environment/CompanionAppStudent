@@ -43,6 +43,7 @@ Le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web) s'appuie sur
 - [Objectif](#objectif)
 - [Histoire du logo](#histoire-du-logo)
 - [Vue d'ensemble](#vue-densemble)
+- [Téléchargement et Installation](#téléchargement-et-installation)
 - [Fonctionnement du site](#fonctionnement-du-site)
 - [Parcours utilisateur](#parcours-utilisateur)
 - [Données, API et base](#données-api-et-base)
@@ -103,6 +104,20 @@ Le Web est servi par le serveur après génération du bundle WebAssembly. Le m�
 **Liens utiles :**
 - [Voir la documentation du Client (App)](composeApp/README.md)
 - [Voir la documentation du Backend (Server)](server/README.md)
+
+---
+
+## Téléchargement et Installation
+
+Vous pouvez récupérer la dernière version stable de l'application (sans compiler le code) directement depuis la page **[Releases](https://github.com/RISE-Remote-Intranet-School-Environment/ClacOxygen/releases)** du dépôt GitHub.
+
+| Plateforme | Fichier | Instructions |
+|------------|---------|--------------|
+| **Web** | - | Accéder directement à [clacoxygen.msrl.be](https://clacoxygen.msrl.be). |
+| **Android** | `.apk` | Télécharger, ouvrir le fichier et autoriser l'installation ("Sources inconnues"). |
+| **Windows** | `.msi` | Lancer l'installateur. Si SmartScreen bloque l'exécution : cliquer sur *Informations complémentaires* puis *Exécuter quand même*. |
+| **macOS** | `.dmg` | Ouvrir l'image disque et glisser l'application dans le dossier **Applications**. |
+| **Linux** | `.deb` | Installer le paquet via `sudo dpkg -i ClacOxygen-*.deb`. |
 
 ---
 
@@ -319,7 +334,12 @@ Un hook Gradle génère automatiquement la classe `BuildConfig` pour le client.
 Pour créer une nouvelle release :
 1. Incrémenter `appVersion` et `appVersionCode` dans [build.gradle.kts](build.gradle.kts).
 2. Commit et tag sur master (ex: `v2.1.42`).
-3. GitHub Actions construit et publie la release automatiquement.
+3. GitHub Actions construit et publie automatiquement les artefacts suivants :
+   - **Android** : Fichier `.apk` (signé)
+   - **Windows** : Installateur `.msi`
+   - **macOS** : Image disque `.dmg`
+   - **Linux** : Paquet `.deb`
+   - **Server** : Archive `.jar` (ShadowJar)
 
 ---
 
