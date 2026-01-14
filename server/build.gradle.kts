@@ -53,4 +53,5 @@ dependencies {
 
     implementation("io.ktor:ktor-server-auto-head-response:2.3.6")
 
+    implementation("io.ktor:ktor-server-rate-limit:2.3.6")
 }

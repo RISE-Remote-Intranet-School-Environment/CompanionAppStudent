@@ -20,7 +20,8 @@ import io.ktor.server.routing.*
 import org.slf4j.event.Level
 import io.ktor.server.plugins.autohead.*
 import io.ktor.server.http.content.*
-
+import io.ktor.server.plugins.ratelimit.*
+import kotlin.time.Duration.Companion.seconds
 
 
 fun main(args: Array<String>) {
@@ -36,6 +37,12 @@ fun Application.module() {
     }
 
     install(AutoHeadResponse)
+
+    install(RateLimit) {
+        register(RateLimitName("public")) {
+            rateLimiter(limit = 180, refillPeriod = 60.seconds)
+        }
+    }
 
     // json serialization
     install(ContentNegotiation) {
@@ -94,12 +101,6 @@ fun Application.module() {
                     null
                 }
             }
-        }
-    }
-
-    install(RateLimit) {
-        register(RateLimitName("auth")) {
-            rateLimiter(limit = 5, refillPeriod = 60.seconds)
         }
     }
 

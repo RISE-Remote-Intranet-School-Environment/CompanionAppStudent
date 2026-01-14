@@ -2117,6 +2117,40 @@
       "hash": "sha256-/Aruh/C0x0Iux590c3nb5zNCSICFJQW0zieM71bH218="
     }
   },
+  "io.ktor:ktor-server-rate-limit:3.3.0": {
+    "ktor-server-rate-limit-3.3.0.module": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-server-rate-limit/3.3.0/ktor-server-rate-limit-3.3.0.module",
+      "hash": "sha256-GwHq4NFYRhWCiD2rxo5b7MXSjLAJmqg+bH+x3VcmLYE="
+    },
+    "ktor-server-rate-limit-3.3.0.pom": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-server-rate-limit/3.3.0/ktor-server-rate-limit-3.3.0.pom",
+      "hash": "sha256-UguRs+ZOV/Q+Hmtl3Vu+nPFLoifdJoprZLM7CRSfKZQ="
+    }
+  },
+  "io.ktor:ktor-server-rate-limit:2.3.6": {
+    "ktor-server-rate-limit-2.3.6.module": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-server-rate-limit/2.3.6/ktor-server-rate-limit-2.3.6.module",
+      "hash": "sha256-7ROM44pkieUKoMs/uuNKWk453aaiQQSo/nRTAz3WlRA="
+    },
+    "ktor-server-rate-limit-2.3.6.pom": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-server-rate-limit/2.3.6/ktor-server-rate-limit-2.3.6.pom",
+      "hash": "sha256-OHk4eGgpK8ZEplaRcsjnfWlExapRthVJXwhUUonCUFo="
+    }
+  },
+  "io.ktor:ktor-server-rate-limit-jvm:3.3.0": {
+    "ktor-server-rate-limit-jvm-3.3.0.jar": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-server-rate-limit-jvm/3.3.0/ktor-server-rate-limit-jvm-3.3.0.jar",
+      "hash": "sha256-OcXuzdyql+wYheayAQYkcNi5UAIIXj8U4GMf1lkZIr0="
+    },
+    "ktor-server-rate-limit-jvm-3.3.0.module": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-server-rate-limit-jvm/3.3.0/ktor-server-rate-limit-jvm-3.3.0.module",
+      "hash": "sha256-NKHg3CtfYDaDBaN1rNRZQXVkD4fqzAwlnw2L77vIASU="
+    },
+    "ktor-server-rate-limit-jvm-3.3.0.pom": {
+      "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-server-rate-limit-jvm/3.3.0/ktor-server-rate-limit-jvm-3.3.0.pom",
+      "hash": "sha256-ZAcCcxc1jwq44Y1HweFasY1de8pOepACT0Y+ellnsd4="
+    }
+  },
   "io.ktor:ktor-server-sessions:3.3.0": {
     "ktor-server-sessions-3.3.0.module": {
       "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-server-sessions/3.3.0/ktor-server-sessions-3.3.0.module",
