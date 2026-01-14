@@ -40,12 +40,31 @@ class FormationCatalogRepository(
             if (cachedBaseUrl == base && result.fromServer) return result
         }
 
-        val remote = fetchFromServer(base)
-        val result = FormationCatalogResult(database = remote, fromServer = true)
-
-        cachedBaseUrl = base
-        cached = result
-        return result
+        // Tenter le réseau d'abord
+        return try {
+            val remote = fetchFromServer(base)
+            val result = FormationCatalogResult(database = remote, fromServer = true)
+            
+            // Sauvegarder dans le cache offline
+            CacheHelper.save(CacheKeys.FORMATIONS, remote)
+            
+            cachedBaseUrl = base
+            cached = result
+            result
+        } catch (e: Exception) {
+            println("Erreur réseau, tentative de chargement depuis le cache: ${e.message}")
+            
+            // Fallback sur le cache offline
+            val cachedData = CacheHelper.load<FormationDatabase>(CacheKeys.FORMATIONS)
+            if (cachedData != null) {
+                val result = FormationCatalogResult(database = cachedData, fromServer = false)
+                cached = result
+                result
+            } else {
+                // Pas de cache -> renvoyer une erreur ou des données vides
+                FormationCatalogResult(database = FormationDatabase(emptyList()), fromServer = false)
+            }
+        }
     }
 
     suspend fun refresh(): FormationCatalogResult {

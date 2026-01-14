@@ -25,6 +25,11 @@ data class UpdateMeResponse(
     val message: String
 )
 
+@Serializable
+data class RefreshTokenRequest(
+    val refreshToken: String? = null
+)
+
 fun Route.authRoutes() {
 
 
@@ -78,7 +83,14 @@ fun Route.authRoutes() {
 
     // POST /api/auth/refresh
     post("/auth/refresh") {
-        val refreshToken = call.request.cookies["refresh_token"]
+        // 1. Essayer le cookie d'abord (Web)
+        var refreshToken = call.request.cookies["refresh_token"]
+        
+        // 2. Si pas de cookie, essayer le body (Mobile/Desktop)
+        if (refreshToken.isNullOrBlank()) {
+            val body = runCatching { call.receive<RefreshTokenRequest>() }.getOrNull()
+            refreshToken = body?.refreshToken
+        }
 
         if (refreshToken.isNullOrBlank()) {
             call.respond(HttpStatusCode.Unauthorized, "Refresh token manquant")
@@ -101,7 +113,8 @@ fun Route.authRoutes() {
                 )
             )
             
-            call.respond(newAuthResponse.copy(refreshToken = ""))
+            // Renvoyer le refresh token dans la réponse pour mobile/desktop
+            call.respond(newAuthResponse)
         } else {
             call.response.cookies.append(
                 Cookie(
@@ -119,12 +132,21 @@ fun Route.authRoutes() {
 
     // POST /api/auth/logout
     post("/auth/logout") {
-        val refreshToken = call.request.cookies["refresh_token"]
+        // 1. Essayer le cookie d'abord (Web)
+        var refreshToken = call.request.cookies["refresh_token"]
         
+        // 2. Si pas de cookie, essayer le body (Mobile/Desktop)
+        if (refreshToken.isNullOrBlank()) {
+            val body = runCatching { call.receive<RefreshTokenRequest>() }.getOrNull()
+            refreshToken = body?.refreshToken
+        }
+        
+        // 3. Révoquer le token s'il existe
         if (!refreshToken.isNullOrBlank()) {
             AuthService.revokeRefreshToken(refreshToken)
         }
         
+        // 4. Invalider le cookie (pour le web)
         call.response.cookies.append(
             Cookie(
                 name = "refresh_token",
@@ -135,6 +157,7 @@ fun Route.authRoutes() {
                 secure = true
             )
         )
+        
         call.respond(HttpStatusCode.OK, mapOf("message" to "Déconnecté"))
     }
 

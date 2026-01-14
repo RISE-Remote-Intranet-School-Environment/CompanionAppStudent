@@ -99,8 +99,6 @@ private fun deleteFromKeychain(key: String) {
     }
 }
 
-// --- Extension Helpers ---
-
 @OptIn(ExperimentalForeignApi::class)
 private fun ByteArray.toNSData(): NSData = memScoped {
     if (isEmpty()) return NSData()
@@ -114,8 +112,6 @@ private fun NSData.toByteArray(): ByteArray {
     return this.bytes?.readBytes(len) ?: ByteArray(0)
 }
 
-// Fixed: Receiver type uses star-projections to accept any Map type.
-// Fixed: Explicit cast 'as NSDictionary' to match return type.
 private fun Map<*, *>.toNSDictionary(): NSDictionary {
     return NSDictionary.dictionaryWithObjects(this.values.toList(), this.keys.toList()) as NSDictionary
 }

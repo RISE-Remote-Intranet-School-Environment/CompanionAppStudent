@@ -119,9 +119,9 @@ class LoginViewModel : ViewModel() {
         if (!savedToken.isNullOrBlank()) {
             jwtToken = savedToken
             viewModelScope.launch {
-                if (!validateAndRefreshToken(savedToken)) {
-                    clearToken()
-                    jwtToken = null
+                val isValid = validateAndRefreshToken(savedToken)
+                if (!isValid) {
+                    logout()
                 }
             }
         }
@@ -132,6 +132,12 @@ class LoginViewModel : ViewModel() {
      * @return true si la session est valide, false sinon
      */
     private suspend fun validateAndRefreshToken(token: String): Boolean {
+        // 1. Vérification locale de l'expiration AVANT toute requête réseau
+        if (isTokenExpiredLocally(token)) {
+            println("Token expiré localement, tentative de refresh...")
+            return refreshAccessToken()
+        }
+        
         return try {
             val response: HttpResponse = client.get("${defaultServerBaseUrl()}/api/auth/me") {
                 val cleanToken = token.trim().removeSurrounding("\"")
@@ -141,19 +147,127 @@ class LoginViewModel : ViewModel() {
             when (response.status.value) {
                 in 200..299 -> {
                     currentUser = response.body()
+                    // Sauvegarder dans le cache pour le mode offline
+                    currentUser?.let { CacheHelper.save(CacheKeys.CURRENT_USER, it) }
                     loginSuccess = true
                     true
                 }
                 401 -> {
-                    // Token expiré, tenter un refresh
-                    refreshAccessToken()
+                    // Token rejeté par le serveur -> refresh obligatoire
+                    val refreshed = refreshAccessToken()
+                    if (!refreshed) {
+                        println("Refresh token expiré ou invalide, déconnexion forcée")
+                    }
+                    refreshed
                 }
-                else -> false
+                else -> {
+                    println("Erreur serveur inattendue: ${response.status.value}")
+                    false
+                }
             }
         } catch (e: Exception) {
-            println("Erreur de validation du token: ${e.message}")
-            // Erreur réseau, on garde le token pour réessayer plus tard
-            true
+            println("Erreur réseau: ${e.message}")
+            
+            // En cas d'erreur réseau, on vérifie si le token est encore valide localement
+            // avec une marge de sécurité (on considère expiré 1 minute avant la vraie expiration)
+            val stillValidLocally = !isTokenExpiredLocally(token, marginSeconds = 60)
+            
+            if (stillValidLocally) {
+                // Le token semble encore valide -> autoriser le mode offline
+                // MAIS on ne charge pas currentUser depuis le cache pour éviter les incohérences
+                // L'utilisateur verra une UI dégradée
+                println("Mode offline activé - token localement valide")
+                loginSuccess = true
+                // Charger l'utilisateur depuis le cache offline si disponible
+                loadCachedUser()
+                true
+            } else {
+                // Token expiré ou bientôt expiré -> pas de mode offline
+                println("Token expiré, mode offline refusé")
+                false
+            }
+        }
+    }
+
+    /**
+     * Vérifie si le JWT est expiré en décodant le payload localement
+     * @param marginSeconds Marge de sécurité en secondes (défaut: 0)
+     */
+    @OptIn(ExperimentalEncodingApi::class)
+    private fun isTokenExpiredLocally(token: String, marginSeconds: Long = 0): Boolean {
+        return try {
+            val cleanToken = token.trim().removeSurrounding("\"")
+            val parts = cleanToken.split(".")
+            if (parts.size != 3) return true
+            
+            // Décoder le payload (partie 2 du JWT)
+            val payloadJson = Base64.UrlSafe.decode(parts[1]).decodeToString()
+            val payload = Json.parseToJsonElement(payloadJson).jsonObject
+            
+            val exp = payload["exp"]?.jsonPrimitive?.content?.toLongOrNull()
+                ?: return true
+            
+            val now = System.currentTimeMillis() / 1000
+            val expiresAt = exp - marginSeconds
+            
+            now >= expiresAt
+        } catch (e: Exception) {
+            println("Erreur décodage JWT: ${e.message}")
+            true // En cas de doute, considérer comme expiré
+        }
+    }
+
+    /**
+     * Charge l'utilisateur depuis le cache offline
+     */
+    private fun loadCachedUser() {
+        currentUser = CacheHelper.load<AuthUserDTO>(CacheKeys.CURRENT_USER)
+    }
+
+    /**
+     * Rafraîchit l'access token en utilisant le refresh token
+     */
+    suspend fun refreshAccessToken(): Boolean {
+        val refreshToken = loadRefreshToken()
+        
+        // Si pas de refresh token stocké (ex: web avec cookie HttpOnly)
+        // on tente quand même la requête car le cookie sera envoyé automatiquement
+        
+        return try {
+            val response: HttpResponse = client.post("${defaultServerBaseUrl()}/api/auth/refresh") {
+                contentType(ContentType.Application.Json)
+                if (!refreshToken.isNullOrBlank()) {
+                    setBody(mapOf("refreshToken" to refreshToken))
+                } else {
+                    setBody(emptyMap<String, String>())
+                }
+            }
+            
+            if (response.status.isSuccess()) {
+                val authResponse: AuthResponse = response.body()
+                jwtToken = authResponse.accessToken
+                saveToken(authResponse.accessToken)
+                
+                if (authResponse.refreshToken.isNotBlank()) {
+                    saveRefreshToken(authResponse.refreshToken)
+                }
+                
+                currentUser = authResponse.user
+                loginSuccess = true
+                println("Token rafraîchi avec succès")
+                true
+            } else {
+                println("Échec du refresh: ${response.status.value}")
+                // Refresh échoué -> nettoyer les tokens
+                clearToken()
+                jwtToken = null
+                currentUser = null
+                loginSuccess = false
+                false
+            }
+        } catch (e: Exception) {
+            println("Erreur refresh token: ${e.message}")
+            false
         }
     }
 
@@ -367,15 +481,19 @@ class LoginViewModel : ViewModel() {
 
     fun logout() {
         viewModelScope.launch {
-            // Appeler le serveur pour révoquer le refresh token
             try {
                 client.post("${defaultServerBaseUrl()}/api/auth/logout") {
+                    contentType(ContentType.Application.Json)
                     jwtToken?.let {
                         header(HttpHeaders.Authorization, "Bearer ${it.trim().removeSurrounding("\"")}")
+                    }
+                    loadRefreshToken()?.let { refreshToken ->
+                        setBody(mapOf("refreshToken" to refreshToken))
                     }
                 }
             } catch (e: Exception) {
                 // Ignorer les erreurs de logout côté serveur
+                // (on nettoie localement de toute façon)
             }
         }
         
@@ -385,6 +503,8 @@ class LoginViewModel : ViewModel() {
         errorMessage = ""
         isLoading = false
         clearToken()
+        
+        OfflineCache.clear(CacheKeys.CURRENT_USER)
     }
 }
 
