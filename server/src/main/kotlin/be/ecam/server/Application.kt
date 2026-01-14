@@ -97,6 +97,12 @@ fun Application.module() {
         }
     }
 
+    install(RateLimit) {
+        register(RateLimitName("auth")) {
+            rateLimiter(limit = 5, refillPeriod = 60.seconds)
+        }
+    }
+
     // Database connection
     DatabaseFactory.connect()
 

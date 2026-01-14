@@ -35,6 +35,7 @@ Le client Kotlin Compose Multiplatform (Android, iOS, Desktop, Web) s'appuie sur
 - Calendrier global et horaire de cours
 - Gestion des cours personnels (PAE)
 - Authentification JWT et OAuth Microsoft
+- Mode hors-ligne
 
 ---
 

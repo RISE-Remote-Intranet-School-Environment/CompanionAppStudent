@@ -61,8 +61,16 @@ class FormationCatalogRepository(
                 cached = result
                 result
             } else {
-                // Pas de cache -> renvoyer une erreur ou des données vides
-                FormationCatalogResult(database = FormationDatabase(emptyList()), fromServer = false)
+                // Pas de cache -> renvoyer des données vides
+                FormationCatalogResult(
+                    database = FormationDatabase(
+                        year = "",
+                        generatedAt = "",
+                        source = "",
+                        formations = emptyList()
+                    ),
+                    fromServer = false
+                )
             }
         }
     }

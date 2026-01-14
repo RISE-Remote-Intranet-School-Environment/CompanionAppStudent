@@ -240,17 +240,34 @@ Le découpage Service/Route permet de tester la logique métier sans lancer de s
 
 ## 9. Sécurité et Authentification
 
-La sécurité repose sur **JWT (JSON Web Token)**.
+La sécurité repose sur **JWT (JSON Web Token)** avec une architecture hybride pour supporter Mobile, Desktop et Web.
 
-Flux :
-1.  **Login** : L'utilisateur envoie ses crédits ou un code OAuth.
-2.  **Vérification** : Le backend valide et génère un `AccessToken` (15min) et un `RefreshToken` (7 jours).
-3.  **Stockage** : 
-    - Le Refresh Token est haché/stocké en DB pour permettre la révocation.
-    - Pour le Web, le Refresh Token est envoyé dans un **Cookie HttpOnly Secure**.
-4.  **Rotation** : À chaque utilisation du refresh token, un nouveau couple Access/Refresh est généré (Refresh Token Rotation).
+### Tokens
 
-Les mots de passe sont hachés avec **BCrypt** avant stockage.
+| Token | Durée | Stockage Client | Rôle |
+|-------|-------|-----------------|------|
+| **Access Token** | 15 min | Mémoire / Stockage sécurisé | Accès aux ressources API |
+| **Refresh Token** | 7 jours | Cookie HttpOnly (Web) <br> Stockage sécurisé (App) | Obtenir un nouvel Access Token |
+
+### Flux d'authentification
+
+1.  **Login** :
+    - L'utilisateur envoie ses crédits ou un code OAuth.
+    - Le serveur génère la paire de tokens.
+    - **Web** : Le Refresh Token est placé dans un cookie `HttpOnly; Secure; SameSite=Strict`.
+    - **App** : Le Refresh Token est renvoyé dans le JSON de réponse.
+
+2.  **Refresh (Rotation)** :
+    - À chaque utilisation d'un Refresh Token, l'ancien est invalidé et un nouveau est généré.
+    - Les anciens tokens sont supprimés de la base de données.
+
+3.  **Logout (Révocation)** :
+    - Le client appelle `/api/auth/logout`.
+    - Le serveur invalide le Refresh Token en base (reçu via Cookie ou Body).
+    - Le cookie est supprimé.
+
+4.  **Hashage** :
+    - Les mots de passe sont hachés avec **BCrypt**.
 
 ## 10. Configuration et Point d'entrée
 

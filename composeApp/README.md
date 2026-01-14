@@ -292,19 +292,25 @@ Changer le serveur local :
 
 ## 8. Authentification et stockage des tokens
 
-L'application implémente une sécurité stricte pour les JWT :
+Le client implémente une sécurité adaptée aux contraintes de chaque plateforme.
 
-- **Abstaction** : [TokenStorage.kt](src/commonMain/kotlin/be/ecam/companion/utils/TokenStorage.kt) définit `saveToken`, `loadToken` et leur équivalents pour le Refresh Token.
-- **Implémentations sécurisées** :
-  - **Android** : `AndroidKeyStore` (AES/GCM/NoPadding) via `EncryptedSharedPreferences` custom. Initialisé dans `MainActivity`.
-  - **iOS** : `Keychain` système natif.
-  - **Desktop** : `java.util.prefs.Preferences` (stockage user).
-  - **Web** : `localStorage` pour l'Access Token, **Cookie HttpOnly** pour le Refresh Token (géré par le navigateur).
+### Stockage des secrets (TokenStorage)
 
-Login :
+| Plateforme | Technologie utilisée | Niveau de sécurité |
+|------------|----------------------|--------------------|
+| **Android** | `EncryptedSharedPreferences` (jetpack security) | **Haut** (Géré par Android Keystore) |
+| **iOS** | `Keychain` (via Security framework) | **Haut** (Chiffrement matériel Apple) |
+| **Desktop** | Chiffrement AES-GCM + `java.util.prefs` | **Moyen** (Clé dérivée des infos machine) |
+| **Web** | `localStorage` (Access) + Cookie (Refresh) | **Standard** (Refresh token protégé du JS) |
 
-- `LoginViewModel.login()` appelle `/api/auth/login`.
-- `LoginViewModel.restoreSession()` restaure la session après OAuth.
+### Mode Hors-ligne (Offline First)
+
+L'application reste fonctionnelle sans connexion internet :
+1.  **Cache** : Les réponses API (cours, horaires, profil) sont mises en cache localement.
+2.  **Validation** : Au démarrage, l'application vérifie la validité cryptographique du JWT local.
+3.  **Fallback** : Si le réseau échoue mais que le token est valide, l'app charge les données du cache et affiche un bandeau "Mode hors ligne".
+
+---
 
 ## 9. OAuth par plateforme
 

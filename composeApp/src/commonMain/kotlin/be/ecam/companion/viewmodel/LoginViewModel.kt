@@ -20,6 +20,15 @@ import be.ecam.companion.utils.loadToken
 import be.ecam.companion.utils.clearToken
 import be.ecam.companion.utils.saveRefreshToken
 import be.ecam.companion.utils.loadRefreshToken
+import be.ecam.companion.data.CacheHelper
+import be.ecam.companion.data.CacheKeys
+import be.ecam.companion.data.OfflineCache
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import kotlin.time.*
 
 @Serializable
 data class LoginRequest(
@@ -152,7 +161,7 @@ class LoginViewModel : ViewModel() {
                     true
                 }
                 401 -> {
-                    // Token rejeté par le serveur -> refresh obligatoire
+                    // Token expiré, tenter un refresh
                     val refreshed = refreshAccessToken()
                     if (!refreshed) {
                         println("Refresh token expiré ou invalide, déconnexion forcée")
@@ -160,7 +169,7 @@ class LoginViewModel : ViewModel() {
                     refreshed
                 }
                 else -> {
-                    println("Erreur serveur inattendue: ${response.status.value}")
+                    println("Erreur inattendue: ${response.status.value}")
                     false
                 }
             }
@@ -168,20 +177,14 @@ class LoginViewModel : ViewModel() {
             println("Erreur réseau: ${e.message}")
             
             // En cas d'erreur réseau, on vérifie si le token est encore valide localement
-            // avec une marge de sécurité (on considère expiré 1 minute avant la vraie expiration)
             val stillValidLocally = !isTokenExpiredLocally(token, marginSeconds = 60)
             
             if (stillValidLocally) {
-                // Le token semble encore valide -> autoriser le mode offline
-                // MAIS on ne charge pas currentUser depuis le cache pour éviter les incohérences
-                // L'utilisateur verra une UI dégradée
                 println("Mode offline activé - token localement valide")
                 loginSuccess = true
-                // Charger l'utilisateur depuis le cache offline si disponible
                 loadCachedUser()
                 true
             } else {
-                // Token expiré ou bientôt expiré -> pas de mode offline
                 println("Token expiré, mode offline refusé")
                 false
             }
@@ -192,7 +195,7 @@ class LoginViewModel : ViewModel() {
      * Vérifie si le JWT est expiré en décodant le payload localement
      * @param marginSeconds Marge de sécurité en secondes (défaut: 0)
      */
-    @OptIn(ExperimentalEncodingApi::class)
+    @OptIn(ExperimentalEncodingApi::class, ExperimentalTime::class)
     private fun isTokenExpiredLocally(token: String, marginSeconds: Long = 0): Boolean {
         return try {
             val cleanToken = token.trim().removeSurrounding("\"")
@@ -200,19 +203,20 @@ class LoginViewModel : ViewModel() {
             if (parts.size != 3) return true
             
             // Décoder le payload (partie 2 du JWT)
-            val payloadJson = Base64.UrlSafe.decode(parts[1]).decodeToString()
+            val payloadJson = Base64.UrlSafe.withPadding(Base64.PaddingOption.ABSENT_OPTIONAL).decode(parts[1]).decodeToString()
             val payload = Json.parseToJsonElement(payloadJson).jsonObject
             
             val exp = payload["exp"]?.jsonPrimitive?.content?.toLongOrNull()
                 ?: return true
             
-            val now = System.currentTimeMillis() / 1000
+            val now = Clock.System.now().epochSeconds
             val expiresAt = exp - marginSeconds
             
             now >= expiresAt
         } catch (e: Exception) {
             println("Erreur décodage JWT: ${e.message}")
-            true // En cas de doute, considérer comme expiré
+            // Si on n'arrive pas à lire l'expiration, on considère comme expiré par sécurité
+            true
         }
     }
 
@@ -402,42 +406,6 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    suspend fun refreshAccessToken(): Boolean {
-        val refreshToken = loadRefreshToken()
-
-        return try {
-            val response: HttpResponse = client.post("${defaultServerBaseUrl()}/api/auth/refresh") {
-                contentType(ContentType.Application.Json)
-                if (!refreshToken.isNullOrBlank()) {
-                    setBody(mapOf("refreshToken" to refreshToken))
-                } else {
-                    setBody(emptyMap<String, String>())
-                }
-            }
-
-            if (response.status.isSuccess()) {
-                val authResponse: AuthResponse = response.body()
-                jwtToken = authResponse.accessToken
-                saveToken(authResponse.accessToken)
-
-                if (authResponse.refreshToken.isNotBlank()) {
-                    saveRefreshToken(authResponse.refreshToken)
-                }
-
-                fetchMe()
-                loginSuccess = true
-                true
-            } else {
-                clearToken()
-                loginSuccess = false
-                false
-            }
-        } catch (e: Exception) {
-            println("Erreur refresh token: ${e.message}")
-            false
-        }
-    }
-
     suspend fun <T> executeWithRefresh(
         request: suspend () -> HttpResponse,
         onSuccess: suspend (HttpResponse) -> T,
@@ -472,13 +440,11 @@ class LoginViewModel : ViewModel() {
                     jwtToken?.let {
                         header(HttpHeaders.Authorization, "Bearer ${it.trim().removeSurrounding("\"")}")
                     }
-                    loadRefreshToken()?.let { refreshToken ->
-                        setBody(mapOf("refreshToken" to refreshToken))
-                    }
+                    val refreshToken = loadRefreshToken()
+                    setBody(mapOf("refreshToken" to (refreshToken ?: "")))
                 }
             } catch (e: Exception) {
-                // Ignorer les erreurs de logout côté serveur
-                // (on nettoie localement de toute façon)
+                // Ignorer - on nettoie localement de toute façon
             }
         }
 
@@ -502,7 +468,6 @@ class LoginViewModel : ViewModel() {
  * et le ViewModel est toujours accédé depuis le même thread.
  */
 object AuthHelper {
-    @Volatile
     private var viewModel: LoginViewModel? = null
 
     /**
