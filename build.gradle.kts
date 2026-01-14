@@ -10,8 +10,8 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
 }
 
-val appVersion = "1.4.42"
-val appVersionCode = 4
+val appVersion = "1.5.42"
+val appVersionCode = 5
 
 extra["appVersion"] = appVersion
 extra["appVersionCode"] = appVersionCode
