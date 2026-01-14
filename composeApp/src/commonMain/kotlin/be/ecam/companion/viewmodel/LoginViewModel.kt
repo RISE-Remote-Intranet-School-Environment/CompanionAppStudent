@@ -19,8 +19,7 @@ import be.ecam.companion.utils.saveToken
 import be.ecam.companion.utils.loadToken
 import be.ecam.companion.utils.clearToken
 import be.ecam.companion.utils.saveRefreshToken
-import be.ecam.companion.utils.loadRefreshToken 
-
+import be.ecam.companion.utils.loadRefreshToken
 
 @Serializable
 data class LoginRequest(
@@ -38,7 +37,6 @@ data class RegisterRequest(
 @Serializable
 enum class UserRole { ADMIN, PROF, STUDENT }
 
-
 @Serializable
 data class AuthUserDTO(
     val id: Int,
@@ -48,7 +46,6 @@ data class AuthUserDTO(
     val avatarUrl: String? = null,
     val firstName: String? = null,
     val lastName: String? = null
-
 )
 
 @Serializable
@@ -87,6 +84,21 @@ class LoginViewModel : ViewModel() {
     var currentUser by mutableStateOf<AuthUserDTO?>(null)
         private set
 
+    init {
+        // --- MODIFICATION ICI : On enregistre ce ViewModel pour qu'il reçoive les infos d'iOS ---
+        AuthHelper.register(this)
+
+        val savedToken = loadToken()
+        if (!savedToken.isNullOrBlank()) {
+            jwtToken = savedToken
+            viewModelScope.launch {
+                if (!validateAndRefreshToken(savedToken)) {
+                    clearToken()
+                    jwtToken = null
+                }
+            }
+        }
+    }
 
     fun register(username: String, email: String, password: String, baseUrl: String = defaultServerBaseUrl()) {
         viewModelScope.launch {
@@ -146,7 +158,7 @@ class LoginViewModel : ViewModel() {
                 val cleanToken = token.trim().removeSurrounding("\"")
                 header(HttpHeaders.Authorization, "Bearer $cleanToken")
             }
-            
+
             when (response.status.value) {
                 in 200..299 -> {
                     currentUser = response.body()
@@ -280,12 +292,12 @@ class LoginViewModel : ViewModel() {
     fun restoreSession(accessToken: String, refreshToken: String? = null) {
         jwtToken = accessToken
         saveToken(accessToken)
-        
+
         // Sauvegarder le refresh token s'il est fourni
         if (!refreshToken.isNullOrBlank()) {
             saveRefreshToken(refreshToken)
         }
-        
+
         viewModelScope.launch {
             try {
                 val response: HttpResponse = client.get("${defaultServerBaseUrl()}/api/auth/me") {
@@ -329,14 +341,14 @@ class LoginViewModel : ViewModel() {
 
                     jwtToken = authResponse.accessToken
                     currentUser = authResponse.user
-                    
+
                     saveToken(authResponse.accessToken)
-                    
+
                     // Le refresh token peut être vide si le serveur utilise des cookies
                     if (authResponse.refreshToken.isNotBlank()) {
                         saveRefreshToken(authResponse.refreshToken)
                     }
-                    
+
                     loginSuccess = true
                 } else {
                     errorMessage = "Erreur ${response.status.value}: ${response.bodyAsText()}"
@@ -352,28 +364,27 @@ class LoginViewModel : ViewModel() {
 
     fun fetchMe(baseUrl: String = defaultServerBaseUrl()) {
         viewModelScope.launch {
-        if (jwtToken == null) {
-            errorMessage = "Aucun token disponible"
-            return@launch
-        }
-
-        try {
-            val response: HttpResponse = client.get("$baseUrl/api/auth/me") {
-                val token = jwtToken?.trim()?.removeSurrounding("\"")
-                header(HttpHeaders.Authorization, "Bearer $token")
-                //header("Authorization", "Bearer $jwtToken")
+            if (jwtToken == null) {
+                errorMessage = "Aucun token disponible"
+                return@launch
             }
 
-            if (response.status.isSuccess()) {
-                currentUser = response.body()
-            } else {
-                errorMessage = "Erreur : ${response.bodyAsText()}"
+            try {
+                val response: HttpResponse = client.get("$baseUrl/api/auth/me") {
+                    val token = jwtToken?.trim()?.removeSurrounding("\"")
+                    header(HttpHeaders.Authorization, "Bearer $token")
+                }
+
+                if (response.status.isSuccess()) {
+                    currentUser = response.body()
+                } else {
+                    errorMessage = "Erreur : ${response.bodyAsText()}"
+                }
+            } catch (e: Exception) {
+                errorMessage = "Erreur fetchMe : ${e.message}"
             }
-        } catch (e: Exception) {
-            errorMessage = "Erreur fetchMe : ${e.message}"
         }
     }
-}
 
     fun updateMe(
         newUsername: String,
@@ -397,7 +408,7 @@ class LoginViewModel : ViewModel() {
                 if (response.status.isSuccess()) {
                     val updated: UpdateMeResponse = response.body()
                     currentUser = updated.user
-                    
+
                 } else {
                     errorMessage = "Erreur updateMe (${response.status.value}) : ${response.bodyAsText()}"
                 }
@@ -407,36 +418,28 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    /**
-     * Rafraîchit l'access token en utilisant le refresh token
-     * Pour le web, le refresh token est dans un cookie HttpOnly
-     */
     suspend fun refreshAccessToken(): Boolean {
         val refreshToken = loadRefreshToken()
-        
+
         return try {
             val response: HttpResponse = client.post("${defaultServerBaseUrl()}/api/auth/refresh") {
                 contentType(ContentType.Application.Json)
-                // Envoyer le refresh token dans le body si disponible (mobile/desktop)
-                // Sinon le serveur utilisera le cookie (web)
                 if (!refreshToken.isNullOrBlank()) {
                     setBody(mapOf("refreshToken" to refreshToken))
                 } else {
                     setBody(emptyMap<String, String>())
                 }
             }
-            
+
             if (response.status.isSuccess()) {
                 val authResponse: AuthResponse = response.body()
                 jwtToken = authResponse.accessToken
                 saveToken(authResponse.accessToken)
-                
-                // Mettre à jour le refresh token si fourni
+
                 if (authResponse.refreshToken.isNotBlank()) {
                     saveRefreshToken(authResponse.refreshToken)
                 }
-                
-                // Recharger les infos utilisateur
+
                 fetchMe()
                 loginSuccess = true
                 true
@@ -451,22 +454,17 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    /**
-     * Exécute une requête API avec refresh automatique en cas de 401
-     */
     suspend fun <T> executeWithRefresh(
         request: suspend () -> HttpResponse,
         onSuccess: suspend (HttpResponse) -> T,
         onError: (String) -> T
     ): T {
         val response = request()
-        
+
         return when (response.status.value) {
             in 200..299 -> onSuccess(response)
             401 -> {
-                // Tenter un refresh
                 if (refreshAccessToken()) {
-                    // Réessayer la requête avec le nouveau token
                     val retryResponse = request()
                     if (retryResponse.status.isSuccess()) {
                         onSuccess(retryResponse)
@@ -499,7 +497,7 @@ class LoginViewModel : ViewModel() {
                 // (on nettoie localement de toute façon)
             }
         }
-        
+
         jwtToken = null
         currentUser = null
         loginSuccess = false
