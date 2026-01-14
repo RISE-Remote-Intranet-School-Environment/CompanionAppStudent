@@ -115,6 +115,9 @@ class LoginViewModel : ViewModel() {
     }
 
     init {
+        // callbacks OAuth iOS
+        AuthHelper.register(this)
+        
         val savedToken = loadToken()
         if (!savedToken.isNullOrBlank()) {
             jwtToken = savedToken
@@ -508,7 +511,38 @@ class LoginViewModel : ViewModel() {
     }
 }
 
+/**
+ * Pont pour les callbacks OAuth iOS.
+ * iOS ne peut pas accéder directement au ViewModel Compose,
+ * donc on utilise ce singleton comme intermédiaire.
+ * 
+ * Thread-safety : Les accès sont synchronisés via le main thread iOS
+ * et le ViewModel est toujours accédé depuis le même thread.
+ */
+object AuthHelper {
+    @Volatile
+    private var viewModel: LoginViewModel? = null
 
+    /**
+     * Enregistre le ViewModel pour recevoir les callbacks OAuth.
+     * Appelé dans le init{} du LoginViewModel.
+     */
+    fun register(vm: LoginViewModel) {
+        viewModel = vm
+    }
 
+    /**
+     * Appelé par iOS (iOSApp.swift) quand l'app reçoit un deep link OAuth.
+     * Sauvegarde les tokens et restaure la session.
+     */
+    fun handleCallback(accessToken: String, refreshToken: String?) {
+        // 1. Sauvegarde immédiate des tokens
+        saveToken(accessToken)
+        if (!refreshToken.isNullOrBlank()) {
+            saveRefreshToken(refreshToken)
+        }
 
-
+        // 2. Restauration de la session via le ViewModel
+        viewModel?.restoreSession(accessToken, refreshToken)
+    }
+}
