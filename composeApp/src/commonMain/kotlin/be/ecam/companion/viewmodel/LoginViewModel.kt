@@ -84,22 +84,6 @@ class LoginViewModel : ViewModel() {
     var currentUser by mutableStateOf<AuthUserDTO?>(null)
         private set
 
-    init {
-        // --- MODIFICATION ICI : On enregistre ce ViewModel pour qu'il reçoive les infos d'iOS ---
-        AuthHelper.register(this)
-
-        val savedToken = loadToken()
-        if (!savedToken.isNullOrBlank()) {
-            jwtToken = savedToken
-            viewModelScope.launch {
-                if (!validateAndRefreshToken(savedToken)) {
-                    clearToken()
-                    jwtToken = null
-                }
-            }
-        }
-    }
-
     fun register(username: String, email: String, password: String, baseUrl: String = defaultServerBaseUrl()) {
         viewModelScope.launch {
             isLoading = true

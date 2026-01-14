@@ -8,7 +8,7 @@ struct iOSApp: App {
             ContentView()
                 .onOpenURL { url in
                     // Ce bloc se déclenche quand Safari renvoie vers l'app
-                    print("🔗 URL REÇUE : \(url.absoluteString)")
+                    print("URL REÇUE : \(url.absoluteString)")
 
                     // On vérifie que c'est bien notre URL de login
                     guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
