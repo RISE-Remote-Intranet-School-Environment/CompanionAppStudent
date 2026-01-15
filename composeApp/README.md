@@ -415,7 +415,12 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 15.1 Login
 ---
 
-<img src="../server/image/website/login.png" alt="Login" width="720">
+<table>
+  <tr>
+    <td><img src="../server/image/website/login.png" alt="Login desktop" width="850"></td>
+    <td><img src="../server/image/mobile/login.jpg" alt="Login mobile" width="200"></td>
+  </tr>
+</table>
 
 - Écran : [LoginScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/LoginScreen.kt)
 - Composants : [EcamBackground.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/EcamBackground.kt), `MicrosoftSignInButton` (dans [LoginScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/LoginScreen.kt))
@@ -433,7 +438,12 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 15.2 Home
 ---
 
-<img src="../server/image/website/home.png" alt="Home" width="720">
+<table>
+  <tr>
+    <td><img src="../server/image/website/home.png" alt="Home desktop" width="850"></td>
+    <td><img src="../server/image/mobile/home.jpg" alt="Home mobile" width="200"></td>
+  </tr>
+</table>
 
 - Écran : [HomeScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/HomeScreen.kt)
 - Composants : [BottomBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/BottomBar.kt), [TopBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/TopBar.kt)
@@ -451,7 +461,12 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 15.3 Formations
 ---
 
-<img src="../server/image/website/formations.png" alt="Formations" width="720">
+<table>
+  <tr>
+    <td><img src="../server/image/website/formations.png" alt="Formations desktop" width="850"></td>
+    <td><img src="../server/image/mobile/formations.jpg" alt="Formations mobile" width="200"></td>
+  </tr>
+</table>
 
 - Écran : [CoursesFormationScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFormationScreen.kt)
 - Composants : [TopBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/TopBar.kt)
@@ -466,7 +481,12 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 15.4 Formations - Blocs
 ---
 
-<img src="../server/image/website/formationsblocs.png" alt="Formations Blocs" width="720">
+<table>
+  <tr>
+    <td><img src="../server/image/website/formationsblocs.png" alt="Formations blocs desktop" width="850"></td>
+    <td><img src="../server/image/mobile/formationsblocs.jpg" alt="Formations blocs mobile" width="200"></td>
+  </tr>
+</table>
 
 - Écran : [CoursesFormationBlocScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFormationBlocScreen.kt)
 - Composants : listes internes de cours
@@ -481,7 +501,12 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 15.5 Fiche de cours (ECTS)
 ---
 
-<img src="../server/image/website/ectfiche.png" alt="Fiche de cours" width="720">
+<table>
+  <tr>
+    <td><img src="../server/image/website/ectfiche.png" alt="Course sheet desktop" width="850"></td>
+    <td><img src="../server/image/mobile/ectfiche.jpg" alt="Course sheet mobile" width="200"></td>
+  </tr>
+</table>
 
 - Écran : [CoursesFicheScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFicheScreen.kt)
 - Composants : sections de détail et cartes internes
@@ -495,7 +520,12 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 15.6 Calendrier
 ---
 
-<img src="../server/image/website/calendar.png" alt="Calendrier" width="720">
+<table>
+  <tr>
+    <td><img src="../server/image/website/calendar.png" alt="Calendar desktop" width="850"></td>
+    <td><img src="../server/image/mobile/calendar.jpg" alt="Calendar mobile" width="200"></td>
+  </tr>
+</table>
 
 - Écran : [CalendarScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CalendarScreen.kt)
 - Composants : [StudentCourseCalendar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/StudentCourseCalendar.kt), [CourseFilterBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/CourseFilterBar.kt)
@@ -506,17 +536,20 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
   - badges (`CalendarEventBadge`)
   - détails (`SelectedDayEvents`, `CalendarEventDetailCard`)
   - fusion (`mergeCalendarEvents`)
-- Bugs à corriger :
-  - lisibilité du calendrier sur smartphone (tailles, densité, règles d'affichage)
 - Améliorations futures :
   - ajout d’événements personnalisés par étudiant et professeur
-  - inrajouter un bouton avec l’occupation des locaux
+  - rajouter un bouton avec l’occupation des locaux
   - rajouter un bouton avec l'horaire des professeurs avec une barre de recherche
 
 15.7 Calendrier - fenêtre
 ---
 
-<img src="../server/image/website/calendarwindow.png" alt="Calendrier - fenêtre" width="720">
+<table>
+  <tr>
+    <td><img src="../server/image/website/calendarwindow.png" alt="Calendar window desktop" width="850"></td>
+    <td><img src="../server/image/mobile/calendarwindow.jpg" alt="Calendar window mobile" width="200"></td>
+  </tr>
+</table>
 
 - Écran : [CalendarScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CalendarScreen.kt)
 - Composants : `CalendarEventDetailCard`, `SelectedDayEvents`
@@ -527,7 +560,12 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 15.8 Mon PAE
 ---
 
-<img src="../server/image/website/monpae.png" alt="Mon PAE" width="720">
+<table>
+  <tr>
+    <td><img src="../server/image/website/monpae.png" alt="Mon pae desktop" width="850"></td>
+    <td><img src="../server/image/mobile/monpae.jpg" alt="Mon pae mobile" width="200"></td>
+  </tr>
+</table>
 
 - Écran : [MonPaeScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/MonPaeScreen.kt)
 - Composants : tableaux internes, sections PAE
@@ -544,7 +582,12 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 15.9 Professeurs - Liste
 ---
 
-<img src="../server/image/website/professeurs.png" alt="Professeurs" width="720">
+<table>
+  <tr>
+    <td><img src="../server/image/website/professeurs.png" alt="Professors desktop" width="850"></td>
+    <td><img src="../server/image/mobile/professeurs.jpg" alt="Professors mobile" width="200"></td>
+  </tr>
+</table>
 
 - Écran : [ProfessorsScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/ProfessorsScreen.kt)
 - Composants : [KamelImage.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/KamelImage.kt)
@@ -555,13 +598,17 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
   - photos via [KamelImage.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/KamelImage.kt)
   - couleurs via `randomColorFor`
 - Améliorations futures :
-  - cache des photos de professeurs
   - permettre à l'administrateur de rajouter des professeurs et de modifier leur données 
 
 15.10 Professeurs - Fiche
 ---
 
-<img src="../server/image/website/professeurfiche.png" alt="Fiche professeur" width="720">
+<table>
+  <tr>
+    <td><img src="../server/image/website/professeurfiche.png" alt="Professor sheet desktop" width="850"></td>
+    <td><img src="../server/image/mobile/professeurfiche.jpg" alt="Professor sheet mobile" width="200"></td>
+  </tr>
+</table>
 
 - Écran : [ProfessorsScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/ProfessorsScreen.kt)
 - Composants : sections internes de détail
@@ -575,7 +622,12 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 15.11 User Dashboard
 ---
 
-<img src="../server/image/website/userdashboard.png" alt="User Dashboard" width="720">
+<table>
+  <tr>
+    <td><img src="../server/image/website/userdashboard.png" alt="User dashboard desktop" width="850"></td>
+    <td><img src="../server/image/mobile/userdashboard.jpg" alt="User dashboard mobile" width="200"></td>
+  </tr>
+</table>
 
 - Écran : [UserDashboardScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/UserDashboardScreen.kt)
 - Composants : widgets internes de résumé
@@ -591,7 +643,12 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 15.12 Settings
 ---
 
-<img src="../server/image/website/settings.png" alt="Settings" width="720">
+<table>
+  <tr>
+    <td><img src="../server/image/website/settings.png" alt="Settings desktop" width="850"></td>
+    <td><img src="../server/image/mobile/settings.jpg" alt="Settings mobile" width="200"></td>
+  </tr>
+</table>
 
 - Écran : [SettingsScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/SettingsScreen.kt)
 - Composants : switch, carte token
@@ -602,15 +659,18 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
   - switch daltonien
   - carte token (afficher/masquer/copier)
   - libellés, descriptions et disposition dans [SettingsScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/SettingsScreen.kt)
-- Bugs à corriger :
-  - retirer l'affichage du token JWT dans les paramètres
 - Améliorations futures :
   - centraliser les réglages serveur (host/port)
 
 15.13 Drawable
 ---
 
-<img src="../server/image/website/drawable.png" alt="Assets" width="720">
+<table>
+  <tr>
+    <td><img src="../server/image/website/drawable.png" alt="Assets desktop" width="850"></td>
+    <td><img src="../server/image/mobile/drawable.jpg" alt="Assets mobile" width="200"></td>
+  </tr>
+</table>
 
 - Fichiers : [src/commonMain/composeResources/drawable/](src/commonMain/composeResources/drawable/)
 - Modifiable :
@@ -625,7 +685,12 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 15.14 Cours
 ---
 
-<img src="../server/image/website/cours.png" alt="Cours" width="720">
+<table>
+  <tr>
+    <td><img src="../server/image/website/cours.png" alt="Course resources desktop" width="850"></td>
+    <td><img src="../server/image/mobile/cours.jpg" alt="Course resources mobile" width="200"></td>
+  </tr>
+</table>
 
 - Écran : [CoursesFormationScreen.kt](src/commonMain/kotlin/be/ecam/companion/ui/screens/CoursesFormationScreen.kt)
 - Composants : listes de cours et cartes internes
@@ -641,7 +706,12 @@ Les captures d’écran se trouvent dans `server/image/website`. Chaque image co
 15.15 Notifications
 ---
 
-<img src="../server/image/website/notifications.png" alt="Notifications" width="720">
+<table>
+  <tr>
+    <td><img src="../server/image/website/notifications.png" alt="Notifications desktop" width="850"></td>
+    <td><img src="../server/image/mobile/notifications.jpg" alt="Notifications mobile" width="200"></td>
+  </tr>
+</table>
 
 - Écran : notifications liées à la top bar dans [App.kt](src/commonMain/kotlin/be/ecam/companion/App.kt)
 - Composants : [TopBar.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/TopBar.kt), [NotificationWidget.kt](src/commonMain/kotlin/be/ecam/companion/ui/components/NotificationWidget.kt)
